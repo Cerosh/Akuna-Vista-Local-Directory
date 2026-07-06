@@ -27,3 +27,6 @@ export { JSONEventRepository, eventRepository } from "./eventRepository";
 
 export type { PromotionRepository } from "./promotionRepository";
 export { JSONPromotionRepository, promotionRepository } from "./promotionRepository";
+
+export type { AnnouncementRepository } from "./announcementRepository";
+export { JSONAnnouncementRepository, announcementRepository } from "./announcementRepository";

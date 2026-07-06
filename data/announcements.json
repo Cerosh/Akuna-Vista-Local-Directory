@@ -1,0 +1,45 @@
+[
+  {
+    "id": "9eee1917-4b45-4aa2-8dad-9a3cbb5b17b7",
+    "title": "Water main works — Vista Street",
+    "message": "Sydney Water will be carrying out planned maintenance on Vista Street from 9am–3pm. Expect brief water interruptions for nearby properties.",
+    "publishedAt": "2026-07-05T09:00:00Z",
+    "expiresAt": "2026-07-12T00:00:00Z",
+    "priority": "high",
+    "featured": true
+  },
+  {
+    "id": "e9785909-e05d-45cc-9471-e1e03ffd59e5",
+    "title": "New bin collection day from August",
+    "message": "Council has confirmed general waste collection is moving from Tuesdays to Thursdays starting 3 August. Recycling and green waste days are unchanged.",
+    "publishedAt": "2026-07-03T08:00:00Z",
+    "priority": "normal",
+    "featured": false
+  },
+  {
+    "id": "3303e448-403d-460b-91f3-8221237d19e6",
+    "title": "Community Facebook group reaches 1,000 members",
+    "message": "Thanks to everyone who's joined the Akuna Vista community group — a great milestone for a growing neighbourhood.",
+    "publishedAt": "2026-06-28T10:00:00Z",
+    "expiresAt": "2026-07-01T00:00:00Z",
+    "priority": "normal",
+    "featured": false
+  },
+  {
+    "id": "e495fe54-711c-46ce-a281-7881dc01607c",
+    "title": "Park playground equipment temporarily closed",
+    "message": "The playground at Akuna Vista Park is closed for scheduled safety inspections and expected to reopen within the week.",
+    "publishedAt": "2026-07-06T07:30:00Z",
+    "expiresAt": "2026-07-14T00:00:00Z",
+    "priority": "high",
+    "featured": false
+  },
+  {
+    "id": "9e4603a9-b507-4f0f-a940-28f13e5fb0fe",
+    "title": "New street library on Ridgeline Drive",
+    "message": "A neighbour has set up a street library out the front of 24 Ridgeline Drive — take a book, leave a book.",
+    "publishedAt": "2026-07-01T09:00:00Z",
+    "priority": "normal",
+    "featured": false
+  }
+]
