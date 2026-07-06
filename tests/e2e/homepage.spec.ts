@@ -21,6 +21,12 @@ test.describe("Homepage", () => {
     await expect(home.featuredBusinessesHeading).toBeVisible();
     await expect(home.communityStatisticsHeading).toBeVisible();
     await expect(home.whyChooseLocalHeading).toBeVisible();
+    await expect(home.communitySpotlightHeading).toBeVisible();
+    await expect(home.featuredContentHeading).toBeVisible();
+    await expect(home.communityEventsHeading).toBeVisible();
+    await expect(home.promotionsHeading).toBeVisible();
+    await expect(home.announcementsHeading).toBeVisible();
+    await expect(home.localNewsHeading).toBeVisible();
     await expect(home.footer).toBeVisible();
     expect(consoleErrors).toEqual([]);
   });
@@ -50,6 +56,20 @@ test.describe("Homepage", () => {
     await expect(firstCard).toHaveAttribute("href", /^\/business\//);
 
     await firstCard.click();
+
+    await expect(page).toHaveURL(/\/business\//);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+  });
+
+  test("clicking a promotion opens the correct business page", async ({ page }) => {
+    const home = new HomePage(page);
+    await home.goto();
+
+    await home.promotionsHeading.scrollIntoViewIfNeeded();
+    const promotionLink = page.getByRole("link", { name: "View business" }).first();
+    await expect(promotionLink).toHaveAttribute("href", /^\/business\//);
+
+    await promotionLink.click();
 
     await expect(page).toHaveURL(/\/business\//);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();

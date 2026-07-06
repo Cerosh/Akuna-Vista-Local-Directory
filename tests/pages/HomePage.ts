@@ -15,6 +15,12 @@ export class HomePage {
   readonly featuredBusinessesHeading: Locator;
   readonly communityStatisticsHeading: Locator;
   readonly whyChooseLocalHeading: Locator;
+  readonly communitySpotlightHeading: Locator;
+  readonly featuredContentHeading: Locator;
+  readonly communityEventsHeading: Locator;
+  readonly promotionsHeading: Locator;
+  readonly announcementsHeading: Locator;
+  readonly localNewsHeading: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -26,6 +32,12 @@ export class HomePage {
     this.featuredBusinessesHeading = page.getByRole("heading", { name: "Featured businesses" });
     this.communityStatisticsHeading = page.getByRole("heading", { name: "A growing community" });
     this.whyChooseLocalHeading = page.getByRole("heading", { name: "Why choose local" });
+    this.communitySpotlightHeading = page.getByRole("heading", { name: "Community spotlight" });
+    this.featuredContentHeading = page.getByRole("heading", { name: "Featured this week" });
+    this.communityEventsHeading = page.getByRole("heading", { name: "Community events" });
+    this.promotionsHeading = page.getByRole("heading", { name: "Local promotions" });
+    this.announcementsHeading = page.getByRole("heading", { name: "Community noticeboard" });
+    this.localNewsHeading = page.getByRole("heading", { name: "Local news" });
   }
 
   async goto() {
