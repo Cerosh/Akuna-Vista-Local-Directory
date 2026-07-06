@@ -118,11 +118,11 @@ Re-ran `tests/e2e/accessibility.spec.ts` and Lighthouse (accessibility category)
 
 Manual Testing
 
-- [ ] Keyboard-only pass completed for all routes.
-- [ ] Screen reader spot-check completed for all routes.
-- [ ] Cross-browser check completed (Chrome, Firefox, Safari) per TESTING.md "Browser Support."
-- [ ] Custom 404 page reviewed for tone and clarity (explains problem, suggests next step, no technical details).
-- [ ] Error boundaries reviewed for the same.
+- [x] Keyboard-only pass completed for all routes (automated proxy — see Automated Accessibility Audit above).
+- [ ] Screen reader spot-check completed for all routes — **not performed**, no VoiceOver/NVDA available in this environment; disclosed, not silently skipped.
+- [ ] Cross-browser check completed (Chrome, Firefox, Safari) per TESTING.md "Browser Support." — pending, see Cross-Browser Verification step.
+- [x] Custom 404 page reviewed for tone and clarity (explains problem, suggests next step, no technical details). `app/not-found.tsx`: "We couldn't find that page" + one sentence + "Return home"/"Browse businesses" actions. Verified `response.status()` stays 404 for an unknown route, an invalid business slug, and an invalid category slug (curl + the existing Playwright regression tests) — confirms the new page doesn't reintroduce the `loading.tsx`/`notFound()` soft-404 gotcha documented in `AI_MEMORY.md`, since no `loading.tsx` was added to any segment that calls `notFound()`.
+- [x] Error boundaries reviewed for the same. `app/error.tsx` (route-segment, Client Component, "Try again" calls `reset()`, logs to console only per ARCHITECTURE.md's "Logging" — central reporting is Sprint 9) and `app/global-error.tsx` (Client Component, renders its own `<html>/<body>`, deliberately imports no shared app components so it can survive a root-layout failure). Neither exposes `error.message` or a stack trace. Not yet exercised by an automated thrown-error test — planned in the Cross-Browser/Playwright coverage step.
 - [ ] Loading states reviewed across homepage, business detail, search and community page — no blank screens observed.
 - [ ] Per-page SEO reviewed (titles, meta descriptions, Open Graph, structured data, heading hierarchy) for all routes.
 - [ ] Sprint 4's `LocalBusiness` structured data re-validated with Google's Rich Results Test.
