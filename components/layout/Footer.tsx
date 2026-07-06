@@ -42,14 +42,14 @@ export function Footer({ settings }: FooterProps) {
           <FooterColumn title="Directory" links={DIRECTORY_LINKS} />
           <FooterColumn title="Community" links={COMMUNITY_LINKS} />
 
-          <div className="flex flex-col gap-3">
+          <div className="flex min-w-0 flex-col gap-3">
             <h2 className="text-foreground text-sm font-semibold">Contact</h2>
             {settings.contactEmail ? (
               <a
                 href={`mailto:${settings.contactEmail}`}
-                className="text-muted-foreground duration-fast hover:text-foreground flex items-center gap-2 text-sm transition-colors"
+                className="text-muted-foreground duration-fast hover:text-foreground flex items-center gap-2 text-sm break-all transition-colors"
               >
-                <Mail className="size-4" aria-hidden="true" />
+                <Mail className="size-4 shrink-0" aria-hidden="true" />
                 {settings.contactEmail}
               </a>
             ) : null}

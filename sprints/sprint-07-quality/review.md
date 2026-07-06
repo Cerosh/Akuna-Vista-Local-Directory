@@ -130,10 +130,12 @@ Playwright
 
 Responsive Testing
 
-- [ ] Mobile (375px)
-- [ ] Tablet (768px)
-- [ ] Desktop (1280px)
-- [ ] Large Desktop (1536px+)
+Automated via `tests/e2e/responsive.spec.ts` (checks `document.documentElement.scrollWidth <= clientWidth` — objective, per TESTING.md's note that Visual Regression beyond this is still "Future"), across all 5 routes:
+
+- [x] Mobile (375px)
+- [x] Tablet (768px) — found and fixed a real defect, see Findings Log.
+- [x] Desktop (1280px)
+- [x] Large Desktop (1536px+)
 
 ---
 
@@ -158,4 +160,4 @@ Record review findings here as they're raised, using REVIEW_CHECKLIST.md severit
 
 | Severity | Finding | File/Area | Resolution |
 |----------|---------|-----------|------------|
-| | | | |
+| Medium | Horizontal overflow at exactly the tablet breakpoint (768px) on every route (scrollWidth 813 vs clientWidth 768) | `components/layout/Footer.tsx` | Root cause: the Contact column is a `flex flex-col` child with no `min-w-0`, and Tailwind's `md:grid-cols-4` (768px+) narrows it to ~150px while the contact email (`community@akunavista.example`, 29 chars) refuses to wrap — flex items default to `min-width: auto`. Fixed by adding `min-w-0` to the column and `break-all` to the email link (`shrink-0` added to the icon so it doesn't get squeezed). Verified via new `tests/e2e/responsive.spec.ts` (20 tests: 5 routes × 4 breakpoints), all passing after the fix. |
