@@ -21,3 +21,6 @@ export { JSONMetadataRepository, metadataRepository } from "./metadataRepository
 
 export type { SuburbRepository } from "./suburbRepository";
 export { JSONSuburbRepository, suburbRepository } from "./suburbRepository";
+
+export type { EventRepository } from "./eventRepository";
+export { JSONEventRepository, eventRepository } from "./eventRepository";
