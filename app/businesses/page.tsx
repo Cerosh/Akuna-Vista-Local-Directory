@@ -7,6 +7,7 @@ import { BusinessDirectory } from "@/features/directory/BusinessDirectory";
 export const metadata: Metadata = {
   title: "Business Directory | Akuna Vista Local Directory",
   description: "Browse trusted local businesses recommended by your Akuna Vista neighbours.",
+  alternates: { canonical: "/businesses" },
 };
 
 interface BusinessesPageProps {

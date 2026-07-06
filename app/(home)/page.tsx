@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Hero } from "@/features/homepage/Hero";
 import { PopularCategories } from "@/features/homepage/PopularCategories";
 import { FeaturedBusinesses } from "@/features/homepage/FeaturedBusinesses";
@@ -10,6 +11,12 @@ import { Promotions } from "@/features/community/Promotions";
 import { Announcements } from "@/features/community/Announcements";
 import { LocalNewsPlaceholder } from "@/features/community/LocalNewsPlaceholder";
 import { settingsRepository } from "@/lib/repositories/settingsRepository";
+
+// Title/description are already correct via the root layout's defaults for
+// `/` — only the canonical needs to be explicit here.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function Home() {
   const settings = await settingsRepository.get();

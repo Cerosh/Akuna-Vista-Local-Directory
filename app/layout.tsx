@@ -9,9 +9,29 @@ import { settingsRepository } from "@/lib/repositories/settingsRepository";
 const geist = Geist({ subsets: ["latin"], variable: "--font-geist" });
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_NAME = "Akuna Vista Local Directory";
+const SITE_DESCRIPTION = "Discover trusted local businesses, recommended by your neighbours.";
+
 export const metadata: Metadata = {
-  title: "Akuna Vista Local Directory",
-  description: "Discover trusted local businesses, recommended by your neighbours.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_NAME,
+  description: SITE_DESCRIPTION,
+  // Site-wide defaults — any page's own `openGraph`/`title`/`description`
+  // (e.g. business/category pages) overrides these per-field, it doesn't
+  // need to repeat siteName/type/locale itself.
+  openGraph: {
+    siteName: SITE_NAME,
+    type: "website",
+    locale: "en_AU",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default async function RootLayout({

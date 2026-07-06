@@ -10,6 +10,11 @@ import { suburbRepository } from "@/lib/repositories/suburbRepository";
 export const metadata: Metadata = {
   title: "Search | Akuna Vista Local Directory",
   description: "Search local businesses by keyword, category or suburb.",
+  // Canonicalises every query/filter combination to the bare page, same
+  // treatment as /businesses — this is a client-side instant-filter utility
+  // page (ARCHITECTURE.md's Search Architecture), not per-query indexable
+  // content in its own right.
+  alternates: { canonical: "/search" },
 };
 
 interface SearchPageProps {

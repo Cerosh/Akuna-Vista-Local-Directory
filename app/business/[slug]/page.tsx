@@ -32,7 +32,13 @@ export async function generateMetadata({ params }: BusinessPageProps): Promise<M
   return {
     title: `${business.name} | Akuna Vista Local Directory`,
     description,
+    alternates: { canonical: url },
+    // A page-level `openGraph` replaces the root layout's entirely rather
+    // than merging with it, so siteName/type/locale are repeated here.
     openGraph: {
+      siteName: "Akuna Vista Local Directory",
+      type: "website",
+      locale: "en_AU",
       title: business.name,
       description,
       url,

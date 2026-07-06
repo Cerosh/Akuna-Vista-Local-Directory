@@ -22,6 +22,7 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   return {
     title: `${category.name} | Akuna Vista Local Directory`,
     description: category.description ?? `Browse ${category.name} businesses in Akuna Vista.`,
+    alternates: { canonical: `/category/${category.slug}` },
   };
 }
 
