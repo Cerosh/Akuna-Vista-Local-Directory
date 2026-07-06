@@ -667,6 +667,82 @@ introduced here.
 
 ---
 
+# ADR-012
+
+## Title
+
+Require measured before/after evidence for performance, accessibility and SEO claims.
+
+Status
+
+Accepted
+
+Date
+
+2026-07-07
+
+---
+
+### Context
+
+Sprints 1-6 each included accessibility, responsive and performance considerations as part of
+shipping features, but no sprint had produced an actual Lighthouse/axe-core run to confirm the
+platform met ARCHITECTURE.md's numeric Performance Targets. Sprint 7 (Quality & Performance)
+was built specifically to close that gap, and in doing so demonstrated why the discipline
+matters: two real regressions were introduced by Sprint 7's own fixes (a root-level
+`loading.tsx` silently reintroducing a soft-404 on unrelated routes; a new loading skeleton
+causing a CLS spike from 0 to 0.275) and both were caught only because the sprint's own practice
+was to re-measure the specific metric immediately after every fix, not once at the end.
+
+---
+
+### Decision
+
+Any future claim that a change improves (or does not regress) performance, accessibility or SEO
+must be backed by an actual recorded before/after measurement (Lighthouse, axe-core, or an
+equivalent objective tool) in that sprint's review.md — not a subjective "looks fine" or "should
+be faster" impression. Measure immediately after each individual fix, not batched at the end of
+a sprint.
+
+---
+
+### Alternatives Considered
+
+- Trust code review and manual spot-checks alone — this is what Sprints 1-6 effectively did, and
+  it did not catch the sitewide favicon 404, the Next.js metadata-streaming SEO gap, or either
+  regression Sprint 7 introduced against itself.
+- Measure once at the end of a sprint rather than after every fix — this would still have caught
+  the two regressions eventually, but only after they were already mixed in with several other
+  changes, making the specific cause much harder to isolate.
+
+---
+
+### Rationale
+
+Sprint 7 is direct evidence for this rule, not a hypothetical: both regressions it introduced
+were found and fixed within the same sprint specifically because of the measure-fix-remeasure
+habit, and both would very plausibly have shipped otherwise, expensive to trace back to their
+cause once discovered later or in production. Evidence is objective and reviewable; "looks
+fine" is not.
+
+---
+
+### Consequences
+
+Every performance/accessibility/SEO-related Pull Request going forward should include actual
+recorded scores, not placeholders, per REVIEW_CHECKLIST.md's Performance and Accessibility
+review items. This adds a small amount of overhead per change but is cheap relative to the cost
+of a shipped regression.
+
+---
+
+### Future Review
+
+Revisit if Lighthouse CI is wired into the CI pipeline (a reasonable Sprint 9 candidate per
+Sprint 7's own notes.md), at which point some of this manual discipline can become automated.
+
+---
+
 # Open Decisions
 
 The following topics remain undecided and should not be implemented without discussion.

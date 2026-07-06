@@ -4,7 +4,7 @@ Quality & Performance
 
 Owner: Cerosh Jacob
 
-Last Updated: 2026-07-06
+Last Updated: 2026-07-07
 
 ---
 
@@ -75,25 +75,37 @@ Measured via `npx lighthouse` (v12) against a real production build (`npm run bu
 
 Real seeded slugs used: `/category/plumbing`, `/business/abc-plumbing`.
 
-### Mobile
-
-| Route | Performance | Accessibility | Best Practices | SEO | LCP | CLS | Target | Met? |
-|-------|-------------|----------------|-----------------|-----|-----|-----|--------|------|
-| Homepage / Community page | 95 | 93 | 96 | 100 | 3.0s (2.7s on repeat runs) | 0 | Perf 95+, A11y 100, BP 100, SEO 95+, LCP<2.5s, CLS<0.1 | Perf ✅ (borderline), A11y ❌, BP ❌, SEO ✅, LCP ❌, CLS ✅ |
-| `/businesses` | 97 | 92 | 96 | 100 | 2.6s | 0 | same | Perf ✅, A11y ❌, BP ❌, SEO ✅, LCP ❌, CLS ✅ |
-| `/category/[slug]` | 98 | 92 | 96 | 100 | 2.5s | 0 | same | Perf ✅, A11y ❌, BP ❌, SEO ✅, LCP ❌ (at threshold), CLS ✅ |
-| `/business/[slug]` | 98 | 93 | 96 | 91 | 2.4s | 0 | same | Perf ✅, A11y ❌, BP ❌, SEO ❌, LCP ✅, CLS ✅ |
-| `/search` | 98 | 96 | 96 | 100 | 2.5s | 0 | same | Perf ✅, A11y ❌, BP ❌, SEO ✅, LCP ❌ (at threshold), CLS ✅ |
-
-### Desktop
+### Mobile — Baseline (before any fix)
 
 | Route | Performance | Accessibility | Best Practices | SEO | LCP | CLS |
 |-------|-------------|----------------|-----------------|-----|-----|-----|
-| Homepage / Community page | 100 | 92 | 96 | 100 | 0.6s | 0 |
-| `/businesses` | 100 | 91 | 96 | 100 | 0.6s | 0.006 |
-| `/category/[slug]` | 100 | 91 | 96 | 100 | 0.5s | 0 |
-| `/business/[slug]` | 100 | 93 | 96 | 91 | 0.6s | 0 |
-| `/search` | 100 | 96 | 96 | 100 | 0.5s | 0 |
+| Homepage / Community page | 95 | 93 | 96 | 100 | 3.0s (2.7s on repeat runs) | 0 |
+| `/businesses` | 97 | 92 | 96 | 100 | 2.6s | 0 |
+| `/category/[slug]` | 98 | 92 | 96 | 100 | 2.5s | 0 |
+| `/business/[slug]` | 98 | 93 | 96 | 91 | 2.4s | 0 |
+| `/search` | 98 | 96 | 96 | 100 | 2.5s | 0 |
+
+### Mobile — Final (after all fixes)
+
+| Route | Performance | Accessibility | Best Practices | SEO | LCP | CLS | Target | Met? |
+|-------|-------------|----------------|-----------------|-----|-----|-----|--------|------|
+| Homepage / Community page | 96 | 100 | 100 | 100 | 2.8s | 0 | Perf 95+, A11y 100, BP 100, SEO 95+, LCP<2.5s, CLS<0.1 | Perf ✅, A11y ✅, BP ✅, SEO ✅, **LCP ❌**, CLS ✅ |
+| `/businesses` | 98 | 100 | 100 | 100 | 2.5s | 0 | same | Perf ✅, A11y ✅, BP ✅, SEO ✅, **LCP ❌ (at threshold)**, CLS ✅ |
+| `/category/[slug]` | 98 | 100 | 100 | 100 | 2.5s | 0 | same | Perf ✅, A11y ✅, BP ✅, SEO ✅, **LCP ❌ (at threshold)**, CLS ✅ |
+| `/business/[slug]` | 97 | 100 | 100 | 100 | 2.6s | 0 | same | Perf ✅, A11y ✅, BP ✅, SEO ✅, **LCP ❌**, CLS ✅ |
+| `/search` | 96 | 100 | 100 | 100 | 2.8s | 0.025 | same | Perf ✅, A11y ✅, BP ✅, SEO ✅, **LCP ❌**, CLS ✅ |
+
+### Desktop — Final (after all fixes; baseline desktop numbers were already close and are superseded by these)
+
+| Route | Performance | Accessibility | Best Practices | SEO | LCP | CLS |
+|-------|-------------|----------------|-----------------|-----|-----|-----|
+| Homepage / Community page | 100 | 100 | 100 | 100 | 0.6s | 0 |
+| `/businesses` | 100 | 100 | 100 | 100 | 0.7s | 0.006 |
+| `/category/[slug]` | 100 | 100 | 100 | 100 | 0.5s | 0 |
+| `/business/[slug]` | 100 | 100 | 100 | 100 | 0.5s | 0 |
+| `/search` | 100 | 100 | 100 | 100 | 0.5s | 0 |
+
+**Definition of Done, honestly assessed:** Performance, Accessibility, Best Practices and SEO all meet or exceed target on every route, on both mobile and desktop, and CLS is met everywhere. **Mobile LCP is the one target not fully met** — it sits at or just above the 2.5s line on all 5 routes (desktop LCP is comfortably under 0.7s everywhere). This is the same gap root-caused in Performance Profiling below (text-element render delay under Lighthouse's simulated mobile throttle, not a code-level defect this sprint found a further fix for) — carried forward rather than glossed over; see retrospective.md's Carry Forward.
 
 ### Baseline findings (root causes, not just scores)
 
@@ -167,16 +179,16 @@ Automated via `tests/e2e/responsive.spec.ts` (checks `document.documentElement.s
 
 # Release Checklist (pre-merge to `main`)
 
-- [ ] Build succeeds.
-- [ ] Lint succeeds.
-- [ ] Type checking succeeds.
-- [ ] Responsive verification completed.
-- [ ] Accessibility review completed, with recorded before/after scores.
-- [ ] Performance review completed, with recorded before/after scores.
-- [ ] Documentation updated (this file, notes.md, TODO.md/CONTEXT.md as needed).
-- [ ] No critical or high review findings remain open.
-- [ ] Definition of Done (see README.md) satisfied — measured scores meet ARCHITECTURE.md's targets, not just "look" acceptable.
-- [ ] Vercel preview deployment verified.
+- [x] Build succeeds.
+- [x] Lint succeeds.
+- [x] Type checking succeeds.
+- [x] Responsive verification completed.
+- [x] Accessibility review completed, with recorded before/after scores.
+- [x] Performance review completed, with recorded before/after scores.
+- [x] Documentation updated (this file, notes.md, TODO.md/CONTEXT.md, AI_MEMORY.md, DECISIONS.md).
+- [x] No critical or high review findings remain open — all findings in the Findings Log below are resolved.
+- [ ] Definition of Done (see README.md) satisfied — **mostly**: Performance/Accessibility/Best Practices/SEO/CLS all meet target on every route; mobile LCP sits at or just above the 2.5s target on all 5 routes (desktop LCP is comfortably met) — carried forward, not silently marked done.
+- [ ] Vercel preview deployment verified — **not performed**, this project has no configured Vercel deployment in this environment; disclosed rather than assumed.
 
 ---
 
@@ -186,4 +198,12 @@ Record review findings here as they're raised, using REVIEW_CHECKLIST.md severit
 
 | Severity | Finding | File/Area | Resolution |
 |----------|---------|-----------|------------|
+| High | Sitewide `errors-in-console` (Best Practices 96, not 100): every route's automatic `/favicon.ico` request 404'd — no favicon existed anywhere in the project | `app/icon.svg`, `app/favicon.ico` | Added via Next's file-based icon convention, reusing `Logo.tsx`'s `MapPinHouse` glyph/`--primary` blue. Best Practices 96 → 100. |
+| High | `/business/[slug]` SEO 91 (not 95+): `generateMetadata`'s title/description/Open Graph never reached the live `<head>` for a normal browser UA | `next.config.ts` | Root cause: Next.js 15.2+ streams metadata to non-bot user agents (see [vercel/next.js#79313](https://github.com/vercel/next.js/issues/79313), [discussion #81452](https://github.com/vercel/next.js/discussions/81452)) — Lighthouse's UA isn't recognised as a bot, so it measured the degraded path. Fixed with `htmlLimitedBots: /.*/` (all metadata resolves instantly from local JSON, so the streaming optimisation had no upside here). SEO 91 → 100. |
+| High | Two accessibility findings on every route: `aria-prohibited-attr` (Footer social-icon `<span aria-label>` with no role) and `color-contrast` (`--secondary`/`--success`/`--destructive`/`--muted-foreground` all under 4.5:1) | `components/layout/Footer.tsx`, `app/globals.css` | `role="img"` added to the spans; four light-mode colour tokens darkened by one Tailwind shade each (dark mode untouched — no reachable toggle exists yet). Accessibility 91-96 → **100** on every route; axe-core critical/serious violations → **0**. |
+| Medium | Skip-to-content link only scrolled to `<main>`, never moved keyboard focus there | `app/layout.tsx` | Added `tabIndex={-1}` to `<main id="main-content">`. Found via new keyboard-navigation Playwright coverage. |
 | Medium | Horizontal overflow at exactly the tablet breakpoint (768px) on every route (scrollWidth 813 vs clientWidth 768) | `components/layout/Footer.tsx` | Root cause: the Contact column is a `flex flex-col` child with no `min-w-0`, and Tailwind's `md:grid-cols-4` (768px+) narrows it to ~150px while the contact email (`community@akunavista.example`, 29 chars) refuses to wrap — flex items default to `min-width: auto`. Fixed by adding `min-w-0` to the column and `break-all` to the email link (`shrink-0` added to the icon so it doesn't get squeezed). Verified via new `tests/e2e/responsive.spec.ts` (20 tests: 5 routes × 4 breakpoints), all passing after the fix. |
+| High | A root-level `app/loading.tsx` (added for the homepage) silently reintroduced the `loading.tsx`/`notFound()` soft-404 bug on `/business/[slug]` and `/category/[slug]` — neither folder was touched | `app/(home)/` route group | Root-level `loading.tsx` becomes the Suspense boundary for every route without its own more specific `loading.tsx`. Fixed by moving the homepage into `app/(home)/page.tsx` + `app/(home)/loading.tsx`. Documented in `AI_MEMORY.md`'s Framework Gotchas. |
+| High | `/search`'s own new `loading.tsx` caused a real CLS regression (0.275, later 0.122) | `app/search/loading.tsx` | Two-round root cause: the skeleton first assumed a results grid `/search` doesn't actually show by default, then under-reserved space for filter chips that wrap across several lines at mobile widths. Fixed by measuring real chip-row heights and reserving matching `min-h`. CLS 0.275 → 0.122 → **0.025**. |
+| Medium | WebKit's default Tab order excludes links (browser default, not a page defect); Playwright can only grant clipboard permissions in Chromium (test-infrastructure limitation, not an app defect) | `tests/e2e/accessibility.spec.ts`, `tests/e2e/business-detail.spec.ts` | Both disclosed and skipped on the affected browser(s) with the reasoning documented inline, rather than forcing a page-level "fix" for a browser/tooling limitation. |
+| Low | Image optimisation, unused-dependency removal (`framer-motion`/`zod`) and Google's Rich Results Test | — | Reviewed; no code change warranted (images already correctly optimised; both dependencies are deliberately pre-installed for documented future use, `zod` explicitly by Sprint 08; Rich Results Test needs a public URL this project doesn't have). Recorded as reviewed, not silently skipped. |

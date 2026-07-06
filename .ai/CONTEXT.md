@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.6
+Version: 1.7
 
 Last Updated: 2026-07-07
 
-Current Sprint: Sprint 06 — Community Content (complete, awaiting go-ahead for Sprint 07)
+Current Sprint: Sprint 07 — Quality & Performance (complete, awaiting go-ahead for Sprint 08)
 
 ---
 
@@ -22,11 +22,11 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 6 — Community Content (complete)
+Phase 7 — Quality & Performance (complete)
 
 Current Focus:
 
-Sprint 6 is done. Waiting for explicit instruction before starting Sprint 7 (Quality).
+Sprint 7 is done. Waiting for explicit instruction before starting Sprint 8 (Admin Preparation).
 
 ---
 
@@ -90,17 +90,27 @@ Project planning completed. Engineering documents created. Project vision define
 - `lint`, `typecheck`, `test` (80 unit tests), `test:e2e` (29 Playwright tests), `build` all pass; verified visually via the dev server (all six sections, promotion → business links, no console errors)
 - **Known limitation:** no e2e coverage forces a genuine "zero active records" empty state — these Server Components read JSON at module scope with no per-test data-injection seam; empty-state logic is covered at the repository/unit level instead
 
+**Sprint 07 — Quality & Performance**, committed:
+
+- A documented Lighthouse (mobile + desktop) and axe-core baseline for all 5 routes, taken before any fix, per ARCHITECTURE.md's Performance Targets
+- Nine root-caused defects found and fixed: sitewide missing favicon (Best Practices 96 → 100); a Next.js 15.2+ metadata-streaming behaviour hiding `/business/[slug]`'s SEO tags from Lighthouse's own audit UA (SEO 91 → 100, fixed via `htmlLimitedBots` in `next.config.ts`); two sitewide accessibility issues (`Footer.tsx`'s `aria-label` on a roleless `<span>`; four under-contrast colour tokens — Accessibility → 100 everywhere); a tablet-breakpoint (768px) horizontal overflow (Footer's Contact column missing `min-w-0`); a missing keyboard-focus move on the skip-to-content link; and two regressions this sprint introduced against itself (a root-level `loading.tsx` cascading into a soft-404 on unrelated routes; a new `/search` loading skeleton causing CLS 0.275) — both caught and fixed within this same sprint via the measure-fix-remeasure discipline formalised in new **ADR-012**
+- Custom `app/not-found.tsx`, `app/error.tsx`, `app/global-error.tsx`; consistent skeleton loading states for homepage (moved into `app/(home)/`) and search; site-wide SEO metadata (`metadataBase`, Open Graph/Twitter defaults, `alternates.canonical` on every route)
+- `playwright.config.ts` gained `firefox`/`webkit` projects; two disclosed, non-app browser/tooling limitations found (WebKit's default Tab order excludes links; Playwright can only grant clipboard permissions in Chromium)
+- New Framework Gotchas documented in `AI_MEMORY.md`: root-level `loading.tsx` cascade behaviour, and Next.js 15.2+ metadata streaming/`htmlLimitedBots`
+- Final scores: Performance 96-100, Accessibility 100, Best Practices 100, SEO 100, CLS ≤0.025 on every route (mobile and desktop)
+- **Known limitation:** mobile LCP sits at or just above the 2.5s target on all 5 routes (desktop LCP comfortably met everywhere) — root-caused to text-element render delay under Lighthouse's simulated mobile throttle, not a further-fixable code defect; carried forward. A real screen-reader spot-check, Google's Rich Results Test, and a Vercel preview check were also not performed (no assistive technology / public URL / Vercel deployment available in this environment) — disclosed in `sprints/sprint-07-quality/retrospective.md` rather than silently marked done.
+
 ---
 
 # In Progress
 
-Nothing. Sprint 6 is complete. Awaiting explicit instruction to start Sprint 7.
+Nothing. Sprint 7 is complete. Awaiting explicit instruction to start Sprint 8.
 
 ---
 
 # Not Started
 
-Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
+Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -134,7 +144,8 @@ Services
 
 Testing
 
-- Vitest (unit), Playwright (end-to-end)
+- Vitest (unit), Playwright (end-to-end — `chromium`/`firefox`/`webkit` projects since Sprint 7)
+- Lighthouse (`lighthouse` CLI) and `@axe-core/playwright` — added Sprint 7 for measured performance/accessibility audits; manual/local runs only, no CI wiring yet (a reasonable Sprint 9 candidate)
 
 Hosting
 
@@ -148,7 +159,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1 through Sprint 6 complete and committed (not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (80 unit + 29 e2e). Homepage, business directory, category pages, business detail pages, search, and the community content sections are all live locally with real (sample) data. Sprint 7 (Quality) has not started.
+Sprint 1 through Sprint 7 complete and committed (not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (80 unit + 198 e2e test instances across 3 browsers, 186 passed/12 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, and the community content sections are all live locally with real (sample) data, now measured and hardened against ARCHITECTURE.md's Performance Targets. Sprint 8 (Admin Preparation) has not started.
 
 ---
 
@@ -175,6 +186,12 @@ Search: client-side, not server-side — `lib/services/searchService.ts` is a se
 Featured content: one cross-repository aggregator (`lib/services/featuredContentService.ts`), not three parallel "featured X" implementations — event/promotion/announcement `featured: true` records are normalised into a single shape and rendered by one presentation component (`FeaturedContentCard`). Any new "featured"-flagged content type added later should extend this aggregator, not add its own.
 
 Date-range logic: one shared helper, `lib/utils/dateStatus.ts` (`isPast`), reused by `EventRepository`/`PromotionRepository`/`AnnouncementRepository` for "upcoming"/"active"/"expired" checks — plain ISO 8601 `Date` comparison, no date library.
+
+Metadata: `htmlLimitedBots: /.*/ ` is set in `next.config.ts` (Sprint 7) — Next.js 15.2+ otherwise streams `generateMetadata()` output to real browsers and only renders it synchronously for recognised bot user agents, which was hiding a real SEO gap from Lighthouse's own audit UA. See AI_MEMORY.md "Framework Gotchas."
+
+Homepage route: lives at `app/(home)/page.tsx` (a route group, not `app/page.tsx`) since Sprint 7 — needed so `app/(home)/loading.tsx` doesn't cascade to `/business/[slug]`/`/category/[slug]` as their Suspense boundary (see AI_MEMORY.md "Framework Gotchas" — a root-level `app/loading.tsx` would otherwise reintroduce the `notFound()` soft-404 bug on unrelated routes).
+
+Quality measurement: any future performance/accessibility/SEO claim requires an actual recorded before/after Lighthouse/axe-core measurement, not a "looks fine" impression — see DECISIONS.md ADR-012.
 
 Future Database: Supabase
 
@@ -228,13 +245,17 @@ All business data will remain static until Version 2. Current sample dataset (8 
 
 Events, Promotions and Announcements are authored via manual JSON edits — no CMS or admin authoring UI exists yet (that's Sprint 8, Admin).
 
+No screen reader (VoiceOver/NVDA) is available in this development environment — accessibility verification relies on automated `@axe-core/playwright` plus a manual keyboard-navigation Playwright proxy; a genuine screen-reader spot-check is still owed before a production launch decision (Sprint 9).
+
+Mobile LCP sits at or just above ARCHITECTURE.md's 2.5s target on every route (desktop LCP is comfortably met everywhere) — root-caused (Sprint 7) to text-element render delay under Lighthouse's simulated mobile throttle, not a further-fixable code defect at this time. See `sprints/sprint-07-quality/retrospective.md`'s Carry Forward.
+
 ---
 
 # Next Milestone
 
-Sprint 07 — Quality (not started, awaiting explicit instruction).
+Sprint 08 — Admin Preparation (not started, awaiting explicit instruction).
 
-Full plan: `sprints/sprint-07-quality/`.
+Full plan: `sprints/sprint-08-admin/`.
 
 ---
 
@@ -258,6 +279,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), and Sprint 6 (Community Content) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), and Sprint 7 (Quality & Performance) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
 
-Do not begin Sprint 07 without explicit instruction, even though this document and TODO.md describe its scope.
+Do not begin Sprint 08 without explicit instruction, even though this document and TODO.md describe its scope.
