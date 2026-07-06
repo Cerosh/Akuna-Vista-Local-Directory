@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 import { HomePage } from "../pages/HomePage";
 
 test.describe("Homepage", () => {
-  test("loads with navigation and footer, no console errors", async ({ page }) => {
+  test("loads with all sections, navigation and footer, no console errors", async ({ page }) => {
     const consoleErrors: string[] = [];
     page.on("console", (message) => {
       if (message.type() === "error") {
@@ -14,9 +14,41 @@ test.describe("Homepage", () => {
     await home.goto();
 
     await expect(page).toHaveTitle(/Akuna Vista Local Directory/);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
     await expect(home.primaryNav).toBeVisible();
+    await expect(home.searchInput).toBeVisible();
+    await expect(home.popularCategoriesHeading).toBeVisible();
+    await expect(home.featuredBusinessesHeading).toBeVisible();
+    await expect(home.communityStatisticsHeading).toBeVisible();
+    await expect(home.whyChooseLocalHeading).toBeVisible();
     await expect(home.footer).toBeVisible();
     expect(consoleErrors).toEqual([]);
+  });
+
+  test("search input accepts a query", async ({ page }) => {
+    const home = new HomePage(page);
+    await home.goto();
+
+    await home.searchInput.fill("plumber");
+    await expect(home.searchInput).toHaveValue("plumber");
+  });
+
+  test("Categories nav link scrolls to the Popular Categories section", async ({ page }) => {
+    const home = new HomePage(page);
+    await home.goto();
+
+    await home.primaryNav.getByRole("link", { name: "Categories" }).click();
+    await expect(page).toHaveURL(/#categories$/);
+    await expect(home.popularCategoriesHeading).toBeInViewport();
+  });
+
+  test("a featured business card links to its (future) detail page", async ({ page }) => {
+    const home = new HomePage(page);
+    await home.goto();
+
+    const firstCard = page.getByRole("link", { name: "View details" }).first();
+    await expect(firstCard).toBeVisible();
+    await expect(firstCard).toHaveAttribute("href", /^\/business\//);
   });
 
   test("mobile navigation drawer opens and closes", async ({ page }) => {

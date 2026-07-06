@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.0
+Version: 1.2
 
 Last Updated: 2026-07-06
 
-Current Sprint: Sprint 01 — Project Foundation
+Current Sprint: Sprint 02 — Homepage (complete, awaiting go-ahead for Sprint 03)
 
 ---
 
@@ -22,84 +22,47 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 1 — Project Foundation
+Phase 2 — Homepage (complete)
 
 Current Focus:
 
-Build a clean, scalable and production-ready engineering foundation.
-
-No business functionality has been implemented yet.
-
----
-
-# Current Objective
-
-Create the application's technical foundation.
-
-Focus areas:
-
-- Project scaffold
-- Folder structure
-- Shared UI components
-- Layout
-- Theme
-- Repository interfaces
-- JSON data structure
-- Type definitions
-
-Nothing else.
+Sprint 2 is done. Waiting for explicit instruction before starting Sprint 3 (Business Directory).
 
 ---
 
 # Completed
 
-Project planning completed.
+Project planning completed. Engineering documents created. Project vision defined. Architecture agreed. Roadmap approved. Full 10-sprint plan prepared (`sprints/`).
 
-Engineering documents created.
+**Sprint 01 — Project Foundation**, committed and pushed to GitHub (`https://github.com/Cerosh/Akuna-Vista-Local-Directory`):
 
-Project vision defined.
+- Next.js 15.5.20 (App Router), React 19, TypeScript strict, Tailwind CSS v4, shadcn/ui
+- ESLint + Prettier + Husky/lint-staged (verified: blocks a bad commit)
+- GitHub Actions CI (typecheck → lint → format → unit tests → Playwright → build)
+- Repository Pattern (`BusinessRepository`, `CategoryRepository`, `SettingsRepository`) over static JSON, with unit tests
+- Themed base layout, responsive navigation (incl. mobile drawer), footer, shared components
+- Vitest (unit) + Playwright (e2e) — all passing
 
-Architecture agreed.
+**Sprint 02 — Homepage**, committed:
 
-Roadmap approved.
-
-Sprint plan prepared.
+- Hero (headline + search entry point), Popular Categories, Featured Businesses, Community Statistics, Why Choose Local — all from JSON via repositories
+- New `MetadataRepository`; `CategoryRepository.getFeatured()`; `Metadata.communityMembers` field (schema 1.1.0, documented in JSON_SCHEMA.md)
+- Sample business/category data (8 businesses, 8 categories, Schofields/The Ponds/NSW)
+- Navigation/Footer wired to real routes/anchors, with `prefetch={false}` on links to routes not built yet
+- Fixed a real accessibility bug: Base UI's `Button` forces `role="button"` even when composed with a `render` prop pointing at a `<Link>` — replaced with `buttonVariants()` applied directly to `<Link>` for genuinely navigational elements, so they keep correct `role="link"` semantics
+- `lint`, `typecheck`, `format:check`, `test` (12 unit tests), `test:e2e` (5 Playwright tests), `build` all pass; verified visually via headless-browser screenshots (desktop + mobile)
 
 ---
 
 # In Progress
 
-Project scaffold
+Nothing. Sprint 2 is complete. Awaiting explicit instruction to start Sprint 3.
 
 ---
 
 # Not Started
 
-Homepage
-
-Business Directory
-
-Business Pages
-
-Community Pages
-
-Content Generation
-
-UI Polish
-
-SEO
-
-Performance
-
-AI Readiness
-
-Multi-community support
-
-Authentication
-
-Administration
-
-Production Launch
+Business Directory (Sprint 3), Business Details (Sprint 4), Search (Sprint 5), Community Content (Sprint 6), Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -107,30 +70,30 @@ Production Launch
 
 Frontend
 
-- Next.js 15
+- Next.js 15.5.20 (App Router)
 - React 19
-- TypeScript
+- TypeScript (strict)
 
 Styling
 
-- Tailwind CSS
-- shadcn/ui
-
-Animation
-
-- Framer Motion
+- Tailwind CSS v4 (CSS-first `@theme`, no `tailwind.config.js`)
+- shadcn/ui (Base UI primitives — composition uses a `render` prop, not `asChild`; `Button` always applies `role="button"`, so genuinely navigational links use `buttonVariants()` on a plain `Link` instead)
 
 Icons
 
 - Lucide React
 
+Data
+
+- Static JSON via Repository Pattern (`BusinessRepository`, `CategoryRepository`, `SettingsRepository`, `MetadataRepository`)
+
+Testing
+
+- Vitest (unit), Playwright (end-to-end)
+
 Hosting
 
-- Vercel
-
-Current Data Source
-
-- Static JSON
+- Vercel — **not yet connected** (see Known Constraints)
 
 Future Data Source
 
@@ -140,45 +103,25 @@ Future Data Source
 
 # Current Repository State
 
-Application status:
-
-Planning complete.
-
-Implementation has not yet started.
-
-Repository should contain only the engineering foundation after this sprint.
+Sprint 1 and Sprint 2 complete, committed, and pushed to GitHub. Repository builds, lints, type-checks, and passes all tests. Homepage is live locally with real (sample) data. Sprint 3 (Business Directory) has not started.
 
 ---
 
 # Architectural Decisions
 
-Current data source:
+Current data source: JSON
 
-JSON
+Architecture pattern: Repository Pattern
 
-Architecture pattern:
+Rendering strategy: Server Components by default.
 
-Repository Pattern
+Styling: Tailwind CSS v4 (CSS-first theming)
 
-Rendering strategy:
+Component Strategy: Reusable and composable; this shadcn preset uses Base UI, not Radix. Navigational elements styled as buttons use `buttonVariants()` on a `Link`, not the `Button` component (see Sprint 2 completed notes).
 
-Server Components by default.
+Routing: Next.js App Router.
 
-Styling:
-
-Tailwind CSS
-
-Component Strategy:
-
-Reusable and composable.
-
-Routing:
-
-Next.js App Router.
-
-Future Database:
-
-Supabase
+Future Database: Supabase
 
 ---
 
@@ -222,57 +165,24 @@ Avoid over-engineering.
 
 # Known Constraints
 
-No backend.
+No backend. No authentication. No CMS. No database. No APIs. No reviews. No advertisements. No payments. No AI implementation.
 
-No authentication.
+**Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
 
-No CMS.
-
-No database.
-
-No APIs.
-
-No reviews.
-
-No advertisements.
-
-No payments.
-
-No AI implementation.
-
-All business data will remain static until Version 2.
+All business data will remain static until Version 2. Current sample dataset (8 businesses, 8 categories) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator).
 
 ---
 
 # Next Milestone
 
-Complete Sprint 01.
+Sprint 03 — Business Directory (not started, awaiting explicit instruction):
 
-Deliver:
+- `/businesses` grid, category filters
+- `/category/[slug]` pages
+- Sorting, pagination
+- Empty states, loading skeletons
 
-- Working application
-- Responsive layout
-- Shared components
-- Theme
-- Navigation
-- Footer
-- Repository interfaces
-- Empty JSON repository
-- Type definitions
-
----
-
-# Success Criteria
-
-Sprint 01 is successful when:
-
-- The application builds successfully.
-- TypeScript passes.
-- ESLint passes.
-- The layout is responsive.
-- Shared components are reusable.
-- Folder structure matches ARCHITECTURE.md.
-- No business functionality exists.
+Full plan: `sprints/sprint-03-directory/`.
 
 ---
 
@@ -284,6 +194,7 @@ Before every implementation:
 2. Read PROJECT.md
 3. Read ARCHITECTURE.md
 4. Read TODO.md
+5. Read the current/next sprint's full plan under `sprints/sprint-0N-*/`
 
 Use this document only as a quick status summary.
 
@@ -295,14 +206,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Planning complete.
+Sprint 1 (Project Foundation) and Sprint 2 (Homepage) are both complete, committed, and pushed to GitHub. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
 
-Ready to begin Sprint 01.
-
-No code has been implemented yet.
-
-The objective is to establish a high-quality engineering foundation before building product features.
-
-Stop after completing the current sprint.
-
-Do not begin Sprint 02 until TODO.md has been updated.
+Do not begin Sprint 03 without explicit instruction, even though this document and TODO.md describe its scope.

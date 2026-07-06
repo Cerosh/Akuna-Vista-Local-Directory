@@ -264,13 +264,16 @@ metadata.json
 
 ```json
 {
-  "schemaVersion": "1.0.0",
+  "schemaVersion": "1.1.0",
   "generatedAt": "2026-07-06T00:00:00Z",
   "lastUpdated": "2026-07-06T00:00:00Z",
   "totalBusinesses": 0,
-  "totalCategories": 0
+  "totalCategories": 0,
+  "communityMembers": 800
 }
 ```
+
+`communityMembers` was added in schema `1.1.0` (Sprint 2) to back the homepage's Community Statistics section with a real data field instead of hardcoded copy. It is optional for backwards compatibility with any `1.0.0` metadata files.
 
 ---
 

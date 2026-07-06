@@ -6,3 +6,6 @@ export { JSONCategoryRepository, categoryRepository } from "./categoryRepository
 
 export type { SettingsRepository } from "./settingsRepository";
 export { JSONSettingsRepository, settingsRepository } from "./settingsRepository";
+
+export type { MetadataRepository } from "./metadataRepository";
+export { JSONMetadataRepository, metadataRepository } from "./metadataRepository";

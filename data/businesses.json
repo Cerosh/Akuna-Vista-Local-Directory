@@ -1,1 +1,267 @@
-[]
+[
+  {
+    "id": "b1a7c3d2-4e5f-4a6b-8c7d-1e2f3a4b5c6d",
+    "slug": "abc-plumbing",
+    "name": "ABC Plumbing",
+    "description": "Local family-owned plumbing business servicing Akuna Vista and surrounding suburbs for over 15 years. Available for emergency callouts.",
+    "shortDescription": "Trusted local plumber, 15+ years in the area.",
+    "categoryId": "plumbing",
+    "phone": "+61 400 111 222",
+    "email": "hello@abcplumbing.example",
+    "website": "https://abcplumbing.example",
+    "address": {
+      "street": "1 Vista Street",
+      "suburb": "Schofields",
+      "state": "NSW",
+      "postcode": "2762"
+    },
+    "serviceAreas": ["Schofields", "Tallawong", "The Ponds"],
+    "openingHours": {
+      "monday": "07:00-17:00",
+      "tuesday": "07:00-17:00",
+      "wednesday": "07:00-17:00",
+      "thursday": "07:00-17:00",
+      "friday": "07:00-17:00",
+      "saturday": "08:00-12:00",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/businesses/abc-plumbing-1.jpg"],
+    "featured": true,
+    "verified": true,
+    "tags": ["Emergency", "Residential"],
+    "createdAt": "2026-07-06T00:00:00Z",
+    "updatedAt": "2026-07-06T00:00:00Z"
+  },
+  {
+    "id": "c2b8d4e3-5f6a-4b7c-9d8e-2f3a4b5c6d7e",
+    "slug": "akuna-electrical-co",
+    "name": "Akuna Electrical Co",
+    "description": "Licensed electricians offering switchboard upgrades, lighting installation and safety inspections for homes across the community.",
+    "shortDescription": "Licensed electricians, safety inspections and installs.",
+    "categoryId": "electrical",
+    "phone": "+61 400 222 333",
+    "email": "info@akunaelectrical.example",
+    "address": {
+      "street": "24 Ridgeline Drive",
+      "suburb": "The Ponds",
+      "state": "NSW",
+      "postcode": "2769"
+    },
+    "serviceAreas": ["The Ponds", "Schofields", "Kellyville"],
+    "openingHours": {
+      "monday": "07:30-16:30",
+      "tuesday": "07:30-16:30",
+      "wednesday": "07:30-16:30",
+      "thursday": "07:30-16:30",
+      "friday": "07:30-16:30",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/businesses/akuna-electrical-1.jpg"],
+    "featured": true,
+    "verified": true,
+    "tags": ["Licensed", "Residential"],
+    "createdAt": "2026-07-06T00:00:00Z",
+    "updatedAt": "2026-07-06T00:00:00Z"
+  },
+  {
+    "id": "d3c9e5f4-6a7b-4c8d-ae9f-3a4b5c6d7e8f",
+    "slug": "sparkle-clean-co",
+    "name": "Sparkle Clean Co",
+    "description": "Reliable home and office cleaning with flexible weekly, fortnightly or one-off bookings. Fully insured cleaning team.",
+    "shortDescription": "Home & office cleaning, flexible bookings.",
+    "categoryId": "cleaning",
+    "phone": "+61 400 333 444",
+    "email": "bookings@sparkleclean.example",
+    "address": {
+      "street": "8 Meadow Court",
+      "suburb": "Schofields",
+      "state": "NSW",
+      "postcode": "2762"
+    },
+    "serviceAreas": ["Schofields", "Tallawong"],
+    "openingHours": {
+      "monday": "08:00-18:00",
+      "tuesday": "08:00-18:00",
+      "wednesday": "08:00-18:00",
+      "thursday": "08:00-18:00",
+      "friday": "08:00-18:00",
+      "saturday": "09:00-14:00",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/businesses/sparkle-clean-1.jpg"],
+    "featured": true,
+    "verified": false,
+    "tags": ["Insured", "Residential", "Commercial"],
+    "createdAt": "2026-07-06T00:00:00Z",
+    "updatedAt": "2026-07-06T00:00:00Z"
+  },
+  {
+    "id": "e4dae6a5-7b8c-4d9e-bfa1-4b5c6d7e8f9a",
+    "slug": "green-thumb-landscaping",
+    "name": "Green Thumb Landscaping",
+    "description": "Garden design, lawn care and landscaping for new-build homes across the Hills District, helping new gardens establish quickly.",
+    "shortDescription": "Garden design & landscaping for new-build homes.",
+    "categoryId": "landscaping",
+    "phone": "+61 400 444 555",
+    "email": "hello@greenthumb.example",
+    "address": {
+      "street": "15 Parkview Avenue",
+      "suburb": "The Ponds",
+      "state": "NSW",
+      "postcode": "2769"
+    },
+    "serviceAreas": ["The Ponds", "Schofields", "Box Hill"],
+    "openingHours": {
+      "monday": "07:00-15:00",
+      "tuesday": "07:00-15:00",
+      "wednesday": "07:00-15:00",
+      "thursday": "07:00-15:00",
+      "friday": "07:00-15:00",
+      "saturday": "08:00-12:00",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/businesses/green-thumb-1.jpg"],
+    "featured": true,
+    "verified": true,
+    "tags": ["New builds", "Residential"],
+    "createdAt": "2026-07-06T00:00:00Z",
+    "updatedAt": "2026-07-06T00:00:00Z"
+  },
+  {
+    "id": "f5ebf7b6-8c9d-4eaf-8caf-5c6d7e8f9a0b",
+    "slug": "little-stars-early-learning",
+    "name": "Little Stars Early Learning",
+    "description": "A warm, community-focused childcare centre offering long day care for children aged 6 weeks to 5 years.",
+    "shortDescription": "Long day care for children 6 weeks–5 years.",
+    "categoryId": "childcare",
+    "phone": "+61 400 555 666",
+    "email": "enrol@littlestars.example",
+    "website": "https://littlestars.example",
+    "address": {
+      "street": "3 Nurture Lane",
+      "suburb": "Tallawong",
+      "state": "NSW",
+      "postcode": "2762"
+    },
+    "serviceAreas": ["Tallawong", "Schofields"],
+    "openingHours": {
+      "monday": "06:30-18:30",
+      "tuesday": "06:30-18:30",
+      "wednesday": "06:30-18:30",
+      "thursday": "06:30-18:30",
+      "friday": "06:30-18:30",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/businesses/little-stars-1.jpg"],
+    "featured": false,
+    "verified": true,
+    "tags": ["Long day care", "Licensed"],
+    "createdAt": "2026-07-06T00:00:00Z",
+    "updatedAt": "2026-07-06T00:00:00Z"
+  },
+  {
+    "id": "a6fc08c7-9dae-4fb0-9db0-6d7e8f9a0b1c",
+    "slug": "the-local-grind-cafe",
+    "name": "The Local Grind Café",
+    "description": "A neighbourhood café serving specialty coffee, all-day breakfast and light lunches, with a dog-friendly outdoor area.",
+    "shortDescription": "Neighbourhood café, specialty coffee & brunch.",
+    "categoryId": "cafes-restaurants",
+    "phone": "+61 400 666 777",
+    "address": {
+      "street": "42 Vista Street",
+      "suburb": "Schofields",
+      "state": "NSW",
+      "postcode": "2762"
+    },
+    "serviceAreas": ["Schofields"],
+    "openingHours": {
+      "monday": "06:30-15:00",
+      "tuesday": "06:30-15:00",
+      "wednesday": "06:30-15:00",
+      "thursday": "06:30-15:00",
+      "friday": "06:30-15:00",
+      "saturday": "07:00-15:00",
+      "sunday": "07:00-14:00"
+    },
+    "socialLinks": {},
+    "images": ["/images/businesses/local-grind-1.jpg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Dog-friendly", "Coffee"],
+    "createdAt": "2026-07-06T00:00:00Z",
+    "updatedAt": "2026-07-06T00:00:00Z"
+  },
+  {
+    "id": "b70d19d8-aebf-4001-ae1c-7e8f9a0b1c2d",
+    "slug": "schofields-building-renovations",
+    "name": "Schofields Building & Renovations",
+    "description": "Licensed builders specialising in home extensions, kitchen and bathroom renovations for growing families.",
+    "shortDescription": "Extensions, kitchen & bathroom renovations.",
+    "categoryId": "builders-renovations",
+    "phone": "+61 400 777 888",
+    "email": "quotes@schofieldsbuilding.example",
+    "address": {
+      "street": "6 Timber Yard Road",
+      "suburb": "Schofields",
+      "state": "NSW",
+      "postcode": "2762"
+    },
+    "serviceAreas": ["Schofields", "Tallawong", "The Ponds", "Box Hill"],
+    "openingHours": {
+      "monday": "07:00-16:00",
+      "tuesday": "07:00-16:00",
+      "wednesday": "07:00-16:00",
+      "thursday": "07:00-16:00",
+      "friday": "07:00-16:00",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/businesses/schofields-building-1.jpg"],
+    "featured": false,
+    "verified": true,
+    "tags": ["Licensed", "Renovations"],
+    "createdAt": "2026-07-06T00:00:00Z",
+    "updatedAt": "2026-07-06T00:00:00Z"
+  },
+  {
+    "id": "c81e2ae9-bfc0-4112-bf2d-8f9a0b1c2d3e",
+    "slug": "pawsome-pet-care",
+    "name": "Pawsome Pet Care",
+    "description": "Dog walking, pet minding and grooming for busy pet owners across the community, with flexible scheduling.",
+    "shortDescription": "Dog walking, pet minding and grooming.",
+    "categoryId": "pet-services",
+    "phone": "+61 400 888 999",
+    "email": "hello@pawsomepetcare.example",
+    "address": {
+      "street": "11 Wagtail Way",
+      "suburb": "Tallawong",
+      "state": "NSW",
+      "postcode": "2762"
+    },
+    "serviceAreas": ["Tallawong", "Schofields", "The Ponds"],
+    "openingHours": {
+      "monday": "07:00-19:00",
+      "tuesday": "07:00-19:00",
+      "wednesday": "07:00-19:00",
+      "thursday": "07:00-19:00",
+      "friday": "07:00-19:00",
+      "saturday": "08:00-16:00",
+      "sunday": "08:00-16:00"
+    },
+    "socialLinks": {},
+    "images": ["/images/businesses/pawsome-pet-care-1.jpg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Dog walking", "Grooming"],
+    "createdAt": "2026-07-06T00:00:00Z",
+    "updatedAt": "2026-07-06T00:00:00Z"
+  }
+]

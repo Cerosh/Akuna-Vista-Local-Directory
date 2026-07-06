@@ -1,1 +1,74 @@
-[]
+[
+  {
+    "id": "plumbing",
+    "slug": "plumbing",
+    "name": "Plumbing",
+    "icon": "Wrench",
+    "description": "Plumbers and plumbing services.",
+    "displayOrder": 1,
+    "featured": true
+  },
+  {
+    "id": "electrical",
+    "slug": "electrical",
+    "name": "Electrical",
+    "icon": "Zap",
+    "description": "Licensed electricians for repairs and installations.",
+    "displayOrder": 2,
+    "featured": true
+  },
+  {
+    "id": "cleaning",
+    "slug": "cleaning",
+    "name": "Cleaning",
+    "icon": "Sparkles",
+    "description": "Home and office cleaning services.",
+    "displayOrder": 3,
+    "featured": true
+  },
+  {
+    "id": "landscaping",
+    "slug": "landscaping",
+    "name": "Landscaping & Gardening",
+    "icon": "Trees",
+    "description": "Garden design, maintenance and landscaping.",
+    "displayOrder": 4,
+    "featured": true
+  },
+  {
+    "id": "childcare",
+    "slug": "childcare",
+    "name": "Childcare",
+    "icon": "Baby",
+    "description": "Early learning and childcare services.",
+    "displayOrder": 5,
+    "featured": false
+  },
+  {
+    "id": "cafes-restaurants",
+    "slug": "cafes-restaurants",
+    "name": "Cafés & Restaurants",
+    "icon": "Coffee",
+    "description": "Local cafés, restaurants and takeaway.",
+    "displayOrder": 6,
+    "featured": false
+  },
+  {
+    "id": "builders-renovations",
+    "slug": "builders-renovations",
+    "name": "Builders & Renovations",
+    "icon": "Hammer",
+    "description": "Building, renovation and construction services.",
+    "displayOrder": 7,
+    "featured": false
+  },
+  {
+    "id": "pet-services",
+    "slug": "pet-services",
+    "name": "Pet Services",
+    "icon": "Dog",
+    "description": "Pet grooming, walking and minding.",
+    "displayOrder": 8,
+    "featured": false
+  }
+]

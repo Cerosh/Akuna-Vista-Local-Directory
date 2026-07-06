@@ -9,14 +9,14 @@ interface FooterProps {
 }
 
 const DIRECTORY_LINKS = [
-  { label: "Browse businesses", href: "/businesses" },
-  { label: "Categories", href: "/businesses" },
-  { label: "Search", href: "/search" },
+  { label: "Browse businesses", href: "/businesses", prefetch: false },
+  { label: "Categories", href: "/#categories" },
+  { label: "Search", href: "/search", prefetch: false },
 ];
 
 const COMMUNITY_LINKS = [
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "About", href: "/about", prefetch: false },
+  { label: "Contact", href: "/contact", prefetch: false },
 ];
 
 // Placeholder only — no real community social accounts exist yet.
@@ -77,7 +77,7 @@ export function Footer({ settings }: FooterProps) {
 
 interface FooterColumnProps {
   title: string;
-  links: { label: string; href: string }[];
+  links: { label: string; href: string; prefetch?: boolean }[];
 }
 
 function FooterColumn({ title, links }: FooterColumnProps) {
@@ -89,6 +89,7 @@ function FooterColumn({ title, links }: FooterColumnProps) {
           <li key={link.label}>
             <Link
               href={link.href}
+              prefetch={link.prefetch}
               className="text-muted-foreground duration-fast hover:text-foreground text-sm transition-colors"
             >
               {link.label}

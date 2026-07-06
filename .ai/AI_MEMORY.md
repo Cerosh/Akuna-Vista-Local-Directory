@@ -133,6 +133,17 @@ npm
 
 ---
 
+# UI Component Conventions
+
+Confirmed during Sprint 1–2 implementation — these are not obvious from the generic stack list above:
+
+- **Tailwind v4 is CSS-first.** There is no `tailwind.config.js`/`.ts`. Design tokens (colours, radius, fonts, durations) live in `app/globals.css` inside `@theme` / `:root` / `.dark` blocks. Extend the theme there, not by creating a JS config file.
+- **This shadcn preset uses Base UI, not Radix.** Composition uses a `render` prop (e.g. `render={<Link href="/x" />}`), not Radix's `asChild`.
+- **Base UI's `Button` always sets `role="button"` on whatever it renders**, even when composed via `render` with a `Link`/`<a>`, regardless of the `nativeButton` prop (`nativeButton` only affects internal keyboard-handling assumptions, not the ARIA role). For elements that genuinely navigate to another page, this produces incorrect accessibility semantics (screen readers announce "button" for something that's actually a link).
+  - **Fix:** for a link that should look like a button, apply the exported `buttonVariants({ variant, size })` className directly to a plain `<Link>`, instead of wrapping it in `<Button render={...}>`. Reserve the `Button` component itself for genuine in-page actions (toggles, form submits, dialogs) where `role="button"` is correct.
+
+---
+
 # Architecture Principles
 
 Use Server Components by default.

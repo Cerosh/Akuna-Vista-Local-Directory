@@ -5,20 +5,22 @@ import Link from "next/link";
 import { Menu, Search, X } from "lucide-react";
 import { Logo } from "@/components/common/Logo";
 import { Container } from "@/components/common/Container";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 interface NavLink {
   label: string;
   href: string;
+  /** False for routes not built yet — avoids prefetching pages that don't exist. */
+  prefetch?: boolean;
 }
 
 const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "Directory", href: "/businesses" },
-  { label: "Categories", href: "/businesses" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Directory", href: "/businesses", prefetch: false },
+  { label: "Categories", href: "/#categories" },
+  { label: "About", href: "/about", prefetch: false },
+  { label: "Contact", href: "/contact", prefetch: false },
 ];
 
 interface NavigationProps {
@@ -39,6 +41,7 @@ export function Navigation({ siteName }: NavigationProps) {
               <Link
                 key={link.label}
                 href={link.href}
+                prefetch={link.prefetch}
                 className="text-muted-foreground duration-fast hover:text-foreground text-sm font-medium transition-colors"
               >
                 {link.label}
@@ -47,14 +50,17 @@ export function Navigation({ siteName }: NavigationProps) {
           </nav>
 
           <div className="flex items-center gap-2">
-            <Button
-              variant="ghost"
-              size="icon"
-              nativeButton={false}
-              render={<Link href="/search" aria-label="Search" />}
+            {/* Plain Link styled as a button — this navigates, so it keeps
+                native <a> (role="link") semantics rather than Button's
+                role="button". */}
+            <Link
+              href="/search"
+              prefetch={false}
+              aria-label="Search"
+              className={buttonVariants({ variant: "ghost", size: "icon" })}
             >
               <Search className="size-5" aria-hidden="true" />
-            </Button>
+            </Link>
 
             <Button
               variant="ghost"
@@ -85,6 +91,7 @@ export function Navigation({ siteName }: NavigationProps) {
               <Link
                 key={link.label}
                 href={link.href}
+                prefetch={link.prefetch}
                 className="text-muted-foreground duration-fast hover:bg-muted hover:text-foreground rounded-md px-2 py-2 text-sm font-medium transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >

@@ -44,4 +44,21 @@ describe("JSONCategoryRepository", () => {
 
     await expect(repository.getBySlug("unknown")).resolves.toBeNull();
   });
+
+  it("returns only featured categories, ordered by displayOrder", async () => {
+    const featuredSecond = makeCategory({ slug: "featured-2", displayOrder: 2, featured: true });
+    const notFeatured = makeCategory({ slug: "not-featured", displayOrder: 1, featured: false });
+    const featuredFirst = makeCategory({ slug: "featured-1", displayOrder: 1, featured: true });
+    const repository = new JSONCategoryRepository([featuredSecond, notFeatured, featuredFirst]);
+
+    const result = await repository.getFeatured();
+
+    expect(result.map((category) => category.slug)).toEqual(["featured-1", "featured-2"]);
+  });
+
+  it("returns an empty array when no categories are featured", async () => {
+    const repository = new JSONCategoryRepository([makeCategory({ slug: "a", featured: false })]);
+
+    await expect(repository.getFeatured()).resolves.toEqual([]);
+  });
 });
