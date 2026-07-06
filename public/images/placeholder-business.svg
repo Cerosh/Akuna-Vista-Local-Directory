@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 450" role="img" aria-label="Placeholder business photo">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563eb" />
+      <stop offset="100%" stop-color="#0d9488" />
+    </linearGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)" />
+  <g opacity="0.9" stroke="#ffffff" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Simple storefront silhouette -->
+    <path d="M180 260 L180 340 L620 340 L620 260" />
+    <path d="M160 260 L220 180 L580 180 L640 260 Z" />
+    <line x1="160" y1="260" x2="640" y2="260" />
+    <rect x="370" y="270" width="60" height="70" />
+    <line x1="240" y1="230" x2="240" y2="260" />
+    <line x1="320" y1="230" x2="320" y2="260" />
+    <line x1="480" y1="230" x2="480" y2="260" />
+    <line x1="560" y1="230" x2="560" y2="260" />
+  </g>
+  <text x="400" y="400" font-family="Arial, sans-serif" font-size="24" fill="#ffffff" text-anchor="middle" opacity="0.85">
+    Photo coming soon
+  </text>
+</svg>

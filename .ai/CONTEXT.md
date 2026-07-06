@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.3
+Version: 1.4
 
 Last Updated: 2026-07-06
 
-Current Sprint: Sprint 03 — Business Directory (complete, awaiting go-ahead for Sprint 04)
+Current Sprint: Sprint 04 — Business Details (complete, awaiting go-ahead for Sprint 05)
 
 ---
 
@@ -22,11 +22,11 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 3 — Business Directory (complete)
+Phase 4 — Business Details (complete)
 
 Current Focus:
 
-Sprint 3 is done. Waiting for explicit instruction before starting Sprint 4 (Business Details).
+Sprint 4 is done. Waiting for explicit instruction before starting Sprint 5 (Search).
 
 ---
 
@@ -61,17 +61,27 @@ Project planning completed. Engineering documents created. Project vision define
 - Found and fixed a genuine Next.js framework gotcha: **a route segment's `loading.tsx` breaks `notFound()`'s HTTP status code** (streams a 200 shell before the async not-found check resolves — a "soft 404"). Removed `loading.tsx` from `/category/[slug]` (which can 404) while keeping it on `/businesses` (which never does). Documented in `AI_MEMORY.md` "Framework Gotchas" since any future route calling `notFound()` could hit this again.
 - `lint`, `typecheck`, `format:check`, `test` (26 unit tests), `test:e2e` (13 Playwright tests), `build` all pass; verified visually (desktop + mobile screenshots, keyboard tab-order check)
 
+**Sprint 04 — Business Details**, committed:
+
+- `/business/[slug]` — hero (badges + share button), gallery, service areas, contact info, opening hours, social links — each section independently omitted when its data is absent
+- Per-business SEO metadata (title/description/Open Graph) and `LocalBusiness` JSON-LD structured data via a pure, unit-tested function (`lib/services/structuredData.ts`)
+- Deliberately **no `loading.tsx`** for this route (it calls `notFound()` — see Sprint 3's framework gotcha)
+- Replaced nonexistent per-business `.jpg` paths with a real, hand-authored SVG placeholder (`public/images/placeholder-business.svg`, "Photo coming soon"); enabled `dangerouslyAllowSVG` in `next.config.ts` scoped to this trusted local asset
+- No brand icons available for social links (lucide-react doesn't ship them) — used a generic link icon + platform name label instead
+- `BusinessCard`'s "View details" link de-prefetch-guarded now that `/business/[slug]` is real
+- `lint`, `typecheck`, `format:check`, `test` (29 unit tests), `test:e2e` (19 Playwright tests), `build` all pass; verified visually (desktop + mobile, 3 businesses to exercise graceful degradation), keyboard tab order, heading hierarchy, JSON-LD validity, and actual Share-button clipboard behaviour
+
 ---
 
 # In Progress
 
-Nothing. Sprint 3 is complete. Awaiting explicit instruction to start Sprint 4.
+Nothing. Sprint 4 is complete. Awaiting explicit instruction to start Sprint 5.
 
 ---
 
 # Not Started
 
-Business Details (Sprint 4), Search (Sprint 5), Community Content (Sprint 6), Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
+Search (Sprint 5), Community Content (Sprint 6), Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -90,11 +100,15 @@ Styling
 
 Icons
 
-- Lucide React
+- Lucide React (no brand/social icons in this version — use generic icon + text label for platforms like Facebook/Instagram)
 
 Data
 
 - Static JSON via Repository Pattern (`BusinessRepository`, `CategoryRepository`, `SettingsRepository`, `MetadataRepository`)
+
+Services
+
+- `lib/services/structuredData.ts` — pure `LocalBusiness` JSON-LD generator
 
 Testing
 
@@ -112,7 +126,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1, Sprint 2, and Sprint 3 complete, committed, and pushed to GitHub. Repository builds, lints, type-checks, and passes all tests (26 unit + 13 e2e). Homepage and business directory are live locally with real (sample) data. Sprint 4 (Business Details) has not started.
+Sprint 1, Sprint 2, Sprint 3, and Sprint 4 complete, committed, and pushed to GitHub. Repository builds, lints, type-checks, and passes all tests (29 unit + 19 e2e). Homepage, business directory, category pages, and business detail pages are all live locally with real (sample) data. Sprint 5 (Search) has not started.
 
 ---
 
@@ -131,6 +145,8 @@ Component Strategy: Reusable and composable; this shadcn preset uses Base UI, no
 Filtering/sorting/pagination: one shared implementation (`BusinessRepository.getPage()` + `features/directory/BusinessDirectory.tsx`) used by every route that lists businesses — never duplicate this logic per-route.
 
 Routing: Next.js App Router. **Never add `loading.tsx` to a route segment whose `page.tsx` can call `notFound()`** (see AI_MEMORY.md "Framework Gotchas").
+
+Images: `next/image` disallows SVG by default; `dangerouslyAllowSVG` is enabled in `next.config.ts` scoped to the trusted, self-authored placeholder only — do not assume arbitrary/user-supplied SVGs are safe under this config.
 
 Future Database: Supabase
 
@@ -180,20 +196,19 @@ No backend. No authentication. No CMS. No database. No APIs. No reviews. No adve
 
 **Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
 
-All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator).
+All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator). All business photos are a single shared placeholder SVG until real community photography arrives.
 
 ---
 
 # Next Milestone
 
-Sprint 04 — Business Details (not started, awaiting explicit instruction):
+Sprint 05 — Search (not started, awaiting explicit instruction):
 
-- `/business/[slug]` pages
-- Contact information, opening hours, gallery, service areas
-- Share button
-- Per-business SEO metadata + structured data (JSON-LD)
+- `/search` route — keyword, category, suburb search
+- Instant filtering, search suggestions, empty results, optional recent searches
+- Behind a replaceable `SearchService` abstraction (per ARCHITECTURE.md's Search Architecture); reuse Sprint 3's filtering logic, don't duplicate it
 
-Full plan: `sprints/sprint-04-business-details/`.
+Full plan: `sprints/sprint-05-search/`.
 
 ---
 
@@ -217,6 +232,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), and Sprint 3 (Business Directory) are all complete, committed, and pushed to GitHub. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), and Sprint 4 (Business Details) are all complete, committed, and pushed to GitHub. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
 
-Do not begin Sprint 04 without explicit instruction, even though this document and TODO.md describe its scope.
+Do not begin Sprint 05 without explicit instruction, even though this document and TODO.md describe its scope.

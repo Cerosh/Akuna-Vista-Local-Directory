@@ -62,7 +62,6 @@ export function BusinessCard({ business, categoryName }: BusinessCardProps) {
             (role="link") rather than Base UI's Button forcing role="button". */}
         <Link
           href={`/business/${business.slug}`}
-          prefetch={false}
           className={buttonVariants({ size: "sm", variant: "secondary" })}
         >
           View details

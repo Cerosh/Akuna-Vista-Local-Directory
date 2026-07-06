@@ -26,7 +26,7 @@
       "sunday": "Closed"
     },
     "socialLinks": {},
-    "images": ["/images/businesses/abc-plumbing-1.jpg"],
+    "images": ["/images/placeholder-business.svg"],
     "featured": true,
     "verified": true,
     "tags": ["Emergency", "Residential"],
@@ -59,7 +59,7 @@
       "sunday": "Closed"
     },
     "socialLinks": {},
-    "images": ["/images/businesses/akuna-electrical-1.jpg"],
+    "images": ["/images/placeholder-business.svg"],
     "featured": true,
     "verified": true,
     "tags": ["Licensed", "Residential"],
@@ -92,7 +92,7 @@
       "sunday": "Closed"
     },
     "socialLinks": {},
-    "images": ["/images/businesses/sparkle-clean-1.jpg"],
+    "images": ["/images/placeholder-business.svg"],
     "featured": true,
     "verified": false,
     "tags": ["Insured", "Residential", "Commercial"],
@@ -125,7 +125,7 @@
       "sunday": "Closed"
     },
     "socialLinks": {},
-    "images": ["/images/businesses/green-thumb-1.jpg"],
+    "images": ["/images/placeholder-business.svg"],
     "featured": true,
     "verified": true,
     "tags": ["New builds", "Residential"],
@@ -159,7 +159,7 @@
       "sunday": "Closed"
     },
     "socialLinks": {},
-    "images": ["/images/businesses/little-stars-1.jpg"],
+    "images": ["/images/placeholder-business.svg"],
     "featured": false,
     "verified": true,
     "tags": ["Long day care", "Licensed"],
@@ -190,8 +190,11 @@
       "saturday": "07:00-15:00",
       "sunday": "07:00-14:00"
     },
-    "socialLinks": {},
-    "images": ["/images/businesses/local-grind-1.jpg"],
+    "socialLinks": {
+      "instagram": "https://instagram.com/localgrindcafe.example",
+      "facebook": "https://facebook.com/localgrindcafe.example"
+    },
+    "images": ["/images/placeholder-business.svg"],
     "featured": false,
     "verified": false,
     "tags": ["Dog-friendly", "Coffee"],
@@ -224,7 +227,7 @@
       "sunday": "Closed"
     },
     "socialLinks": {},
-    "images": ["/images/businesses/schofields-building-1.jpg"],
+    "images": ["/images/placeholder-business.svg"],
     "featured": false,
     "verified": true,
     "tags": ["Licensed", "Renovations"],
@@ -257,7 +260,7 @@
       "sunday": "08:00-16:00"
     },
     "socialLinks": {},
-    "images": ["/images/businesses/pawsome-pet-care-1.jpg"],
+    "images": ["/images/placeholder-business.svg"],
     "featured": false,
     "verified": false,
     "tags": ["Dog walking", "Grooming"],

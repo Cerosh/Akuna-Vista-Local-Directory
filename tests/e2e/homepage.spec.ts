@@ -42,13 +42,17 @@ test.describe("Homepage", () => {
     await expect(home.popularCategoriesHeading).toBeInViewport();
   });
 
-  test("a featured business card links to its (future) detail page", async ({ page }) => {
+  test("a featured business card links to a real, working detail page", async ({ page }) => {
     const home = new HomePage(page);
     await home.goto();
 
     const firstCard = page.getByRole("link", { name: "View details" }).first();
-    await expect(firstCard).toBeVisible();
     await expect(firstCard).toHaveAttribute("href", /^\/business\//);
+
+    await firstCard.click();
+
+    await expect(page).toHaveURL(/\/business\//);
+    await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
   });
 
   test("mobile navigation drawer opens and closes", async ({ page }) => {
