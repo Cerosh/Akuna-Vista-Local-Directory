@@ -41,6 +41,7 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.12.1",
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.61.1",
     "@tailwindcss/postcss": "^4",
@@ -51,6 +52,7 @@
     "eslint-config-next": "15.5.20",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
+    "lighthouse": "^12.8.2",
     "lint-staged": "^16.4.0",
     "prettier": "^3.9.4",
     "prettier-plugin-tailwindcss": "^0.8.0",

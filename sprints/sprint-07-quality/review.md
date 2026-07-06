@@ -49,55 +49,53 @@ Apply this to every Pull Request in this sprint, in order. Where an item concern
 
 Record actual scores. Do not leave placeholders unfilled at sprint close — an unmeasured route has not been verified against ARCHITECTURE.md's targets.
 
-| Route | Metric | Baseline (before) | After Fixes | Target (ARCHITECTURE.md) | Met? |
-|-------|--------|--------------------|-------------|---------------------------|------|
-| Homepage | Performance | | | 95+ | |
-| Homepage | Accessibility | | | 100 | |
-| Homepage | Best Practices | | | 100 | |
-| Homepage | SEO | | | 95+ | |
-| Homepage | LCP | | | < 2.5s | |
-| Homepage | CLS | | | < 0.1 | |
-| `/businesses` | Performance | | | 95+ | |
-| `/businesses` | Accessibility | | | 100 | |
-| `/businesses` | Best Practices | | | 100 | |
-| `/businesses` | SEO | | | 95+ | |
-| `/businesses` | LCP | | | < 2.5s | |
-| `/businesses` | CLS | | | < 0.1 | |
-| `/category/[slug]` | Performance | | | 95+ | |
-| `/category/[slug]` | Accessibility | | | 100 | |
-| `/category/[slug]` | Best Practices | | | 100 | |
-| `/category/[slug]` | SEO | | | 95+ | |
-| `/category/[slug]` | LCP | | | < 2.5s | |
-| `/category/[slug]` | CLS | | | < 0.1 | |
-| `/business/[slug]` | Performance | | | 95+ | |
-| `/business/[slug]` | Accessibility | | | 100 | |
-| `/business/[slug]` | Best Practices | | | 100 | |
-| `/business/[slug]` | SEO | | | 95+ | |
-| `/business/[slug]` | LCP | | | < 2.5s | |
-| `/business/[slug]` | CLS | | | < 0.1 | |
-| `/search` | Performance | | | 95+ | |
-| `/search` | Accessibility | | | 100 | |
-| `/search` | Best Practices | | | 100 | |
-| `/search` | SEO | | | 95+ | |
-| `/search` | LCP | | | < 2.5s | |
-| `/search` | CLS | | | < 0.1 | |
-| Community page | Performance | | | 95+ | |
-| Community page | Accessibility | | | 100 | |
-| Community page | Best Practices | | | 100 | |
-| Community page | SEO | | | 95+ | |
-| Community page | LCP | | | < 2.5s | |
-| Community page | CLS | | | < 0.1 | |
+Measured via `npx lighthouse` (v12) against a real production build (`npm run build && npm run start`) on the developer's machine, headless Chrome, default mobile emulation (Slow 4G / 4x CPU throttle) and `--preset=desktop`. **"Community page" is the same URL as Homepage (`/`)** — Sprint 06 put every community section on the existing homepage rather than a separate route, so there is only one row set for both.
+
+Real seeded slugs used: `/category/plumbing`, `/business/abc-plumbing`.
+
+### Mobile
+
+| Route | Performance | Accessibility | Best Practices | SEO | LCP | CLS | Target | Met? |
+|-------|-------------|----------------|-----------------|-----|-----|-----|--------|------|
+| Homepage / Community page | 95 | 93 | 96 | 100 | 3.0s (2.7s on repeat runs) | 0 | Perf 95+, A11y 100, BP 100, SEO 95+, LCP<2.5s, CLS<0.1 | Perf ✅ (borderline), A11y ❌, BP ❌, SEO ✅, LCP ❌, CLS ✅ |
+| `/businesses` | 97 | 92 | 96 | 100 | 2.6s | 0 | same | Perf ✅, A11y ❌, BP ❌, SEO ✅, LCP ❌, CLS ✅ |
+| `/category/[slug]` | 98 | 92 | 96 | 100 | 2.5s | 0 | same | Perf ✅, A11y ❌, BP ❌, SEO ✅, LCP ❌ (at threshold), CLS ✅ |
+| `/business/[slug]` | 98 | 93 | 96 | 91 | 2.4s | 0 | same | Perf ✅, A11y ❌, BP ❌, SEO ❌, LCP ✅, CLS ✅ |
+| `/search` | 98 | 96 | 96 | 100 | 2.5s | 0 | same | Perf ✅, A11y ❌, BP ❌, SEO ✅, LCP ❌ (at threshold), CLS ✅ |
+
+### Desktop
+
+| Route | Performance | Accessibility | Best Practices | SEO | LCP | CLS |
+|-------|-------------|----------------|-----------------|-----|-----|-----|
+| Homepage / Community page | 100 | 92 | 96 | 100 | 0.6s | 0 |
+| `/businesses` | 100 | 91 | 96 | 100 | 0.6s | 0.006 |
+| `/category/[slug]` | 100 | 91 | 96 | 100 | 0.5s | 0 |
+| `/business/[slug]` | 100 | 93 | 96 | 91 | 0.6s | 0 |
+| `/search` | 100 | 96 | 96 | 100 | 0.5s | 0 |
+
+### Baseline findings (root causes, not just scores)
+
+- **Accessibility (every route):**
+  - `aria-prohibited-attr` (serious) — `Footer.tsx`'s social-icon placeholders render `<span aria-label="...">` with no role; a plain `<span>` cannot carry `aria-label`. Fix: Accessibility Fixes step.
+  - `color-contrast` (serious) — three design tokens fail WCAG AA 4.5:1 for normal text: `--secondary` (#0d9488 teal, used by the default Button variant and Badge secondary variant) at 3.74:1 against white text; `--success` (#16a34a green, "Verified" badge) at 3.29:1; `--destructive` (#dc2626 red, "Important"/destructive badge text) at 4.13:1. Also `--muted-foreground` (resolves to #737373) against `--muted` (#f5f5f5) on the directory sort-control chips, at 4.34:1 (Lighthouse only; axe did not flag this specific pair). Fix: Accessibility Fixes step.
+- **Best Practices (every route) — FIXED during baseline triage:** `errors-in-console` — the browser's automatic `/favicon.ico` request 404s (no favicon existed anywhere in the project). Added `app/icon.svg` (brand mark reusing `Logo.tsx`'s `MapPinHouse` glyph and `--primary` blue) and `app/favicon.ico` (rendered from the SVG via headless Chromium, packaged with `png-to-ico`). Re-measured: Best Practices 96 → 100 on `/business/[slug]` (spot check); confirmed no console errors on all routes.
+- **SEO (`/business/[slug]` only, 91 not 95+) — FIXED during baseline triage:** root cause was **not** a missing tag — `generateMetadata`'s title/description/Open Graph output was present in the raw HTML but never reached the live `<head>` for a normal browser request. Confirmed via Playwright (`page.$$eval("head meta", ...)` after `networkidle`) that the tags were completely absent post-hydration, and via raw-response inspection that they were embedded in a deferred `$RC(...)` streaming-SSR script instead of `<head>`. This is a known, Vercel-acknowledged Next.js 15.2+ behavior ([discussion #81452](https://github.com/vercel/next.js/discussions/81452), [issue #79313](https://github.com/vercel/next.js/issues/79313)): `generateMetadata()` output is streamed to real browser user agents and only rendered synchronously for user agents matched by the `htmlLimitedBots` config (Googlebot, Bingbot, Slackbot, etc. by default) — Lighthouse's own UA isn't on that list, so its own SEO audit was measuring the degraded, streamed path. Fix: set `htmlLimitedBots: /.*/` in `next.config.ts` so every request gets synchronous metadata — this project's data resolves instantly from local JSON, so the streaming optimisation traded away reliability for a speed benefit that doesn't exist here. Re-measured: SEO 91 → 100, Best Practices 96 → 100 (same rebuild) on `/business/[slug]`.
+- **LCP (mobile, homepage/businesses/category/search all at or above 2.5s):** the LCP element on the homepage is the hero `<h1>` (plain text, no image) — 84% of the mobile LCP time is "Render Delay," not resource load. One render-blocking CSS chunk costs ~157ms; the rest is consistent with hydration/main-thread cost under Lighthouse's simulated mobile CPU throttle (4x). To investigate further in the Performance Profiling step (whether `Hero` or its ancestors carry unnecessary Client Component hydration on the critical path).
 
 ## Automated Accessibility Audit (axe-core or equivalent)
 
-| Route | Critical/Serious Violations (before) | Critical/Serious Violations (after) |
+Measured with `tests/e2e/accessibility.spec.ts` (`@axe-core/playwright`, `wcag2a`/`wcag2aa`/`wcag21a`/`wcag21aa` tags), after the favicon/metadata-streaming fixes above but before the Accessibility Fixes step — this isolates the two remaining, unfixed accessibility findings.
+
+| Route | Critical/Serious Violations (before fixes) | Critical/Serious Violations (after fixes) |
 |-------|----------------------------------------|----------------------------------------|
-| Homepage | | |
-| `/businesses` | | |
-| `/category/[slug]` | | |
-| `/business/[slug]` | | |
-| `/search` | | |
-| Community page | | |
+| Homepage | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (14 nodes) | |
+| `/businesses` | 1 type — `aria-prohibited-attr` (2 nodes) | |
+| `/category/[slug]` | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (4 nodes) | |
+| `/business/[slug]` | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (2 nodes) | |
+| `/search` | 1 type — `aria-prohibited-attr` (2 nodes) | |
+| Community page | (same URL as Homepage) | |
+
+`aria-prohibited-attr` reproduces on every route because `Footer.tsx` renders sitewide. Both violation types trace back to the same two root causes recorded above (Footer's `<span aria-label>` icons; the `--secondary`/`--success`/`--destructive` colour tokens).
 
 Manual Testing
 
