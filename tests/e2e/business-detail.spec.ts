@@ -45,7 +45,17 @@ test.describe("Business Details (/business/[slug])", () => {
     await expect(page.getByRole("heading", { name: "Follow" })).toHaveCount(0);
   });
 
-  test("share button copies the page link to the clipboard", async ({ page, context }) => {
+  test("share button copies the page link to the clipboard", async ({
+    page,
+    context,
+    browserName,
+  }) => {
+    // Playwright can only grant clipboard-read/clipboard-write permissions
+    // in Chromium — Firefox and WebKit have no equivalent permission API,
+    // found when Sprint 07 added cross-browser Playwright coverage. The
+    // ShareButton feature itself is not Chromium-specific; only this
+    // permission-mocking mechanism is.
+    test.skip(browserName !== "chromium", "Clipboard permission grants are Chromium-only.");
     await context.grantPermissions(["clipboard-read", "clipboard-write"]);
     const business = new BusinessPage(page);
     await business.goto("abc-plumbing");

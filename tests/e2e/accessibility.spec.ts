@@ -55,6 +55,20 @@ test.describe("Accessibility (axe-core)", () => {
  * a real, visible element (never silently lost to `<body>`).
  */
 test.describe("Keyboard navigation", () => {
+  // Safari/WebKit's default Tab order skips links entirely (only form
+  // controls are tabbable) unless the user has macOS's "Full Keyboard
+  // Access" setting enabled — this is WebKit's own long-standing default,
+  // not something a page's HTML/CSS can override, and real Safari users
+  // are equally affected. Found when Sprint 07 added cross-browser
+  // Playwright coverage; disclosed here rather than chasing a page-level
+  // "fix" for a browser default.
+  test.beforeEach(({ browserName }) => {
+    test.skip(
+      browserName === "webkit",
+      "WebKit's default Tab order excludes links, not a page defect.",
+    );
+  });
+
   test("skip-to-content link is the first tab stop and jumps to main content", async ({ page }) => {
     await page.goto("/");
 
