@@ -55,7 +55,6 @@ export function Navigation({ siteName }: NavigationProps) {
                 role="button". */}
             <Link
               href="/search"
-              prefetch={false}
               aria-label="Search"
               className={buttonVariants({ variant: "ghost", size: "icon" })}
             >

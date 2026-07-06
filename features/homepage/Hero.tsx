@@ -22,12 +22,19 @@ export function Hero({ settings }: HeroProps) {
             date, and never lost in a WhatsApp thread.
           </p>
 
-          <div className="flex w-full max-w-[480px] flex-col gap-3 sm:flex-row">
-            <SearchInput className="flex-1" />
-            <Link href="/businesses" className={buttonVariants({ size: "lg" })}>
-              Browse directory
-            </Link>
-          </div>
+          <form action="/search" className="flex w-full max-w-[480px] flex-col gap-3 sm:flex-row">
+            <SearchInput name="q" className="flex-1" />
+            <button type="submit" className={buttonVariants({ size: "lg" })}>
+              Search
+            </button>
+          </form>
+
+          <Link
+            href="/businesses"
+            className="text-muted-foreground text-sm underline-offset-4 hover:underline"
+          >
+            Or browse the full directory
+          </Link>
         </div>
       </Container>
     </Section>

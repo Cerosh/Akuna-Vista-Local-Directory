@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.4
+Version: 1.5
 
-Last Updated: 2026-07-06
+Last Updated: 2026-07-07
 
-Current Sprint: Sprint 04 — Business Details (complete, awaiting go-ahead for Sprint 05)
+Current Sprint: Sprint 05 — Search (complete, awaiting go-ahead for Sprint 06)
 
 ---
 
@@ -22,11 +22,11 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 4 — Business Details (complete)
+Phase 5 — Search (complete)
 
 Current Focus:
 
-Sprint 4 is done. Waiting for explicit instruction before starting Sprint 5 (Search).
+Sprint 5 is done. Waiting for explicit instruction before starting Sprint 6 (Community Content).
 
 ---
 
@@ -71,17 +71,27 @@ Project planning completed. Engineering documents created. Project vision define
 - `BusinessCard`'s "View details" link de-prefetch-guarded now that `/business/[slug]` is real
 - `lint`, `typecheck`, `format:check`, `test` (29 unit tests), `test:e2e` (19 Playwright tests), `build` all pass; verified visually (desktop + mobile, 3 businesses to exercise graceful degradation), keyboard tab order, heading hierarchy, JSON-LD validity, and actual Share-button clipboard behaviour
 
+**Sprint 05 — Search**, committed:
+
+- `/search` — keyword, category and suburb search with instant, client-side filtering (per ARCHITECTURE.md's Search Architecture), typeahead suggestions (keyboard-navigable combobox), optional recent searches (localStorage), shareable URL kept in sync via `history.replaceState` (no server round-trip per keystroke)
+- New `lib/services/searchService.ts` — pure `searchBusinesses()` / `getSearchSuggestions()`, deliberately separate from `BusinessRepository.getPage()` (server-side) since search must run client-side; category/suburb matching semantics kept intentionally identical to Sprint 3's so results don't diverge
+- New `SuburbRepository` + populated `data/suburbs.json` (previously empty since Sprint 1) with the 5 suburbs already referenced in sample business data
+- Homepage Hero's search box now really submits to `/search` (`<form action="/search">`)
+- Found and fixed a real bug during visual verification: searching "cafe" returned zero results because sample data uses accented characters ("Café", "Cafés & Restaurants") and the match was diacritic-sensitive — fixed with Unicode NFD normalization + diacritic stripping, with a regression test
+- Found and fixed a second bug while writing Playwright tests: pressing Escape to dismiss suggestions permanently disabled them from reappearing while typing (a single `isFocused` boolean conflated "has focus" with "should show suggestions") — renamed to `isSuggestionsOpen`, reopened on every keystroke
+- `lint`, `typecheck`, `format:check`, `test` (46 unit tests), `test:e2e` (28 Playwright tests), `build` all pass; verified visually (desktop + mobile), keyboard navigation through suggestions, and the homepage-to-search submission flow end to end
+
 ---
 
 # In Progress
 
-Nothing. Sprint 4 is complete. Awaiting explicit instruction to start Sprint 5.
+Nothing. Sprint 5 is complete. Awaiting explicit instruction to start Sprint 6.
 
 ---
 
 # Not Started
 
-Search (Sprint 5), Community Content (Sprint 6), Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
+Community Content (Sprint 6), Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -104,11 +114,12 @@ Icons
 
 Data
 
-- Static JSON via Repository Pattern (`BusinessRepository`, `CategoryRepository`, `SettingsRepository`, `MetadataRepository`)
+- Static JSON via Repository Pattern (`BusinessRepository`, `CategoryRepository`, `SettingsRepository`, `MetadataRepository`, `SuburbRepository`)
 
 Services
 
 - `lib/services/structuredData.ts` — pure `LocalBusiness` JSON-LD generator
+- `lib/services/searchService.ts` — pure, replaceable client-side search (keyword/category/suburb matching + suggestions)
 
 Testing
 
@@ -126,7 +137,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1, Sprint 2, Sprint 3, and Sprint 4 complete, committed, and pushed to GitHub. Repository builds, lints, type-checks, and passes all tests (29 unit + 19 e2e). Homepage, business directory, category pages, and business detail pages are all live locally with real (sample) data. Sprint 5 (Search) has not started.
+Sprint 1 through Sprint 5 complete and committed (Sprint 5 not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (46 unit + 28 e2e). Homepage, business directory, category pages, business detail pages, and search are all live locally with real (sample) data. Sprint 6 (Community Content) has not started.
 
 ---
 
@@ -147,6 +158,8 @@ Filtering/sorting/pagination: one shared implementation (`BusinessRepository.get
 Routing: Next.js App Router. **Never add `loading.tsx` to a route segment whose `page.tsx` can call `notFound()`** (see AI_MEMORY.md "Framework Gotchas").
 
 Images: `next/image` disallows SVG by default; `dangerouslyAllowSVG` is enabled in `next.config.ts` scoped to the trusted, self-authored placeholder only — do not assume arbitrary/user-supplied SVGs are safe under this config.
+
+Search: client-side, not server-side — `lib/services/searchService.ts` is a separate, pure implementation from `BusinessRepository.getPage()` (which is server-side/URL-driven for `/businesses` and `/category/[slug]`). Keep category/suburb matching semantics consistent between the two, but don't force them to share a literal function; the environments differ (browser vs. server) and the actual matching rules are simple enough not to drift. Any string matching must normalize diacritics (NFD + strip combining marks) — see the "cafe"/"café" bug in Sprint 5.
 
 Future Database: Supabase
 
@@ -196,19 +209,15 @@ No backend. No authentication. No CMS. No database. No APIs. No reviews. No adve
 
 **Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
 
-All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator). All business photos are a single shared placeholder SVG until real community photography arrives.
+All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories, 5 suburbs) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator). All business photos are a single shared placeholder SVG until real community photography arrives.
 
 ---
 
 # Next Milestone
 
-Sprint 05 — Search (not started, awaiting explicit instruction):
+Sprint 06 — Community Content (not started, awaiting explicit instruction).
 
-- `/search` route — keyword, category, suburb search
-- Instant filtering, search suggestions, empty results, optional recent searches
-- Behind a replaceable `SearchService` abstraction (per ARCHITECTURE.md's Search Architecture); reuse Sprint 3's filtering logic, don't duplicate it
-
-Full plan: `sprints/sprint-05-search/`.
+Full plan: `sprints/sprint-06-community-content/`.
 
 ---
 
@@ -232,6 +241,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), and Sprint 4 (Business Details) are all complete, committed, and pushed to GitHub. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), and Sprint 5 (Search) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
 
-Do not begin Sprint 05 without explicit instruction, even though this document and TODO.md describe its scope.
+Do not begin Sprint 06 without explicit instruction, even though this document and TODO.md describe its scope.

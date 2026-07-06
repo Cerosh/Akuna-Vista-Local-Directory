@@ -18,3 +18,6 @@ export { JSONSettingsRepository, settingsRepository } from "./settingsRepository
 
 export type { MetadataRepository } from "./metadataRepository";
 export { JSONMetadataRepository, metadataRepository } from "./metadataRepository";
+
+export type { SuburbRepository } from "./suburbRepository";
+export { JSONSuburbRepository, suburbRepository } from "./suburbRepository";

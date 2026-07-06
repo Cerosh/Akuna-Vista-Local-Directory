@@ -1,19 +1,22 @@
+import { forwardRef } from "react";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
-interface SearchInputProps {
-  placeholder?: string;
+type SearchInputProps = Omit<React.ComponentProps<typeof Input>, "type" | "className"> & {
   className?: string;
-}
+};
 
 /**
- * Presentational search field only — no query handling yet.
- * Real search behaviour is introduced in Sprint 5 (Search); this
- * component exists now so the visual language is consistent wherever
- * a search entry point appears.
+ * Search field used both as an uncontrolled homepage form field (submits
+ * to /search) and as a controlled, instant-filtering input on /search
+ * itself (Sprint 5) — all other props (name, value, onChange, aria-*,
+ * etc.) pass straight through to the underlying Input.
  */
-export function SearchInput({ placeholder = "Search businesses…", className }: SearchInputProps) {
+export const SearchInput = forwardRef<HTMLInputElement, SearchInputProps>(function SearchInput(
+  { placeholder = "Search businesses…", className, ...props },
+  ref,
+) {
   return (
     <div className={cn("relative", className)}>
       <Search
@@ -21,11 +24,14 @@ export function SearchInput({ placeholder = "Search businesses…", className }:
         aria-hidden="true"
       />
       <Input
+        ref={ref}
         type="search"
         placeholder={placeholder}
         aria-label="Search businesses"
+        autoComplete="off"
         className="pl-9"
+        {...props}
       />
     </div>
   );
-}
+});
