@@ -9,7 +9,7 @@ interface FooterProps {
 }
 
 const DIRECTORY_LINKS = [
-  { label: "Browse businesses", href: "/businesses", prefetch: false },
+  { label: "Browse businesses", href: "/businesses" },
   { label: "Categories", href: "/#categories" },
   { label: "Search", href: "/search", prefetch: false },
 ];

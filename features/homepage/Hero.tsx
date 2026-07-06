@@ -24,7 +24,7 @@ export function Hero({ settings }: HeroProps) {
 
           <div className="flex w-full max-w-[480px] flex-col gap-3 sm:flex-row">
             <SearchInput className="flex-1" />
-            <Link href="/businesses" prefetch={false} className={buttonVariants({ size: "lg" })}>
+            <Link href="/businesses" className={buttonVariants({ size: "lg" })}>
               Browse directory
             </Link>
           </div>

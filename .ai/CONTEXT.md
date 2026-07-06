@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.2
+Version: 1.3
 
 Last Updated: 2026-07-06
 
-Current Sprint: Sprint 02 — Homepage (complete, awaiting go-ahead for Sprint 03)
+Current Sprint: Sprint 03 — Business Directory (complete, awaiting go-ahead for Sprint 04)
 
 ---
 
@@ -22,11 +22,11 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 2 — Homepage (complete)
+Phase 3 — Business Directory (complete)
 
 Current Focus:
 
-Sprint 2 is done. Waiting for explicit instruction before starting Sprint 3 (Business Directory).
+Sprint 3 is done. Waiting for explicit instruction before starting Sprint 4 (Business Details).
 
 ---
 
@@ -52,17 +52,26 @@ Project planning completed. Engineering documents created. Project vision define
 - Fixed a real accessibility bug: Base UI's `Button` forces `role="button"` even when composed with a `render` prop pointing at a `<Link>` — replaced with `buttonVariants()` applied directly to `<Link>` for genuinely navigational elements, so they keep correct `role="link"` semantics
 - `lint`, `typecheck`, `format:check`, `test` (12 unit tests), `test:e2e` (5 Playwright tests), `build` all pass; verified visually via headless-browser screenshots (desktop + mobile)
 
+**Sprint 03 — Business Directory**, committed:
+
+- `/businesses` (grid, category filter chips, sort, pagination, empty state, loading skeleton) and `/category/[slug]` (same filtering logic, reused not duplicated, real 404 for unknown slugs)
+- New `BusinessRepository.getPage({ categoryId, sort, page, pageSize })` — single shared filter/sort/pagination implementation used by both routes
+- Added a `fitness-wellness` category (no businesses assigned) to genuinely exercise the empty state
+- Navigation/Footer/Hero/CategoryCard links to `/businesses` and `/category/[slug]` de-prefetch-guarded now that those routes are real
+- Found and fixed a genuine Next.js framework gotcha: **a route segment's `loading.tsx` breaks `notFound()`'s HTTP status code** (streams a 200 shell before the async not-found check resolves — a "soft 404"). Removed `loading.tsx` from `/category/[slug]` (which can 404) while keeping it on `/businesses` (which never does). Documented in `AI_MEMORY.md` "Framework Gotchas" since any future route calling `notFound()` could hit this again.
+- `lint`, `typecheck`, `format:check`, `test` (26 unit tests), `test:e2e` (13 Playwright tests), `build` all pass; verified visually (desktop + mobile screenshots, keyboard tab-order check)
+
 ---
 
 # In Progress
 
-Nothing. Sprint 2 is complete. Awaiting explicit instruction to start Sprint 3.
+Nothing. Sprint 3 is complete. Awaiting explicit instruction to start Sprint 4.
 
 ---
 
 # Not Started
 
-Business Directory (Sprint 3), Business Details (Sprint 4), Search (Sprint 5), Community Content (Sprint 6), Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
+Business Details (Sprint 4), Search (Sprint 5), Community Content (Sprint 6), Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -103,7 +112,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1 and Sprint 2 complete, committed, and pushed to GitHub. Repository builds, lints, type-checks, and passes all tests. Homepage is live locally with real (sample) data. Sprint 3 (Business Directory) has not started.
+Sprint 1, Sprint 2, and Sprint 3 complete, committed, and pushed to GitHub. Repository builds, lints, type-checks, and passes all tests (26 unit + 13 e2e). Homepage and business directory are live locally with real (sample) data. Sprint 4 (Business Details) has not started.
 
 ---
 
@@ -119,7 +128,9 @@ Styling: Tailwind CSS v4 (CSS-first theming)
 
 Component Strategy: Reusable and composable; this shadcn preset uses Base UI, not Radix. Navigational elements styled as buttons use `buttonVariants()` on a `Link`, not the `Button` component (see Sprint 2 completed notes).
 
-Routing: Next.js App Router.
+Filtering/sorting/pagination: one shared implementation (`BusinessRepository.getPage()` + `features/directory/BusinessDirectory.tsx`) used by every route that lists businesses — never duplicate this logic per-route.
+
+Routing: Next.js App Router. **Never add `loading.tsx` to a route segment whose `page.tsx` can call `notFound()`** (see AI_MEMORY.md "Framework Gotchas").
 
 Future Database: Supabase
 
@@ -169,20 +180,20 @@ No backend. No authentication. No CMS. No database. No APIs. No reviews. No adve
 
 **Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
 
-All business data will remain static until Version 2. Current sample dataset (8 businesses, 8 categories) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator).
+All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator).
 
 ---
 
 # Next Milestone
 
-Sprint 03 — Business Directory (not started, awaiting explicit instruction):
+Sprint 04 — Business Details (not started, awaiting explicit instruction):
 
-- `/businesses` grid, category filters
-- `/category/[slug]` pages
-- Sorting, pagination
-- Empty states, loading skeletons
+- `/business/[slug]` pages
+- Contact information, opening hours, gallery, service areas
+- Share button
+- Per-business SEO metadata + structured data (JSON-LD)
 
-Full plan: `sprints/sprint-03-directory/`.
+Full plan: `sprints/sprint-04-business-details/`.
 
 ---
 
@@ -206,6 +217,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation) and Sprint 2 (Homepage) are both complete, committed, and pushed to GitHub. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), and Sprint 3 (Business Directory) are all complete, committed, and pushed to GitHub. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
 
-Do not begin Sprint 03 without explicit instruction, even though this document and TODO.md describe its scope.
+Do not begin Sprint 04 without explicit instruction, even though this document and TODO.md describe its scope.

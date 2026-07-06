@@ -70,5 +70,14 @@
     "description": "Pet grooming, walking and minding.",
     "displayOrder": 8,
     "featured": false
+  },
+  {
+    "id": "fitness-wellness",
+    "slug": "fitness-wellness",
+    "name": "Fitness & Wellness",
+    "icon": "Dumbbell",
+    "description": "Personal trainers, yoga and wellness services.",
+    "displayOrder": 9,
+    "featured": false
   }
 ]

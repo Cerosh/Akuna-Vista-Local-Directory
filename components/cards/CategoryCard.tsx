@@ -21,7 +21,7 @@ export function CategoryCard({ category }: CategoryCardProps) {
   const Icon = (category.icon && icons[category.icon]) || Store;
 
   return (
-    <Link href={`/category/${category.slug}`} prefetch={false} className="group block h-full">
+    <Link href={`/category/${category.slug}`} className="group block h-full">
       <Card className="duration-fast group-hover:border-primary/40 h-full transition-colors">
         <CardContent className="flex flex-col items-center gap-3 py-6 text-center">
           <IconWrapper>

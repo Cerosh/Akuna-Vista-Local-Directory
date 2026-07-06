@@ -144,6 +144,14 @@ Confirmed during Sprint 1–2 implementation — these are not obvious from the 
 
 ---
 
+# Framework Gotchas
+
+- **A route segment's `loading.tsx` breaks `notFound()`'s HTTP status code.** Confirmed during Sprint 3 (`/category/[slug]`). If a route segment has a sibling `loading.tsx`, Next.js streams an initial 200 response shell immediately; when the page later calls `notFound()`, the not-found *content* renders correctly but the response status stays 200 (a "soft 404") because the status header was already sent before the async work resolved. This reproduces with a minimal async dynamic route too — it is a structural Next.js/React-streaming behaviour, not a project bug.
+  - **Rule:** never add a `loading.tsx` to a route segment whose `page.tsx` can call `notFound()`, unless a "soft 404" (right content, wrong status) is acceptable for that route. Routes that can never 404 (e.g. `/businesses`, which shows an empty state rather than 404ing) can safely keep `loading.tsx`.
+  - Verified by testing in isolation: a plain dynamic route with `notFound()` and no `loading.tsx` returns 404 correctly; adding a sibling `loading.tsx` alone flips it to 200 for the exact same code path.
+
+---
+
 # Architecture Principles
 
 Use Server Components by default.

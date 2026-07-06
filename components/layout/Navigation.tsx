@@ -17,7 +17,7 @@ interface NavLink {
 
 const NAV_LINKS: NavLink[] = [
   { label: "Home", href: "/" },
-  { label: "Directory", href: "/businesses", prefetch: false },
+  { label: "Directory", href: "/businesses" },
   { label: "Categories", href: "/#categories" },
   { label: "About", href: "/about", prefetch: false },
   { label: "Contact", href: "/contact", prefetch: false },
