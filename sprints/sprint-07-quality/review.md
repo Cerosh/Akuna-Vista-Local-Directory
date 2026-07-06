@@ -8,6 +8,12 @@ Last Updated: 2026-07-06
 
 ---
 
+# Image Optimisation Audit
+
+Only two components render real images via `next/image`: `EventCard.tsx` (Community Events, homepage) and `Gallery.tsx` (business detail page) — every other card (`BusinessCard`, `PromotionCard`, `AnnouncementCard`, `FeaturedContentCard`) is text-only by design, so there is nothing to optimise there. Both existing usages already use `fill` inside an explicitly-sized `aspect-video` container (preventing CLS) with correct `sizes` for their grid layout, and rely on Next's default lazy loading since neither is the measured LCP element on any route (confirmed: the LCP element on every route is text — see the Performance Profiling findings below). Lighthouse's image-specific audits (`uses-responsive-images`, `modern-image-formats`, `uses-optimized-images`, `unsized-images`, `offscreen-images`) all scored a perfect 1 on every route in the baseline, before any fix. **No code changes were needed** — recorded here as a measured "no defects found" outcome, not skipped.
+
+---
+
 # Purpose
 
 Track review status for Sprint 7 work against REVIEW_CHECKLIST.md, and — because this sprint's entire premise is measured evidence over subjective judgement — record the actual before/after Lighthouse and accessibility numbers that prove the Definition of Done was met. Fill in as Pull Requests are opened and reviewed, and as measurements are actually taken. Do not pre-fill outcomes or scores before the work exists.
