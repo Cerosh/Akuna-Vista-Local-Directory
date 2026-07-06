@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.5
+Version: 1.6
 
 Last Updated: 2026-07-07
 
-Current Sprint: Sprint 05 — Search (complete, awaiting go-ahead for Sprint 06)
+Current Sprint: Sprint 06 — Community Content (complete, awaiting go-ahead for Sprint 07)
 
 ---
 
@@ -22,11 +22,11 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 5 — Search (complete)
+Phase 6 — Community Content (complete)
 
 Current Focus:
 
-Sprint 5 is done. Waiting for explicit instruction before starting Sprint 6 (Community Content).
+Sprint 6 is done. Waiting for explicit instruction before starting Sprint 7 (Quality).
 
 ---
 
@@ -81,17 +81,26 @@ Project planning completed. Engineering documents created. Project vision define
 - Found and fixed a second bug while writing Playwright tests: pressing Escape to dismiss suggestions permanently disabled them from reappearing while typing (a single `isFocused` boolean conflated "has focus" with "should show suggestions") — renamed to `isSuggestionsOpen`, reopened on every keystroke
 - `lint`, `typecheck`, `format:check`, `test` (46 unit tests), `test:e2e` (28 Playwright tests), `build` all pass; verified visually (desktop + mobile), keyboard navigation through suggestions, and the homepage-to-search submission flow end to end
 
+**Sprint 06 — Community Content**, committed:
+
+- Six new homepage sections: Community Events, Local Promotions, a Community Noticeboard (Announcements), a unified Featured Content mechanism, a Community Spotlight, and a "coming soon" Local News placeholder
+- Deliberately activated the Event and Promotion schemas (JSON_SCHEMA.md, previously "(Future)"/Version 4) and defined a new Announcement schema — a project-owner-directed scope pull-forward, documented in DECISIONS.md ADR-011; PROJECT.md/ROADMAP.md updated to match
+- New `EventRepository`, `PromotionRepository`, `AnnouncementRepository`; new `BusinessRepository.getById()`; new `lib/services/featuredContentService.ts` (single cross-content-type featured aggregator) and `lib/services/resolvePromotionBusinesses.ts` (shared businessId → Business resolution, omitting dangling references)
+- Found and fixed a heading-hierarchy bug while writing Playwright coverage: `LocalNewsPlaceholder` used `CardTitle` (a styled `<div>`, not a real heading) for its section title — replaced with a real `<h2>`
+- `lint`, `typecheck`, `test` (80 unit tests), `test:e2e` (29 Playwright tests), `build` all pass; verified visually via the dev server (all six sections, promotion → business links, no console errors)
+- **Known limitation:** no e2e coverage forces a genuine "zero active records" empty state — these Server Components read JSON at module scope with no per-test data-injection seam; empty-state logic is covered at the repository/unit level instead
+
 ---
 
 # In Progress
 
-Nothing. Sprint 5 is complete. Awaiting explicit instruction to start Sprint 6.
+Nothing. Sprint 6 is complete. Awaiting explicit instruction to start Sprint 7.
 
 ---
 
 # Not Started
 
-Community Content (Sprint 6), Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
+Quality & Performance (Sprint 7), Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -114,12 +123,14 @@ Icons
 
 Data
 
-- Static JSON via Repository Pattern (`BusinessRepository`, `CategoryRepository`, `SettingsRepository`, `MetadataRepository`, `SuburbRepository`)
+- Static JSON via Repository Pattern (`BusinessRepository`, `CategoryRepository`, `SettingsRepository`, `MetadataRepository`, `SuburbRepository`, `EventRepository`, `PromotionRepository`, `AnnouncementRepository`)
 
 Services
 
 - `lib/services/structuredData.ts` — pure `LocalBusiness` JSON-LD generator
 - `lib/services/searchService.ts` — pure, replaceable client-side search (keyword/category/suburb matching + suggestions)
+- `lib/services/featuredContentService.ts` — pure cross-repository "featured" aggregator (events + promotions + announcements → one normalised shape)
+- `lib/services/resolvePromotionBusinesses.ts` — shared businessId → Business resolution, omitting dangling references
 
 Testing
 
@@ -137,7 +148,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1 through Sprint 5 complete and committed (Sprint 5 not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (46 unit + 28 e2e). Homepage, business directory, category pages, business detail pages, and search are all live locally with real (sample) data. Sprint 6 (Community Content) has not started.
+Sprint 1 through Sprint 6 complete and committed (not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (80 unit + 29 e2e). Homepage, business directory, category pages, business detail pages, search, and the community content sections are all live locally with real (sample) data. Sprint 7 (Quality) has not started.
 
 ---
 
@@ -160,6 +171,10 @@ Routing: Next.js App Router. **Never add `loading.tsx` to a route segment whose 
 Images: `next/image` disallows SVG by default; `dangerouslyAllowSVG` is enabled in `next.config.ts` scoped to the trusted, self-authored placeholder only — do not assume arbitrary/user-supplied SVGs are safe under this config.
 
 Search: client-side, not server-side — `lib/services/searchService.ts` is a separate, pure implementation from `BusinessRepository.getPage()` (which is server-side/URL-driven for `/businesses` and `/category/[slug]`). Keep category/suburb matching semantics consistent between the two, but don't force them to share a literal function; the environments differ (browser vs. server) and the actual matching rules are simple enough not to drift. Any string matching must normalize diacritics (NFD + strip combining marks) — see the "cafe"/"café" bug in Sprint 5.
+
+Featured content: one cross-repository aggregator (`lib/services/featuredContentService.ts`), not three parallel "featured X" implementations — event/promotion/announcement `featured: true` records are normalised into a single shape and rendered by one presentation component (`FeaturedContentCard`). Any new "featured"-flagged content type added later should extend this aggregator, not add its own.
+
+Date-range logic: one shared helper, `lib/utils/dateStatus.ts` (`isPast`), reused by `EventRepository`/`PromotionRepository`/`AnnouncementRepository` for "upcoming"/"active"/"expired" checks — plain ISO 8601 `Date` comparison, no date library.
 
 Future Database: Supabase
 
@@ -209,15 +224,17 @@ No backend. No authentication. No CMS. No database. No APIs. No reviews. No adve
 
 **Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
 
-All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories, 5 suburbs) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator). All business photos are a single shared placeholder SVG until real community photography arrives.
+All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories, 5 suburbs, 5 events, 5 promotions, 5 announcements) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator). All business photos — and now event images — are a single shared placeholder SVG until real community photography arrives.
+
+Events, Promotions and Announcements are authored via manual JSON edits — no CMS or admin authoring UI exists yet (that's Sprint 8, Admin).
 
 ---
 
 # Next Milestone
 
-Sprint 06 — Community Content (not started, awaiting explicit instruction).
+Sprint 07 — Quality (not started, awaiting explicit instruction).
 
-Full plan: `sprints/sprint-06-community-content/`.
+Full plan: `sprints/sprint-07-quality/`.
 
 ---
 
@@ -241,6 +258,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), and Sprint 5 (Search) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), and Sprint 6 (Community Content) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
 
-Do not begin Sprint 06 without explicit instruction, even though this document and TODO.md describe its scope.
+Do not begin Sprint 07 without explicit instruction, even though this document and TODO.md describe its scope.

@@ -106,13 +106,15 @@ Future Goals
 
 • Reviews
 
-• Community events
-
 • Marketplace
 
 • Local deals
 
 • Advertising platform
+
+Note: "Community events" was pulled forward and shipped in Sprint 6
+(Community Content), alongside business promotions — see the Out of
+Scope note below and DECISIONS.md ADR-011.
 
 ---
 
@@ -349,8 +351,6 @@ Reviews
 
 Marketplace
 
-Events
-
 Community login
 
 AI Search
@@ -362,6 +362,14 @@ Chatbot
 Mobile App
 
 These will be introduced in later releases.
+
+Note: Events (and business Promotions) were originally listed here,
+planned for Version 4 alongside Community Deals (see Future Roadmap
+below). Sprint 6 (Community Content) deliberately pulled both forward
+and shipped them ahead of that plan — a project-owner decision, not
+scope creep. See DECISIONS.md ADR-011. Community Deals — a larger,
+structured deals marketplace — remains a later-version feature;
+Sprint 6's Promotions are a lighter-weight predecessor to it.
 
 ---
 

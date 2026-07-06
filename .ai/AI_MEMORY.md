@@ -10,7 +10,7 @@ Owner: Cerosh Jacob
 
 Status: Active
 
-Last Updated: 2026-07-06
+Last Updated: 2026-07-07
 
 ---
 
@@ -201,6 +201,7 @@ Included
 - Categories
 - Business details
 - Search
+- Community content (events, promotions, announcements, featured content, spotlight, local news placeholder)
 - SEO
 - Responsive design
 - Accessibility

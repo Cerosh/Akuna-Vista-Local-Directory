@@ -598,6 +598,75 @@ Reassess as AI tooling evolves.
 
 ---
 
+# ADR-011
+
+## Title
+
+Pull Events and Promotions forward from Version 4 into Sprint 6.
+
+Status
+
+Accepted
+
+Date
+
+2026-07-07
+
+---
+
+### Context
+
+PROJECT.md's "Out of Scope" section excluded Events from Version 1, planning it (alongside
+Community Deals) for Version 4. JSON_SCHEMA.md marked both the Event Schema and Promotion
+Schema "(Future)". Sprint 6 (Community Content) needed a reason for residents to return to
+the site without a specific business need in mind, per PROJECT.md's Secondary Goals
+("Encourage community engagement", "Build long-term recurring traffic") — a goal a pure
+business directory cannot satisfy on its own.
+
+---
+
+### Decision
+
+Activate the Event and Promotion schemas now, in Sprint 6, rather than waiting for Version 4.
+Define a new Announcement schema alongside them. Build a single cross-content-type "featured"
+mechanism and a community spotlight reusing existing Business/Event data — not a new reviews
+or testimonials feature.
+
+---
+
+### Alternatives Considered
+
+- Wait for Version 4 as originally planned — leaves the platform purely transactional for
+  longer, with no repeat-visit driver until a much later milestone.
+- Ship Events but not Promotions — inconsistent, since both were deferred for the same reason
+  and both directly serve the same "reason to return" goal.
+
+---
+
+### Rationale
+
+This is an explicit, deliberate decision by the project owner, not scope creep discovered
+mid-sprint. Community Deals (a larger, structured deals marketplace) remains a genuine
+Version 4 feature — Sprint 6's Promotions are a lighter-weight precursor, not a replacement.
+
+---
+
+### Consequences
+
+PROJECT.md's "Out of Scope"/Future Goals and ROADMAP.md's Version 4 list have been updated
+to reflect that Events and Promotions have shipped. JSON_SCHEMA.md's Event and Promotion
+schemas no longer read "(Future)"; a new Announcement schema and `schemaVersion` `1.2.0` were
+added.
+
+---
+
+### Future Review
+
+Revisit if Community Deals (Version 4) needs to supersede or extend the Promotion schema
+introduced here.
+
+---
+
 # Open Decisions
 
 The following topics remain undecided and should not be implemented without discussion.

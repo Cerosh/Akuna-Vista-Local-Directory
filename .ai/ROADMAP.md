@@ -846,13 +846,17 @@ Marketplace
 
 Bookings
 
-Events
-
 Lost & Found
 
 Community Deals
 
 Business Analytics
+
+Note: Events shipped early, in Sprint 6 (Community Content), alongside
+business Promotions — a deliberate scope pull-forward, not an
+oversight. See PROJECT.md's "Out of Scope" note and DECISIONS.md
+ADR-011. Community Deals — a larger, structured deals marketplace —
+remains here; Sprint 6's Promotions are a lighter-weight precursor.
 
 Version 5
 

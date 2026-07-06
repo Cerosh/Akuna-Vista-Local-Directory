@@ -4,11 +4,11 @@
 
 Sprint Number
 
-05 (complete) — awaiting go-ahead for Sprint 06
+06 (complete) — awaiting go-ahead for Sprint 07
 
 Sprint Name
 
-Search
+Community Content
 
 Status
 
@@ -17,6 +17,54 @@ Status
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 06 Summary
+
+Delivered: six new homepage sections giving residents a reason to visit without a specific
+business need — Community Events, Local Promotions, a Community Noticeboard (Announcements),
+a unified Featured Content mechanism, a Community Spotlight, and a "coming soon" Local News
+placeholder. All content is sourced from JSON via dedicated repositories
+(`EventRepository`, `PromotionRepository`, new `AnnouncementRepository`).
+
+Key decisions:
+
+- **Deliberately activated Version-4/"(Future)" scope early** — the Event and Promotion
+  schemas (JSON_SCHEMA.md) were pulled forward from Version 4 at the project owner's explicit
+  direction, not discovered mid-sprint scope creep. Documented in DECISIONS.md ADR-011;
+  PROJECT.md and ROADMAP.md updated to match what's actually shipped.
+- **New Announcement schema** — no prior precedent; deliberately includes a `featured` field
+  beyond the sprint's original minimal field list, since the Featured Content mechanism
+  needs to query all three content types (events, promotions, announcements) for
+  `featured: true` consistently.
+- **One Featured Content mechanism, not three** — `lib/services/featuredContentService.ts`
+  aggregates `featured: true` records across all three repositories into a single normalised
+  shape, rendered by one `FeaturedContentCard`, per the sprint's DRY requirement.
+- **`lib/services/resolvePromotionBusinesses.ts`** — extracted shared "resolve a promotion's
+  `businessId`, omit if dangling" logic once both the Promotions section and the Featured
+  Content aggregator needed it, rather than duplicating it.
+- **New `BusinessRepository.getById()`** — needed to resolve a promotion's `businessId` back
+  to a business name/slug; mirrors the existing `getBySlug()`.
+
+Bug found while writing Playwright coverage (not caught by unit tests): `LocalNewsPlaceholder`
+used `CardTitle` for its "Local news" heading — `CardTitle` renders a styled `<div>`, not a
+real heading element, so it wasn't reachable via `getByRole("heading")` and broke the page's
+heading hierarchy. Fixed by using a real `<h2>`, consistent with every other new section.
+
+`npm run lint`, `typecheck`, `test` (80 unit tests), `test:e2e` (29 Playwright tests), and
+`build` all pass. Verified visually via the dev server (all six sections render with real
+seed data, promotion → business links resolve correctly, no console errors) and via Playwright
+across the existing mobile-viewport test.
+
+**Known limitation:** genuine "zero active records" empty-state e2e coverage wasn't added —
+these are Server Components reading JSON at module scope with no per-test data-injection seam,
+and building one felt like infrastructure this sprint didn't call for. The underlying logic is
+covered at the repository/unit level (`getUpcomingEvents([])` → `[]`, etc.); the empty-state UI
+itself reuses the same `EmptyState` component already exercised by Sprint 3/5 Playwright
+coverage.
+
+Full plan: `sprints/sprint-06-community/`.
 
 ---
 
@@ -42,7 +90,7 @@ Full plan: `sprints/sprint-05-search/`.
 
 # Next Sprint (not started — do not begin without explicit instruction)
 
-Sprint 06 — Community Content. Full plan: `sprints/sprint-06-community-content/`.
+Sprint 07 — Quality. Full plan: `sprints/sprint-07-quality/`.
 
 ---
 
@@ -50,7 +98,7 @@ Sprint 06 — Community Content. Full plan: `sprints/sprint-06-community-content
 
 Stop.
 
-Do not continue to Sprint 06.
+Do not continue to Sprint 07.
 
 Wait for explicit instruction before implementing additional features.
 

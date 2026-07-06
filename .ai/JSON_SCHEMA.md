@@ -47,6 +47,7 @@ data/
 ├── suburbs.json
 ├── events.json
 ├── promotions.json
+├── announcements.json
 ├── settings.json
 └── metadata.json
 ```
@@ -178,7 +179,11 @@ suburbs.json
 
 ---
 
-# Event Schema (Future)
+# Event Schema
+
+Activated in schema `1.2.0` (Sprint 6 — Community Content). Previously
+marked "(Future)"; the project owner deliberately pulled this forward
+from Version 4 — see DECISIONS.md ADR-011.
 
 File
 
@@ -204,7 +209,11 @@ events.json
 
 ---
 
-# Promotion Schema (Future)
+# Promotion Schema
+
+Activated in schema `1.2.0` (Sprint 6 — Community Content). Previously
+marked "(Future)"; the project owner deliberately pulled this forward
+from Version 4 — see DECISIONS.md ADR-011.
 
 File
 
@@ -225,6 +234,43 @@ promotions.json
   }
 ]
 ```
+
+---
+
+# Announcement Schema
+
+New in schema `1.2.0` (Sprint 6 — Community Content). No prior version
+of this schema exists.
+
+File
+
+```
+announcements.json
+```
+
+```json
+[
+  {
+    "id": "uuid",
+    "title": "Water main works — Vista Street",
+    "message": "Planned maintenance from 9am–3pm. Expect brief water interruptions.",
+    "publishedAt": "2026-07-05T09:00:00Z",
+    "expiresAt": "2026-07-12T00:00:00Z",
+    "priority": "high",
+    "featured": true
+  }
+]
+```
+
+`expiresAt` is optional — an announcement with no `expiresAt` is always
+considered active. `priority` is `"normal"` or `"high"`.
+
+`featured` is included even though it goes beyond the minimal shape a
+simple community noticeboard needs, because Sprint 6's Featured Content
+mechanism aggregates `featured: true` records across events, promotions
+and announcements alike — Event and Promotion schemas already had the
+field, so Announcement needed it too for that mechanism to work
+consistently across all three content types.
 
 ---
 
@@ -297,6 +343,36 @@ Category
 - id
 - slug
 - name
+
+Event
+
+- id
+- title
+- slug
+- description
+- startDate
+- endDate
+- location
+- featured
+
+Promotion
+
+- id
+- businessId
+- title
+- description
+- startDate
+- endDate
+- featured
+
+Announcement
+
+- id
+- title
+- message
+- publishedAt
+- priority
+- featured
 
 Settings
 
@@ -439,6 +515,11 @@ Every schema change should:
 
 Breaking schema changes should be avoided unless justified.
 
+`1.2.0` (Sprint 6 — Community Content): activated the Event and
+Promotion schemas (previously "(Future)") and added the new Announcement
+schema. Deliberately pulls forward scope PROJECT.md and ROADMAP.md had
+placed in Version 4 — see DECISIONS.md ADR-011.
+
 ---
 
 # Sample Directory Structure
@@ -451,7 +532,8 @@ data/
 ├── settings.json
 ├── metadata.json
 ├── events.json
-└── promotions.json
+├── promotions.json
+└── announcements.json
 ```
 
 ---
