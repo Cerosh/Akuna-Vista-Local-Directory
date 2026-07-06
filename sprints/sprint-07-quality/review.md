@@ -88,14 +88,27 @@ Measured with `tests/e2e/accessibility.spec.ts` (`@axe-core/playwright`, `wcag2a
 
 | Route | Critical/Serious Violations (before fixes) | Critical/Serious Violations (after fixes) |
 |-------|----------------------------------------|----------------------------------------|
-| Homepage | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (14 nodes) | |
-| `/businesses` | 1 type — `aria-prohibited-attr` (2 nodes) | |
-| `/category/[slug]` | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (4 nodes) | |
-| `/business/[slug]` | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (2 nodes) | |
-| `/search` | 1 type — `aria-prohibited-attr` (2 nodes) | |
-| Community page | (same URL as Homepage) | |
+| Homepage | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (14 nodes) | 0 |
+| `/businesses` | 1 type — `aria-prohibited-attr` (2 nodes) | 0 |
+| `/category/[slug]` | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (4 nodes) | 0 |
+| `/business/[slug]` | 2 types — `aria-prohibited-attr` (2 nodes), `color-contrast` (2 nodes) | 0 |
+| `/search` | 1 type — `aria-prohibited-attr` (2 nodes) | 0 |
+| Community page | (same URL as Homepage) | (same URL as Homepage) |
 
 `aria-prohibited-attr` reproduces on every route because `Footer.tsx` renders sitewide. Both violation types trace back to the same two root causes recorded above (Footer's `<span aria-label>` icons; the `--secondary`/`--success`/`--destructive` colour tokens).
+
+### Fixes applied
+
+- `components/layout/Footer.tsx`: added `role="img"` to the social-icon placeholder `<span>`s so their `aria-label` is valid (a plain `<span>` has no implicit role that permits `aria-label`).
+- `app/globals.css` (light mode only — dark mode has no reachable toggle yet, so it wasn't measured/touched):
+  - `--secondary` `#0d9488` → `#0f766e` (teal-700): 3.74:1 → 5.47:1 against white text.
+  - `--success` `#16a34a` → `#15803d` (green-700): 3.29:1 → 5.02:1 against white text ("Verified" badge).
+  - `--destructive` `#dc2626` → `#b91c1c` (red-700): 4.13:1 → 5.54:1 against its light background ("Important"/destructive badge text).
+  - `--muted-foreground` `oklch(0.556 0 0)` (#737373) → `oklch(0.45 0 0)`: 4.34:1 → verified ≥4.5:1 against `--muted` (directory sort-control chips).
+
+Re-ran `tests/e2e/accessibility.spec.ts` and Lighthouse (accessibility category) after these fixes: all 5 routes now score **Accessibility 100** and axe-core reports **zero** critical/serious violations. Full Playwright suite (34 tests) re-run with no regressions.
+
+**Not performed (disclosed, not silently skipped):** no real screen-reader spot-check was done — there is no VoiceOver/NVDA available in this environment. The automated axe-core pass plus a manual read-through of heading hierarchy/contrast/alt text is the closest available substitute; a genuine keyboard-only pass is still owed and will be added as part of this same step's Playwright coverage below.
 
 Manual Testing
 

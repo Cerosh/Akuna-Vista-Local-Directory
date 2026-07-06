@@ -57,6 +57,7 @@ export function Footer({ settings }: FooterProps) {
               {SOCIAL_LINKS.map(({ label, icon: Icon }) => (
                 <span
                   key={label}
+                  role="img"
                   aria-label={`${label} (coming soon)`}
                   className="bg-muted text-muted-foreground flex size-8 items-center justify-center rounded-full"
                 >

@@ -31,7 +31,10 @@ export default async function RootLayout({
           Skip to content
         </a>
         <Navigation siteName={settings.siteName} />
-        <main id="main-content" className="flex-1">
+        {/* tabIndex={-1}: without it the skip link only scrolls here, it
+            never moves keyboard focus — found via Sprint 07's keyboard-nav
+            Playwright coverage (tests/e2e/accessibility.spec.ts). */}
+        <main id="main-content" tabIndex={-1} className="flex-1 focus:outline-none">
           {children}
         </main>
         <Footer settings={settings} />

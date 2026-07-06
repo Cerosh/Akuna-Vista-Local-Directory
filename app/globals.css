@@ -64,21 +64,31 @@
   /* Deep Blue — brand identity, primary buttons, links (DESIGN_SYSTEM.md Colour System) */
   --primary: #2563eb;
   --primary-foreground: #ffffff;
-  /* Warm Teal — supporting actions, icons, accent sections */
-  --secondary: #0d9488;
+  /* Warm Teal — supporting actions, icons, accent sections.
+     #0f766e (teal-700), not the lighter #0d9488, so white text/badges on
+     this background meet WCAG AA 4.5:1 (measured 5.47:1) — found via
+     Sprint 07's Lighthouse/axe audit. */
+  --secondary: #0f766e;
   --secondary-foreground: #ffffff;
   --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
+  /* Darkened from oklch(0.556 0 0) (#737373, 4.34:1 against --muted) to
+     meet WCAG AA 4.5:1 — found via Sprint 07's Lighthouse audit. */
+  --muted-foreground: oklch(0.45 0 0);
   --accent: oklch(0.97 0 0);
   --accent-foreground: oklch(0.205 0 0);
-  /* Green — verified businesses, success states */
-  --success: #16a34a;
+  /* Green — verified businesses, success states.
+     #15803d (green-700), not the lighter #16a34a, for the same WCAG AA
+     reason as --secondary above (measured 5.02:1). */
+  --success: #15803d;
   --success-foreground: #ffffff;
   /* Amber — pending states, attention */
   --warning: #f59e0b;
   --warning-foreground: #1c1917;
-  /* Red — validation, errors, critical actions */
-  --destructive: #dc2626;
+  /* Red — validation, errors, critical actions.
+     #b91c1c (red-700), not the lighter #dc2626, so destructive badge/link
+     text meets WCAG AA 4.5:1 against its light background (measured
+     5.54:1) — found via Sprint 07's Lighthouse audit. */
+  --destructive: #b91c1c;
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);

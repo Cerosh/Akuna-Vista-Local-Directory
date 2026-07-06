@@ -45,3 +45,39 @@ test.describe("Accessibility (axe-core)", () => {
     });
   }
 });
+
+/**
+ * Automated proxy for a manual keyboard-only pass — there is no
+ * VoiceOver/NVDA available in this environment (disclosed in review.md
+ * rather than silently skipped). This checks the two things that are
+ * reasonable to assert without a real screen reader: the skip-link is the
+ * first tab stop and works, and repeated Tab presses always land focus on
+ * a real, visible element (never silently lost to `<body>`).
+ */
+test.describe("Keyboard navigation", () => {
+  test("skip-to-content link is the first tab stop and jumps to main content", async ({ page }) => {
+    await page.goto("/");
+
+    await page.keyboard.press("Tab");
+    const skipLink = page.getByRole("link", { name: "Skip to content" });
+    await expect(skipLink).toBeFocused();
+    await expect(skipLink).toBeVisible();
+
+    await page.keyboard.press("Enter");
+    await expect(page.locator("#main-content")).toBeFocused();
+  });
+
+  for (const route of ROUTES) {
+    test(`${route.name} (${route.path}) never loses focus to <body> while tabbing`, async ({
+      page,
+    }) => {
+      await page.goto(route.path);
+
+      for (let i = 0; i < 15; i++) {
+        await page.keyboard.press("Tab");
+        const focusedTag = await page.evaluate(() => document.activeElement?.tagName);
+        expect(focusedTag).not.toBe("BODY");
+      }
+    });
+  }
+});
