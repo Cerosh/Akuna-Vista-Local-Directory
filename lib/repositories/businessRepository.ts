@@ -28,6 +28,7 @@ export interface PagedResult<T> {
 export interface BusinessRepository {
   getAll(): Promise<Business[]>;
   getBySlug(slug: string): Promise<Business | null>;
+  getById(id: string): Promise<Business | null>;
   getFeatured(): Promise<Business[]>;
   /**
    * The single filter/sort/pagination implementation shared by the
@@ -70,6 +71,10 @@ export class JSONBusinessRepository implements BusinessRepository {
 
   async getBySlug(slug: string): Promise<Business | null> {
     return this.businesses.find((business) => business.slug === slug) ?? null;
+  }
+
+  async getById(id: string): Promise<Business | null> {
+    return this.businesses.find((business) => business.id === id) ?? null;
   }
 
   async getFeatured(): Promise<Business[]> {

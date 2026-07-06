@@ -1,0 +1,47 @@
+[
+  {
+    "id": "60bfac97-9978-4071-8a33-49a02ec57b86",
+    "businessId": "b1a7c3d2-4e5f-4a6b-8c7d-1e2f3a4b5c6d",
+    "title": "10% Off Emergency Callouts",
+    "description": "Mention the community directory for 10% off any emergency plumbing callout this month.",
+    "startDate": "2026-07-01",
+    "endDate": "2026-07-31",
+    "featured": true
+  },
+  {
+    "id": "158854ed-1ca4-4acf-b4d6-59ddfda4c7ca",
+    "businessId": "d3c9e5f4-6a7b-4c8d-ae9f-3a4b5c6d7e8f",
+    "title": "First Clean Free",
+    "description": "New customers get their first fortnightly clean on the house.",
+    "startDate": "2026-07-01",
+    "endDate": "2026-08-15",
+    "featured": false
+  },
+  {
+    "id": "083f7a5c-be77-467a-bfb6-97281c63d43f",
+    "businessId": "a6fc08c7-9dae-4fb0-9db0-6d7e8f9a0b1c",
+    "title": "Buy One Coffee, Get One Free (Wednesdays)",
+    "description": "Every Wednesday, bring a friend and the second coffee is on us.",
+    "startDate": "2026-06-01",
+    "endDate": "2026-12-31",
+    "featured": false
+  },
+  {
+    "id": "b14d6c06-7c73-4683-af22-427f6c7a31b6",
+    "businessId": "c81e2ae9-bfc0-4112-bf2d-8f9a0b1c2d3e",
+    "title": "20% Off First Grooming Session",
+    "description": "New clients receive 20% off their first dog grooming appointment.",
+    "startDate": "2026-07-01",
+    "endDate": "2026-09-30",
+    "featured": false
+  },
+  {
+    "id": "e4456360-943b-4d24-90a8-0c60ec530a8d",
+    "businessId": "e4dae6a5-7b8c-4d9e-bfa1-4b5c6d7e8f9a",
+    "title": "Free Garden Design Consultation",
+    "description": "Book a free onsite consultation for new-build garden landscaping.",
+    "startDate": "2026-05-01",
+    "endDate": "2026-06-30",
+    "featured": false
+  }
+]

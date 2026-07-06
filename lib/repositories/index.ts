@@ -24,3 +24,6 @@ export { JSONSuburbRepository, suburbRepository } from "./suburbRepository";
 
 export type { EventRepository } from "./eventRepository";
 export { JSONEventRepository, eventRepository } from "./eventRepository";
+
+export type { PromotionRepository } from "./promotionRepository";
+export { JSONPromotionRepository, promotionRepository } from "./promotionRepository";

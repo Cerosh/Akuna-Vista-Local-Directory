@@ -10,3 +10,4 @@ export type { Suburb } from "./suburb";
 export type { Settings } from "./settings";
 export type { Metadata } from "./metadata";
 export type { Event } from "./event";
+export type { Promotion } from "./promotion";

@@ -43,6 +43,19 @@ describe("JSONBusinessRepository", () => {
     await expect(repository.getBySlug("unknown")).resolves.toBeNull();
   });
 
+  it("finds a business by id", async () => {
+    const target = makeBusiness({ id: "b1", slug: "abc-plumbing" });
+    const repository = new JSONBusinessRepository([makeBusiness({ id: "other" }), target]);
+
+    await expect(repository.getById("b1")).resolves.toEqual(target);
+  });
+
+  it("returns null for an unknown id", async () => {
+    const repository = new JSONBusinessRepository([makeBusiness({ id: "known" })]);
+
+    await expect(repository.getById("unknown")).resolves.toBeNull();
+  });
+
   it("returns only featured businesses", async () => {
     const featured = makeBusiness({ slug: "featured", featured: true });
     const notFeatured = makeBusiness({ slug: "not-featured", featured: false });
