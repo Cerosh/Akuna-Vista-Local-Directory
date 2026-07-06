@@ -5,27 +5,16 @@ import { EmptyState } from "@/components/common/EmptyState";
 import { PromotionCard } from "@/components/cards/PromotionCard";
 import { promotionRepository } from "@/lib/repositories/promotionRepository";
 import { businessRepository } from "@/lib/repositories/businessRepository";
-import type { Promotion } from "@/types/promotion";
-import type { Business } from "@/types/business";
-
-interface ResolvedPromotion {
-  promotion: Promotion;
-  business: Business;
-}
+import { resolvePromotionBusinesses } from "@/lib/services/resolvePromotionBusinesses";
 
 export async function Promotions() {
   const promotions = await promotionRepository.getActivePromotions();
 
-  const resolved = (
-    await Promise.all(
-      promotions.map(async (promotion): Promise<ResolvedPromotion | null> => {
-        const business = await businessRepository.getById(promotion.businessId);
-        // A promotion whose business no longer resolves is omitted rather
-        // than crashing the section — see sprint-06 tasks.md "Promotions".
-        return business ? { promotion, business } : null;
-      }),
-    )
-  ).filter((item): item is ResolvedPromotion => item !== null);
+  // A promotion whose business no longer resolves is omitted rather than
+  // crashing the section — see sprint-06 tasks.md "Promotions".
+  const resolved = await resolvePromotionBusinesses(promotions, (id) =>
+    businessRepository.getById(id),
+  );
 
   return (
     <Section id="promotions" className="border-border scroll-mt-20 border-t">
