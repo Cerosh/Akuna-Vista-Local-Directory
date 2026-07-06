@@ -14,6 +14,22 @@ Only two components render real images via `next/image`: `EventCard.tsx` (Commun
 
 ---
 
+# Performance Profiling
+
+**Client Components audit:** all 5 existing Client Components remain justified against ADR-005 — `Navigation.tsx` (mobile drawer `useState`), `ShareButton.tsx` (Web Share API/clipboard), `SearchExperience.tsx`/`SearchSuggestions.tsx`/`RecentSearches.tsx` (typeahead state, keyboard nav, localStorage). None converted or trimmed; none identified as unnecessarily Client.
+
+**Unused dependencies reviewed, none removed:** `framer-motion` and `zod` have zero imports anywhere in the codebase today. Checked whether this makes them dead weight before removing anything — `sprints/sprint-01-foundation/notes.md` deliberately installed both ahead of use ("Framer Motion | Animation (used sparingly, from Sprint 2 onward)", "zod | Runtime validation (repository layer input validation)"), and `sprints/sprint-08-admin/notes.md` (the very next sprint) explicitly plans to use `zod` for JSON schema validation, reusing the already-installed library rather than adding a new one. Since neither is ever imported, neither is actually present in the client/server bundle regardless of `package.json` — Lighthouse's bundle-size-related audits are unaffected either way. Removing `zod` now would directly contradict Sprint 08's documented plan, so **left both in place** — a reviewed, not silently skipped, decision.
+
+**LCP investigation (found in the baseline, root-caused here):** the LCP element on every route is text (the page's `<h1>`), not an image — confirmed via Lighthouse's `largest-contentful-paint-element` audit. 84% of the homepage's mobile LCP time is "Render Delay" (TTFB + one small render-blocking CSS chunk + main-thread work), not resource loading. This is consistent with Lighthouse's simulated mobile throttle (Slow 4G + 4x CPU) applied to a Next.js app's baseline hydration cost, not a code-level defect specific to this project — `bootup-time` (0.2s) and `mainthread-work-breakdown` (0.5s) are both modest, and the one render-blocking CSS resource costs ~157ms. No further fix was identified that wouldn't mean fighting Next.js's own architecture (e.g. artificially deferring necessary CSS) for a marginal, unverified gain — flagged as a residual, largely environmental gap rather than silently declared "fixed."
+
+**Real CLS regression found and fixed** (via a full route re-measure after the loading-states step): `/search` scored **CLS 0.275** — far above the 0.1 target — introduced by this sprint's own `app/search/loading.tsx`. Root cause, found in two rounds of measurement:
+1. The skeleton originally rendered a full `BusinessCardSkeletonGrid`, assuming `/search` shows all businesses by default. It doesn't — `SearchExperience`'s actual default state (no query/category/suburb yet, which is what nearly every navigation to `/search` lands on) shows only the search input, filter chips and one line of prompt text, no results grid. Removing the card grid brought CLS down to 0.122 — better, still failing.
+2. The remaining gap: real category/suburb filter chips wrap across multiple lines at mobile widths because several labels are long ("Landscaping & Gardening", "Cafés & Restaurants", "Builders & Renovations"), while the skeleton's short, uniform placeholder pills didn't wrap the same way and under-reserved vertical space. Fixed by measuring the real rendered chip-row heights directly (Playwright, 412px viewport: category row ≈120px, suburb row ≈56px) and setting matching `min-h` on the skeleton's chip-row containers, instead of trying to visually replicate individual chips.
+
+Re-measured after the fix: `/search` CLS 0.275 → 0.122 → **0.025**, Performance 81 → 92 → **96**. Full Playwright suite (60 tests) re-run with no regressions. This is exactly the "fixing one dimension can regress another" risk this sprint's own notes.md called out — caught by re-measuring after the loading-states step rather than waiting for the final sweep.
+
+---
+
 # Purpose
 
 Track review status for Sprint 7 work against REVIEW_CHECKLIST.md, and — because this sprint's entire premise is measured evidence over subjective judgement — record the actual before/after Lighthouse and accessibility numbers that prove the Definition of Done was met. Fill in as Pull Requests are opened and reviewed, and as measurements are actually taken. Do not pre-fill outcomes or scores before the work exists.
