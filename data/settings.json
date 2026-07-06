@@ -1,0 +1,13 @@
+{
+  "communityName": "Akuna Vista",
+  "siteName": "Akuna Vista Local Directory",
+  "tagline": "Discover trusted local businesses, recommended by your neighbours.",
+  "primaryColor": "#2563eb",
+  "secondaryColor": "#0d9488",
+  "logo": "/images/logo.svg",
+  "heroImage": "/images/hero.jpg",
+  "contactEmail": "community@akunavista.example",
+  "enableSearch": true,
+  "enableFeaturedBusinesses": true,
+  "enableEvents": false
+}

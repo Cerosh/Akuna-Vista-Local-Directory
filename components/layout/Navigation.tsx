@@ -1,0 +1,99 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { Menu, Search, X } from "lucide-react";
+import { Logo } from "@/components/common/Logo";
+import { Container } from "@/components/common/Container";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+
+interface NavLink {
+  label: string;
+  href: string;
+}
+
+const NAV_LINKS: NavLink[] = [
+  { label: "Home", href: "/" },
+  { label: "Directory", href: "/businesses" },
+  { label: "Categories", href: "/businesses" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
+
+interface NavigationProps {
+  siteName: string;
+}
+
+export function Navigation({ siteName }: NavigationProps) {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  return (
+    <header className="border-border bg-background/95 sticky top-0 z-40 border-b backdrop-blur-sm">
+      <Container>
+        <div className="flex h-16 items-center justify-between gap-4">
+          <Logo siteName={siteName} />
+
+          <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-muted-foreground duration-fast hover:text-foreground text-sm font-medium transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              nativeButton={false}
+              render={<Link href="/search" aria-label="Search" />}
+            >
+              <Search className="size-5" aria-hidden="true" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="md:hidden"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-navigation"
+              onClick={() => setIsMenuOpen((open) => !open)}
+            >
+              {isMenuOpen ? (
+                <X className="size-5" aria-hidden="true" />
+              ) : (
+                <Menu className="size-5" aria-hidden="true" />
+              )}
+            </Button>
+          </div>
+        </div>
+      </Container>
+
+      <div
+        id="mobile-navigation"
+        className={cn("border-border border-t md:hidden", isMenuOpen ? "block" : "hidden")}
+      >
+        <Container>
+          <nav aria-label="Mobile" className="flex flex-col gap-1 py-4">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="text-muted-foreground duration-fast hover:bg-muted hover:text-foreground rounded-md px-2 py-2 text-sm font-medium transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
+        </Container>
+      </div>
+    </header>
+  );
+}
