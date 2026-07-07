@@ -16,6 +16,8 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "validate:data": "tsx scripts/validate-data.ts",
+    "backup:data": "tsx scripts/backup.ts",
+    "restore:data": "tsx scripts/restore.ts",
     "prepare": "husky"
   },
   "lint-staged": {

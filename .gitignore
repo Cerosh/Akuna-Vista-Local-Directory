@@ -41,3 +41,7 @@ Thumbs.db
 
 # Claude Code local settings (per-user, not shared)
 .claude/settings.local.json
+
+# Sprint 08 data tooling — local scratch space, never committed
+.backups/
+scripts/seed/output/
