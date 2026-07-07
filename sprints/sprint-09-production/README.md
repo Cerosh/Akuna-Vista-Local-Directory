@@ -255,7 +255,7 @@ Requires from Sprint 8 (Admin Preparation):
 
 | Risk | Impact | Mitigation |
 |------|---------|------------|
-| **No About, Contact, Privacy Policy or Terms of Service page is scheduled in this project's actual 10-sprint plan.** `.ai/ROADMAP.md`'s "Phase 5: Community Pages" (About, Community, Contact, Privacy, Terms, 404) and `.ai/TESTING.md`'s "Critical User Journeys" (which explicitly lists "Contact page") were never assigned to any of the 10 real sprints — Sprint 5 became Search and Sprint 6 became Community Content instead of ROADMAP's original "Community Pages." Sprint 7 does cover a custom 404/error page, so 404 is not part of this gap. | The project could be declared "ready for real users" while a resident has no way to contact the platform owner, read a privacy policy, or understand what the site is, and a listed Critical User Journey (Contact page) cannot pass because the page doesn't exist. | **This is a genuine open gap, not silently resolved here.** Before declaring the application ready for real users, the project owner must decide whether to (a) add a minimal About/Contact/Privacy/Terms page as a late addition to this sprint, or (b) explicitly accept the gap for a v1 launch with no user accounts or data collection, and revisit before any feature that collects user data ships. See notes.md and retrospective.md for the same flag. |
+| **RESOLVED — see `sprints/sprint-08b-community-pages/`.** No About, Contact, Privacy Policy or Terms of Service page was scheduled in this project's original 10-sprint plan. `.ai/ROADMAP.md`'s "Phase 5: Community Pages" (About, Community, Contact, Privacy, Terms, 404) and `.ai/TESTING.md`'s "Critical User Journeys" (which explicitly lists "Contact page") were never assigned to any of the 10 real sprints — Sprint 5 became Search and Sprint 6 became Community Content instead of ROADMAP's original "Community Pages." Sprint 7 already covers a custom 404/error page. | The project could be declared "ready for real users" while a resident has no way to contact the platform owner, read a privacy policy, or understand what the site is, and a listed Critical User Journey (Contact page) cannot pass because the page doesn't exist. | The project owner decided to insert a dedicated Sprint 08b ("Community Pages") before this sprint, without renumbering it — see `sprints/sprint-08b-community-pages/README.md`'s "Numbering" section. This sprint's own Definition of Done item below is satisfied once Sprint 08b is complete, not by any work in this sprint itself. |
 | `robots.txt`/`sitemap.xml`/metadata work in this sprint could overlap or conflict with Sprint 7's SEO audit | Duplicate effort, or two sprints silently disagreeing about what "SEO complete" means | Explicit split: Sprint 7 audited and fixed **per-page** SEO (titles, descriptions, OG tags, structured data, headings) across existing routes. This sprint builds the **site-wide crawl infrastructure** that has never existed before (`sitemap.xml` generation across all business/category/community routes, `robots.txt`) and performs one **final** pre-launch sanity check of metadata — not a fresh audit. |
 | Analytics and monitoring are wired up (environment variables set, SDKs installed) but never actually verified to receive events once deployed to production | The team believes it has visibility into production issues and traffic, but the integration silently fails and nobody notices until it matters | Treat "wired up" and "verified" as separate Definition of Done items; run a real smoke test after production deployment that triggers a real event/error and confirms it appears in the Sentry/analytics dashboard, not just that the SDK initialised without throwing |
 | Security headers (CSP, HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) break something unexpected — an inline script, a third-party embed, an image domain not yet allow-listed | A security improvement causes a regression that is worse for launch than the risk it mitigates | Configure and test security headers in a Preview deployment first, per DEPLOYMENT.md's environment strategy, before enabling in Production; verify no console errors or broken functionality in Preview before merge |
@@ -321,7 +321,7 @@ Accessibility
 - [ ] Full regression pass completed with no critical or high defects open.
 - [ ] DEPLOYMENT.md's Release Checklist satisfied: acceptance criteria met, CI passing, build successful, no unresolved critical issues, documentation updated, accessibility reviewed, responsive verification completed, performance reviewed, security review completed, Product Owner approval obtained.
 - [ ] DEPLOYMENT.md's Deployment Checklist satisfied: environment variables configured, build completed successfully, static assets uploaded, preview deployment verified, production deployment completed, homepage accessible, navigation working, search functioning, no console errors, analytics connected.
-- [ ] The About/Contact/Privacy/Terms gap (see Risks) has an explicit decision recorded, even if the decision is "accepted for v1, revisit before data collection ships."
+- [x] The About/Contact/Privacy/Terms gap (see Risks) has an explicit decision recorded: resolved by Sprint 08b ("Community Pages"), inserted before this sprint.
 - [ ] Code reviewed against REVIEW_CHECKLIST.md.
 - [ ] TypeScript passes.
 - [ ] ESLint passes.
@@ -359,7 +359,7 @@ Bug Fixes
 
 Known Issues
 
-- No About, Contact, Privacy Policy or Terms of Service page exists in the current 10-sprint plan — see Risks above; requires an explicit project owner decision before or shortly after launch.
+- About/Contact/Privacy/Terms pages: resolved by Sprint 08b, inserted before this sprint (see Risks above) — no longer an open issue by the time this sprint runs.
 - Analytics/monitoring dashboards are new; historical data starts from this sprint's deployment, not before.
 
 ---
@@ -398,7 +398,7 @@ At the end of the sprint determine whether the following documents require updat
 - [ ] DECISIONS.md
 - [ ] CHANGELOG.md
 - [ ] AI_MEMORY.md
-- [ ] **PROJECT.md / ROADMAP.md — required follow-up**: record the project owner's decision on the About/Contact/Privacy/Terms gap (see Risks) — either scheduled as a late addition to this sprint, or explicitly accepted as a v1 gap to revisit before any feature that collects user data ships.
+- [x] **PROJECT.md / ROADMAP.md — resolved**: the About/Contact/Privacy/Terms gap (see Risks) was resolved by inserting Sprint 08b ("Community Pages") before this sprint, not by a late addition here or by accepting the gap.
 
 Only update documents that genuinely changed.
 

@@ -273,9 +273,14 @@ Mobile LCP sits at or just above ARCHITECTURE.md's 2.5s target on every route (d
 
 # Next Milestone
 
-Sprint 09 — Production Readiness (not started, awaiting explicit instruction).
+Sprint 08b — Community Pages (not started, awaiting explicit instruction). Inserted between
+Sprint 08 and Sprint 09 without renumbering either (see that sprint's README.md "Numbering"
+section) — builds About/Contact/Privacy/Terms, resolving a gap Sprint 09's own docs flagged as
+needing resolution before its Definition of Done could be signed off.
 
-Full plan: `sprints/sprint-09-production/`.
+Full plan: `sprints/sprint-08b-community-pages/`.
+
+Sprint 09 — Production Readiness remains next after Sprint 08b. Full plan: `sprints/sprint-09-production/`.
 
 ---
 

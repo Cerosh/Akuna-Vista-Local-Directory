@@ -384,6 +384,12 @@ Commit
 
 feat: add supporting community pages
 
+Note: this phase's six pages were split across the actual 10-sprint plan rather than delivered
+as one phase. 404 shipped in Sprint 7 (custom `not-found.tsx`/`error.tsx`). "Community" is served
+by Sprint 6's homepage community sections, not a standalone page. About, Contact, Privacy and
+Terms were delivered by Sprint 08b ("Community Pages"), inserted between Sprint 08 and Sprint 09
+— see `sprints/sprint-08b-community-pages/`.
+
 ---
 
 # PHASE 6

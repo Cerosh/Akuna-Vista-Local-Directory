@@ -38,7 +38,7 @@ This sprint also does not introduce new product surface area. Everything it touc
 4. **Confirm, don't re-audit** — the metadata review in this sprint is a final sanity check against Sprint 7's SEO audit, not a fresh pass; do not duplicate work Sprint 7 already completed.
 5. **Works everywhere residents actually use it** — verify Chrome (primary), Firefox and Safari (secondary), plus mobile browsers, per `.ai/TESTING.md`'s "Browser Support."
 6. **One last full regression pass** — every Critical User Journey in `.ai/TESTING.md` is re-verified before sign-off, catching anything that regressed silently across Sprints 1–8.
-7. **Name the gaps, don't hide them** — where this sprint surfaces a genuine planning gap (see Non-Goals and README.md's Risks — the missing About/Contact/Privacy/Terms pages), flag it explicitly for the project owner rather than quietly absorbing or ignoring it.
+7. **Name the gaps, don't hide them** — this sprint's own planning surfaced a genuine gap (the missing About/Contact/Privacy/Terms pages), flagged explicitly rather than quietly absorbed or ignored, and resolved by inserting Sprint 08b before this one — see Non-Goals and README.md's Risks.
 
 ---
 
@@ -47,7 +47,7 @@ This sprint also does not introduce new product surface area. Everything it touc
 - **No new business features.** This sprint hardens and verifies existing functionality; it does not add directory, search or community features.
 - **No fresh SEO audit.** Sprint 7 already audited and fixed per-page SEO (titles, descriptions, Open Graph tags, structured data, headings). This sprint's "metadata review" is a final sanity check, not a repeat of that audit.
 - **No authenticated admin features.** Sprint 8 (Admin Preparation) covers CLI/local tooling for validation, import/export and backups — this sprint does not build or extend an authenticated admin dashboard.
-- **No About, Contact, Privacy Policy or Terms of Service pages by default.** These pages were never scheduled in this project's actual 10-sprint plan (see README.md's Risks). This sprint does not silently add them — that decision belongs to the project owner.
+- **No About, Contact, Privacy Policy or Terms of Service pages in this sprint's own scope.** These pages were never scheduled in this project's original 10-sprint plan (see README.md's Risks) — resolved by Sprint 08b, inserted before this sprint, not built here.
 
 ---
 
@@ -62,7 +62,7 @@ Sprint 9 is successful when:
 - [ ] Browser compatibility is verified against the matrix in README.md (Chrome primary, Firefox/Safari secondary, mobile browsers).
 - [ ] A full regression pass across Critical User Journeys completes with no critical or high defects open.
 - [ ] DEPLOYMENT.md's Release Checklist and Deployment Checklist are both satisfied.
-- [ ] The About/Contact/Privacy/Terms gap has an explicit, recorded decision from the project owner.
+- [x] The About/Contact/Privacy/Terms gap has an explicit, recorded decision from the project owner — resolved by Sprint 08b.
 
 ---
 

@@ -223,7 +223,12 @@ Full plan: `sprints/sprint-05-search/`.
 
 # Next Sprint (not started — do not begin without explicit instruction)
 
-Sprint 09 — Production Readiness. Full plan: `sprints/sprint-09-production/`.
+Sprint 08b — Community Pages (About/Contact/Privacy/Terms). Full plan:
+`sprints/sprint-08b-community-pages/`. Inserted between Sprint 08 and Sprint 09 without
+renumbering either — see that sprint's README.md "Numbering" section. Resolves a gap Sprint 09's
+own planning docs flagged as needing an explicit decision before its Definition of Done could be
+signed off (see `sprints/sprint-09-production/README.md` Risks). Sprint 09 — Production Readiness
+(`sprints/sprint-09-production/`) remains next after Sprint 08b.
 
 ---
 
@@ -231,7 +236,7 @@ Sprint 09 — Production Readiness. Full plan: `sprints/sprint-09-production/`.
 
 Stop.
 
-Do not continue to Sprint 09.
+Do not continue to Sprint 08b.
 
 Wait for explicit instruction before implementing additional features.
 
