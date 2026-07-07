@@ -18,6 +18,8 @@
     "validate:data": "tsx scripts/validate-data.ts",
     "backup:data": "tsx scripts/backup.ts",
     "restore:data": "tsx scripts/restore.ts",
+    "export:csv": "tsx scripts/export-csv.ts",
+    "import:csv": "tsx scripts/import-csv.ts",
     "prepare": "husky"
   },
   "lint-staged": {
