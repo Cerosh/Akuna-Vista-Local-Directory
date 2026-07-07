@@ -743,6 +743,87 @@ Sprint 7's own notes.md), at which point some of this manual discipline can beco
 
 ---
 
+# ADR-013
+
+## Title
+
+Introduce local/CI data tooling ahead of an admin database.
+
+Status
+
+Accepted
+
+Date
+
+2026-07-07
+
+---
+
+### Context
+
+ADR-002 accepted JSON as the platform's data source specifically to keep the MVP simple, with
+the explicit, accepted consequence that "content updates require repository changes" and "no
+dynamic editing is available." That trade-off has grown riskier every sprint that added more
+hand-edited content — Sprint 6 alone introduced three new hand-authored content types (events,
+promotions, announcements), and its own notes.md explicitly left open "who authors/edits this
+content before an admin CMS exists?" ROADMAP.md's Phase 6 ("Populate Content": 100 businesses,
+25 categories, related content) was also never scheduled into any of this project's 10 sprints.
+
+---
+
+### Decision
+
+Build CLI/local/CI scripts (Sprint 8, "Admin Preparation") that make manual JSON editing safe
+and efficient — validation, backup/restore, JSON↔CSV import/export, admin data scripts, a seed
+generator, and one migration helper — rather than building ROADMAP.md's Phase 14 "Admin Portal"
+(an authenticated web dashboard) now, and rather than migrating to Supabase now.
+
+---
+
+### Alternatives Considered
+
+- Build the authenticated Admin Portal (Phase 14) now instead — this requires Supabase Auth and
+  a database, both explicitly out of scope until ADR-002's "Future Review" is triggered by
+  validated community adoption; building it now would invert that sequencing.
+- Migrate to Supabase now to get dynamic editing "for free" — same objection: ADR-002's
+  Future Review condition (validate community adoption first) hasn't been met, and a database
+  migration is a much larger, riskier change than hardening the existing JSON workflow.
+- Do nothing and keep editing JSON by hand — already shown to be increasingly risky as more
+  hand-authored content types accumulate (Sprint 6), and leaves ROADMAP.md's Phase 6 populate
+  gap with no tooling to ever close it.
+
+---
+
+### Rationale
+
+Local/CI tooling is the smallest change that directly answers Sprint 6's open question and closes
+the Phase 6 gap, without pulling forward either of the two much larger future investments
+(Supabase, the Admin Portal) ahead of the conditions this project's own ADRs already set for
+them. It is also directly reusable later: the same `zod` schemas and validation logic this
+sprint wrote can inform a future Supabase schema, and the seed generator can populate a
+Supabase-backed dataset just as easily as a JSON one.
+
+---
+
+### Consequences
+
+`scripts/` is a new top-level directory (validation, backup/restore, import/export, admin data
+scripts, seed generator, one migration helper) with its own `scripts/lib/` internal structure,
+separate from the application's `lib/` (tooling-only code, never imported by the Next.js app).
+`npm run validate:data` is now enforced in Husky pre-commit and CI. `Business.priceRange`
+(schema `1.3.0`) is the first field added via this sprint's migration helper.
+
+---
+
+### Future Review
+
+Revisit when ADR-002's Future Review condition (validated community adoption) is met and a
+Supabase migration is actually planned (Sprint 10's migration plan) — at that point, evaluate
+which of this sprint's scripts (especially the `zod` validation schemas) can carry over directly
+versus need reimplementation against the new data source.
+
+---
+
 # Open Decisions
 
 The following topics remain undecided and should not be implemented without discussion.

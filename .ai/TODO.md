@@ -4,11 +4,11 @@
 
 Sprint Number
 
-07 (complete) — awaiting go-ahead for Sprint 08
+08 (complete) — awaiting go-ahead for Sprint 09
 
 Sprint Name
 
-Quality & Performance
+Admin Preparation
 
 Status
 
@@ -17,6 +17,73 @@ Status
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 08 Summary
+
+Delivered: CLI/local/CI tooling that makes editing `data/*.json` safe and efficient, per Sprint 6's
+own open question ("who authors/edits content before an admin CMS exists?") — not a CMS, and
+explicitly not ROADMAP.md's Phase 14 "Admin Portal" (a future authenticated dashboard).
+
+- **JSON validation** (`scripts/lib/validation.ts`, `npm run validate:data`) — one `zod` schema
+  per data type (Business, Category, Suburb, Event, Promotion, Announcement, Settings, Metadata),
+  matching `.ai/JSON_SCHEMA.md` exactly: required fields, slug/UUID identifier rules, ISO 8601
+  dates, no unused fields, within-file duplicate detection, and cross-file referential integrity
+  (`Business.categoryId` → `Category.id`, `Promotion.businessId` → `Business.id`). Now enforced in
+  Husky pre-commit and CI — verified live by deliberately corrupting a test copy and confirming
+  the commit was blocked.
+- **Backup/restore** (`scripts/backup.ts`/`scripts/restore.ts`) — timestamped, git-ignored
+  snapshots under `.backups/`, exercised before every real write against `data/` this sprint.
+- **JSON↔CSV import/export** (`scripts/export-csv.ts`/`scripts/import-csv.ts`) — a documented
+  flatten/unflatten convention (`scripts/lib/csv.ts`); round-trip verified against the real
+  `data/businesses.json`, not a synthetic fixture. Import validates every row before writing.
+- **Admin data scripts** (`scripts/admin.ts` — `add`/`update`/`toggle` subcommands via Node's
+  built-in `parseArgs`, no new CLI dependency).
+- **Seed/generator script** (`scripts/seed-generate.ts`, `scripts/seed/wordbanks.ts`) — closes the
+  gap that ROADMAP.md's Phase 6 ("Populate Content") was never scheduled into any of this
+  project's 10 sprints. Produces realistic, schema-valid placeholder data (25 categories, 10
+  suburbs, configurable business/event/promotion/announcement counts) — built and proven (a full
+  100-business/25-category run was generated and validated), but **deliberately not run against
+  the real `data/` directory** — that decision is left open for the project owner, per this
+  sprint's own notes.md.
+- **Data migration helper** (`scripts/migrate-add-price-range.ts`) — one small, mechanical,
+  actually-executed example: added `Business.priceRange` (optional, `"$"`/`"$$"`/`"$$$"`,
+  backfilled to `"$$"`) and bumped `metadata.json`'s `schemaVersion` to `1.3.0`. Explicitly
+  distinguished from Sprint 10's much larger, not-yet-implemented JSON-to-Supabase migration plan.
+
+Key decisions:
+
+- **New ADR-013** — documents why this sprint built local/CI tooling now rather than pulling
+  forward ROADMAP.md's Phase 14 Admin Portal or a Supabase migration, both of which remain gated
+  on conditions this project's own ADRs already set (validated community adoption).
+- **`.ai/JSON_SCHEMA.md` gained a "Tooling" section** cross-referencing every script this sprint
+  added as the operational enforcement of its Validation Rules and Definition of a Valid JSON
+  File sections — a deliberate documentation decision, not left unconsidered.
+- **Seed generator writes to git-ignored scratch space by default**, requiring an explicit
+  `--target=data` flag (never passed in this sprint) to touch the real dataset — protects the
+  project owner's open decision about when/whether to populate `data/` at production scale.
+
+Two real bugs found and fixed along the way:
+
+1. `zod` v4's `z.uuid()` performs strict RFC 9562/4122 version+variant validation, not a loose
+   hex-shape check — several early test fixtures with hand-patterned "UUIDs" failed validation.
+   Fixed by using real `crypto.randomUUID()` output in test fixtures.
+2. The standard `import.meta.url === \`file://${process.argv[1]}\`` "was this script run
+   directly" check silently fails whenever the project path contains spaces — this project's own
+   path does. `npm run backup:data` produced no output and wrote nothing. Fixed with a shared
+   `scripts/lib/isMainModule.ts` using `pathToFileURL`; documented as a new Framework Gotcha in
+   `AI_MEMORY.md`.
+
+`npm run lint`, `typecheck`, `test` (121 unit/integration tests), `build`, and the full Playwright
+suite (66 Chromium tests, re-run after the migration helper changed real data) all pass.
+
+**Known limitation, disclosed not hidden:** the seed generator was not run against the real
+`data/` directory at production scale (see above) — this is a deliberate, open decision for the
+project owner, not an oversight. The new CI "Validate data" step also hasn't been exercised on a
+live GitHub Actions run yet, since nothing was pushed in this session.
+
+Full plan: `sprints/sprint-08-admin/`.
 
 ---
 
@@ -156,7 +223,7 @@ Full plan: `sprints/sprint-05-search/`.
 
 # Next Sprint (not started — do not begin without explicit instruction)
 
-Sprint 08 — Admin Preparation. Full plan: `sprints/sprint-08-admin/`.
+Sprint 09 — Production Readiness. Full plan: `sprints/sprint-09-production/`.
 
 ---
 
@@ -164,7 +231,7 @@ Sprint 08 — Admin Preparation. Full plan: `sprints/sprint-08-admin/`.
 
 Stop.
 
-Do not continue to Sprint 08.
+Do not continue to Sprint 09.
 
 Wait for explicit instruction before implementing additional features.
 

@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.7
+Version: 1.8
 
 Last Updated: 2026-07-07
 
-Current Sprint: Sprint 07 — Quality & Performance (complete, awaiting go-ahead for Sprint 08)
+Current Sprint: Sprint 08 — Admin Preparation (complete, awaiting go-ahead for Sprint 09)
 
 ---
 
@@ -22,11 +22,11 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 7 — Quality & Performance (complete)
+Phase 8 — Admin Preparation (complete)
 
 Current Focus:
 
-Sprint 7 is done. Waiting for explicit instruction before starting Sprint 8 (Admin Preparation).
+Sprint 8 is done. Waiting for explicit instruction before starting Sprint 9 (Production Readiness).
 
 ---
 
@@ -100,17 +100,27 @@ Project planning completed. Engineering documents created. Project vision define
 - Final scores: Performance 96-100, Accessibility 100, Best Practices 100, SEO 100, CLS ≤0.025 on every route (mobile and desktop)
 - **Known limitation:** mobile LCP sits at or just above the 2.5s target on all 5 routes (desktop LCP comfortably met everywhere) — root-caused to text-element render delay under Lighthouse's simulated mobile throttle, not a further-fixable code defect; carried forward. A real screen-reader spot-check, Google's Rich Results Test, and a Vercel preview check were also not performed (no assistive technology / public URL / Vercel deployment available in this environment) — disclosed in `sprints/sprint-07-quality/retrospective.md` rather than silently marked done.
 
+**Sprint 08 — Admin Preparation**, committed:
+
+- CLI/local/CI tooling for `data/*.json` — not a CMS, and explicitly not ROADMAP.md's Phase 14 "Admin Portal" (a future authenticated dashboard)
+- `scripts/lib/validation.ts` — one `zod` schema per data type matching `.ai/JSON_SCHEMA.md` exactly (required fields, slug/UUID rules, ISO 8601 dates, no unused fields, duplicate detection, cross-file referential integrity for `categoryId`/`businessId`); `npm run validate:data`, now enforced in Husky pre-commit and CI (verified live — a deliberately-corrupted test commit was blocked)
+- `scripts/backup.ts`/`scripts/restore.ts` (timestamped, git-ignored `.backups/` snapshots), `scripts/export-csv.ts`/`scripts/import-csv.ts` (JSON↔CSV, round-trip verified against the real `data/businesses.json`), `scripts/admin.ts` (add/update/toggle via Node's built-in `parseArgs`), `scripts/seed-generate.ts` + `scripts/seed/wordbanks.ts` (realistic placeholder-data generator, closing the gap that ROADMAP.md's Phase 6 was never scheduled into any sprint), `scripts/migrate-add-price-range.ts` (one real, executed migration: `Business.priceRange`, schema `1.3.0`)
+- New ADR-013 (why local/CI tooling now, not the Admin Portal or a Supabase migration); `.ai/JSON_SCHEMA.md` gained a "Tooling" section
+- Found and fixed two real bugs: `zod` v4's strict UUID version/variant validation rejected hand-patterned test fixtures (fixed with real `crypto.randomUUID()` values); the standard `import.meta.url === \`file://${process.argv[1]}\`` "run directly" check silently fails when the project path has spaces, which this project's does — `npm run backup:data` wrote nothing until fixed with a shared `pathToFileURL`-based helper (new Framework Gotcha in `AI_MEMORY.md`)
+- `lint`, `typecheck`, `test` (121 unit/integration tests), `build`, and the full Playwright suite (66 Chromium tests, re-run after the migration helper changed real data) all pass
+- **Known limitation:** the seed generator was built, tested, and run once at full scale into git-ignored scratch output — but deliberately **not** run against the real `data/` directory; that decision is left open for the project owner (`sprints/sprint-08-admin/notes.md` Open Questions), not resolved here
+
 ---
 
 # In Progress
 
-Nothing. Sprint 7 is complete. Awaiting explicit instruction to start Sprint 8.
+Nothing. Sprint 8 is complete. Awaiting explicit instruction to start Sprint 9.
 
 ---
 
 # Not Started
 
-Admin Preparation (Sprint 8), Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
+Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -147,6 +157,12 @@ Testing
 - Vitest (unit), Playwright (end-to-end — `chromium`/`firefox`/`webkit` projects since Sprint 7)
 - Lighthouse (`lighthouse` CLI) and `@axe-core/playwright` — added Sprint 7 for measured performance/accessibility audits; manual/local runs only, no CI wiring yet (a reasonable Sprint 9 candidate)
 
+Data Tooling (Sprint 8 — CLI/local/CI only, no UI)
+
+- `scripts/lib/validation.ts` — the single `zod`-based validation library, reused by every script below plus Husky pre-commit and CI
+- `scripts/backup.ts` / `scripts/restore.ts`, `scripts/export-csv.ts` / `scripts/import-csv.ts` (`papaparse`), `scripts/admin.ts`, `scripts/seed-generate.ts`, `scripts/migrate-add-price-range.ts`
+- `tsx` — script runner (`npm run <script>` executes a `.ts` file directly, no build step)
+
 Hosting
 
 - Vercel — **not yet connected** (see Known Constraints)
@@ -159,7 +175,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1 through Sprint 7 complete and committed (not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (80 unit + 198 e2e test instances across 3 browsers, 186 passed/12 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, and the community content sections are all live locally with real (sample) data, now measured and hardened against ARCHITECTURE.md's Performance Targets. Sprint 8 (Admin Preparation) has not started.
+Sprint 1 through Sprint 8 complete and committed (not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (121 unit/integration + 198 e2e test instances across 3 browsers, 186 passed/12 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, and the community content sections are all live locally with real (sample) data, measured and hardened (Sprint 7) and now backed by validated, tooled data management (Sprint 8). Sprint 9 (Production Readiness) has not started.
 
 ---
 
@@ -192,6 +208,10 @@ Metadata: `htmlLimitedBots: /.*/ ` is set in `next.config.ts` (Sprint 7) — Nex
 Homepage route: lives at `app/(home)/page.tsx` (a route group, not `app/page.tsx`) since Sprint 7 — needed so `app/(home)/loading.tsx` doesn't cascade to `/business/[slug]`/`/category/[slug]` as their Suspense boundary (see AI_MEMORY.md "Framework Gotchas" — a root-level `app/loading.tsx` would otherwise reintroduce the `notFound()` soft-404 bug on unrelated routes).
 
 Quality measurement: any future performance/accessibility/SEO claim requires an actual recorded before/after Lighthouse/axe-core measurement, not a "looks fine" impression — see DECISIONS.md ADR-012.
+
+Data tooling: every script under `scripts/` that writes to `data/` (import, admin, seed generator, migration helpers) must validate via `scripts/lib/validation.ts` before writing — never bypass it "to save time." `scripts/` is deliberately separate from the app's `lib/` (tooling-only, never imported by Next.js) — see DECISIONS.md ADR-013.
+
+Node scripts: use `scripts/lib/isMainModule.ts` (not a raw `import.meta.url === \`file://${process.argv[1]}\`` check) to detect direct execution — the raw check silently fails when the project path has spaces, which this project's does. See AI_MEMORY.md "Framework Gotchas."
 
 Future Database: Supabase
 
@@ -241,9 +261,9 @@ No backend. No authentication. No CMS. No database. No APIs. No reviews. No adve
 
 **Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
 
-All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories, 5 suburbs, 5 events, 5 promotions, 5 announcements) is placeholder-realistic, not the full 100-business/25-category set (that's Sprint 8's seed generator). All business photos — and now event images — are a single shared placeholder SVG until real community photography arrives.
+All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories, 5 suburbs, 5 events, 5 promotions, 5 announcements) is placeholder-realistic, not the full 100-business/25-category set. Sprint 8's seed generator can now produce that full-scale set on demand (`npm run seed:generate`), but has deliberately not been run against the real `data/` directory — whether/when to do so is an open decision for the project owner, not resolved yet. All business photos — and now event images — are a single shared placeholder SVG until real community photography arrives.
 
-Events, Promotions and Announcements are authored via manual JSON edits — no CMS or admin authoring UI exists yet (that's Sprint 8, Admin).
+Events, Promotions and Announcements are authored via manual JSON edits or Sprint 8's CLI tooling (`scripts/admin.ts`, `scripts/import-csv.ts`) — no authenticated admin UI exists yet (that remains ROADMAP.md's 🟡 Future Phase 14 "Admin Portal").
 
 No screen reader (VoiceOver/NVDA) is available in this development environment — accessibility verification relies on automated `@axe-core/playwright` plus a manual keyboard-navigation Playwright proxy; a genuine screen-reader spot-check is still owed before a production launch decision (Sprint 9).
 
@@ -253,9 +273,9 @@ Mobile LCP sits at or just above ARCHITECTURE.md's 2.5s target on every route (d
 
 # Next Milestone
 
-Sprint 08 — Admin Preparation (not started, awaiting explicit instruction).
+Sprint 09 — Production Readiness (not started, awaiting explicit instruction).
 
-Full plan: `sprints/sprint-08-admin/`.
+Full plan: `sprints/sprint-09-production/`.
 
 ---
 
@@ -279,6 +299,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), and Sprint 7 (Quality & Performance) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), and Sprint 8 (Admin Preparation) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
 
-Do not begin Sprint 08 without explicit instruction, even though this document and TODO.md describe its scope.
+Do not begin Sprint 09 without explicit instruction, even though this document and TODO.md describe its scope.
