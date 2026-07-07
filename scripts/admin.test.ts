@@ -1,0 +1,113 @@
+import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
+import { afterEach, beforeEach, describe, expect, it } from "vitest";
+import { addRecord, toggleField, updateRecord } from "./admin";
+
+function makeCategory(overrides: Partial<Record<string, unknown>> = {}) {
+  return { id: "plumbing", slug: "plumbing", name: "Plumbing", featured: false, ...overrides };
+}
+
+/** Uses a throwaway temp directory — never the real data/ directory. */
+describe("admin data scripts", () => {
+  let dataDir: string;
+
+  beforeEach(() => {
+    dataDir = mkdtempSync(join(tmpdir(), "akuna-admin-test-"));
+    writeFileSync(join(dataDir, "categories.json"), JSON.stringify([makeCategory()]));
+  });
+
+  afterEach(() => {
+    rmSync(dataDir, { recursive: true, force: true });
+  });
+
+  function readCategories(): Record<string, unknown>[] {
+    return JSON.parse(readFileSync(join(dataDir, "categories.json"), "utf-8"));
+  }
+
+  describe("addRecord", () => {
+    it("appends a valid record", () => {
+      const result = addRecord(
+        dataDir,
+        "categories",
+        makeCategory({ id: "electrical", slug: "electrical", name: "Electrical" }),
+      );
+
+      expect(result.errors).toEqual([]);
+      expect(readCategories()).toHaveLength(2);
+    });
+
+    it("rejects and writes nothing when the new record is invalid", () => {
+      const result = addRecord(dataDir, "categories", { id: "electrical" });
+
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(readCategories()).toHaveLength(1);
+    });
+
+    it("rejects a duplicate id without writing", () => {
+      const result = addRecord(dataDir, "categories", makeCategory());
+
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(readCategories()).toHaveLength(1);
+    });
+  });
+
+  describe("updateRecord", () => {
+    it("merges a patch into the record matched by id", () => {
+      const result = updateRecord(dataDir, "categories", { id: "plumbing" }, { displayOrder: 3 });
+
+      expect(result.errors).toEqual([]);
+      expect(readCategories()[0].displayOrder).toBe(3);
+    });
+
+    it("merges a patch into the record matched by slug", () => {
+      const result = updateRecord(
+        dataDir,
+        "categories",
+        { slug: "plumbing" },
+        { name: "Plumbing Services" },
+      );
+
+      expect(result.errors).toEqual([]);
+      expect(readCategories()[0].name).toBe("Plumbing Services");
+    });
+
+    it("errors when no record matches the identifier", () => {
+      const result = updateRecord(dataDir, "categories", { id: "does-not-exist" }, { name: "X" });
+
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(readCategories()[0].name).toBe("Plumbing");
+    });
+
+    it("rejects a patch that would make the record invalid", () => {
+      const result = updateRecord(
+        dataDir,
+        "categories",
+        { id: "plumbing" },
+        { id: "Not A Valid Slug" },
+      );
+
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(readCategories()[0].id).toBe("plumbing");
+    });
+  });
+
+  describe("toggleField", () => {
+    it("flips a boolean field", () => {
+      const result = toggleField(dataDir, "categories", { id: "plumbing" }, "featured");
+
+      expect(result.errors).toEqual([]);
+      expect(readCategories()[0].featured).toBe(true);
+
+      toggleField(dataDir, "categories", { id: "plumbing" }, "featured");
+      expect(readCategories()[0].featured).toBe(false);
+    });
+
+    it("errors when the field isn't a boolean", () => {
+      const result = toggleField(dataDir, "categories", { id: "plumbing" }, "name");
+
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(readCategories()[0].name).toBe("Plumbing");
+    });
+  });
+});
