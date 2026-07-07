@@ -15,8 +15,13 @@ const DIRECTORY_LINKS = [
 ];
 
 const COMMUNITY_LINKS = [
-  { label: "About", href: "/about", prefetch: false },
-  { label: "Contact", href: "/contact", prefetch: false },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+];
+
+const LEGAL_LINKS = [
+  { label: "Privacy", href: "/privacy" },
+  { label: "Terms", href: "/terms" },
 ];
 
 // Placeholder only — no real community social accounts exist yet.
@@ -68,8 +73,21 @@ export function Footer({ settings }: FooterProps) {
           </div>
         </div>
 
-        <div className="border-border text-muted-foreground border-t py-6 text-sm">
-          &copy; {year} {settings.communityName}. All rights reserved.
+        <div className="border-border text-muted-foreground flex flex-col gap-3 border-t py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
+          <p>
+            &copy; {year} {settings.communityName}. All rights reserved.
+          </p>
+          <nav aria-label="Legal" className="flex gap-4">
+            {LEGAL_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="duration-fast hover:text-foreground transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
         </div>
       </Container>
     </footer>
