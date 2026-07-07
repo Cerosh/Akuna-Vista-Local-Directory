@@ -21,6 +21,7 @@
     "export:csv": "tsx scripts/export-csv.ts",
     "import:csv": "tsx scripts/import-csv.ts",
     "admin:data": "tsx scripts/admin.ts",
+    "seed:generate": "tsx scripts/seed-generate.ts",
     "prepare": "husky"
   },
   "lint-staged": {
