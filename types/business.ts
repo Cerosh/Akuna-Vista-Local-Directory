@@ -26,6 +26,9 @@ export interface BusinessSocialLinks {
   linkedin?: string;
 }
 
+/** Added in schema 1.3.0 (Sprint 8's data migration helper demonstration) — purely informational, no UI consumes it yet. */
+export type BusinessPriceRange = "$" | "$$" | "$$$";
+
 export interface Business {
   id: string;
   slug: string;
@@ -45,6 +48,7 @@ export interface Business {
   featured: boolean;
   verified?: boolean;
   tags?: string[];
+  priceRange?: BusinessPriceRange;
   createdAt: string;
   updatedAt: string;
 }

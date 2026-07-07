@@ -125,11 +125,14 @@ Structure
       "Emergency",
       "Residential"
     ],
+    "priceRange": "$$",
     "createdAt": "2026-07-06T00:00:00Z",
     "updatedAt": "2026-07-06T00:00:00Z"
   }
 ]
 ```
+
+`priceRange` was added in schema `1.3.0` (Sprint 8 — Admin Preparation), as the demonstration case for this sprint's data migration helper (`scripts/migrate-add-price-range.ts`). It is optional (`"$"`, `"$$"` or `"$$$"`) and purely informational — no UI currently reads it. Every existing business was backfilled with `"$$"` by the migration helper.
 
 ---
 
@@ -519,6 +522,40 @@ Breaking schema changes should be avoided unless justified.
 Promotion schemas (previously "(Future)") and added the new Announcement
 schema. Deliberately pulls forward scope PROJECT.md and ROADMAP.md had
 placed in Version 4 — see DECISIONS.md ADR-011.
+
+`1.3.0` (Sprint 8 — Admin Preparation): added optional `Business.priceRange`
+(`"$"` | `"$$"` | `"$$$"`), backfilled to `"$$"` on every existing business.
+The demonstration case for this sprint's data migration helper
+(`scripts/migrate-add-price-range.ts`) — see DECISIONS.md ADR-013.
+
+---
+
+# Tooling
+
+Sprint 8 (Admin Preparation) turned this document's "Validation Rules"
+and "Definition of a Valid JSON File" sections into actual, enforced
+code, rather than prose alone:
+
+- `npm run validate:data` — validates every file in `data/` against the
+  schemas on this page (`scripts/lib/validation.ts`), enforced in Husky
+  pre-commit and CI so invalid data cannot be committed or merged.
+- `npm run backup:data` / `npm run restore:data` — timestamped, git-ignored
+  snapshots of `data/`, recommended before any bulk operation below.
+- `npm run export:csv` / `npm run import:csv` — JSON↔CSV for bulk spreadsheet
+  edits (`scripts/lib/csv.ts` documents the flatten/unflatten convention);
+  import runs the same validation as `validate:data` before writing.
+- `npm run admin:data` — add/update/toggle a single record from the
+  command line, validated before writing.
+- `npm run seed:generate` — a configurable placeholder-data generator
+  (`scripts/seed/wordbanks.ts`), for closing ROADMAP.md Phase 6's
+  "Populate Content" gap with tooling; scratch output only by default.
+- `scripts/migrate-add-price-range.ts` — the worked example of a
+  mechanical `schemaVersion` bump described above.
+
+See `sprints/sprint-08-admin/` for the full sprint plan and
+`sprints/sprint-08-admin/notes.md` for why this is deliberately CLI/CI
+tooling, not an authenticated admin dashboard (that remains ROADMAP.md's
+🟡 Future Phase 14).
 
 ---
 

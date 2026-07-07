@@ -31,7 +31,8 @@
     "verified": true,
     "tags": ["Emergency", "Residential"],
     "createdAt": "2026-07-06T00:00:00Z",
-    "updatedAt": "2026-07-06T00:00:00Z"
+    "updatedAt": "2026-07-06T00:00:00Z",
+    "priceRange": "$$"
   },
   {
     "id": "c2b8d4e3-5f6a-4b7c-9d8e-2f3a4b5c6d7e",
@@ -64,7 +65,8 @@
     "verified": true,
     "tags": ["Licensed", "Residential"],
     "createdAt": "2026-07-06T00:00:00Z",
-    "updatedAt": "2026-07-06T00:00:00Z"
+    "updatedAt": "2026-07-06T00:00:00Z",
+    "priceRange": "$$"
   },
   {
     "id": "d3c9e5f4-6a7b-4c8d-ae9f-3a4b5c6d7e8f",
@@ -97,7 +99,8 @@
     "verified": false,
     "tags": ["Insured", "Residential", "Commercial"],
     "createdAt": "2026-07-06T00:00:00Z",
-    "updatedAt": "2026-07-06T00:00:00Z"
+    "updatedAt": "2026-07-06T00:00:00Z",
+    "priceRange": "$$"
   },
   {
     "id": "e4dae6a5-7b8c-4d9e-bfa1-4b5c6d7e8f9a",
@@ -130,7 +133,8 @@
     "verified": true,
     "tags": ["New builds", "Residential"],
     "createdAt": "2026-07-06T00:00:00Z",
-    "updatedAt": "2026-07-06T00:00:00Z"
+    "updatedAt": "2026-07-06T00:00:00Z",
+    "priceRange": "$$"
   },
   {
     "id": "f5ebf7b6-8c9d-4eaf-8caf-5c6d7e8f9a0b",
@@ -164,7 +168,8 @@
     "verified": true,
     "tags": ["Long day care", "Licensed"],
     "createdAt": "2026-07-06T00:00:00Z",
-    "updatedAt": "2026-07-06T00:00:00Z"
+    "updatedAt": "2026-07-06T00:00:00Z",
+    "priceRange": "$$"
   },
   {
     "id": "a6fc08c7-9dae-4fb0-9db0-6d7e8f9a0b1c",
@@ -199,7 +204,8 @@
     "verified": false,
     "tags": ["Dog-friendly", "Coffee"],
     "createdAt": "2026-07-06T00:00:00Z",
-    "updatedAt": "2026-07-06T00:00:00Z"
+    "updatedAt": "2026-07-06T00:00:00Z",
+    "priceRange": "$$"
   },
   {
     "id": "b70d19d8-aebf-4001-ae1c-7e8f9a0b1c2d",
@@ -232,7 +238,8 @@
     "verified": true,
     "tags": ["Licensed", "Renovations"],
     "createdAt": "2026-07-06T00:00:00Z",
-    "updatedAt": "2026-07-06T00:00:00Z"
+    "updatedAt": "2026-07-06T00:00:00Z",
+    "priceRange": "$$"
   },
   {
     "id": "c81e2ae9-bfc0-4112-bf2d-8f9a0b1c2d3e",
@@ -265,6 +272,7 @@
     "verified": false,
     "tags": ["Dog walking", "Grooming"],
     "createdAt": "2026-07-06T00:00:00Z",
-    "updatedAt": "2026-07-06T00:00:00Z"
+    "updatedAt": "2026-07-06T00:00:00Z",
+    "priceRange": "$$"
   }
 ]

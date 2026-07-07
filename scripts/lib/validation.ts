@@ -80,6 +80,8 @@ export const businessSchema = z.strictObject({
   featured: z.boolean(),
   verified: z.boolean().optional(),
   tags: z.array(z.string()).optional(),
+  // Added in schema 1.3.0 — Sprint 8's data migration helper demonstration.
+  priceRange: z.enum(["$", "$$", "$$$"]).optional(),
   createdAt: isoDateTimeSchema,
   updatedAt: isoDateTimeSchema,
 });

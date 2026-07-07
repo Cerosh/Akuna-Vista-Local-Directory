@@ -52,6 +52,7 @@ export const FIELD_KINDS_BY_FILE: Record<ArrayFileKey, FieldKindMap> = {
     featured: "boolean",
     verified: "boolean",
     tags: "array",
+    priceRange: "string",
     createdAt: "string",
     updatedAt: "string",
   },

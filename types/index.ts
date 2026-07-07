@@ -4,6 +4,7 @@ export type {
   BusinessCoordinates,
   BusinessOpeningHours,
   BusinessSocialLinks,
+  BusinessPriceRange,
 } from "./business";
 export type { Category } from "./category";
 export type { Suburb } from "./suburb";
