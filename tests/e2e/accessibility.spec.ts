@@ -13,6 +13,10 @@ const ROUTES: { name: string; path: string }[] = [
   { name: "Category page", path: "/category/plumbing" },
   { name: "Business detail", path: "/business/abc-plumbing" },
   { name: "Search", path: "/search" },
+  { name: "About", path: "/about" },
+  { name: "Contact", path: "/contact" },
+  { name: "Privacy", path: "/privacy" },
+  { name: "Terms", path: "/terms" },
 ];
 
 test.describe("Accessibility (axe-core)", () => {

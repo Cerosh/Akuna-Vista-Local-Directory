@@ -8,7 +8,17 @@ import { expect, test } from "@playwright/test";
  * still a manual/visual concern (TESTING.md's Visual Regression is
  * explicitly "Future").
  */
-const ROUTES = ["/", "/businesses", "/category/plumbing", "/business/abc-plumbing", "/search"];
+const ROUTES = [
+  "/",
+  "/businesses",
+  "/category/plumbing",
+  "/business/abc-plumbing",
+  "/search",
+  "/about",
+  "/contact",
+  "/privacy",
+  "/terms",
+];
 
 const BREAKPOINTS = [
   { name: "mobile", width: 375, height: 700 },
