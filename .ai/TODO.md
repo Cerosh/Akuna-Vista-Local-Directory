@@ -4,11 +4,11 @@
 
 Sprint Number
 
-08 (complete) — awaiting go-ahead for Sprint 09
+08b (complete) — awaiting go-ahead for Sprint 09
 
 Sprint Name
 
-Admin Preparation
+Community Pages
 
 Status
 
@@ -17,6 +17,43 @@ Status
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 08b Summary
+
+Delivered: `/about`, `/contact`, `/privacy`, `/terms` — four static pages closing a gap that
+existed since `.ai/ROADMAP.md`'s original Phase 5 "Community Pages" was split across the actual
+10-sprint plan without those four pages ever landing anywhere. `Footer.tsx` had linked to `/about`
+and `/contact` since Sprint 1 with `prefetch={false}` (both 404'd); those links are now real, and
+a new "Legal" nav in the Footer's bottom bar links Privacy/Terms.
+
+Key decisions:
+
+- Inserted as Sprint 08b between Sprint 08 and Sprint 09 **without renumbering either** — see
+  `sprints/sprint-08b-community-pages/README.md`'s "Numbering" section. This resolves a gap
+  Sprint 09's own planning docs had flagged as needing an explicit decision before that sprint's
+  Definition of Done could be signed off (updated in the same commit that created this sprint's
+  plan).
+- Contact page is a `mailto:` link to `Settings.contactEmail`, not a submission form — this
+  project has no email-sending backend (ADR-002), so a real form would be new architecture, not a
+  simple page. Satisfies `.ai/TESTING.md`'s "Contact page" Critical User Journey as specified.
+- Privacy/Terms content is an honest, accurate draft of current platform behaviour (no accounts,
+  no data collection today, what Sprint 9's analytics will add), explicitly flagged as needing
+  the project owner's own legal review before being treated as binding — not presented as vetted
+  legal advice.
+- No new components: every page reuses `PageHeader`/`Container`/`Section`/`buttonVariants`.
+
+One finding (Low severity, fixed immediately): a new Playwright test's `getByRole` link locator
+matched both the page body's mailto link and the Footer's (present on every page) — scoped to
+`#main-content` to disambiguate. See `sprints/sprint-08b-community-pages/review.md`.
+
+Tests: 121 unit/integration (unchanged) + 272 Playwright (was 264 for Sprint 07/08 — 8 new tests
+across accessibility/responsive/community-pages, all passing across Chromium/Firefox/WebKit).
+Build succeeds; all four new routes are static.
+
+Known limitation, deliberately not resolved here: Privacy/Terms content has not had a legal
+review — see this sprint's Carry Forward.
 
 ---
 
@@ -223,12 +260,10 @@ Full plan: `sprints/sprint-05-search/`.
 
 # Next Sprint (not started — do not begin without explicit instruction)
 
-Sprint 08b — Community Pages (About/Contact/Privacy/Terms). Full plan:
-`sprints/sprint-08b-community-pages/`. Inserted between Sprint 08 and Sprint 09 without
-renumbering either — see that sprint's README.md "Numbering" section. Resolves a gap Sprint 09's
-own planning docs flagged as needing an explicit decision before its Definition of Done could be
-signed off (see `sprints/sprint-09-production/README.md` Risks). Sprint 09 — Production Readiness
-(`sprints/sprint-09-production/`) remains next after Sprint 08b.
+Sprint 09 — Production Readiness. Full plan: `sprints/sprint-09-production/`. Its own Definition
+of Done required the About/Contact/Privacy/Terms decision resolved first — Sprint 08b resolved it
+(see `sprints/sprint-08b-community-pages/` and `sprints/sprint-09-production/README.md` Risks,
+now marked resolved).
 
 ---
 
@@ -236,7 +271,7 @@ signed off (see `sprints/sprint-09-production/README.md` Risks). Sprint 09 — P
 
 Stop.
 
-Do not continue to Sprint 08b.
+Do not continue to Sprint 09.
 
 Wait for explicit instruction before implementing additional features.
 

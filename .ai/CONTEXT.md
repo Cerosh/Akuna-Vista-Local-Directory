@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.8
+Version: 1.9
 
-Last Updated: 2026-07-07
+Last Updated: 2026-07-08
 
-Current Sprint: Sprint 08 — Admin Preparation (complete, awaiting go-ahead for Sprint 09)
+Current Sprint: Sprint 08b — Community Pages (complete, awaiting go-ahead for Sprint 09)
 
 ---
 
@@ -22,11 +22,11 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 8 — Admin Preparation (complete)
+Phase 8b — Community Pages (complete)
 
 Current Focus:
 
-Sprint 8 is done. Waiting for explicit instruction before starting Sprint 9 (Production Readiness).
+Sprint 8b is done. Waiting for explicit instruction before starting Sprint 9 (Production Readiness).
 
 ---
 
@@ -110,11 +110,20 @@ Project planning completed. Engineering documents created. Project vision define
 - `lint`, `typecheck`, `test` (121 unit/integration tests), `build`, and the full Playwright suite (66 Chromium tests, re-run after the migration helper changed real data) all pass
 - **Known limitation:** the seed generator was built, tested, and run once at full scale into git-ignored scratch output — but deliberately **not** run against the real `data/` directory; that decision is left open for the project owner (`sprints/sprint-08-admin/notes.md` Open Questions), not resolved here
 
+**Sprint 08b — Community Pages**, committed (inserted between Sprint 08 and Sprint 09 without renumbering either — see `sprints/sprint-08b-community-pages/README.md` "Numbering"):
+
+- `/about`, `/contact`, `/privacy`, `/terms` — closes a gap that existed since ROADMAP.md's original Phase 5 "Community Pages" was split across the real 10-sprint plan without these four pages ever landing anywhere; `Footer.tsx` had linked to `/about`/`/contact` (both 404ing) since Sprint 1
+- Resolves the precondition Sprint 09's own planning docs flagged as required before that sprint's Definition of Done could be signed off (`sprints/sprint-09-production/README.md`/`goals.md`/`notes.md` updated to reference this sprint as the resolution)
+- No new components — every page reuses `PageHeader`/`Container`/`Section`/`buttonVariants`; Contact is a `mailto:` link to `Settings.contactEmail`, deliberately not a submission form (no email-sending backend exists — ADR-002)
+- Privacy/Terms content is an honest draft of current platform behaviour (no accounts, no data collection today), explicitly flagged as needing the project owner's own legal review, not presented as vetted advice
+- All four routes added to the existing `tests/e2e/accessibility.spec.ts`/`responsive.spec.ts` suites (same zero-critical/serious-violations, no-horizontal-overflow bar as every other route) plus a new `tests/e2e/community-pages.spec.ts`; full suite now 272 Playwright tests (was 264), all passing across Chromium/Firefox/WebKit
+- One low-severity finding, fixed immediately: a Playwright locator matched both the page body's and the Footer's mailto link — scoped to `#main-content`
+
 ---
 
 # In Progress
 
-Nothing. Sprint 8 is complete. Awaiting explicit instruction to start Sprint 9.
+Nothing. Sprint 8b is complete. Awaiting explicit instruction to start Sprint 9.
 
 ---
 
@@ -175,7 +184,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1 through Sprint 8 complete and committed (not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (121 unit/integration + 198 e2e test instances across 3 browsers, 186 passed/12 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, and the community content sections are all live locally with real (sample) data, measured and hardened (Sprint 7) and now backed by validated, tooled data management (Sprint 8). Sprint 9 (Production Readiness) has not started.
+Sprint 1 through Sprint 8b complete and committed (not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (121 unit/integration + 272 e2e test instances across 3 browsers, 16 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, the community content sections, and now About/Contact/Privacy/Terms are all live locally with real (sample) data, measured and hardened (Sprint 7), backed by validated, tooled data management (Sprint 8). Sprint 9 (Production Readiness) has not started.
 
 ---
 
@@ -273,14 +282,10 @@ Mobile LCP sits at or just above ARCHITECTURE.md's 2.5s target on every route (d
 
 # Next Milestone
 
-Sprint 08b — Community Pages (not started, awaiting explicit instruction). Inserted between
-Sprint 08 and Sprint 09 without renumbering either (see that sprint's README.md "Numbering"
-section) — builds About/Contact/Privacy/Terms, resolving a gap Sprint 09's own docs flagged as
-needing resolution before its Definition of Done could be signed off.
+Sprint 09 — Production Readiness (not started, awaiting explicit instruction). Its own Definition
+of Done required the About/Contact/Privacy/Terms decision resolved first — Sprint 08b resolved it.
 
-Full plan: `sprints/sprint-08b-community-pages/`.
-
-Sprint 09 — Production Readiness remains next after Sprint 08b. Full plan: `sprints/sprint-09-production/`.
+Full plan: `sprints/sprint-09-production/`.
 
 ---
 
@@ -304,6 +309,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), and Sprint 8 (Admin Preparation) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), Sprint 8 (Admin Preparation), and Sprint 8b (Community Pages) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
 
 Do not begin Sprint 09 without explicit instruction, even though this document and TODO.md describe its scope.
