@@ -133,5 +133,14 @@
     "description": "Furniture, decor and homewares retailers.",
     "displayOrder": 15,
     "featured": false
+  },
+  {
+    "id": "real-estate",
+    "slug": "real-estate",
+    "name": "Real Estate",
+    "icon": "Home",
+    "description": "Real estate agents and property investment services.",
+    "displayOrder": 16,
+    "featured": false
   }
 ]

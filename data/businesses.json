@@ -177,5 +177,42 @@
     "tags": ["Dance Fitness", "Women's Class"],
     "createdAt": "2026-07-08T00:00:00Z",
     "updatedAt": "2026-07-08T00:00:00Z"
+  },
+  {
+    "id": "32a83783-33b8-4258-9994-5ab049cf05ef",
+    "slug": "nirimba-tuition",
+    "name": "Nirimba Tuition",
+    "description": "Nirimba Tuition offers small group tuition for Kindy to Year 6, covering Maths, English and Writing with concept-based learning, homework support and regular progress updates. Term 3 admissions are now open.",
+    "shortDescription": "Small group tuition, Kindy–Year 6 — Term 3 admissions open.",
+    "categoryId": "tutoring-education",
+    "phone": "+61 494 734 656",
+    "website": "https://nirimbatuition.com.au/",
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/nirimba.tuition"
+    },
+    "serviceAreas": ["Nirimba Fields", "Schofields"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Tutoring", "Term 3 Enrolling", "Kindy-Year 6"],
+    "createdAt": "2026-07-08T00:00:00Z",
+    "updatedAt": "2026-07-08T00:00:00Z"
+  },
+  {
+    "id": "42239034-2b8c-42f0-9cf2-a64c1ee1f496",
+    "slug": "dual-key-property-investments",
+    "name": "Dual Key Property Investments",
+    "description": "Independent property investment guidance focused on dual key properties in Queensland and Western Australia, designed to deliver higher rental yield through multiple income streams from a single property. Suited to investors building a portfolio or buying their first investment property, in areas with strong population growth and high tenant demand.",
+    "shortDescription": "Dual key property investment guidance for QLD & WA.",
+    "categoryId": "real-estate",
+    "phone": "+61 478 005 566",
+    "socialLinks": {},
+    "serviceAreas": ["Schofields"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Property Investment", "Dual Key", "QLD & WA"],
+    "createdAt": "2026-07-08T00:00:00Z",
+    "updatedAt": "2026-07-08T00:00:00Z"
   }
 ]
