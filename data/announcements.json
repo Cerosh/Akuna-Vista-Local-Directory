@@ -1,44 +1,44 @@
 [
   {
-    "id": "9eee1917-4b45-4aa2-8dad-9a3cbb5b17b7",
-    "title": "Water main works — Vista Street",
-    "message": "Sydney Water will be carrying out planned maintenance on Vista Street from 9am–3pm. Expect brief water interruptions for nearby properties.",
-    "publishedAt": "2026-07-05T09:00:00Z",
-    "expiresAt": "2026-07-12T00:00:00Z",
+    "id": "67cabc6c-8363-4514-86eb-10b0c2ebdd5a",
+    "title": "Woolworths supermarket proposed for Akuna Vista",
+    "message": "A development application before the Sydney Central City Planning Panel proposes a Woolworths supermarket and supporting retail at the Akuna Vista local centre, with commercial office space, an internal mall, at-grade and basement parking, and a loading dock. A promising sign for local shopping options.",
+    "publishedAt": "2026-07-06T09:00:00Z",
     "priority": "high",
     "featured": true
   },
   {
-    "id": "e9785909-e05d-45cc-9471-e1e03ffd59e5",
-    "title": "New bin collection day from August",
-    "message": "Council has confirmed general waste collection is moving from Tuesdays to Thursdays starting 3 August. Recycling and green waste days are unchanged.",
-    "publishedAt": "2026-07-03T08:00:00Z",
+    "id": "e4d6e90c-3e93-4a6b-bdd8-a0083a68608e",
+    "title": "Nirimba Fields streetscape works have commenced",
+    "message": "DHA has appointed Perfection Landscape Services to carry out streetscape works across Nirimba Fields in 2026, including planting more than 600 new street trees and laying over 2km of new footpaths — part of the long-term plan for a greener, more walkable neighbourhood.",
+    "publishedAt": "2026-07-02T08:00:00Z",
+    "expiresAt": "2026-12-31T00:00:00Z",
     "priority": "normal",
     "featured": false
   },
   {
-    "id": "3303e448-403d-460b-91f3-8221237d19e6",
-    "title": "Community Facebook group reaches 1,000 members",
-    "message": "Thanks to everyone who's joined the Akuna Vista community group — a great milestone for a growing neighbourhood.",
-    "publishedAt": "2026-06-28T10:00:00Z",
-    "expiresAt": "2026-07-01T00:00:00Z",
+    "id": "00179554-0f40-442d-b068-9b9e164f2d79",
+    "title": "Townson Road and Burdekin Road upgrades in planning",
+    "message": "Transport for NSW is planning a 3.6km upgrade linking Richmond Road, Marsden Park to Burdekin Road, Schofields: a new four-lane divided road, three traffic-light intersections, a shared path for pedestrians and cyclists, two new bridges over Bells Creek and Eastern Creek, and a rail crossing near Schofields Station.",
+    "publishedAt": "2026-06-25T08:00:00Z",
     "priority": "normal",
     "featured": false
   },
   {
-    "id": "e495fe54-711c-46ce-a281-7881dc01607c",
-    "title": "Park playground equipment temporarily closed",
-    "message": "The playground at Akuna Vista Park is closed for scheduled safety inspections and expected to reopen within the week.",
-    "publishedAt": "2026-07-06T07:30:00Z",
-    "expiresAt": "2026-07-14T00:00:00Z",
+    "id": "8c9602e6-3e99-4547-a83f-c9ae52c6f113",
+    "title": "Railway Terrace, Schofields road construction underway",
+    "message": "Abergeldie Complex Infrastructure is building a new road along Railway Terrace, Schofields, on behalf of Blacktown City Council. Construction started in October 2025 and is expected to finish by June 2027, funded by the NSW Government's Special Infrastructure Contributions program.",
+    "publishedAt": "2026-06-20T08:00:00Z",
+    "expiresAt": "2027-06-30T00:00:00Z",
     "priority": "high",
     "featured": false
   },
   {
-    "id": "9e4603a9-b507-4f0f-a940-28f13e5fb0fe",
-    "title": "New street library on Ridgeline Drive",
-    "message": "A neighbour has set up a street library out the front of 24 Ridgeline Drive — take a book, leave a book.",
-    "publishedAt": "2026-07-01T09:00:00Z",
+    "id": "eb5ac6aa-d699-48a3-a4c9-8c7d201c5cc3",
+    "title": "Schofields Park upgrade underway",
+    "message": "Blacktown City Council has begun upgrading Schofields Park to improve accessibility, recreation opportunities and community facilities. Convil Group started construction on 9 June 2026, with completion expected by February 2027, jointly funded by Council and the Commonwealth Government's Priority Community Infrastructure Program.",
+    "publishedAt": "2026-06-15T08:00:00Z",
+    "expiresAt": "2027-02-28T00:00:00Z",
     "priority": "normal",
     "featured": false
   }
