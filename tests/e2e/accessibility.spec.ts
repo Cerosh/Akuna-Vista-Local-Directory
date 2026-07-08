@@ -10,8 +10,8 @@ import { expect, test } from "@playwright/test";
 const ROUTES: { name: string; path: string }[] = [
   { name: "Homepage / Community page", path: "/" },
   { name: "Business directory", path: "/businesses" },
-  { name: "Category page", path: "/category/plumbing" },
-  { name: "Business detail", path: "/business/abc-plumbing" },
+  { name: "Category page", path: "/category/roofing" },
+  { name: "Business detail", path: "/business/brar-roofing-solution" },
   { name: "Search", path: "/search" },
   { name: "About", path: "/about" },
   { name: "Contact", path: "/contact" },

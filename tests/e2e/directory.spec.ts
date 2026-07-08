@@ -21,11 +21,11 @@ test.describe("Business Directory (/businesses)", () => {
     const directory = new DirectoryPage(page);
     await directory.goto();
 
-    await directory.selectCategory("Plumbing");
+    await directory.selectCategory("Roofing");
 
-    await expect(page).toHaveURL(/category=plumbing/);
+    await expect(page).toHaveURL(/category=roofing/);
     await expect(directory.businessCards).toHaveCount(1);
-    await expect(page.getByText("ABC Plumbing")).toBeVisible();
+    await expect(page.getByText("Brar Roofing Solution")).toBeVisible();
   });
 
   test("sorting changes the order of results", async ({ page }) => {
@@ -36,7 +36,9 @@ test.describe("Business Directory (/businesses)", () => {
 
     await expect(page).toHaveURL(/sort=name/);
     const firstCardHeading = page.locator('[data-slot="card-title"]').first();
-    await expect(firstCardHeading).toHaveText("ABC Plumbing");
+    // "Allan's TV Wall Mounting" sorts first alphabetically among the
+    // current real business dataset.
+    await expect(firstCardHeading).toHaveText("Allan's TV Wall Mounting");
   });
 
   test("pagination moves between pages and disables at the edges", async ({ page }) => {
@@ -67,11 +69,11 @@ test.describe("Business Directory (/businesses)", () => {
 test.describe("Category pages (/category/[slug])", () => {
   test("renders only businesses in that category", async ({ page }) => {
     const directory = new DirectoryPage(page);
-    await directory.goto("/category/plumbing");
+    await directory.goto("/category/roofing");
 
-    await expect(page.getByRole("heading", { name: "Plumbing", level: 1 })).toBeVisible();
+    await expect(page.getByRole("heading", { name: "Roofing", level: 1 })).toBeVisible();
     await expect(directory.businessCards).toHaveCount(1);
-    await expect(page.getByText("ABC Plumbing")).toBeVisible();
+    await expect(page.getByText("Brar Roofing Solution")).toBeVisible();
     await expect(directory.categoryFilters).toHaveCount(0);
   });
 
@@ -84,8 +86,10 @@ test.describe("Category pages (/category/[slug])", () => {
   test("a category with no businesses yet shows the empty state, not a blank page", async ({
     page,
   }) => {
+    // "childcare" currently has zero real businesses — the real dataset
+    // populated so far (Sprint 08b content update) doesn't include one.
     const directory = new DirectoryPage(page);
-    await directory.goto("/category/fitness-wellness");
+    await directory.goto("/category/childcare");
 
     await expect(page.getByRole("heading", { name: "No businesses found" })).toBeVisible();
     await expect(directory.businessCards).toHaveCount(0);

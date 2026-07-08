@@ -7,10 +7,10 @@ test.describe("Search (/search)", () => {
     const home = new HomePage(page);
     await home.goto();
 
-    await page.getByRole("searchbox", { name: "Search businesses" }).fill("plumbing");
+    await page.getByRole("searchbox", { name: "Search businesses" }).fill("roofing");
     await page.getByRole("button", { name: "Search" }).click();
 
-    await expect(page).toHaveURL(/\/search\?q=plumbing/);
+    await expect(page).toHaveURL(/\/search\?q=roofing/);
   });
 
   test("loads with filter chips and no console errors", async ({ page }) => {
@@ -23,7 +23,7 @@ test.describe("Search (/search)", () => {
     await search.goto();
 
     await expect(search.input).toBeVisible();
-    await expect(search.categoryChip("Plumbing")).toBeVisible();
+    await expect(search.categoryChip("Roofing")).toBeVisible();
     await expect(search.categoryChip("Schofields")).toBeVisible();
     expect(consoleErrors).toEqual([]);
   });
@@ -32,35 +32,31 @@ test.describe("Search (/search)", () => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.input.fill("plumb");
+    await search.input.fill("roof");
 
     await expect(page.getByRole("listbox", { name: "Search suggestions" })).toBeVisible();
-    await expect(page.getByRole("option", { name: /ABC Plumbing/ })).toBeVisible();
+    await expect(page.getByRole("option", { name: /Brar Roofing Solution/ })).toBeVisible();
     await expect(search.businessCards).toHaveCount(1);
   });
 
-  test("matches an unaccented query against accented business data", async ({ page }) => {
-    // Regression test — "cafe" must match "The Local Grind Café".
-    const search = new SearchPage(page);
-    await search.goto();
-
-    await search.input.fill("cafe");
-
-    await expect(search.businessCards).toHaveCount(1);
-    await expect(
-      page.locator('[data-slot="card-title"]', { hasText: "The Local Grind Café" }),
-    ).toBeVisible();
-  });
+  // The accent-folding regression this test used to cover end-to-end
+  // ("cafe" -> "The Local Grind Café") no longer has a matching business in
+  // the real dataset (Sprint 08b content update) — the underlying behaviour
+  // is still fully covered by the fast, data-independent unit test in
+  // lib/services/searchService.test.ts ("matches an unaccented query
+  // against accented data, and vice versa"). Not re-added here to avoid
+  // fabricating an accented business name just for test coverage; will
+  // return naturally once real accented business content exists.
 
   test("selecting a suggestion via keyboard updates the query and results", async ({ page }) => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.input.fill("plumb");
+    await search.input.fill("roof");
     await search.input.press("ArrowDown");
     await search.input.press("Enter");
 
-    await expect(search.input).toHaveValue("ABC Plumbing");
+    await expect(search.input).toHaveValue("Brar Roofing Solution");
     await expect(search.businessCards).toHaveCount(1);
   });
 
@@ -68,11 +64,11 @@ test.describe("Search (/search)", () => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.categoryChip("Plumbing").click();
+    await search.categoryChip("Roofing").click();
     await expect(search.businessCards).toHaveCount(1);
-    await expect(page.getByText("ABC Plumbing")).toBeVisible();
+    await expect(page.getByText("Brar Roofing Solution")).toBeVisible();
 
-    await search.categoryChip("Plumbing").click();
+    await search.categoryChip("Roofing").click();
     await expect(search.businessCards).toHaveCount(0);
   });
 
@@ -80,7 +76,7 @@ test.describe("Search (/search)", () => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.categoryChip("The Ponds").click();
+    await search.categoryChip("Schofields").click();
 
     const count = await search.businessCards.count();
     expect(count).toBeGreaterThan(1);
@@ -100,7 +96,7 @@ test.describe("Search (/search)", () => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.input.fill("plumb");
+    await search.input.fill("roof");
     await expect(page.getByRole("listbox", { name: "Search suggestions" })).toBeVisible();
 
     await search.input.press("Escape");
