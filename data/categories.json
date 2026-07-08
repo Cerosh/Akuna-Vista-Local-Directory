@@ -79,5 +79,59 @@
     "description": "Personal trainers, yoga and wellness services.",
     "displayOrder": 9,
     "featured": false
+  },
+  {
+    "id": "roofing",
+    "slug": "roofing",
+    "name": "Roofing",
+    "icon": "Home",
+    "description": "Roof repairs, replacements and maintenance.",
+    "displayOrder": 10,
+    "featured": false
+  },
+  {
+    "id": "hairdressers-barbers",
+    "slug": "hairdressers-barbers",
+    "name": "Hairdressers & Barbers",
+    "icon": "Scissors",
+    "description": "Hairdressing and barbering services.",
+    "displayOrder": 11,
+    "featured": false
+  },
+  {
+    "id": "tutoring-education",
+    "slug": "tutoring-education",
+    "name": "Tutoring & Education",
+    "icon": "GraduationCap",
+    "description": "Tutoring, exam preparation and education services.",
+    "displayOrder": 12,
+    "featured": false
+  },
+  {
+    "id": "tv-installation",
+    "slug": "tv-installation",
+    "name": "TV & Home Entertainment Installation",
+    "icon": "Tv",
+    "description": "TV wall mounting and home entertainment installation.",
+    "displayOrder": 13,
+    "featured": false
+  },
+  {
+    "id": "taxi-transport",
+    "slug": "taxi-transport",
+    "name": "Taxi & Transport",
+    "icon": "CarTaxiFront",
+    "description": "Taxi, airport and private transport services.",
+    "displayOrder": 14,
+    "featured": false
+  },
+  {
+    "id": "furniture-homewares",
+    "slug": "furniture-homewares",
+    "name": "Furniture & Homewares",
+    "icon": "Sofa",
+    "description": "Furniture, decor and homewares retailers.",
+    "displayOrder": 15,
+    "featured": false
   }
 ]

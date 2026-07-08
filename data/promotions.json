@@ -1,47 +1,38 @@
 [
   {
-    "id": "60bfac97-9978-4071-8a33-49a02ec57b86",
-    "businessId": "b1a7c3d2-4e5f-4a6b-8c7d-1e2f3a4b5c6d",
-    "title": "10% Off Emergency Callouts",
-    "description": "Mention the community directory for 10% off any emergency plumbing callout this month.",
+    "id": "e7c3c9bd-321e-4700-83fd-2016139b7fe4",
+    "businessId": "4a2fafa2-e1cb-472c-b8bf-42cf603438ab",
+    "title": "$10 Off Your First Lawn Mowing Service",
+    "description": "First-time customers receive $10 off their first service with Just Cut Grass — book while spots are available.",
     "startDate": "2026-07-01",
-    "endDate": "2026-07-31",
+    "endDate": "2026-08-31",
     "featured": true
   },
   {
-    "id": "158854ed-1ca4-4acf-b4d6-59ddfda4c7ca",
-    "businessId": "d3c9e5f4-6a7b-4c8d-ae9f-3a4b5c6d7e8f",
-    "title": "First Clean Free",
-    "description": "New customers get their first fortnightly clean on the house.",
+    "id": "d22b7763-3aaf-4bda-bfb7-e3d21153c250",
+    "businessId": "7c37666c-b025-4a0e-a365-4e4d2789d551",
+    "title": "15% Off for West & North Western Sydney Residents",
+    "description": "Windsor Marsden Park Richmond Taxi offers 15% off fares for residents of West and North Western Sydney suburbs.",
     "startDate": "2026-07-01",
-    "endDate": "2026-08-15",
-    "featured": false
-  },
-  {
-    "id": "083f7a5c-be77-467a-bfb6-97281c63d43f",
-    "businessId": "a6fc08c7-9dae-4fb0-9db0-6d7e8f9a0b1c",
-    "title": "Buy One Coffee, Get One Free (Wednesdays)",
-    "description": "Every Wednesday, bring a friend and the second coffee is on us.",
-    "startDate": "2026-06-01",
     "endDate": "2026-12-31",
     "featured": false
   },
   {
-    "id": "b14d6c06-7c73-4683-af22-427f6c7a31b6",
-    "businessId": "c81e2ae9-bfc0-4112-bf2d-8f9a0b1c2d3e",
-    "title": "20% Off First Grooming Session",
-    "description": "New clients receive 20% off their first dog grooming appointment.",
+    "id": "d45dd677-2dd6-47ec-be2e-6fe16544808a",
+    "businessId": "54b2db17-a509-464a-9441-04dad51a1ac0",
+    "title": "Free Roofing Quote",
+    "description": "Brar Roofing Solution offers a free, no-obligation quote for roof repairs, repointing and replacements.",
     "startDate": "2026-07-01",
     "endDate": "2026-09-30",
     "featured": false
   },
   {
-    "id": "e4456360-943b-4d24-90a8-0c60ec530a8d",
-    "businessId": "e4dae6a5-7b8c-4d9e-bfa1-4b5c6d7e8f9a",
-    "title": "Free Garden Design Consultation",
-    "description": "Book a free onsite consultation for new-build garden landscaping.",
-    "startDate": "2026-05-01",
-    "endDate": "2026-06-30",
+    "id": "eee704c4-6bf2-4bb9-821e-26f25b4a068e",
+    "businessId": "1fd9412a-f9e7-426a-8fe0-0f3efe061557",
+    "title": "Free Assessment for Term 2 Enrolment",
+    "description": "Book a free assessment with Educally when enrolling for Term 2 2026 tutoring.",
+    "startDate": "2026-07-01",
+    "endDate": "2026-07-31",
     "featured": false
   }
 ]
