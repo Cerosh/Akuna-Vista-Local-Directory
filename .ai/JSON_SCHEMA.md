@@ -275,6 +275,18 @@ and announcements alike — Event and Promotion schemas already had the
 field, so Announcement needed it too for that mechanism to work
 consistently across all three content types.
 
+**(Future) `sourceUrl?: string`** — not yet part of the schema. Raised
+when real council/government/developer news (e.g. a Transport for NSW
+project page, a council DA notice) was added as announcement content
+and there was nowhere to link back to the source. Add as an optional
+field, rendered by `AnnouncementCard` as a "Read more" / source link
+when present, omitted otherwise (same optional-field convention as
+`expiresAt`). Requires: a `scripts/lib/validation.ts` schema update
+(`z.url().optional()`), a `types/announcement.ts` update, and a
+`schemaVersion` bump via a small migration (see `scripts/migrate-add-price-range.ts`
+for the pattern). Not scheduled into any sprint yet — tracked in
+TODO.md's Backlog.
+
 ---
 
 # Settings Schema

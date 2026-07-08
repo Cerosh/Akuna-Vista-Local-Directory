@@ -258,6 +258,22 @@ Full plan: `sprints/sprint-05-search/`.
 
 ---
 
+# Backlog (not yet scheduled into any sprint)
+
+Small, concrete requirements the project owner has asked to keep for a future sprint, too small
+to be a "Future Release" (ROADMAP.md) but not yet assigned to Sprint 09 or Sprint 10 either.
+Pick these up explicitly when scoping a future sprint — do not implement without instruction.
+
+- **`Announcement.sourceUrl` (optional field)** — announcements are increasingly sourced from
+  real council/government/developer news (e.g. Transport for NSW project pages, council DA
+  notices) with nowhere to link back to the original source. Add an optional `sourceUrl` field,
+  rendered by `AnnouncementCard` as a "Read more" link when present. See `.ai/JSON_SCHEMA.md`'s
+  Announcement Schema section for the exact scope (schema update, type update, small migration
+  bumping `schemaVersion`, per `scripts/migrate-add-price-range.ts`'s pattern). Raised 2026-07-08
+  when real local news replaced the sample `data/announcements.json` content.
+
+---
+
 # Next Sprint (not started — do not begin without explicit instruction)
 
 Sprint 09 — Production Readiness. Full plan: `sprints/sprint-09-production/`. Its own Definition
