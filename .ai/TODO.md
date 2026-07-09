@@ -306,6 +306,19 @@ Pick these up explicitly when scoping a future sprint — do not implement witho
   project owner provides them, and change the icon spans to real `<a>`/`Link` elements pointing
   at those URLs. Raised 2026-07-09 during the "is there any more fake data" audit.
 
+- **Fix Popular Categories' `featured` flags to match real content** — `data/categories.json`
+  still has the original Sprint 1/2 featured set (Plumbing, Electrical, Cleaning, Landscaping &
+  Gardening), unchanged since the real business content replaced the sample data. As of
+  2026-07-09, Plumbing and Cleaning have **zero** real businesses (both featured on the homepage
+  anyway), while Tutoring & Education (2 businesses — the most of any category) and Real Estate
+  (1) aren't featured at all. Proposed fix: set `featured: false` on Plumbing and Cleaning,
+  `featured: true` on Tutoring & Education and Real Estate — a 4-line change in
+  `data/categories.json`, no schema/design change, no code change (Electrical and Landscaping &
+  Gardening stay featured as-is, they both have real businesses). Small enough to do in a single
+  short session whenever picked up; does not need its own sprint. Raised 2026-07-09 by the
+  project owner, deliberately not implemented yet — tracked here instead, possibly alongside
+  Sprint 09.
+
 ---
 
 # Next Sprint (not started — do not begin without explicit instruction)
