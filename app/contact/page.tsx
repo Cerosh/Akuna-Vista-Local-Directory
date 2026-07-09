@@ -39,6 +39,11 @@ export default async function ContactPage() {
               {settings.contactEmail}
             </a>
           ) : null}
+          <p>
+            <strong className="text-foreground font-semibold">Own a local business?</strong> Get in
+            touch at the address above to have it added to the directory — include your business
+            name, category, and the best contact details for residents to reach you.
+          </p>
           <p className="text-muted-foreground text-sm">
             We read every message, though as a small community project response times can vary.
           </p>
