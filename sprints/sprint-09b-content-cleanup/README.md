@@ -69,9 +69,11 @@ The sprint is successful when:
 - [ ] `/search`'s category and suburb filter chips only show options with at least one matching
       real business — clicking any visible chip never produces an empty result set.
 - [ ] The homepage's Popular Categories section only features categories with real businesses.
-- [ ] `data/events.json`'s fake sample events are removed (empty state accepted) unless real
-      event content is provided during this sprint, in which case real events replace them
-      instead.
+- [ ] `data/events.json`'s fake sample events are replaced with the real event content supplied
+      2026-07-09 (see notes.md for full detail and the open date-accuracy question that must be
+      resolved with the project owner before implementation).
+- [ ] Homepage section order updated: Community Spotlight removed (temporary), Local Promotions
+      moved to right after Popular Categories and before Featured Businesses.
 - [ ] `Announcement.sourceUrl` exists as documented in `.ai/JSON_SCHEMA.md` and renders on
       `AnnouncementCard` when present.
 - [ ] Whatever real business email/address/opening-hours/social-link data the project owner has
@@ -87,10 +89,11 @@ The sprint is successful when:
 |----|----------|----------|--------|
 | F-001 | Search page: hide empty category/suburb filter chips | High | Not Started |
 | F-002 | Homepage: fix Popular Categories `featured` flags | High | Not Started |
-| F-003 | Remove (or replace with real content) fake `data/events.json` | High | Not Started |
+| F-003 | Replace fake `data/events.json` with real event content (supplied 2026-07-09) | High | Not Started |
 | F-004 | `Announcement.sourceUrl` field | Medium | Not Started |
 | F-005 | Add any real business data supplied by the project owner | Medium | Not Started |
 | F-006 | Wire up real community social links in the Footer, if supplied | Low | Not Started |
+| F-007 | Homepage: remove Community Spotlight (temporary), move Local Promotions after Popular Categories / before Featured Businesses | Medium | Not Started |
 
 Status Values
 
@@ -147,23 +150,44 @@ Acceptance Criteria
 
 As the project owner
 
-I want the fake sample events gone (or replaced) rather than sitting on the live homepage
-indefinitely
+I want the fake sample events replaced with the real ones already supplied
 
-So that the site doesn't imply community events exist when none have actually been confirmed.
+So that the site doesn't imply community events exist when they're actually fake, now that real
+content exists.
 
 Acceptance Criteria
 
-- [ ] If real event content is supplied before/during this sprint, it replaces
-      `data/events.json`'s 5 sample entries (same pattern as Sprint 08b's real business/
-      announcement content).
-- [ ] If no real event content exists yet when this sprint runs, the 5 sample events are removed
-      outright and the Events section falls back to its existing empty state (already built,
-      per Sprint 6) rather than continuing to show fake content.
+- [ ] `data/events.json`'s 5 sample entries are replaced with the 3 real events supplied
+      2026-07-09 (Blacktown Mayoral Fun Run, Blacktown Food Market, Fingerprints Workshop at
+      Nirimba Fields Public School — full detail in notes.md), following Sprint 08b's real-content
+      pattern (real UUIDs, validated via `npm run validate:data`, no fabrication).
+- [ ] The date-accuracy question flagged in notes.md (two of the three events were supplied with
+      2024 dates, already in the past relative to today) is resolved with the project owner
+      before implementation — not guessed at.
 
 ---
 
 ## Story 4
+
+As a resident visiting the homepage
+
+I want Popular Categories and Local Promotions next to each other, and no Community Spotlight for
+now
+
+So that the page matches the section order and emphasis the project owner wants.
+
+Acceptance Criteria
+
+- [ ] `app/(home)/page.tsx`: `CommunitySpotlight` removed from the rendered section list
+      (component file and its tests left intact — this is temporary, not a deletion).
+- [ ] `Promotions` moved to directly after `PopularCategories` and directly before
+      `FeaturedBusinesses`.
+- [ ] `tests/e2e/homepage.spec.ts`'s Community Spotlight visibility assertion removed/updated to
+      match; section-order expectations (if any) updated.
+
+---
+
+## Story 5
 
 As an announcement author
 

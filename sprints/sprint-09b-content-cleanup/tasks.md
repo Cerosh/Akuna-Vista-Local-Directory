@@ -31,13 +31,27 @@ Last Updated: 2026-07-09
 
 # F-003 — Events
 
-- [ ] If real event content has been supplied: replace `data/events.json` following Sprint 08b's
-      real-content pattern (real UUIDs, `npm run validate:data`, no fabrication).
-- [ ] If not: delete the 5 sample events, leave `data/events.json` as `[]`, verify the existing
-      empty state renders correctly.
-- [ ] Either way, confirm no other file references a deleted/replaced event by name (mirrors the
-      "Winter Fun Run → Local Grind Café" dangling-reference bug found and fixed during the
-      business content swap).
+- [ ] **First:** resolve the event-date question with the project owner (see notes.md's ⚠️ note)
+      — do not proceed to implementation until this is answered.
+- [ ] Replace `data/events.json`'s 5 sample events with the 3 real events supplied 2026-07-09
+      (Blacktown Mayoral Fun Run, Blacktown Food Market, Fingerprints Workshop — full detail in
+      notes.md), following Sprint 08b's real-content pattern (real UUIDs, `npm run validate:data`,
+      no fabrication).
+- [ ] Confirm no other file references a deleted event by name (mirrors the "Winter Fun Run →
+      Local Grind Café" dangling-reference bug found and fixed during the business content swap).
+
+---
+
+# F-007 — Homepage section reorder
+
+- [ ] `app/(home)/page.tsx`: remove `CommunitySpotlight` import and usage (leave the component
+      file and its tests in place).
+- [ ] `app/(home)/page.tsx`: move `<Promotions />` to directly after `<PopularCategories />` and
+      directly before `<FeaturedBusinesses />`.
+- [ ] `tests/e2e/homepage.spec.ts`: remove the `home.communitySpotlightHeading` visibility
+      assertion (locator in `tests/pages/HomePage.ts` can stay defined, unused).
+- [ ] Re-run `tests/e2e/homepage.spec.ts`, `tests/e2e/accessibility.spec.ts`,
+      `tests/e2e/responsive.spec.ts` — confirm no regressions from the reordered/removed section.
 
 ---
 
