@@ -39,7 +39,7 @@ jobs:
         run: npm run test
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps
 
       - name: End-to-end tests
         run: npm run test:e2e
