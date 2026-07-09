@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 jobs:
-  ci:
+  checks:
     name: Typecheck, Lint, Test, Build
     runs-on: ubuntu-latest
     steps:
@@ -38,19 +38,39 @@ jobs:
       - name: Unit tests
         run: npm run test
 
+      - name: Build
+        run: npm run build
+
+  e2e:
+    name: End-to-end tests (${{ matrix.shard }}/3)
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
       - name: End-to-end tests
-        run: npm run test:e2e
-
-      - name: Build
-        run: npm run build
+        run: npx playwright test --shard=${{ matrix.shard }}/3
 
       - name: Upload Playwright report
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-shard-${{ matrix.shard }}
           path: playwright-report/
           retention-days: 7
