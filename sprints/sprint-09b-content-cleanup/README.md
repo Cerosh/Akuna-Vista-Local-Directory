@@ -92,7 +92,7 @@ The sprint is successful when:
 | F-003 | Replace fake `data/events.json` with real event content (supplied 2026-07-09) | High | Not Started |
 | F-004 | `Announcement.sourceUrl` field | Medium | Not Started |
 | F-005 | Add any real business data supplied by the project owner | Medium | Not Started |
-| F-006 | Wire up real community social links in the Footer, if supplied | Low | Not Started |
+| F-006 | Footer social link placeholders — resolved 2026-07-09 (removed outright, not wired up — see notes.md) | Low | Completed |
 | F-007 | Homepage: remove Community Spotlight (temporary), move Local Promotions after Popular Categories / before Featured Businesses | Medium | Not Started |
 
 Status Values
@@ -303,7 +303,7 @@ sequencing decision (2026-07-09), not a technical requirement.
 | Risk | Impact | Mitigation |
 |------|---------|------------|
 | Filtering category/suburb chips by "has a real business" could hide a category the project owner wants visible even while empty (e.g. to signal "we're looking for a hairdresser to list here") | Could suppress a deliberate placeholder/aspirational chip | Confirm the filtering rule with the project owner before implementing (this is exactly what Story 1/2's acceptance criteria assume — flag if that assumption is wrong before coding) |
-| F-003 (events), F-005 (business data), F-006 (social links) all depend on the project owner supplying real content during this sprint, which may not happen | Sprint could stall waiting on external input | F-003 has an explicit fallback (remove outright, accept empty state) that doesn't block on real content. F-005/F-006 are scoped as "add whatever's been supplied by the time this runs" — not blocking, not silently skipped either; carry forward whatever isn't supplied yet |
+| F-003 (events) and F-005 (business data) depend on the project owner supplying real content during this sprint, which may not happen | Sprint could stall waiting on external input | F-003 has real content already (date question pending, see notes.md); if not resolved in time it can wait. F-005 is scoped as "add whatever's been supplied by the time this runs" — not blocking, not silently skipped either; carry forward whatever isn't supplied yet. F-006 (Footer social links) is resolved already — see notes.md |
 | `Announcement.sourceUrl` migration touches `metadata.json`'s `schemaVersion` again (already bumped twice this project) | Version churn if not tracked carefully | Follow the exact `scripts/migrate-add-price-range.ts` precedent; update `.ai/JSON_SCHEMA.md`'s Versioning section as part of the same commit |
 
 ---
@@ -387,9 +387,9 @@ Bug Fixes
 
 Known Issues
 
-- Business data completeness (email/address/opening hours) and Footer social links remain
-  partially or fully open if the project owner hasn't supplied that content by the time this
-  sprint runs — carried forward, not silently dropped.
+- Business data completeness (email/address/opening hours) remains open if the project owner
+  hasn't supplied that content by the time this sprint runs — carried forward, not silently
+  dropped. (Footer social link placeholders were resolved separately, 2026-07-09 — see notes.md.)
 
 ---
 

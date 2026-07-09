@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Globe, Mail, MessageCircle } from "lucide-react";
+import { Mail } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { Logo } from "@/components/common/Logo";
 import type { Settings } from "@/types/settings";
@@ -22,12 +22,6 @@ const COMMUNITY_LINKS = [
 const LEGAL_LINKS = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
-];
-
-// Placeholder only — no real community social accounts exist yet.
-const SOCIAL_LINKS = [
-  { label: "Website", icon: Globe },
-  { label: "Community chat", icon: MessageCircle },
 ];
 
 export function Footer({ settings }: FooterProps) {
@@ -58,18 +52,6 @@ export function Footer({ settings }: FooterProps) {
                 {settings.contactEmail}
               </a>
             ) : null}
-            <div className="flex gap-3 pt-1">
-              {SOCIAL_LINKS.map(({ label, icon: Icon }) => (
-                <span
-                  key={label}
-                  role="img"
-                  aria-label={`${label} (coming soon)`}
-                  className="bg-muted text-muted-foreground flex size-8 items-center justify-center rounded-full"
-                >
-                  <Icon className="size-4" aria-hidden="true" />
-                </span>
-              ))}
-            </div>
           </div>
         </div>
 

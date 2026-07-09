@@ -78,12 +78,12 @@ Last Updated: 2026-07-09
 
 ---
 
-# F-006 — Real Footer social links (contingent on project owner input)
+# F-006 — Footer social links — COMPLETED 2026-07-09, ahead of this sprint
 
-- [ ] If real community social URLs are supplied: update `components/layout/Footer.tsx`'s
-      `SOCIAL_LINKS`, convert the icon spans to real `<Link>`/`<a>` elements pointing at those
-      URLs, remove the "(coming soon)" `aria-label` suffix and placeholder comment.
-- [ ] If not supplied: leave as-is, keep the Backlog entry open.
+- [x] Removed `Footer.tsx`'s `SOCIAL_LINKS` placeholder constant and its non-clickable
+      "(coming soon)" icon spans entirely (project owner chose removal over waiting for real
+      URLs). Unused `Globe`/`MessageCircle` imports removed. Contact column now shows only the
+      email link. Verified: lint, typecheck, 121 unit tests, build all pass.
 
 ---
 

@@ -105,13 +105,21 @@ Exact scope already documented in `.ai/JSON_SCHEMA.md`'s Announcement Schema sec
 `metadata.json` `schemaVersion` bump via a migration following
 `scripts/migrate-add-price-range.ts`'s exact pattern (backup first, migrate, validate, verify).
 
-## F-005 / F-006 — Business data / social links
+## F-005 — Business data
 
-No design needed — these are data-entry tasks (`scripts/admin.ts update` for businesses,
-`components/layout/Footer.tsx`'s `SOCIAL_LINKS` for socials), contingent entirely on the project
-owner supplying real content. If nothing is supplied by the time this sprint runs, both stay
-carried forward — see `.ai/TODO.md` Backlog for the exact existing entries being closed or
-carried.
+No design needed — a data-entry task (`scripts/admin.ts update`), contingent entirely on the
+project owner supplying real content. If nothing is supplied by the time this sprint runs, it
+stays carried forward.
+
+## F-006 — Footer social links (resolved 2026-07-09, ahead of this sprint)
+
+Original plan was "wire up real URLs if supplied." Instead, the project owner asked to remove the
+placeholders outright rather than wait for real ones ("keep just the email address remove other
+socials place holders") — implemented directly (not batched into this sprint): removed
+`Footer.tsx`'s `SOCIAL_LINKS` constant and its non-clickable "(coming soon)" icon spans entirely,
+along with the now-unused `Globe`/`MessageCircle` lucide imports. The Contact column now shows
+only the email link. If real social accounts exist later, add them as a fresh, real `FooterLink`
+entry (or a small dedicated component) rather than reintroducing placeholder icons.
 
 ## F-007 — Homepage section reorder
 

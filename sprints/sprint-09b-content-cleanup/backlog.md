@@ -24,7 +24,7 @@ implement now versus what's contingent on the project owner supplying real conte
 | B-003 | `Announcement.sourceUrl` (schema, type, UI, migration) | None | Medium | Not Started |
 | B-004 | Events: replace `data/events.json` with real content | Date question resolved with project owner (see notes.md) | High | Blocked (date confirmation needed) |
 | B-005 | Real business data additions | Real data from project owner | Medium | Blocked (input needed) |
-| B-006 | Real Footer social links | Real URLs from project owner | Low | Blocked (input needed) |
+| B-006 | Footer social link placeholders | None | Low | Completed 2026-07-09 (removed outright, ahead of this sprint) |
 | B-007 | `.ai/TODO.md` Backlog cleanup | B-001–B-006 | Medium | Not Started |
 | B-008 | Homepage section reorder (remove Community Spotlight, move Local Promotions) | None | Medium | Not Started |
 
