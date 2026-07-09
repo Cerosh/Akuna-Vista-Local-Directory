@@ -290,6 +290,22 @@ Pick these up explicitly when scoping a future sprint — do not implement witho
   business, rather than leaving it perpetually unset. Raised 2026-07-09 during code review of the
   Sprint 08b + real-content-replacement work.
 
+- **Remove the fake `data/events.json` content** — all 5 events (Community BBQ, Twilight Markets,
+  Kids Movie Night, Community Working Bee, Winter Fun Run) are still the original Sprint 6 sample
+  data and are currently live on the homepage. Unlike businesses/announcements/promotions, no
+  real event content has been provided yet. Do not delete the fake events without real
+  replacements in hand — either remove them outright (accepting an empty Events section, which
+  degrades gracefully per Sprint 6's empty-state handling) or replace them with real upcoming
+  Akuna Vista community events once the project owner supplies them. Raised 2026-07-09 during the
+  "is there any more fake data" audit.
+
+- **Wire up real community social links in the Footer** — `components/layout/Footer.tsx`'s
+  `SOCIAL_LINKS` (Website, Community chat) are explicitly marked in code as placeholder ("no real
+  community social accounts exist yet") and render as non-clickable "(coming soon)" icons, not
+  real links. Replace with real URLs (e.g. a community Facebook group, Instagram) once the
+  project owner provides them, and change the icon spans to real `<a>`/`Link` elements pointing
+  at those URLs. Raised 2026-07-09 during the "is there any more fake data" audit.
+
 ---
 
 # Next Sprint (not started — do not begin without explicit instruction)
