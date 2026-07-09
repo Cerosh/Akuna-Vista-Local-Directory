@@ -282,10 +282,16 @@ Mobile LCP sits at or just above ARCHITECTURE.md's 2.5s target on every route (d
 
 # Next Milestone
 
-Sprint 09 — Production Readiness (not started, awaiting explicit instruction). Its own Definition
-of Done required the About/Contact/Privacy/Terms decision resolved first — Sprint 08b resolved it.
+Sprint 09 — Production Readiness (not started, awaiting explicit instruction — Vercel deployment
+now connected by the project owner, 2026-07-09, unblocking this sprint's own verification
+requirements). Its own Definition of Done required the About/Contact/Privacy/Terms decision
+resolved first — Sprint 08b resolved it.
 
 Full plan: `sprints/sprint-09-production/`.
+
+Queued directly after it: Sprint 09b — Content Cleanup (search/homepage filter accuracy,
+Announcement.sourceUrl, and closing out the small content gaps tracked in TODO.md's former
+Backlog). Full plan: `sprints/sprint-09b-content-cleanup/`.
 
 ---
 

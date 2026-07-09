@@ -260,64 +260,12 @@ Full plan: `sprints/sprint-05-search/`.
 
 # Backlog (not yet scheduled into any sprint)
 
-Small, concrete requirements the project owner has asked to keep for a future sprint, too small
-to be a "Future Release" (ROADMAP.md) but not yet assigned to Sprint 09 or Sprint 10 either.
-Pick these up explicitly when scoping a future sprint — do not implement without instruction.
-
-- **`Announcement.sourceUrl` (optional field)** — announcements are increasingly sourced from
-  real council/government/developer news (e.g. Transport for NSW project pages, council DA
-  notices) with nowhere to link back to the original source. Add an optional `sourceUrl` field,
-  rendered by `AnnouncementCard` as a "Read more" link when present. See `.ai/JSON_SCHEMA.md`'s
-  Announcement Schema section for the exact scope (schema update, type update, small migration
-  bumping `schemaVersion`, per `scripts/migrate-add-price-range.ts`'s pattern). Raised 2026-07-08
-  when real local news replaced the sample `data/announcements.json` content.
-
-- **Business data completeness (email, address, opening hours, verified status)** — none of the
-  12 real businesses in `data/businesses.json` (as of 2026-07-08) have `email`, `address`,
-  `openingHours`, or `verified: true` populated, because none of the source ads included that
-  information and it was deliberately not fabricated. This is a broader instance of the same
-  "schema field exists but real content doesn't populate it" pattern as the `sourceUrl` item
-  above, but affects four fields across every business at once: `ContactInfo`'s email/address
-  rows never render, `OpeningHours` never renders, the "Verified" badge never renders anywhere on
-  the site, and `LocalBusiness` JSON-LD structured data has no `address`/`geo`/
-  `openingHoursSpecification` for any listing (weakening local SEO signals). No code change is
-  needed to fix this — the fields and their conditional rendering already work correctly (see
-  `lib/services/structuredData.ts`, `features/business-details/ContactInfo.tsx`,
-  `features/business-details/OpeningHours.tsx`). What's needed is real data: ask business owners
-  for a street address, email and opening hours (e.g. via the Contact page), then use
-  `scripts/admin.ts update` to add them. Consider whether "verified" should mean something
-  concrete (e.g. ABN lookup, a phone confirmation call) before ever setting it `true` for a real
-  business, rather than leaving it perpetually unset. Raised 2026-07-09 during code review of the
-  Sprint 08b + real-content-replacement work.
-
-- **Remove the fake `data/events.json` content** — all 5 events (Community BBQ, Twilight Markets,
-  Kids Movie Night, Community Working Bee, Winter Fun Run) are still the original Sprint 6 sample
-  data and are currently live on the homepage. Unlike businesses/announcements/promotions, no
-  real event content has been provided yet. Do not delete the fake events without real
-  replacements in hand — either remove them outright (accepting an empty Events section, which
-  degrades gracefully per Sprint 6's empty-state handling) or replace them with real upcoming
-  Akuna Vista community events once the project owner supplies them. Raised 2026-07-09 during the
-  "is there any more fake data" audit.
-
-- **Wire up real community social links in the Footer** — `components/layout/Footer.tsx`'s
-  `SOCIAL_LINKS` (Website, Community chat) are explicitly marked in code as placeholder ("no real
-  community social accounts exist yet") and render as non-clickable "(coming soon)" icons, not
-  real links. Replace with real URLs (e.g. a community Facebook group, Instagram) once the
-  project owner provides them, and change the icon spans to real `<a>`/`Link` elements pointing
-  at those URLs. Raised 2026-07-09 during the "is there any more fake data" audit.
-
-- **Fix Popular Categories' `featured` flags to match real content** — `data/categories.json`
-  still has the original Sprint 1/2 featured set (Plumbing, Electrical, Cleaning, Landscaping &
-  Gardening), unchanged since the real business content replaced the sample data. As of
-  2026-07-09, Plumbing and Cleaning have **zero** real businesses (both featured on the homepage
-  anyway), while Tutoring & Education (2 businesses — the most of any category) and Real Estate
-  (1) aren't featured at all. Proposed fix: set `featured: false` on Plumbing and Cleaning,
-  `featured: true` on Tutoring & Education and Real Estate — a 4-line change in
-  `data/categories.json`, no schema/design change, no code change (Electrical and Landscaping &
-  Gardening stay featured as-is, they both have real businesses). Small enough to do in a single
-  short session whenever picked up; does not need its own sprint. Raised 2026-07-09 by the
-  project owner, deliberately not implemented yet — tracked here instead, possibly alongside
-  Sprint 09.
+Everything that was tracked here (Announcement.sourceUrl, business data completeness, the fake
+`data/events.json` content, Footer social link placeholders, and the Popular Categories
+`featured`-flag mismatch) has been consolidated into Sprint 09b's plan — see
+`sprints/sprint-09b-content-cleanup/`, specifically `backlog.md` for the per-item breakdown and
+`notes.md` for exact technical scope. Add new small, concrete, not-yet-scheduled requirements
+here as they come up; fold them into a future sprint's plan once there's enough to justify one.
 
 ---
 
@@ -327,6 +275,10 @@ Sprint 09 — Production Readiness. Full plan: `sprints/sprint-09-production/`. 
 of Done required the About/Contact/Privacy/Terms decision resolved first — Sprint 08b resolved it
 (see `sprints/sprint-08b-community-pages/` and `sprints/sprint-09-production/README.md` Risks,
 now marked resolved).
+
+Sprint 09b — Content Cleanup queued directly after Sprint 09, per the project owner's explicit
+sequencing decision (2026-07-09) — not a technical dependency, both are independent of each
+other. Full plan: `sprints/sprint-09b-content-cleanup/`.
 
 ---
 
