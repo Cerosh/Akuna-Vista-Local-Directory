@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
 import { PageHeader } from "@/components/common/PageHeader";
+import { LegalSection } from "@/components/common/LegalSection";
 import { settingsRepository } from "@/lib/repositories/settingsRepository";
 
 export const metadata: Metadata = {
@@ -10,6 +12,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/privacy" },
 };
 
+// Bump this whenever the copy below actually changes — nothing derives it
+// automatically, so it's a manual claim of accuracy, not a real timestamp.
 const LAST_UPDATED = "8 July 2026";
 
 export default async function PrivacyPage() {
@@ -31,63 +35,48 @@ export default async function PrivacyPage() {
             as of today.
           </p>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">No accounts, no sign-in</h2>
-            <p>
-              There is currently no way to create an account or sign in to this site. Every page is
-              publicly viewable, and browsing the directory doesn&apos;t require giving us any
-              personal information.
-            </p>
-          </div>
+          <LegalSection title="No accounts, no sign-in">
+            There is currently no way to create an account or sign in to this site. Every page is
+            publicly viewable, and browsing the directory doesn&apos;t require giving us any
+            personal information.
+          </LegalSection>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">What we collect today</h2>
-            <p>
-              The platform itself does not collect or store any personal information about visitors.
-              If you email us via the{" "}
-              <a href="/contact" className="text-primary underline underline-offset-4">
-                Contact page
-              </a>
-              , we&apos;ll have whatever you choose to include in that email — nothing more.
-            </p>
-          </div>
+          <LegalSection title="What we collect today">
+            The platform itself does not collect or store any personal information about visitors.
+            If you email us via the{" "}
+            <Link href="/contact" className="text-primary underline underline-offset-4">
+              Contact page
+            </Link>
+            , we&apos;ll have whatever you choose to include in that email — nothing more.
+          </LegalSection>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">What&apos;s changing soon</h2>
-            <p>
-              We plan to add basic, privacy-respecting analytics (page views and general usage
-              patterns) so we can understand how the directory is used and keep it running well.
-              This will not involve accounts, tracking you individually across other sites, or
-              selling data to anyone. We&apos;ll update this page when that happens.
-            </p>
-          </div>
+          <LegalSection title="What's changing soon">
+            We plan to add basic, privacy-respecting analytics (page views and general usage
+            patterns) so we can understand how the directory is used and keep it running well. This
+            will not involve accounts, tracking you individually across other sites, or selling data
+            to anyone. We&apos;ll update this page when that happens.
+          </LegalSection>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">Business listings</h2>
-            <p>
-              Business details shown on this site (name, contact information, opening hours) are
-              published because they&apos;re already public information for that business. If a
-              business owner wants a listing corrected or removed, please{" "}
-              <a href="/contact" className="text-primary underline underline-offset-4">
-                get in touch
-              </a>
-              .
-            </p>
-          </div>
+          <LegalSection title="Business listings">
+            Business details shown on this site (name, contact information, opening hours) are
+            published because they&apos;re already public information for that business. If a
+            business owner wants a listing corrected or removed, please{" "}
+            <Link href="/contact" className="text-primary underline underline-offset-4">
+              get in touch
+            </Link>
+            .
+          </LegalSection>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">This will evolve</h2>
-            <p>
-              This is a first version of the platform and this policy will be revisited as features
-              are added — particularly before anything that involves user accounts or collecting
-              more information than described above. If you have questions about this policy,
-              contact us using the details on the{" "}
-              <a href="/contact" className="text-primary underline underline-offset-4">
-                Contact page
-              </a>
-              .
-            </p>
-          </div>
+          <LegalSection title="This will evolve">
+            This is a first version of the platform and this policy will be revisited as features
+            are added — particularly before anything that involves user accounts or collecting more
+            information than described above. If you have questions about this policy, contact us
+            using the details on the{" "}
+            <Link href="/contact" className="text-primary underline underline-offset-4">
+              Contact page
+            </Link>
+            .
+          </LegalSection>
         </div>
       </Container>
     </Section>

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
 import { PageHeader } from "@/components/common/PageHeader";
@@ -42,9 +43,9 @@ export default async function AboutPage() {
           </p>
           <p>
             Have a question, a correction, or a business to recommend?{" "}
-            <a href="/contact" className="text-primary underline underline-offset-4">
+            <Link href="/contact" className="text-primary underline underline-offset-4">
               Get in touch
-            </a>
+            </Link>
             .
           </p>
         </div>

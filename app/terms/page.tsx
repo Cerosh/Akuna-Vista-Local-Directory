@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
 import { PageHeader } from "@/components/common/PageHeader";
+import { LegalSection } from "@/components/common/LegalSection";
 import { settingsRepository } from "@/lib/repositories/settingsRepository";
 
 export const metadata: Metadata = {
@@ -10,6 +12,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "/terms" },
 };
 
+// Bump this whenever the copy below actually changes — nothing derives it
+// automatically, so it's a manual claim of accuracy, not a real timestamp.
 const LAST_UPDATED = "8 July 2026";
 
 export default async function TermsPage() {
@@ -30,57 +34,42 @@ export default async function TermsPage() {
             language rather than formal legal terms, reflecting where the project is today.
           </p>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">What this site is</h2>
-            <p>
-              {settings.siteName} is an informational directory of local businesses in{" "}
-              {settings.communityName}, built from community recommendations. It is not a booking,
-              payment or review platform, and using it doesn&apos;t create any relationship between
-              you and {settings.siteName} beyond browsing the directory.
-            </p>
-          </div>
+          <LegalSection title="What this site is">
+            {settings.siteName} is an informational directory of local businesses in{" "}
+            {settings.communityName}, built from community recommendations. It is not a booking,
+            payment or review platform, and using it doesn&apos;t create any relationship between
+            you and {settings.siteName} beyond browsing the directory.
+          </LegalSection>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">No warranty on listings</h2>
-            <p>
-              We do our best to keep business listings accurate, but we can&apos;t guarantee that
-              every detail (opening hours, contact information, availability) is current or that any
-              listed business will meet your expectations. Always confirm details directly with a
-              business before relying on them.
-            </p>
-          </div>
+          <LegalSection title="No warranty on listings">
+            We do our best to keep business listings accurate, but we can&apos;t guarantee that
+            every detail (opening hours, contact information, availability) is current or that any
+            listed business will meet your expectations. Always confirm details directly with a
+            business before relying on them.
+          </LegalSection>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">No accounts yet</h2>
-            <p>
-              This version of the site has no user accounts, sign-in, or ability to submit content
-              directly. Everything you see is maintained by the project owner from community
-              recommendations.
-            </p>
-          </div>
+          <LegalSection title="No accounts yet">
+            This version of the site has no user accounts, sign-in, or ability to submit content
+            directly. Everything you see is maintained by the project owner from community
+            recommendations.
+          </LegalSection>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">Requesting a correction</h2>
-            <p>
-              If you&apos;re a business owner and something about your listing is wrong, or a
-              resident and you&apos;ve spotted an error, please{" "}
-              <a href="/contact" className="text-primary underline underline-offset-4">
-                let us know
-              </a>{" "}
-              and we&apos;ll fix it.
-            </p>
-          </div>
+          <LegalSection title="Requesting a correction">
+            If you&apos;re a business owner and something about your listing is wrong, or a resident
+            and you&apos;ve spotted an error, please{" "}
+            <Link href="/contact" className="text-primary underline underline-offset-4">
+              let us know
+            </Link>{" "}
+            and we&apos;ll fix it.
+          </LegalSection>
 
-          <div className="flex flex-col gap-2">
-            <h2 className="text-foreground text-xl font-semibold">Changes to these terms</h2>
-            <p>
-              As the platform grows, these terms will be updated to reflect new features. See our{" "}
-              <a href="/privacy" className="text-primary underline underline-offset-4">
-                Privacy Policy
-              </a>{" "}
-              for how we handle information.
-            </p>
-          </div>
+          <LegalSection title="Changes to these terms">
+            As the platform grows, these terms will be updated to reflect new features. See our{" "}
+            <Link href="/privacy" className="text-primary underline underline-offset-4">
+              Privacy Policy
+            </Link>{" "}
+            for how we handle information.
+          </LegalSection>
         </div>
       </Container>
     </Section>

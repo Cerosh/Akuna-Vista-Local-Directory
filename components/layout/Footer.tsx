@@ -79,13 +79,7 @@ export function Footer({ settings }: FooterProps) {
           </p>
           <nav aria-label="Legal" className="flex gap-4">
             {LEGAL_LINKS.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="duration-fast hover:text-foreground transition-colors"
-              >
-                {link.label}
-              </Link>
+              <FooterLink key={link.label} {...link} />
             ))}
           </nav>
         </div>
@@ -106,16 +100,29 @@ function FooterColumn({ title, links }: FooterColumnProps) {
       <ul className="flex flex-col gap-2">
         {links.map((link) => (
           <li key={link.label}>
-            <Link
-              href={link.href}
-              prefetch={link.prefetch}
-              className="text-muted-foreground duration-fast hover:text-foreground text-sm transition-colors"
-            >
-              {link.label}
-            </Link>
+            <FooterLink {...link} />
           </li>
         ))}
       </ul>
     </div>
+  );
+}
+
+interface FooterLinkProps {
+  label: string;
+  href: string;
+  prefetch?: boolean;
+}
+
+/** Single footer link style, shared by FooterColumn's vertical lists and the horizontal Legal nav. */
+function FooterLink({ label, href, prefetch }: FooterLinkProps) {
+  return (
+    <Link
+      href={href}
+      prefetch={prefetch}
+      className="text-muted-foreground duration-fast hover:text-foreground text-sm transition-colors"
+    >
+      {label}
+    </Link>
   );
 }

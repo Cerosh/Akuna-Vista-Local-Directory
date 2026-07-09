@@ -272,6 +272,24 @@ Pick these up explicitly when scoping a future sprint — do not implement witho
   bumping `schemaVersion`, per `scripts/migrate-add-price-range.ts`'s pattern). Raised 2026-07-08
   when real local news replaced the sample `data/announcements.json` content.
 
+- **Business data completeness (email, address, opening hours, verified status)** — none of the
+  12 real businesses in `data/businesses.json` (as of 2026-07-08) have `email`, `address`,
+  `openingHours`, or `verified: true` populated, because none of the source ads included that
+  information and it was deliberately not fabricated. This is a broader instance of the same
+  "schema field exists but real content doesn't populate it" pattern as the `sourceUrl` item
+  above, but affects four fields across every business at once: `ContactInfo`'s email/address
+  rows never render, `OpeningHours` never renders, the "Verified" badge never renders anywhere on
+  the site, and `LocalBusiness` JSON-LD structured data has no `address`/`geo`/
+  `openingHoursSpecification` for any listing (weakening local SEO signals). No code change is
+  needed to fix this — the fields and their conditional rendering already work correctly (see
+  `lib/services/structuredData.ts`, `features/business-details/ContactInfo.tsx`,
+  `features/business-details/OpeningHours.tsx`). What's needed is real data: ask business owners
+  for a street address, email and opening hours (e.g. via the Contact page), then use
+  `scripts/admin.ts update` to add them. Consider whether "verified" should mean something
+  concrete (e.g. ABN lookup, a phone confirmation call) before ever setting it `true` for a real
+  business, rather than leaving it perpetually unset. Raised 2026-07-09 during code review of the
+  Sprint 08b + real-content-replacement work.
+
 ---
 
 # Next Sprint (not started — do not begin without explicit instruction)

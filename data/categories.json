@@ -138,7 +138,7 @@
     "id": "real-estate",
     "slug": "real-estate",
     "name": "Real Estate",
-    "icon": "Home",
+    "icon": "Building2",
     "description": "Real estate agents and property investment services.",
     "displayOrder": 16,
     "featured": false
