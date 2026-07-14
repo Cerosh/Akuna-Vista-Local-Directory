@@ -488,6 +488,8 @@ Offer alternatives.
 
 Recommend the simplest option.
 
+For UI/behaviour change requests — even small, well-specified ones — ask whether to implement now or track for a future sprint, rather than assuming immediate implementation is wanted. This does not apply to real content the project owner directly supplies (business listings, announcements, contact details, etc.) — that gets implemented immediately, no confirmation needed. Established during Sprint 9/9b planning: offered a trivial fix (flip 4 `featured` flags) via AskUserQuestion and the project owner chose "track for later" over "do it now"; later said explicitly and unprompted, for a larger set of changes, "don't want to implement, want to add to [the plan]."
+
 ---
 
 # Behaviour
