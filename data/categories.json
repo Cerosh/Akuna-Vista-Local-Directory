@@ -1,29 +1,11 @@
 [
   {
-    "id": "plumbing",
-    "slug": "plumbing",
-    "name": "Plumbing",
-    "icon": "Wrench",
-    "description": "Plumbers and plumbing services.",
-    "displayOrder": 1,
-    "featured": false
-  },
-  {
     "id": "electrical",
     "slug": "electrical",
     "name": "Electrical",
     "icon": "Zap",
     "description": "Licensed electricians for repairs and installations.",
-    "displayOrder": 2,
-    "featured": true
-  },
-  {
-    "id": "cleaning",
-    "slug": "cleaning",
-    "name": "Cleaning",
-    "icon": "Sparkles",
-    "description": "Home and office cleaning services.",
-    "displayOrder": 3,
+    "displayOrder": 1,
     "featured": false
   },
   {
@@ -32,44 +14,8 @@
     "name": "Landscaping & Gardening",
     "icon": "Trees",
     "description": "Garden design, maintenance and landscaping.",
-    "displayOrder": 4,
+    "displayOrder": 2,
     "featured": true
-  },
-  {
-    "id": "childcare",
-    "slug": "childcare",
-    "name": "Childcare",
-    "icon": "Baby",
-    "description": "Early learning and childcare services.",
-    "displayOrder": 5,
-    "featured": false
-  },
-  {
-    "id": "cafes-restaurants",
-    "slug": "cafes-restaurants",
-    "name": "Cafés & Restaurants",
-    "icon": "Coffee",
-    "description": "Local cafés, restaurants and takeaway.",
-    "displayOrder": 6,
-    "featured": false
-  },
-  {
-    "id": "builders-renovations",
-    "slug": "builders-renovations",
-    "name": "Builders & Renovations",
-    "icon": "Hammer",
-    "description": "Building, renovation and construction services.",
-    "displayOrder": 7,
-    "featured": false
-  },
-  {
-    "id": "pet-services",
-    "slug": "pet-services",
-    "name": "Pet Services",
-    "icon": "Dog",
-    "description": "Pet grooming, walking and minding.",
-    "displayOrder": 8,
-    "featured": false
   },
   {
     "id": "fitness-wellness",
@@ -77,7 +23,7 @@
     "name": "Fitness & Wellness",
     "icon": "Dumbbell",
     "description": "Personal trainers, yoga and wellness services.",
-    "displayOrder": 9,
+    "displayOrder": 3,
     "featured": false
   },
   {
@@ -86,7 +32,7 @@
     "name": "Roofing",
     "icon": "Home",
     "description": "Roof repairs, replacements and maintenance.",
-    "displayOrder": 10,
+    "displayOrder": 4,
     "featured": false
   },
   {
@@ -95,7 +41,7 @@
     "name": "Hairdressers & Barbers",
     "icon": "Scissors",
     "description": "Hairdressing and barbering services.",
-    "displayOrder": 11,
+    "displayOrder": 5,
     "featured": false
   },
   {
@@ -104,7 +50,7 @@
     "name": "Tutoring & Education",
     "icon": "GraduationCap",
     "description": "Tutoring, exam preparation and education services.",
-    "displayOrder": 12,
+    "displayOrder": 6,
     "featured": true
   },
   {
@@ -113,7 +59,7 @@
     "name": "TV & Home Entertainment Installation",
     "icon": "Tv",
     "description": "TV wall mounting and home entertainment installation.",
-    "displayOrder": 13,
+    "displayOrder": 7,
     "featured": false
   },
   {
@@ -122,7 +68,7 @@
     "name": "Taxi & Transport",
     "icon": "CarTaxiFront",
     "description": "Taxi, airport and private transport services.",
-    "displayOrder": 14,
+    "displayOrder": 8,
     "featured": false
   },
   {
@@ -131,7 +77,7 @@
     "name": "Furniture & Homewares",
     "icon": "Sofa",
     "description": "Furniture, decor and homewares retailers.",
-    "displayOrder": 15,
+    "displayOrder": 9,
     "featured": false
   },
   {
@@ -140,8 +86,8 @@
     "name": "Real Estate",
     "icon": "Building2",
     "description": "Real estate agents and property investment services.",
-    "displayOrder": 16,
-    "featured": true
+    "displayOrder": 10,
+    "featured": false
   },
   {
     "id": "driving-instructors",
@@ -149,8 +95,8 @@
     "name": "Driving Instructors",
     "icon": "Car",
     "description": "Driving instructors and driving schools.",
-    "displayOrder": 17,
-    "featured": false
+    "displayOrder": 11,
+    "featured": true
   },
   {
     "id": "jp-services",
@@ -158,7 +104,7 @@
     "name": "JP Services",
     "icon": "Stamp",
     "description": "Justice of the Peace services — document witnessing, statutory declarations and certified copies.",
-    "displayOrder": 18,
-    "featured": false
+    "displayOrder": 12,
+    "featured": true
   }
 ]

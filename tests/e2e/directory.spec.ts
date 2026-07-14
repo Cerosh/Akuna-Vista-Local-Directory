@@ -86,15 +86,13 @@ test.describe("Category pages (/category/[slug])", () => {
     expect(response?.status()).toBe(404);
   });
 
-  test("a category with no businesses yet shows the empty state, not a blank page", async ({
-    page,
-  }) => {
-    // "childcare" currently has zero real businesses — the real dataset
-    // populated so far (Sprint 08b content update) doesn't include one.
-    const directory = new DirectoryPage(page);
-    await directory.goto("/category/childcare");
-
-    await expect(page.getByRole("heading", { name: "No businesses found" })).toBeVisible();
-    await expect(directory.businessCards).toHaveCount(0);
-  });
+  // The "category exists but has zero real businesses" scenario this test
+  // used to cover ("childcare") no longer has a real-data example — the
+  // project owner had that and 5 other zero-business placeholder categories
+  // deleted outright (2026-07-14) rather than kept empty. The underlying
+  // behaviour is still covered: businessRepository.test.ts's "returns zero
+  // results gracefully" for the data layer, and search.spec.ts's "a query
+  // with no matches shows the empty state, not a blank page" for the exact
+  // same EmptyState UI pattern. Not re-added here to avoid fabricating an
+  // empty category just for test coverage.
 });

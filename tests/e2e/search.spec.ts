@@ -82,14 +82,19 @@ test.describe("Search (/search)", () => {
     expect(count).toBeGreaterThan(1);
   });
 
-  test("a category or suburb chip with zero real businesses does not render", async ({ page }) => {
+  test("a suburb chip with zero real businesses does not render", async ({ page }) => {
     // Sprint 09b F-001: chips are computed from real content, not every
-    // categories.json/suburbs.json entry — Plumbing and Tallawong currently
-    // have zero matching businesses.
+    // categories.json/suburbs.json entry — Tallawong currently has zero
+    // matching businesses. The category half of this ("Plumbing" and 5
+    // other zero-business categories) no longer has a real-data example
+    // to test against — the project owner had those categories deleted
+    // outright (2026-07-14) rather than kept empty, so every remaining
+    // category now has ≥1 real business. The underlying filtering logic
+    // is still fully covered by searchService.test.ts's synthetic-fixture
+    // unit tests for categoriesWithBusinesses.
     const search = new SearchPage(page);
     await search.goto();
 
-    await expect(search.categoryChip("Plumbing")).toHaveCount(0);
     await expect(search.categoryChip("Tallawong")).toHaveCount(0);
   });
 
