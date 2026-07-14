@@ -151,5 +151,14 @@
     "description": "Driving instructors and driving schools.",
     "displayOrder": 17,
     "featured": false
+  },
+  {
+    "id": "jp-services",
+    "slug": "jp-services",
+    "name": "JP Services",
+    "icon": "Stamp",
+    "description": "Justice of the Peace services — document witnessing, statutory declarations and certified copies.",
+    "displayOrder": 18,
+    "featured": false
   }
 ]

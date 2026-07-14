@@ -266,5 +266,98 @@
     "tags": ["Female Instructor", "Patient & Professional"],
     "createdAt": "2026-07-14T00:00:00Z",
     "updatedAt": "2026-07-14T00:00:00Z"
+  },
+  {
+    "id": "805b4acb-669d-47d7-a157-8f7aeff15094",
+    "slug": "stanhope-village-shopping-centre-jp-desk",
+    "name": "Stanhope Village Shopping Centre (JP Desk)",
+    "description": "Justice of the Peace services including document witnessing, statutory declarations, and certified copies, at a JP desk outside Specsavers in Stanhope Village Shopping Centre.",
+    "shortDescription": "JP desk outside Specsavers, Stanhope Village Shopping Centre.",
+    "categoryId": "jp-services",
+    "address": {
+      "street": "2 Sentry Drive (outside Specsavers, Stanhope Village Shopping Centre)",
+      "suburb": "Stanhope Gardens",
+      "state": "NSW",
+      "postcode": "2768"
+    },
+    "serviceAreas": ["Stanhope Gardens"],
+    "openingHours": {
+      "monday": "Closed",
+      "tuesday": "Closed",
+      "wednesday": "15:00-18:00",
+      "thursday": "Closed",
+      "friday": "Closed",
+      "saturday": "09:00-12:00",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Document Witnessing", "Statutory Declarations", "Certified Copies"],
+    "createdAt": "2026-07-14T00:00:00Z",
+    "updatedAt": "2026-07-14T00:00:00Z"
+  },
+  {
+    "id": "c923fa3b-ee7a-4cf0-aa87-597c467474c2",
+    "slug": "dennis-johnson-library-jp-service",
+    "name": "Dennis Johnson Library (JP Service)",
+    "description": "Justice of the Peace services including document witnessing, statutory declarations, and certified copies, at Dennis Johnson Library within Stanhope Leisure Centre.",
+    "shortDescription": "JP service at Dennis Johnson Library, Stanhope Leisure Centre.",
+    "categoryId": "jp-services",
+    "address": {
+      "street": "Sentry Drive (Stanhope Leisure Centre)",
+      "suburb": "Stanhope Gardens",
+      "state": "NSW",
+      "postcode": "2768"
+    },
+    "serviceAreas": ["Stanhope Gardens"],
+    "openingHours": {
+      "monday": "10:00-13:00",
+      "tuesday": "17:00-19:00",
+      "wednesday": "10:00-12:00",
+      "thursday": "Closed",
+      "friday": "Closed",
+      "saturday": "10:00-12:30",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Document Witnessing", "Statutory Declarations", "Certified Copies"],
+    "createdAt": "2026-07-14T00:00:00Z",
+    "updatedAt": "2026-07-14T00:00:00Z"
+  },
+  {
+    "id": "7c44931f-de72-40aa-bdae-f12888db30c9",
+    "slug": "schofields-community-centre-jp-service",
+    "name": "Schofields Community Centre (JP Service)",
+    "description": "Justice of the Peace services including document witnessing, statutory declarations, and certified copies, at Schofields Community Centre.",
+    "shortDescription": "JP service at Schofields Community Centre.",
+    "categoryId": "jp-services",
+    "address": {
+      "street": "65 Railway Terrace",
+      "suburb": "Schofields",
+      "state": "NSW",
+      "postcode": "2762"
+    },
+    "serviceAreas": ["Schofields"],
+    "openingHours": {
+      "monday": "09:30-12:30",
+      "tuesday": "Closed",
+      "wednesday": "13:30-16:30",
+      "thursday": "Closed",
+      "friday": "Closed",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "socialLinks": {},
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Document Witnessing", "Statutory Declarations", "Certified Copies"],
+    "createdAt": "2026-07-14T00:00:00Z",
+    "updatedAt": "2026-07-14T00:00:00Z"
   }
 ]
