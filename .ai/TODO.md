@@ -4,19 +4,69 @@
 
 Sprint Number
 
-08b (complete) — awaiting go-ahead for Sprint 09
+09 (complete) — awaiting go-ahead for Sprint 09b
 
 Sprint Name
 
-Community Pages
+Production Readiness
 
 Status
 
-✅ Complete
+✅ Complete (monitoring/Sentry explicitly deferred — see Backlog)
 
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 09 Summary
+
+Delivered: security headers (HSTS, CSP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy,
+Permissions-Policy), Vercel Analytics, `robots.txt`, `sitemap.xml` (35 URLs, generated from the
+repository layer), a final metadata sanity check, browser compatibility verification, and a full
+regression pass — all verified live against the real production deployment
+(`https://akuna-vista-local-directory.vercel.app/`), not just built and assumed correct.
+
+Key decisions:
+
+- **Sentry (error monitoring) deferred** — the project owner chose not to set up an account this
+  sprint rather than block everything else on it. Tracked below in Backlog, not silently dropped.
+- **Vercel Analytics chosen over Google Analytics** — zero external account/property to create,
+  works immediately on Vercel, no env var needed.
+
+One real production bug found and fixed (not caused by this sprint, found while verifying it):
+`NEXT_PUBLIC_SITE_URL` was never set in Vercel's Production environment variables, so canonical
+URLs, Open Graph tags and `LocalBusiness` JSON-LD were all emitting `http://localhost:3000` live.
+Confirmed via direct `curl`, fixed by the project owner setting the env var and redeploying,
+re-verified fixed.
+
+Three real regressions found and fixed during this sprint's own security-header/analytics work,
+all caught by running the full Playwright suite against a live server rather than trusting
+lint/typecheck/build alone:
+
+1. A strict `script-src 'self'` (no exceptions) broke the app entirely across all three browsers
+   — Next.js injects ~50 inline hydration/RSC-streaming `<script>` tags per page that don't
+   appear in this app's own source. A nonce-based middleware fix (the textbook-correct CSP
+   approach) didn't work — Next.js's Turbopack build never applied the generated nonce to its own
+   scripts — so `script-src` settled on a documented `'unsafe-inline'` exception instead.
+2. HSTS + CSP's `upgrade-insecure-requests`, sent unconditionally, broke every WebKit test locally
+   (SSL errors — WebKit tried to upgrade every `http://localhost` request to a non-existent local
+   HTTPS server). Fixed by gating both behind `process.env.VERCEL === "1"` (real deployments only,
+   always HTTPS already).
+3. `@vercel/analytics`'s `<Analytics />` isn't actually a silent no-op outside Vercel as
+   documented — it unconditionally fetches `/_vercel/insights/script.js`, 404ing everywhere but a
+   real Vercel deployment, producing genuine console errors. Fixed with the same
+   `process.env.VERCEL` gate.
+
+Tests: 126 unit/integration (was 121 — 5 new for `app/sitemap.ts`) + 269 Playwright across
+Chromium/Firefox/WebKit locally (enforced via `.husky/pre-push`), Chromium/Firefox in CI. Build
+succeeds. Full details, including the Definition of Done walkthrough and Findings Log:
+`sprints/sprint-09-production/review.md` and `retrospective.md`.
+
+Known limitation, deliberately not resolved here: real physical-device/browser testing (real
+Safari, real iOS/Android hardware) isn't available in this environment — same disclosed
+limitation Sprint 7 already carried forward.
 
 ---
 
@@ -260,25 +310,34 @@ Full plan: `sprints/sprint-05-search/`.
 
 # Backlog (not yet scheduled into any sprint)
 
-Everything that was tracked here (Announcement.sourceUrl, business data completeness, the fake
-`data/events.json` content, Footer social link placeholders, and the Popular Categories
-`featured`-flag mismatch) has been consolidated into Sprint 09b's plan — see
-`sprints/sprint-09b-content-cleanup/`, specifically `backlog.md` for the per-item breakdown and
-`notes.md` for exact technical scope. Add new small, concrete, not-yet-scheduled requirements
-here as they come up; fold them into a future sprint's plan once there's enough to justify one.
+Most items previously tracked here (Announcement.sourceUrl, business data completeness, the fake
+`data/events.json` content, the Popular Categories `featured`-flag mismatch) have been
+consolidated into Sprint 09b's plan — see `sprints/sprint-09b-content-cleanup/`, specifically
+`backlog.md` for the per-item breakdown and `notes.md` for exact technical scope. (Footer social
+link placeholders — also originally listed here — were resolved directly, ahead of Sprint 09b:
+the placeholders were removed outright rather than wired up with real links; see Sprint 09b's
+`notes.md` F-006 for the record.)
+
+- **Error monitoring (Sentry)** — deferred during Sprint 09 (Production Readiness), 2026-07-14.
+  The project owner chose not to set up a Sentry account rather than block the rest of that
+  sprint on it. When picked up: install Sentry per `.ai/DEPLOYMENT.md`'s "Observability" section,
+  set `SENTRY_DSN` in Vercel's environment variables, deliberately trigger a real production
+  error, and confirm it reaches the Sentry dashboard — "wired up" and "verified receiving real
+  events" are two separate checkboxes, per Sprint 09's own Definition of Done. See
+  `sprints/sprint-09-production/review.md`/`retrospective.md` for full context.
+
+Add new small, concrete, not-yet-scheduled requirements here as they come up; fold them into a
+future sprint's plan once there's enough to justify one.
 
 ---
 
 # Next Sprint (not started — do not begin without explicit instruction)
 
-Sprint 09 — Production Readiness. Full plan: `sprints/sprint-09-production/`. Its own Definition
-of Done required the About/Contact/Privacy/Terms decision resolved first — Sprint 08b resolved it
-(see `sprints/sprint-08b-community-pages/` and `sprints/sprint-09-production/README.md` Risks,
-now marked resolved).
+Sprint 09b — Content Cleanup. Full plan: `sprints/sprint-09b-content-cleanup/`. Queued directly
+after Sprint 09 per the project owner's explicit sequencing decision (2026-07-09) — not a
+technical dependency, the two sprints are independent of each other.
 
-Sprint 09b — Content Cleanup queued directly after Sprint 09, per the project owner's explicit
-sequencing decision (2026-07-09) — not a technical dependency, both are independent of each
-other. Full plan: `sprints/sprint-09b-content-cleanup/`.
+Sprint 10 — Future Platform Foundation remains the sprint after that.
 
 ---
 
@@ -286,7 +345,7 @@ other. Full plan: `sprints/sprint-09b-content-cleanup/`.
 
 Stop.
 
-Do not continue to Sprint 09.
+Do not continue to Sprint 09b.
 
 Wait for explicit instruction before implementing additional features.
 

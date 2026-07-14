@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.9
+Version: 1.10
 
-Last Updated: 2026-07-08
+Last Updated: 2026-07-14
 
-Current Sprint: Sprint 08b — Community Pages (complete, awaiting go-ahead for Sprint 09)
+Current Sprint: Sprint 09 — Production Readiness (complete, awaiting go-ahead for Sprint 09b)
 
 ---
 
@@ -22,11 +22,13 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 8b — Community Pages (complete)
+Phase 9 — Production Readiness (complete)
 
 Current Focus:
 
-Sprint 8b is done. Waiting for explicit instruction before starting Sprint 9 (Production Readiness).
+Sprint 9 is done and live in production
+(`https://akuna-vista-local-directory.vercel.app/`). Waiting for explicit instruction before
+starting Sprint 9b (Content Cleanup).
 
 ---
 
@@ -119,17 +121,49 @@ Project planning completed. Engineering documents created. Project vision define
 - All four routes added to the existing `tests/e2e/accessibility.spec.ts`/`responsive.spec.ts` suites (same zero-critical/serious-violations, no-horizontal-overflow bar as every other route) plus a new `tests/e2e/community-pages.spec.ts`; full suite now 272 Playwright tests (was 264), all passing across Chromium/Firefox/WebKit
 - One low-severity finding, fixed immediately: a Playwright locator matched both the page body's and the Footer's mailto link — scoped to `#main-content`
 
+**Sprint 09 — Production Readiness**, committed and live in production
+(`https://akuna-vista-local-directory.vercel.app/`):
+
+- Security headers (HSTS, CSP, X-Content-Type-Options, X-Frame-Options, Referrer-Policy,
+  Permissions-Policy), Vercel Analytics, `robots.txt`, `sitemap.xml` (35 URLs generated from the
+  repository layer), a metadata sanity check, browser compatibility, and a full regression pass —
+  all verified against the real live deployment, not just built and assumed correct
+- **Sentry (error monitoring) explicitly deferred** by the project owner (2026-07-14) rather than
+  block the rest of the sprint — tracked in `.ai/TODO.md` Backlog, not silently dropped; Vercel
+  Analytics chosen over Google Analytics (zero external account needed)
+- Found and fixed a real, pre-existing production bug (not caused by this sprint):
+  `NEXT_PUBLIC_SITE_URL` was never set in Vercel's Production env vars, so canonical URLs/Open
+  Graph/JSON-LD were all emitting `http://localhost:3000` live — confirmed via direct `curl`,
+  fixed by the project owner setting the env var and redeploying
+- Found and fixed three real regressions in this sprint's own work, all caught by running the
+  full Playwright suite against a live server rather than trusting static checks alone: (1) a
+  strict `script-src` broke the app across all browsers since Next.js injects ~50 inline
+  hydration scripts invisible in this app's own source — a nonce-based `middleware.ts` fix didn't
+  work (Turbopack never applied the nonce), resolved with a documented `'unsafe-inline'`
+  exception instead; (2) HSTS + `upgrade-insecure-requests` broke every WebKit test on
+  `http://localhost` (WebKit tried to force an HTTPS upgrade to a server that doesn't exist there)
+  — fixed by gating both behind `process.env.VERCEL === "1"`; (3) `@vercel/analytics`'s
+  `<Analytics />` isn't a silent no-op outside Vercel as documented — it 404s on a real fetch,
+  producing console errors — fixed with the same `process.env.VERCEL` gate
+- Tests: 126 unit/integration (121 + 5 new for `app/sitemap.ts`) + 269 Playwright across
+  Chromium/Firefox/WebKit locally (enforced via `.husky/pre-push`), Chromium/Firefox in CI —
+  WebKit deliberately excluded from CI (Linux-WebKit-specific timing flakes never seen locally on
+  real macOS WebKit or in production), enforced locally instead
+- **Known limitation:** real physical-device/browser testing (real Safari, real iOS/Android
+  hardware) isn't available in this environment — same disclosed limitation Sprint 7 carried
+  forward, not silently claimed as done
+
 ---
 
 # In Progress
 
-Nothing. Sprint 8b is complete. Awaiting explicit instruction to start Sprint 9.
+Nothing. Sprint 9 is complete. Awaiting explicit instruction to start Sprint 9b (Content Cleanup).
 
 ---
 
 # Not Started
 
-Production Readiness (Sprint 9), Future Platform Foundation (Sprint 10).
+Content Cleanup (Sprint 9b), Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -184,7 +218,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1 through Sprint 8b complete and committed (not yet pushed — awaiting user push). Repository builds, lints, type-checks, and passes all tests (121 unit/integration + 272 e2e test instances across 3 browsers, 16 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, the community content sections, and now About/Contact/Privacy/Terms are all live locally with real (sample) data, measured and hardened (Sprint 7), backed by validated, tooled data management (Sprint 8). Sprint 9 (Production Readiness) has not started.
+Sprint 1 through Sprint 9 complete, committed and pushed — the site is live in production at `https://akuna-vista-local-directory.vercel.app/`. Repository builds, lints, type-checks, and passes all tests (126 unit/integration + 269 e2e test instances across Chromium/Firefox/WebKit locally, Chromium/Firefox in CI, 16 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, the community content sections, About/Contact/Privacy/Terms, and now production security headers/analytics/robots.txt/sitemap.xml are all live with real content (Sprint 8b), backed by validated, tooled data management (Sprint 8) and hardened, verified production infrastructure (Sprint 9). Sprint 9b (Content Cleanup) has not started.
 
 ---
 
@@ -282,16 +316,13 @@ Mobile LCP sits at or just above ARCHITECTURE.md's 2.5s target on every route (d
 
 # Next Milestone
 
-Sprint 09 — Production Readiness (not started, awaiting explicit instruction — Vercel deployment
-now connected by the project owner, 2026-07-09, unblocking this sprint's own verification
-requirements). Its own Definition of Done required the About/Contact/Privacy/Terms decision
-resolved first — Sprint 08b resolved it.
+Sprint 09b — Content Cleanup (not started, awaiting explicit instruction). Search/homepage filter
+accuracy, `Announcement.sourceUrl`, and closing out the small content gaps tracked in TODO.md's
+Backlog (Sentry deferral aside, which stays open until the project owner is ready for it).
 
-Full plan: `sprints/sprint-09-production/`.
+Full plan: `sprints/sprint-09b-content-cleanup/`.
 
-Queued directly after it: Sprint 09b — Content Cleanup (search/homepage filter accuracy,
-Announcement.sourceUrl, and closing out the small content gaps tracked in TODO.md's former
-Backlog). Full plan: `sprints/sprint-09b-content-cleanup/`.
+After that: Sprint 10 — Future Platform Foundation.
 
 ---
 
@@ -315,6 +346,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), Sprint 8 (Admin Preparation), and Sprint 8b (Community Pages) are all complete and committed locally. Vercel deployment is intentionally parked by the project owner for now — do not treat this as a blocker or attempt to resolve it without being asked.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), Sprint 8 (Admin Preparation), Sprint 8b (Community Pages), and Sprint 9 (Production Readiness) are all complete, committed and pushed. The site is live in production at `https://akuna-vista-local-directory.vercel.app/` — Vercel deployment, previously parked, was connected by the project owner on 2026-07-09.
 
-Do not begin Sprint 09 without explicit instruction, even though this document and TODO.md describe its scope.
+Do not begin Sprint 09b without explicit instruction, even though this document and TODO.md describe its scope.
