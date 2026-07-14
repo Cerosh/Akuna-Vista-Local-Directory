@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { Geist, Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { cn } from "@/lib/utils";
 import { Navigation } from "@/components/layout/Navigation";
 import { Footer } from "@/components/layout/Footer";
@@ -58,6 +59,15 @@ export default async function RootLayout({
           {children}
         </main>
         <Footer settings={settings} />
+        {/* Rendered only on a real Vercel deployment (process.env.VERCEL,
+            same signal next.config.ts uses for HSTS). @vercel/analytics's
+            own docs say it's a "no-op" elsewhere, but confirmed via a full
+            Playwright run that it still attempts to fetch
+            /_vercel/insights/script.js unconditionally — a real endpoint
+            only Vercel's platform serves, 404 (wrong MIME type) everywhere
+            else, which is a genuine browser console error, not a silent
+            no-op. Gating the component itself avoids the fetch entirely. */}
+        {process.env.VERCEL === "1" ? <Analytics /> : null}
       </body>
     </html>
   );
