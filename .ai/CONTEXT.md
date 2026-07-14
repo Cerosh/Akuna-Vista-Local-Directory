@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.10
+Version: 1.11
 
 Last Updated: 2026-07-14
 
-Current Sprint: Sprint 09 — Production Readiness (complete, awaiting go-ahead for Sprint 09b)
+Current Sprint: Sprint 09b — Content Cleanup (complete, awaiting go-ahead for Sprint 10)
 
 ---
 
@@ -22,13 +22,15 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 9 — Production Readiness (complete)
+Phase 9b — Content Cleanup (complete, not yet committed/deployed)
 
 Current Focus:
 
-Sprint 9 is done and live in production
-(`https://akuna-vista-local-directory.vercel.app/`). Waiting for explicit instruction before
-starting Sprint 9b (Content Cleanup).
+Sprint 9b's implementation is complete and verified locally (lint, typecheck, unit tests,
+Playwright across Chromium/Firefox/WebKit, production build, and manual verification against a
+local production server all pass) — not yet committed or deployed to
+`https://akuna-vista-local-directory.vercel.app/`. Waiting for explicit instruction before
+starting Sprint 10 (Future Platform Foundation).
 
 ---
 
@@ -153,17 +155,46 @@ Project planning completed. Engineering documents created. Project vision define
   hardware) isn't available in this environment — same disclosed limitation Sprint 7 carried
   forward, not silently claimed as done
 
+**Sprint 09b — Content Cleanup**, implemented and verified locally (not yet committed/deployed):
+
+- `/search`'s category/suburb filter chips and the homepage's Popular Categories section are now
+  computed from real `data/businesses.json` content (`categoriesWithBusinesses`/
+  `suburbsWithBusinesses` in `lib/services/searchService.ts`), not every `categories.json`/
+  `suburbs.json` entry — no filter chip anywhere can lead to zero results
+  (`data/categories.json`: `featured: false` on Plumbing/Cleaning, `featured: true` on Tutoring &
+  Education/Real Estate)
+- `data/events.json`'s 5 fake sample events replaced with one real event (Fingerprints Workshop at
+  Nirimba Fields Public School, a recurring Term 3 Friday after-school workshop) — the other two
+  real events supplied (Blacktown Mayoral Fun Run, Blacktown Food Market) were held out rather than
+  published with their supplied-but-already-past 2024 dates; carried forward until updated dates
+  are available
+- `Announcement.sourceUrl?: string` implemented end to end — schema (`scripts/lib/validation.ts`),
+  type, `AnnouncementCard`'s "Read more" link, and a migration
+  (`scripts/migrate-add-announcement-source-url.ts`) bumping `schemaVersion` to `1.4.0`; not
+  backfilled onto existing announcements (no real source URL supplied yet)
+- Homepage section reorder: `CommunitySpotlight` removed from the rendered page (component/tests
+  left in place, temporary per the project owner), `Promotions` moved directly after
+  `PopularCategories`
+- Business data completeness (F-005) carried forward — no new real business data supplied this
+  sprint
+- Verified against a local production server (not just built/tested): homepage section order,
+  Popular Categories content, `/search` chip set, and the Community Events section all confirmed
+  live, zero console errors
+- `npm run lint`/`typecheck`/`test` (136 unit tests, up from 126) all pass; Playwright 96/96
+  (Chromium) + 176/192 passed with 16 documented skips (Firefox/WebKit); `npm run build` succeeds
+
 ---
 
 # In Progress
 
-Nothing. Sprint 9 is complete. Awaiting explicit instruction to start Sprint 9b (Content Cleanup).
+Nothing. Sprint 9b is complete. Awaiting explicit instruction to start Sprint 10 (Future Platform
+Foundation).
 
 ---
 
 # Not Started
 
-Content Cleanup (Sprint 9b), Future Platform Foundation (Sprint 10).
+Future Platform Foundation (Sprint 10).
 
 ---
 
@@ -203,7 +234,7 @@ Testing
 Data Tooling (Sprint 8 — CLI/local/CI only, no UI)
 
 - `scripts/lib/validation.ts` — the single `zod`-based validation library, reused by every script below plus Husky pre-commit and CI
-- `scripts/backup.ts` / `scripts/restore.ts`, `scripts/export-csv.ts` / `scripts/import-csv.ts` (`papaparse`), `scripts/admin.ts`, `scripts/seed-generate.ts`, `scripts/migrate-add-price-range.ts`
+- `scripts/backup.ts` / `scripts/restore.ts`, `scripts/export-csv.ts` / `scripts/import-csv.ts` (`papaparse`), `scripts/admin.ts`, `scripts/seed-generate.ts`, `scripts/migrate-add-price-range.ts`, `scripts/migrate-add-announcement-source-url.ts`
 - `tsx` — script runner (`npm run <script>` executes a `.ts` file directly, no build step)
 
 Hosting
@@ -218,7 +249,7 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1 through Sprint 9 complete, committed and pushed — the site is live in production at `https://akuna-vista-local-directory.vercel.app/`. Repository builds, lints, type-checks, and passes all tests (126 unit/integration + 269 e2e test instances across Chromium/Firefox/WebKit locally, Chromium/Firefox in CI, 16 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, the community content sections, About/Contact/Privacy/Terms, and now production security headers/analytics/robots.txt/sitemap.xml are all live with real content (Sprint 8b), backed by validated, tooled data management (Sprint 8) and hardened, verified production infrastructure (Sprint 9). Sprint 9b (Content Cleanup) has not started.
+Sprint 1 through Sprint 9 are complete, committed, pushed and live in production at `https://akuna-vista-local-directory.vercel.app/`. Sprint 9b (Content Cleanup) is implemented and verified locally — not yet committed or deployed. Repository builds, lints, type-checks, and passes all tests (136 unit/integration, up from 126 + 10 new for Sprint 9b's search-chip filtering and `sourceUrl` migration; 96/96 Playwright passing on Chromium, 176/192 on Firefox/WebKit with 16 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, the community content sections, About/Contact/Privacy/Terms, and production security headers/analytics/robots.txt/sitemap.xml are all live with real content (Sprint 8b), backed by validated, tooled data management (Sprint 8) and hardened, verified production infrastructure (Sprint 9). Sprint 9b's local changes (filter-chip accuracy, `Announcement.sourceUrl`, real event content, homepage reorder) are not yet in production pending commit/push/deploy.
 
 ---
 
@@ -304,7 +335,7 @@ No backend. No authentication. No CMS. No database. No APIs. No reviews. No adve
 
 **Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
 
-All business data will remain static until Version 2. Current sample dataset (8 businesses, 9 categories, 5 suburbs, 5 events, 5 promotions, 5 announcements) is placeholder-realistic, not the full 100-business/25-category set. Sprint 8's seed generator can now produce that full-scale set on demand (`npm run seed:generate`), but has deliberately not been run against the real `data/` directory — whether/when to do so is an open decision for the project owner, not resolved yet. All business photos — and now event images — are a single shared placeholder SVG until real community photography arrives.
+All business data will remain static until Version 2. Current dataset (12 real businesses, 16 categories, 5 suburbs, 1 real event, 4 promotions, 5 announcements) is real content (Sprint 8b/9b), not placeholder — `data/events.json` deliberately holds only 1 event since Sprint 9b, having removed 5 fake sample events and held out 2 real-but-past-dated ones pending updated dates from the project owner. Sprint 8's seed generator can still produce a full-scale placeholder set on demand (`npm run seed:generate`) but is not used against the real `data/` directory now that real content exists. All business photos — and event images — remain a single shared placeholder SVG until real community photography arrives.
 
 Events, Promotions and Announcements are authored via manual JSON edits or Sprint 8's CLI tooling (`scripts/admin.ts`, `scripts/import-csv.ts`) — no authenticated admin UI exists yet (that remains ROADMAP.md's 🟡 Future Phase 14 "Admin Portal").
 
@@ -316,13 +347,14 @@ Mobile LCP sits at or just above ARCHITECTURE.md's 2.5s target on every route (d
 
 # Next Milestone
 
-Sprint 09b — Content Cleanup (not started, awaiting explicit instruction). Search/homepage filter
-accuracy, `Announcement.sourceUrl`, and closing out the small content gaps tracked in TODO.md's
-Backlog (Sentry deferral aside, which stays open until the project owner is ready for it).
+Sprint 10 — Future Platform Foundation (not started, awaiting explicit instruction). Design and
+interfaces only — a Supabase repository interface, authentication architecture, business claiming
+design, an advertising model, multi-community support, an API abstraction layer, and a migration
+plan.
 
-Full plan: `sprints/sprint-09b-content-cleanup/`.
-
-After that: Sprint 10 — Future Platform Foundation.
+Sprint 09b — Content Cleanup is complete locally; committing/pushing/deploying it remains an open
+step for the project owner. Error monitoring (Sentry) remains open in TODO.md's Backlog,
+independent of both sprints, until the project owner is ready for it.
 
 ---
 
@@ -346,6 +378,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), Sprint 8 (Admin Preparation), Sprint 8b (Community Pages), and Sprint 9 (Production Readiness) are all complete, committed and pushed. The site is live in production at `https://akuna-vista-local-directory.vercel.app/` — Vercel deployment, previously parked, was connected by the project owner on 2026-07-09.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), Sprint 8 (Admin Preparation), Sprint 8b (Community Pages), and Sprint 9 (Production Readiness) are all complete, committed and pushed. The site is live in production at `https://akuna-vista-local-directory.vercel.app/` — Vercel deployment, previously parked, was connected by the project owner on 2026-07-09. Sprint 9b (Content Cleanup) is implemented and verified locally but not yet committed or deployed.
 
-Do not begin Sprint 09b without explicit instruction, even though this document and TODO.md describe its scope.
+Do not begin Sprint 10 without explicit instruction, even though this document and TODO.md describe its scope.

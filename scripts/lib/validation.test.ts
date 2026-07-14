@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
+  announcementSchema,
   businessSchema,
   eventSchema,
   promotionSchema,
@@ -119,6 +120,34 @@ describe("promotionSchema", () => {
       featured: true,
     };
     expect(promotionSchema.safeParse(promotion).success).toBe(false);
+  });
+});
+
+describe("announcementSchema", () => {
+  function makeAnnouncement(overrides: Partial<Record<string, unknown>> = {}) {
+    return {
+      id: "2ad23d3c-e928-45d2-8583-b919c44cded5",
+      title: "Water main works — Vista Street",
+      message: "Planned maintenance from 9am-3pm.",
+      publishedAt: "2026-07-05T09:00:00Z",
+      priority: "high",
+      featured: true,
+      ...overrides,
+    };
+  }
+
+  it("accepts an announcement without sourceUrl", () => {
+    expect(announcementSchema.safeParse(makeAnnouncement()).success).toBe(true);
+  });
+
+  it("accepts an announcement with a valid sourceUrl", () => {
+    const announcement = makeAnnouncement({ sourceUrl: "https://council.example.gov.au/notice" });
+    expect(announcementSchema.safeParse(announcement).success).toBe(true);
+  });
+
+  it("rejects an announcement with a malformed sourceUrl", () => {
+    const announcement = makeAnnouncement({ sourceUrl: "not-a-url" });
+    expect(announcementSchema.safeParse(announcement).success).toBe(false);
   });
 });
 

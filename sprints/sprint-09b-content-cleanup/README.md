@@ -10,11 +10,11 @@ Sprint Goal: Make every category/suburb filter and the homepage's Popular Catego
 match the real content that now exists, close the small data-completeness gaps that have been
 accumulating in TODO.md's Backlog, and remove content that's still fake with no real replacement.
 
-Sprint Status: 🟢 Ready
+Sprint Status: ✅ Complete locally (not yet committed/deployed)
 
-Start Date: TBD
+Start Date: 2026-07-14
 
-End Date: TBD
+End Date: 2026-07-14
 
 Owner: Cerosh Jacob
 
@@ -65,21 +65,20 @@ Why does this sprint matter?
 
 The sprint is successful when:
 
-- [ ] All acceptance criteria are met.
-- [ ] `/search`'s category and suburb filter chips only show options with at least one matching
+- [x] All acceptance criteria are met.
+- [x] `/search`'s category and suburb filter chips only show options with at least one matching
       real business — clicking any visible chip never produces an empty result set.
-- [ ] The homepage's Popular Categories section only features categories with real businesses.
-- [ ] `data/events.json`'s fake sample events are replaced with the real event content supplied
-      2026-07-09 (see notes.md for full detail and the open date-accuracy question that must be
-      resolved with the project owner before implementation).
-- [ ] Homepage section order updated: Community Spotlight removed (temporary), Local Promotions
+- [x] The homepage's Popular Categories section only features categories with real businesses.
+- [x] `data/events.json`'s fake sample events are replaced with real event content — 1 of the 3
+      supplied events (Fingerprints Workshop); the other 2 held out per the project owner's
+      decision (2024 dates already past — see notes.md and TODO.md's Backlog).
+- [x] Homepage section order updated: Community Spotlight removed (temporary), Local Promotions
       moved to right after Popular Categories and before Featured Businesses.
-- [ ] `Announcement.sourceUrl` exists as documented in `.ai/JSON_SCHEMA.md` and renders on
+- [x] `Announcement.sourceUrl` exists as documented in `.ai/JSON_SCHEMA.md` and renders on
       `AnnouncementCard` when present.
-- [ ] Whatever real business email/address/opening-hours/social-link data the project owner has
-      supplied by the time this sprint runs has been added via `scripts/admin.ts`; what hasn't
-      been supplied remains honestly absent, not fabricated.
-- [ ] Tests pass. No known critical defects.
+- [x] Business data completeness (F-005): the project owner had nothing new to supply this
+      sprint — carried forward honestly in TODO.md's Backlog, nothing fabricated.
+- [x] Tests pass. No known critical defects.
 
 ---
 
@@ -87,13 +86,13 @@ The sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | Search page: hide empty category/suburb filter chips | High | Not Started |
-| F-002 | Homepage: fix Popular Categories `featured` flags | High | Not Started |
-| F-003 | Replace fake `data/events.json` with real event content (supplied 2026-07-09) | High | Not Started |
-| F-004 | `Announcement.sourceUrl` field | Medium | Not Started |
-| F-005 | Add any real business data supplied by the project owner | Medium | Not Started |
+| F-001 | Search page: hide empty category/suburb filter chips | High | Completed |
+| F-002 | Homepage: fix Popular Categories `featured` flags | High | Completed |
+| F-003 | Replace fake `data/events.json` with real event content (supplied 2026-07-09) | High | Completed (1 of 3 events added; 2 held out on 2024-dates — see notes.md, carried forward in TODO.md) |
+| F-004 | `Announcement.sourceUrl` field | Medium | Completed |
+| F-005 | Add any real business data supplied by the project owner | Medium | Carried forward — nothing supplied this sprint (see TODO.md Backlog) |
 | F-006 | Footer social link placeholders — resolved 2026-07-09 (removed outright, not wired up — see notes.md) | Low | Completed |
-| F-007 | Homepage: remove Community Spotlight (temporary), move Local Promotions after Popular Categories / before Featured Businesses | Medium | Not Started |
+| F-007 | Homepage: remove Community Spotlight (temporary), move Local Promotions after Popular Categories / before Featured Businesses | Medium | Completed |
 
 Status Values
 
@@ -117,11 +116,11 @@ So that every filter I click shows me something, instead of a dead end.
 
 Acceptance Criteria
 
-- [ ] `/search`'s category chips are computed from businesses that actually exist, not every
+- [x] `/search`'s category chips are computed from businesses that actually exist, not every
       category in `categories.json` — a category with zero real businesses does not render a chip.
-- [ ] `/search`'s suburb chips work the same way, matching `Business.address.suburb` or
+- [x] `/search`'s suburb chips work the same way, matching `Business.address.suburb` or
       `Business.serviceAreas`.
-- [ ] Confirmed via a direct count against `data/businesses.json`, not assumption: as of
+- [x] Confirmed via a direct count against `data/businesses.json`, not assumption: as of
       2026-07-09, only Schofields (11/12 businesses) has any real matches among the 5 suburbs;
       10 of 16 categories have at least one real business.
 
@@ -139,10 +138,10 @@ category) isn't shown at all.
 
 Acceptance Criteria
 
-- [ ] `data/categories.json`: `featured: false` on Plumbing and Cleaning (currently `true`, 0
+- [x] `data/categories.json`: `featured: false` on Plumbing and Cleaning (currently `true`, 0
       real businesses each), `featured: true` on Tutoring & Education (2 businesses) and Real
       Estate (1 business).
-- [ ] Electrical and Landscaping & Gardening stay featured — both already have real businesses.
+- [x] Electrical and Landscaping & Gardening stay featured — both already have real businesses.
 
 ---
 
@@ -157,11 +156,13 @@ content exists.
 
 Acceptance Criteria
 
-- [ ] `data/events.json`'s 5 sample entries are replaced with the 3 real events supplied
-      2026-07-09 (Blacktown Mayoral Fun Run, Blacktown Food Market, Fingerprints Workshop at
-      Nirimba Fields Public School — full detail in notes.md), following Sprint 08b's real-content
-      pattern (real UUIDs, validated via `npm run validate:data`, no fabrication).
-- [ ] The date-accuracy question flagged in notes.md (two of the three events were supplied with
+- [x] `data/events.json`'s 5 sample entries are replaced with real event content, following
+      Sprint 08b's real-content pattern (real UUID, validated via `npm run validate:data`, no
+      fabrication). Resolved with the project owner (2026-07-14): only the Fingerprints Workshop
+      was added; Blacktown Mayoral Fun Run and Blacktown Food Market were held out rather than
+      published with their supplied 2024 dates — carried forward in TODO.md's Backlog until
+      updated dates are available.
+- [x] The date-accuracy question flagged in notes.md (two of the three events were supplied with
       2024 dates, already in the past relative to today) is resolved with the project owner
       before implementation — not guessed at.
 
@@ -178,11 +179,11 @@ So that the page matches the section order and emphasis the project owner wants.
 
 Acceptance Criteria
 
-- [ ] `app/(home)/page.tsx`: `CommunitySpotlight` removed from the rendered section list
+- [x] `app/(home)/page.tsx`: `CommunitySpotlight` removed from the rendered section list
       (component file and its tests left intact — this is temporary, not a deletion).
-- [ ] `Promotions` moved to directly after `PopularCategories` and directly before
+- [x] `Promotions` moved to directly after `PopularCategories` and directly before
       `FeaturedBusinesses`.
-- [ ] `tests/e2e/homepage.spec.ts`'s Community Spotlight visibility assertion removed/updated to
+- [x] `tests/e2e/homepage.spec.ts`'s Community Spotlight visibility assertion removed/updated to
       match; section-order expectations (if any) updated.
 
 ---
@@ -197,11 +198,11 @@ So that residents can read the full original notice, not just a condensed summar
 
 Acceptance Criteria
 
-- [ ] `Announcement.sourceUrl?: string` added to the schema/type, matching `.ai/JSON_SCHEMA.md`'s
+- [x] `Announcement.sourceUrl?: string` added to the schema/type, matching `.ai/JSON_SCHEMA.md`'s
       already-documented "(Future)" scope for this field.
-- [ ] `AnnouncementCard` renders a "Read more" link when `sourceUrl` is present, nothing when
+- [x] `AnnouncementCard` renders a "Read more" link when `sourceUrl` is present, nothing when
       absent.
-- [ ] A small migration bumps `schemaVersion`, following `scripts/migrate-add-price-range.ts`'s
+- [x] A small migration bumps `schemaVersion`, following `scripts/migrate-add-price-range.ts`'s
       pattern.
 
 ---
@@ -258,12 +259,12 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] `/search` and homepage Popular Categories only show options with real content behind them
-- [ ] `data/events.json` is either real or empty, never fake
-- [ ] `Announcement.sourceUrl` implemented end to end (schema, type, migration, UI)
-- [ ] Any real business data / social links supplied by the project owner added via
-      `scripts/admin.ts`
-- [ ] `.ai/TODO.md`'s Backlog section updated — closed items removed, anything still open stays
+- [x] `/search` and homepage Popular Categories only show options with real content behind them
+- [x] `data/events.json` is either real or empty, never fake
+- [x] `Announcement.sourceUrl` implemented end to end (schema, type, migration, UI)
+- [x] Any real business data / social links supplied by the project owner added via
+      `scripts/admin.ts` — nothing was supplied this sprint; carried forward honestly
+- [x] `.ai/TODO.md`'s Backlog section updated — closed items removed, anything still open stays
 
 ---
 
@@ -312,53 +313,54 @@ sequencing decision (2026-07-09), not a technical requirement.
 
 Unit Tests
 
-- [ ] Search chip filtering logic (whatever function computes "categories/suburbs with real
-      businesses") — unit tested with synthetic fixtures, same pattern as
-      `lib/services/searchService.test.ts`.
-- [ ] `Announcement.sourceUrl` migration — transform correctness, matching
+- [x] Search chip filtering logic (`categoriesWithBusinesses`/`suburbsWithBusinesses`) — unit
+      tested with synthetic fixtures, same pattern as `lib/services/searchService.test.ts`.
+- [x] `Announcement.sourceUrl` migration — transform correctness, matching
       `scripts/migrate-add-price-range.test.ts`'s pattern.
 
 Integration Tests
 
-- [ ] `scripts/lib/validation.ts` updated and tested for the new `sourceUrl` field.
+- [x] `scripts/lib/validation.ts` updated and tested for the new `sourceUrl` field.
 
 Playwright
 
-- [ ] `tests/e2e/search.spec.ts`'s existing chip assertions re-verified against the filtered chip
-      set (may need updating if a previously-used chip, e.g. "Schofields", is no longer the only
-      one shown, or if a currently-referenced category/suburb chip changes).
-- [ ] New or extended coverage: a chip for a category/suburb with zero real businesses does not
-      render.
+- [x] `tests/e2e/search.spec.ts`'s existing chip assertions re-verified against the filtered chip
+      set (Roofing/Schofields remained visible unchanged; no update needed there).
+- [x] New coverage added: a chip for a category/suburb with zero real businesses (Plumbing,
+      Tallawong) does not render.
 
 Manual Testing
 
-- [ ] Visual check of `/search` and the homepage Popular Categories section before/after.
-- [ ] If real events/social links are added, spot-check they render correctly.
+- [x] Visual check of `/search` and the homepage Popular Categories section before/after, via a
+      local production server (screenshots captured, no console errors).
+- [x] Real event content added (Fingerprints Workshop) — spot-checked it renders correctly on the
+      homepage's Community Events section.
 
 Responsive Testing
 
-- [ ] Re-run `tests/e2e/responsive.spec.ts` — chip layout changes (fewer chips) shouldn't break
-      wrapping, but verify.
+- [x] Re-ran `tests/e2e/responsive.spec.ts` — all passing, no wrapping regressions from the
+      reduced chip set.
 
 Accessibility
 
-- [ ] Re-run `tests/e2e/accessibility.spec.ts` — no new violations from removed/changed chips.
+- [x] Re-ran `tests/e2e/accessibility.spec.ts` — all passing, no new violations.
 
 ---
 
 # Definition of Done
 
-- [ ] Acceptance criteria completed.
-- [ ] Code reviewed against REVIEW_CHECKLIST.md.
-- [ ] TypeScript passes.
-- [ ] ESLint passes.
-- [ ] Tests pass (unit + Playwright).
-- [ ] Responsive.
-- [ ] Accessible.
-- [ ] Documentation updated (this sprint's own docs, `.ai/TODO.md` Backlog entries closed out,
+- [x] Acceptance criteria completed.
+- [x] Code reviewed against REVIEW_CHECKLIST.md.
+- [x] TypeScript passes.
+- [x] ESLint passes.
+- [x] Tests pass (unit + Playwright).
+- [x] Responsive.
+- [x] Accessible.
+- [x] Documentation updated (this sprint's own docs, `.ai/TODO.md` Backlog entries closed out,
       `.ai/JSON_SCHEMA.md` updated for `sourceUrl`).
-- [ ] No console errors.
-- [ ] Ready for deployment.
+- [x] No console errors.
+- [ ] Ready for deployment — implementation complete and verified locally; committing, pushing and
+      deploying remain open steps for the project owner.
 
 ---
 
@@ -421,12 +423,17 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md — remove closed Backlog entries; keep any that carried forward
-- [ ] ROADMAP.md
-- [ ] DECISIONS.md
-- [ ] CHANGELOG.md
-- [ ] AI_MEMORY.md
+- [x] CONTEXT.md — updated (Sprint 09b marked complete, Sprint 10 as Next Milestone, dataset
+      counts, tooling list).
+- [x] TODO.md — Sprint 09b Summary added; Backlog entries closed (categories/search/sourceUrl) or
+      carried forward (Sentry, the 2 held-out events, business data completeness).
+- [ ] ROADMAP.md — not touched; this sprint didn't change the phase roadmap.
+- [ ] DECISIONS.md — not touched; no new architectural decision was made (the event-date/business-
+      data choices are content decisions, recorded in notes.md/TODO.md instead).
+- [ ] CHANGELOG.md — no such file exists in this repository; not created here (out of scope for a
+      content-cleanup sprint).
+- [ ] AI_MEMORY.md — reviewed; no long-lived convention/decision changed this sprint (checked
+      specifically for stale event/dataset counts — none found), so left untouched.
 
 Only update documents that genuinely changed.
 

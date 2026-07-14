@@ -16,4 +16,6 @@ export interface Announcement {
   expiresAt?: string;
   priority: AnnouncementPriority;
   featured: boolean;
+  /** Optional link back to the original source (council page, DA notice, etc). */
+  sourceUrl?: string;
 }

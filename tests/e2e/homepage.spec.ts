@@ -21,7 +21,6 @@ test.describe("Homepage", () => {
     await expect(home.featuredBusinessesHeading).toBeVisible();
     await expect(home.communityStatisticsHeading).toBeVisible();
     await expect(home.whyChooseLocalHeading).toBeVisible();
-    await expect(home.communitySpotlightHeading).toBeVisible();
     await expect(home.featuredContentHeading).toBeVisible();
     await expect(home.communityEventsHeading).toBeVisible();
     await expect(home.promotionsHeading).toBeVisible();

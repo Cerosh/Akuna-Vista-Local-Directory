@@ -4,7 +4,6 @@ import { PopularCategories } from "@/features/homepage/PopularCategories";
 import { FeaturedBusinesses } from "@/features/homepage/FeaturedBusinesses";
 import { CommunityStatistics } from "@/features/homepage/CommunityStatistics";
 import { WhyChooseLocal } from "@/features/homepage/WhyChooseLocal";
-import { CommunitySpotlight } from "@/features/community/CommunitySpotlight";
 import { FeaturedContent } from "@/features/community/FeaturedContent";
 import { CommunityEvents } from "@/features/community/CommunityEvents";
 import { Promotions } from "@/features/community/Promotions";
@@ -25,15 +24,14 @@ export default async function Home() {
     <>
       <Hero settings={settings} />
       <PopularCategories />
+      <Promotions />
       <FeaturedBusinesses />
       <CommunityStatistics />
       <WhyChooseLocal />
       {/* Sprint 06 (Community Content) — appended after the existing
           Sprint 1-5 sections so their Visual Hierarchy is unchanged. */}
-      <CommunitySpotlight />
       <FeaturedContent />
       <CommunityEvents />
-      <Promotions />
       <Announcements />
       <LocalNewsPlaceholder />
     </>

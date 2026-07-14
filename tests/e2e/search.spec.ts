@@ -82,6 +82,17 @@ test.describe("Search (/search)", () => {
     expect(count).toBeGreaterThan(1);
   });
 
+  test("a category or suburb chip with zero real businesses does not render", async ({ page }) => {
+    // Sprint 09b F-001: chips are computed from real content, not every
+    // categories.json/suburbs.json entry — Plumbing and Tallawong currently
+    // have zero matching businesses.
+    const search = new SearchPage(page);
+    await search.goto();
+
+    await expect(search.categoryChip("Plumbing")).toHaveCount(0);
+    await expect(search.categoryChip("Tallawong")).toHaveCount(0);
+  });
+
   test("a query with no matches shows the empty state, not a blank page", async ({ page }) => {
     const search = new SearchPage(page);
     await search.goto();

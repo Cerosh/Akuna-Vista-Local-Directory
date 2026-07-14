@@ -1,56 +1,12 @@
 [
   {
-    "id": "a634e956-79ad-4b45-8f31-39b29e8bc9e0",
-    "title": "Community BBQ",
-    "slug": "community-bbq",
-    "description": "Monthly community gathering with a free sausage sizzle, kids activities and a chance to meet your neighbours at Akuna Vista Park.",
-    "startDate": "2026-09-10T10:00:00Z",
-    "endDate": "2026-09-10T14:00:00Z",
-    "location": "Akuna Vista Park",
-    "image": "/images/placeholder-business.svg",
-    "featured": true
-  },
-  {
-    "id": "5ec267ae-d446-4a5d-8e79-8361d122b585",
-    "title": "Twilight Markets",
-    "slug": "twilight-markets",
-    "description": "An evening of local food stalls, live music and handmade goods from Akuna Vista makers and small businesses.",
-    "startDate": "2026-08-15T16:00:00Z",
-    "endDate": "2026-08-15T20:00:00Z",
-    "location": "Vista Street Plaza",
-    "image": "/images/placeholder-business.svg",
-    "featured": false
-  },
-  {
-    "id": "8660c1b4-4ab6-4496-abfb-38cea527099e",
-    "title": "Kids Movie Night",
-    "slug": "kids-movie-night",
-    "description": "An outdoor family movie screening on the big lawn — bring a picnic blanket and enjoy a free family film under the stars.",
-    "startDate": "2026-07-20T18:30:00Z",
-    "endDate": "2026-07-20T20:30:00Z",
-    "location": "Akuna Vista Park",
-    "image": "/images/placeholder-business.svg",
-    "featured": false
-  },
-  {
-    "id": "f960c50f-31a9-45c1-81da-9db2626032fd",
-    "title": "Community Working Bee",
-    "slug": "community-working-bee",
-    "description": "Help spruce up the community garden beds and walking trail — tools and morning tea provided, all ages welcome.",
-    "startDate": "2026-07-25T08:00:00Z",
-    "endDate": "2026-07-25T11:00:00Z",
-    "location": "Community Garden, Ridgeline Drive",
-    "image": "/images/placeholder-business.svg",
-    "featured": false
-  },
-  {
-    "id": "a55e03f6-b5de-48e4-9978-9fb8361dcc4f",
-    "title": "Winter Fun Run",
-    "slug": "winter-fun-run",
-    "description": "A 5km community fun run around The Ponds wetlands, followed by coffee and pastries at a nearby café.",
-    "startDate": "2026-06-01T07:00:00Z",
-    "endDate": "2026-06-01T09:00:00Z",
-    "location": "The Ponds Wetlands",
+    "id": "cb2ef99f-9b69-4b53-949f-3c6a115a34d8",
+    "title": "Fingerprints Workshop at Nirimba Fields Public School",
+    "slug": "fingerprints-workshop-nirimba-fields",
+    "description": "A weekly after-school creative workshop running every Friday throughout Term 3 at Nirimba Fields Public School. Registrations are open now.",
+    "startDate": "2026-07-17T15:00:00Z",
+    "endDate": "2026-07-17T16:00:00Z",
+    "location": "Nirimba Fields Public School",
     "image": "/images/placeholder-business.svg",
     "featured": false
   }

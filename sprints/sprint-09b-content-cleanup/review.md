@@ -49,23 +49,29 @@ opened and reviewed — do not pre-fill outcomes before work exists.
 
 # Testing Plan (execution record)
 
-- [ ] `npm run lint` / `npm run typecheck` / `npm run validate:data` / `npm test` pass.
-- [ ] Full Playwright suite passes (Chromium/Firefox in CI, all three including WebKit via
-      `.husky/pre-push` locally).
-- [ ] `npm run build` succeeds.
-- [ ] Manual verification: no filter chip anywhere on the site leads to zero results.
+- [x] `npm run lint` / `npm run typecheck` / `npm run validate:data` / `npm test` pass (136 unit
+      tests, up from 126).
+- [x] Full Playwright suite passes locally across all three browsers: 96/96 Chromium, 176/192
+      Firefox/WebKit (16 documented pre-existing skips, none new).
+- [x] `npm run build` succeeds.
+- [x] Manual verification: confirmed live against a local production server — no filter chip
+      anywhere on the site leads to zero results (checked Plumbing/Tallawong absent, Roofing/
+      Schofields present and functional), homepage section order and Popular Categories content
+      correct, Community Events shows only the real Fingerprints Workshop entry, zero console
+      errors.
 
 ---
 
 # Release Checklist (pre-merge to `main`)
 
-- [ ] Build succeeds.
-- [ ] Lint succeeds.
-- [ ] Type checking succeeds.
-- [ ] Accessibility/responsive checks pass.
-- [ ] Documentation updated.
-- [ ] No critical or high review findings remain open.
-- [ ] Definition of Done (see README.md) satisfied.
+- [x] Build succeeds.
+- [x] Lint succeeds.
+- [x] Type checking succeeds.
+- [x] Accessibility/responsive checks pass.
+- [x] Documentation updated.
+- [x] No critical or high review findings remain open.
+- [x] Definition of Done (see README.md) satisfied, aside from the commit/push/deploy step which
+      is the project owner's decision.
 
 ---
 
@@ -73,4 +79,4 @@ opened and reviewed — do not pre-fill outcomes before work exists.
 
 | Severity | Finding | File/Area | Resolution |
 |----------|---------|-----------|------------|
-| | | | |
+| Low | `.ai/CONTEXT.md`'s dataset-count line stated "5 promotions" when `data/promotions.json` actually has 4 (pre-existing inaccuracy, unrelated to this sprint's changes) | `.ai/CONTEXT.md` | Corrected while updating the same line for this sprint's dataset changes |

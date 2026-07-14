@@ -59,6 +59,31 @@ function businessInSuburb(business: Business, suburb: string): boolean {
 }
 
 /**
+ * Categories with at least one real business — used to hide filter chips
+ * (Sprint 09b F-001) that would otherwise always lead to zero results.
+ * A computed filter, not a hardcoded list, so it stays correct as
+ * businesses.json changes.
+ */
+export function categoriesWithBusinesses(
+  categories: Category[],
+  businesses: Business[],
+): Category[] {
+  const categoryIds = new Set(businesses.map((business) => business.categoryId));
+  return categories.filter((category) => categoryIds.has(category.id));
+}
+
+/**
+ * Suburbs with at least one real business, matching the same
+ * address/serviceAreas rule `businessInSuburb` uses for actual search
+ * filtering — kept as one rule rather than two similar-but-different ones.
+ */
+export function suburbsWithBusinesses(suburbs: Suburb[], businesses: Business[]): Suburb[] {
+  return suburbs.filter((suburb) =>
+    businesses.some((business) => businessInSuburb(business, suburb.name)),
+  );
+}
+
+/**
  * Pure, replaceable search implementation. This is the only place that
  * knows how "search" currently works (client-side substring matching
  * over the in-memory dataset) — per ARCHITECTURE.md's Search

@@ -134,6 +134,8 @@ export const announcementSchema = z.strictObject({
   expiresAt: isoDateTimeSchema.optional(),
   priority: z.enum(["normal", "high"]),
   featured: z.boolean(),
+  // Added in schema 1.4.0 — Sprint 09b F-004.
+  sourceUrl: z.url().optional(),
 });
 
 export const settingsSchema = z.strictObject({

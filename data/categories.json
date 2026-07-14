@@ -6,7 +6,7 @@
     "icon": "Wrench",
     "description": "Plumbers and plumbing services.",
     "displayOrder": 1,
-    "featured": true
+    "featured": false
   },
   {
     "id": "electrical",
@@ -24,7 +24,7 @@
     "icon": "Sparkles",
     "description": "Home and office cleaning services.",
     "displayOrder": 3,
-    "featured": true
+    "featured": false
   },
   {
     "id": "landscaping",
@@ -105,7 +105,7 @@
     "icon": "GraduationCap",
     "description": "Tutoring, exam preparation and education services.",
     "displayOrder": 12,
-    "featured": false
+    "featured": true
   },
   {
     "id": "tv-installation",
@@ -141,6 +141,6 @@
     "icon": "Building2",
     "description": "Real estate agents and property investment services.",
     "displayOrder": 16,
-    "featured": false
+    "featured": true
   }
 ]

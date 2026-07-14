@@ -23,6 +23,7 @@
     "admin:data": "tsx scripts/admin.ts",
     "seed:generate": "tsx scripts/seed-generate.ts",
     "migrate:add-price-range": "tsx scripts/migrate-add-price-range.ts",
+    "migrate:add-announcement-source-url": "tsx scripts/migrate-add-announcement-source-url.ts",
     "prepare": "husky"
   },
   "lint-staged": {

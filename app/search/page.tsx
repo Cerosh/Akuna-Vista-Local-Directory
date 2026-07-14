@@ -6,6 +6,7 @@ import { SearchExperience } from "@/features/search/SearchExperience";
 import { businessRepository } from "@/lib/repositories/businessRepository";
 import { categoryRepository } from "@/lib/repositories/categoryRepository";
 import { suburbRepository } from "@/lib/repositories/suburbRepository";
+import { categoriesWithBusinesses, suburbsWithBusinesses } from "@/lib/services/searchService";
 
 export const metadata: Metadata = {
   title: "Search | Akuna Vista Local Directory",
@@ -32,6 +33,10 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     categoryRepository.getAll(),
     suburbRepository.getAll(),
   ]);
+  // Sprint 09b F-001 — only show filter chips that lead somewhere; a chip
+  // for a category/suburb with zero real businesses is a dead end.
+  const categoriesWithListings = categoriesWithBusinesses(categories, businesses);
+  const suburbsWithListings = suburbsWithBusinesses(suburbs, businesses);
 
   return (
     <Section>
@@ -44,8 +49,8 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
         </div>
         <SearchExperience
           businesses={businesses}
-          categories={categories}
-          suburbs={suburbs}
+          categories={categoriesWithListings}
+          suburbs={suburbsWithListings}
           initialQuery={params.q ?? ""}
           initialCategoryId={params.category}
           initialSuburb={params.suburb}

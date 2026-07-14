@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { getSearchSuggestions, searchBusinesses } from "./searchService";
+import {
+  categoriesWithBusinesses,
+  getSearchSuggestions,
+  searchBusinesses,
+  suburbsWithBusinesses,
+} from "./searchService";
 import type { Business } from "@/types/business";
 import type { Category } from "@/types/category";
 import type { Suburb } from "@/types/suburb";
@@ -148,5 +153,44 @@ describe("getSearchSuggestions", () => {
   it("respects the limit", () => {
     const many = Array.from({ length: 10 }, (_, i) => makeBusiness({ name: `Plumber ${i}` }));
     expect(getSearchSuggestions(many, [], [], "plumb", 3)).toHaveLength(3);
+  });
+});
+
+describe("categoriesWithBusinesses", () => {
+  it("keeps only categories with at least one matching business", () => {
+    const plumber = makeBusiness({ categoryId: "plumbing" });
+    const categories = [
+      makeCategory({ id: "plumbing", name: "Plumbing" }),
+      makeCategory({ id: "cleaning", name: "Cleaning" }),
+    ];
+    expect(categoriesWithBusinesses(categories, [plumber])).toEqual([categories[0]]);
+  });
+
+  it("returns an empty array when no business matches any category", () => {
+    const categories = [makeCategory({ id: "cleaning", name: "Cleaning" })];
+    expect(categoriesWithBusinesses(categories, [])).toEqual([]);
+  });
+});
+
+describe("suburbsWithBusinesses", () => {
+  it("keeps only suburbs matched by address.suburb or serviceAreas", () => {
+    const plumber = makeBusiness({
+      address: { street: "1 X St", suburb: "Schofields", state: "NSW", postcode: "2762" },
+      serviceAreas: ["Tallawong"],
+    });
+    const suburbs = [
+      makeSuburb({ id: "schofields", name: "Schofields" }),
+      makeSuburb({ id: "tallawong", name: "Tallawong" }),
+      makeSuburb({ id: "the-ponds", name: "The Ponds" }),
+    ];
+    expect(suburbsWithBusinesses(suburbs, [plumber])).toEqual([suburbs[0], suburbs[1]]);
+  });
+
+  it("matches case/accent-insensitively via the same normalize rule as search", () => {
+    const plumber = makeBusiness({
+      address: { street: "1 X St", suburb: "SCHOFIELDS", state: "NSW", postcode: "2762" },
+    });
+    const suburbs = [makeSuburb({ id: "schofields", name: "Schofields" })];
+    expect(suburbsWithBusinesses(suburbs, [plumber])).toEqual(suburbs);
   });
 });

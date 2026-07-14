@@ -242,8 +242,8 @@ promotions.json
 
 # Announcement Schema
 
-New in schema `1.2.0` (Sprint 6 — Community Content). No prior version
-of this schema exists.
+New in schema `1.2.0` (Sprint 6 — Community Content). `sourceUrl` added
+in `1.4.0` (Sprint 09b — Content Cleanup).
 
 File
 
@@ -260,7 +260,8 @@ announcements.json
     "publishedAt": "2026-07-05T09:00:00Z",
     "expiresAt": "2026-07-12T00:00:00Z",
     "priority": "high",
-    "featured": true
+    "featured": true,
+    "sourceUrl": "https://council.example.gov.au/notices/water-main-works"
   }
 ]
 ```
@@ -275,17 +276,13 @@ and announcements alike — Event and Promotion schemas already had the
 field, so Announcement needed it too for that mechanism to work
 consistently across all three content types.
 
-**(Future) `sourceUrl?: string`** — not yet part of the schema. Raised
-when real council/government/developer news (e.g. a Transport for NSW
-project page, a council DA notice) was added as announcement content
-and there was nowhere to link back to the source. Add as an optional
-field, rendered by `AnnouncementCard` as a "Read more" / source link
-when present, omitted otherwise (same optional-field convention as
-`expiresAt`). Requires: a `scripts/lib/validation.ts` schema update
-(`z.url().optional()`), a `types/announcement.ts` update, and a
-`schemaVersion` bump via a small migration (see `scripts/migrate-add-price-range.ts`
-for the pattern). Not scheduled into any sprint yet — tracked in
-TODO.md's Backlog.
+`sourceUrl?: string` is optional — added for real council/government/
+developer news (e.g. a Transport for NSW project page, a council DA
+notice) that has nowhere to link back to the source otherwise. Rendered
+by `AnnouncementCard` as a "Read more" link when present, omitted
+otherwise (same optional-field convention as `expiresAt`). Not
+backfilled onto existing announcements without a real source link — see
+`scripts/migrate-add-announcement-source-url.ts`.
 
 ---
 
@@ -539,6 +536,12 @@ placed in Version 4 — see DECISIONS.md ADR-011.
 (`"$"` | `"$$"` | `"$$$"`), backfilled to `"$$"` on every existing business.
 The demonstration case for this sprint's data migration helper
 (`scripts/migrate-add-price-range.ts`) — see DECISIONS.md ADR-013.
+
+`1.4.0` (Sprint 09b — Content Cleanup): added optional
+`Announcement.sourceUrl` (`z.url().optional()`), so an announcement can
+link back to its original source (council page, DA notice, etc). Not
+backfilled onto existing announcements — none had a real source URL
+supplied at migration time (`scripts/migrate-add-announcement-source-url.ts`).
 
 ---
 

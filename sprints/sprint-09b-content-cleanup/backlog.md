@@ -19,14 +19,14 @@ implement now versus what's contingent on the project owner supplying real conte
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Popular Categories `featured` flag fix | None | High | Not Started |
-| B-002 | Search filter chip filtering (category + suburb) | None | High | Not Started |
-| B-003 | `Announcement.sourceUrl` (schema, type, UI, migration) | None | Medium | Not Started |
-| B-004 | Events: replace `data/events.json` with real content | Date question resolved with project owner (see notes.md) | High | Blocked (date confirmation needed) |
-| B-005 | Real business data additions | Real data from project owner | Medium | Blocked (input needed) |
+| B-001 | Popular Categories `featured` flag fix | None | High | Completed |
+| B-002 | Search filter chip filtering (category + suburb) | None | High | Completed |
+| B-003 | `Announcement.sourceUrl` (schema, type, UI, migration) | None | Medium | Completed |
+| B-004 | Events: replace `data/events.json` with real content | Date question resolved with project owner (see notes.md) | High | Completed (1 of 3 events added; 2 held out on 2024-dates, carried forward) |
+| B-005 | Real business data additions | Real data from project owner | Medium | Carried forward — nothing supplied this sprint |
 | B-006 | Footer social link placeholders | None | Low | Completed 2026-07-09 (removed outright, ahead of this sprint) |
-| B-007 | `.ai/TODO.md` Backlog cleanup | B-001–B-006 | Medium | Not Started |
-| B-008 | Homepage section reorder (remove Community Spotlight, move Local Promotions) | None | Medium | Not Started |
+| B-007 | `.ai/TODO.md` Backlog cleanup | B-001–B-006 | Medium | Completed |
+| B-008 | Homepage section reorder (remove Community Spotlight, move Local Promotions) | None | Medium | Completed |
 
 ---
 

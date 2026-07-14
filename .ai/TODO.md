@@ -4,19 +4,60 @@
 
 Sprint Number
 
-09 (complete) — awaiting go-ahead for Sprint 09b
+09b (complete locally — not yet committed/deployed) — awaiting go-ahead for Sprint 10
 
 Sprint Name
 
-Production Readiness
+Content Cleanup
 
 Status
 
-✅ Complete (monitoring/Sentry explicitly deferred — see Backlog)
+✅ Complete locally (lint/typecheck/unit/Playwright/build all pass, manually verified against a
+local production server — commit/push/deploy remain open steps for the project owner)
 
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 09b Summary
+
+Delivered: `/search`'s category/suburb filter chips and the homepage's Popular Categories section
+now only show options backed by real businesses (`categoriesWithBusinesses`/
+`suburbsWithBusinesses` in `lib/services/searchService.ts`, reusing the existing suburb-matching
+logic rather than duplicating it); `data/categories.json`'s `featured` flags fixed (Plumbing/
+Cleaning unfeatured, Tutoring & Education/Real Estate featured); `data/events.json`'s 5 fake sample
+events replaced with 1 real event (Fingerprints Workshop at Nirimba Fields Public School);
+`Announcement.sourceUrl` implemented end to end (schema, type, `AnnouncementCard`'s "Read more"
+link, `scripts/migrate-add-announcement-source-url.ts`, `schemaVersion` 1.3.0 → 1.4.0); homepage
+reorder (`CommunitySpotlight` removed for now, `Promotions` moved after `PopularCategories`).
+
+Key decisions:
+
+- **Two of the three real events supplied (Blacktown Mayoral Fun Run, Blacktown Food Market) were
+  held out of `data/events.json`**, not published — both were supplied with 2024 dates already
+  past, which would have made them silently invisible (`eventRepository.getUpcomingEvents()`
+  filters past events). The project owner chose to hold both out rather than guess a future date
+  or publish them invisibly; carried forward until updated dates are available.
+- **Fingerprints Workshop's end time (not supplied) set to a 1-hour default (3:00–4:00 PM)**, per
+  the project owner's explicit choice, since the Event schema requires an `endDate` and only a
+  start time was supplied.
+- **F-005 (real business data completeness) carried forward** — the project owner had nothing new
+  to supply this sprint; not silently dropped, still open in Backlog below.
+- **`Announcement.sourceUrl` not backfilled onto existing announcements** — none had a real source
+  URL supplied at migration time; the migration only activates the field and bumps schemaVersion,
+  consistent with this project's no-fabrication convention.
+
+Tests: 136 unit/integration (was 126 — 10 new: chip-filtering unit tests, `announcementSchema`
+`sourceUrl` validation tests, the new migration's tests) + 96/96 Playwright on Chromium, 176/192 on
+Firefox/WebKit (16 documented skips) — including a new regression test confirming a chip for a
+category/suburb with zero real businesses does not render. `npm run lint`, `typecheck`,
+`validate:data`, and `build` all pass. Manually verified against a local production server: exact
+homepage section order, Popular Categories content, `/search` chip set, and the Community Events
+section all confirmed live with zero console errors — not just built and assumed correct.
+
+Full details: `sprints/sprint-09b-content-cleanup/`.
 
 ---
 
@@ -310,13 +351,11 @@ Full plan: `sprints/sprint-05-search/`.
 
 # Backlog (not yet scheduled into any sprint)
 
-Most items previously tracked here (Announcement.sourceUrl, business data completeness, the fake
-`data/events.json` content, the Popular Categories `featured`-flag mismatch) have been
-consolidated into Sprint 09b's plan — see `sprints/sprint-09b-content-cleanup/`, specifically
-`backlog.md` for the per-item breakdown and `notes.md` for exact technical scope. (Footer social
-link placeholders — also originally listed here — were resolved directly, ahead of Sprint 09b:
-the placeholders were removed outright rather than wired up with real links; see Sprint 09b's
-`notes.md` F-006 for the record.)
+Sprint 09b closed out the Popular Categories `featured`-flag mismatch, search filter chip
+accuracy, and `Announcement.sourceUrl` — see `sprints/sprint-09b-content-cleanup/` for full detail.
+(Footer social link placeholders — also originally tracked here — were resolved directly, ahead of
+Sprint 09b: removed outright rather than wired up with real links; see Sprint 09b's `notes.md`
+F-006 for the record.) Two items remain genuinely open, carried forward rather than dropped:
 
 - **Error monitoring (Sentry)** — deferred during Sprint 09 (Production Readiness), 2026-07-14.
   The project owner chose not to set up a Sentry account rather than block the rest of that
@@ -325,6 +364,15 @@ the placeholders were removed outright rather than wired up with real links; see
   error, and confirm it reaches the Sentry dashboard — "wired up" and "verified receiving real
   events" are two separate checkboxes, per Sprint 09's own Definition of Done. See
   `sprints/sprint-09-production/review.md`/`retrospective.md` for full context.
+- **`data/events.json`: Blacktown Mayoral Fun Run and Blacktown Food Market** — real event content
+  supplied 2026-07-09, held out of Sprint 09b because both were supplied with 2024 dates already
+  past (would be silently invisible via `eventRepository.getUpcomingEvents()`'s past-event
+  filter). When picked up: get the actual next-occurrence date (2026/2027) from the project owner
+  for one or both, then add via the same real-content pattern Sprint 09b used for the Fingerprints
+  Workshop entry. See `sprints/sprint-09b-content-cleanup/notes.md` F-003 for full detail.
+- **Business data completeness** (email/address/opening-hours/verification) — carried forward from
+  Sprint 09b (F-005); the project owner had nothing new to supply this sprint. When picked up: add
+  via `scripts/admin.ts update`, one business at a time, backup first.
 
 Add new small, concrete, not-yet-scheduled requirements here as they come up; fold them into a
 future sprint's plan once there's enough to justify one.
@@ -333,11 +381,9 @@ future sprint's plan once there's enough to justify one.
 
 # Next Sprint (not started — do not begin without explicit instruction)
 
-Sprint 09b — Content Cleanup. Full plan: `sprints/sprint-09b-content-cleanup/`. Queued directly
-after Sprint 09 per the project owner's explicit sequencing decision (2026-07-09) — not a
-technical dependency, the two sprints are independent of each other.
-
-Sprint 10 — Future Platform Foundation remains the sprint after that.
+Sprint 10 — Future Platform Foundation. Design and interfaces only — a Supabase repository
+interface, authentication architecture, business claiming design, an advertising model,
+multi-community support, an API abstraction layer, and a migration plan.
 
 ---
 
@@ -345,7 +391,7 @@ Sprint 10 — Future Platform Foundation remains the sprint after that.
 
 Stop.
 
-Do not continue to Sprint 09b.
+Do not continue to Sprint 10.
 
 Wait for explicit instruction before implementing additional features.
 
