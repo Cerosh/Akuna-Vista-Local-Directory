@@ -45,13 +45,16 @@ test.describe("Business Directory (/businesses)", () => {
     const directory = new DirectoryPage(page);
     await directory.goto();
 
-    await expect(page.getByText("Page 1 of 2")).toBeVisible();
+    await expect(page.getByText("Page 1 of 3")).toBeVisible();
     await expect(page.getByText("Previous")).toHaveAttribute("aria-disabled", "true");
 
     await directory.pagination.getByRole("link", { name: /next/i }).click();
-
     await expect(page).toHaveURL(/page=2/);
-    await expect(page.getByText("Page 2 of 2")).toBeVisible();
+    await expect(page.getByText("Page 2 of 3")).toBeVisible();
+
+    await directory.pagination.getByRole("link", { name: /next/i }).click();
+    await expect(page).toHaveURL(/page=3/);
+    await expect(page.getByText("Page 3 of 3")).toBeVisible();
     await expect(page.getByText("Next")).toHaveAttribute("aria-disabled", "true");
   });
 

@@ -142,5 +142,14 @@
     "description": "Real estate agents and property investment services.",
     "displayOrder": 16,
     "featured": true
+  },
+  {
+    "id": "driving-instructors",
+    "slug": "driving-instructors",
+    "name": "Driving Instructors",
+    "icon": "Car",
+    "description": "Driving instructors and driving schools.",
+    "displayOrder": 17,
+    "featured": false
   }
 ]
