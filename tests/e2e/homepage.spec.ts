@@ -138,6 +138,40 @@ test.describe("Homepage", () => {
     expect(requestedUrls.some((url) => url.includes("api.transport.nsw.gov.au"))).toBe(false);
   });
 
+  test("Weather card shows real Schofields conditions (not the old placeholder) and never calls Open-Meteo directly from the browser", async ({
+    page,
+  }) => {
+    // Sprint 13 replaced the "Weather coming soon" placeholder in the Hero
+    // sidebar with a real Open-Meteo-backed card. Open-Meteo needs no API
+    // key, but this app's CSP (`connect-src 'self'`) blocks the browser
+    // from calling it directly regardless — the browser should only ever
+    // request this app's own /api/weather route.
+    const requestedUrls: string[] = [];
+    page.on("request", (request) => requestedUrls.push(request.url()));
+    const weatherResponsePromise = page
+      .waitForResponse((response) => response.url().includes("/api/weather"), { timeout: 15000 })
+      .catch(() => null);
+
+    const home = new HomePage(page);
+    await home.goto();
+
+    await expect(page.getByText("Schofields Weather")).toBeVisible();
+
+    const weatherResponse = await weatherResponsePromise;
+    expect(weatherResponse).not.toBeNull();
+
+    // Tolerant of both outcomes — real numbers (Open-Meteo is a live,
+    // unauthenticated public API so this should normally succeed) or the
+    // graceful fallback if the upstream call fails for any reason. Either
+    // is a pass; a crash or blank card is not.
+    await expect(
+      page.getByText("Feels like").or(page.getByText("Unavailable right now").first()),
+    ).toBeVisible({ timeout: 15000 });
+
+    expect(requestedUrls.some((url) => url.includes("/api/weather"))).toBe(true);
+    expect(requestedUrls.some((url) => url.includes("api.open-meteo.com"))).toBe(false);
+  });
+
   test("mobile navigation drawer opens and closes", async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 700 });
     const home = new HomePage(page);

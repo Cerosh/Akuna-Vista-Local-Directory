@@ -4,7 +4,7 @@ import { Section } from "@/components/common/Section";
 import { buttonVariants } from "@/components/ui/button";
 import { SearchInput } from "@/components/common/SearchInput";
 import { TransitWidget } from "@/features/homepage/TransitWidget";
-import { WeatherComingSoon } from "@/features/homepage/WeatherComingSoon";
+import { WeatherCard } from "@/features/homepage/WeatherCard";
 import type { Settings } from "@/types/settings";
 
 interface HeroProps {
@@ -12,15 +12,14 @@ interface HeroProps {
 }
 
 /**
- * This is a local business directory first — live transit data is a
- * secondary, at-a-glance convenience, not the page's main content (the
+ * This is a local business directory first — live transit/weather data is
+ * a secondary, at-a-glance convenience, not the page's main content (the
  * project owner's explicit framing, 2026-07-15). So the Hero stays the
  * visual centre of this row: a compact transit widget sits to its left,
- * balanced by a placeholder Weather widget on the right (project owner's
- * plan, 2026-07-15) — neither should compete with Hero/Popular Categories
- * for "central real estate". Sidebars stack below Hero content on
- * narrower screens, since a business directory's search/hero should
- * still come first on mobile.
+ * balanced by a Schofields weather widget on the right (Sprint 13) —
+ * neither should compete with Hero/Popular Categories for "central real
+ * estate". Sidebars stack below Hero content on narrower screens, since a
+ * business directory's search/hero should still come first on mobile.
  */
 export function Hero({ settings }: HeroProps) {
   return (
@@ -56,7 +55,7 @@ export function Hero({ settings }: HeroProps) {
           </div>
 
           <div className="order-3 flex justify-center lg:justify-end">
-            <WeatherComingSoon />
+            <WeatherCard />
           </div>
         </div>
       </Container>

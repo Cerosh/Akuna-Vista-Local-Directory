@@ -4,21 +4,55 @@
 
 Sprint Number
 
-12 (complete locally — not yet committed/deployed) — implemented ahead of Sprint 10 per the
+13 (complete locally — not yet committed/deployed) — implemented ahead of Sprint 10 per the
 project owner's explicit instruction (2026-07-16)
 
 Sprint Name
 
-Branding & Navigation Polish
+Schofields Weather Dashboard
 
 Status
 
-✅ Complete locally (lint/typecheck/Playwright/build all pass — commit/push/deploy remain open
-steps for the project owner)
+✅ Complete locally (lint/typecheck/unit/Playwright/build all pass, verified against the real
+Open-Meteo API — commit/push/deploy remain open steps for the project owner)
 
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 13 Summary
+
+Delivered: real current weather and a 7-day forecast for Schofields, NSW, sourced from
+Open-Meteo's free, keyless Forecast API, replacing Sprint 11's "Weather coming soon" placeholder
+in the Hero sidebar.
+
+Key decisions:
+
+- **This project's second live external API integration**, already covered by the existing
+  `DECISIONS.md` ADR-014 (which explicitly anticipated more real-time features beyond Sprint 11's
+  NSW Transport work) — no new ADR needed.
+- **Still proxied through a server route despite needing no API key** — this project's CSP
+  (`connect-src 'self'`) blocks the browser from calling any external domain directly regardless
+  of authentication, so the same server-route pattern applies for a different reason (CSP
+  compliance, not secret-hiding).
+- **An explicit, injectable-clock TTL cache** (`lib/weather/weatherCache.ts`) was added in front of
+  the API call specifically so cache behaviour has direct unit test coverage, rather than relying
+  solely on Next's own `revalidate` cache, which isn't meaningfully testable in isolation.
+- **One placement ambiguity was clarified before implementation**: the project owner's spec
+  described a content-dense card; confirmed it should fill the existing Hero sidebar placeholder
+  slot (not a new full-width homepage section) before any code was written.
+- A single centralized `getWeatherCondition()` helper maps Open-Meteo's WMO weather codes to
+  icon + description — the only place in the codebase that interprets weather codes.
+
+Tests: 176 unit tests (was 155 — 21 new: 8 weather-code mapping, 4 TTL cache, 9 weather service)
++ 297 Playwright across Chromium/Firefox/WebKit (16 documented skips), 0 failures. `npm run lint`,
+`typecheck`, and `build` all pass. Manually verified against the real Open-Meteo API: real current
+Schofields conditions and a sensible 7-day forecast render correctly, the browser never calls
+`api.open-meteo.com` directly.
+
+Full details: `sprints/sprint-13-schofields-weather-dashboard/`.
 
 ---
 
