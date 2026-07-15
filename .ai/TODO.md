@@ -4,22 +4,53 @@
 
 Sprint Number
 
-11 (complete locally — not yet committed/deployed) — implemented ahead of Sprint 10 per the
-project owner's explicit instruction (2026-07-15)
+12 (complete locally — not yet committed/deployed) — implemented ahead of Sprint 10 per the
+project owner's explicit instruction (2026-07-16)
 
 Sprint Name
 
-Home Tutoring Listing
+Branding & Navigation Polish
 
 Status
 
-✅ Complete locally (lint/typecheck/unit/Playwright/build all pass, manually verified against a
-local production server including confirming the NSW Transport API key never reaches the browser
-— commit/push/deploy remain open steps for the project owner)
+✅ Complete locally (lint/typecheck/Playwright/build all pass — commit/push/deploy remain open
+steps for the project owner)
 
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 12 Summary
+
+Delivered: a breadcrumb (`Home > Category > Business Name`) on the business detail page, the
+project owner's real logo rolled out to the header, footer and browser tab icon, and an
+Acknowledgment of Country in the footer on every page.
+
+Key decisions:
+
+- The project owner's report of "no way to go back to home page" was investigated before any spec
+  was written — the global header's Home link/logo already worked (confirmed via direct HTML
+  inspection); the real gap was the business detail page having no in-page affordance, fixed with
+  a breadcrumb rather than a nav "fix."
+- The supplied logo image was processed with Python/Pillow (no ImageMagick available locally,
+  same constraint Sprint 11 hit with `sips`) — a full-lockup version for the header/footer, and an
+  emblem-only crop (excluding the illegible-at-small-size wordmark) for the browser tab icon.
+- A real bug was found and fixed during implementation: an RGB-mode `favicon.ico` crashed every
+  route with a `500` (Turbopack's ICO decoder requires RGBA-mode embedded PNG frames) — caught by
+  actually loading the page after generating the asset, not by typecheck/lint.
+- The Acknowledgment of Country uses general wording (no specific Traditional Owners/Country
+  named), confirmed explicitly by the project owner rather than guessing — avoids the risk of
+  misattribution.
+- This is the first sprint to follow the Spec-Driven Development process from its very first line
+  of code (Sprint 11 adopted the rule partway through).
+
+Tests: 294 Playwright (was 291 — 2 new: breadcrumb navigation, footer acknowledgment text) across
+Chromium/Firefox/WebKit (16 documented skips), run twice, 0 failures. `npm run lint`/`typecheck`
+pass.
+
+Full details: `sprints/sprint-12-branding-navigation-polish/`.
 
 ---
 

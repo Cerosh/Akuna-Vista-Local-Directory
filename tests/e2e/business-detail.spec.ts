@@ -90,6 +90,25 @@ test.describe("Business Details (/business/[slug])", () => {
     expect(jsonLd.address).toBeUndefined();
   });
 
+  test("breadcrumb shows Home > Category > Business Name, and links navigate correctly", async ({
+    page,
+  }) => {
+    const business = new BusinessPage(page);
+    await business.goto("windsor-marsden-park-richmond-taxi");
+
+    await expect(business.breadcrumb).toBeVisible();
+    await expect(business.breadcrumb.getByRole("link", { name: "Home" })).toHaveAttribute(
+      "href",
+      "/",
+    );
+    const categoryLink = business.breadcrumb.getByRole("link").nth(1);
+    await expect(categoryLink).toBeVisible();
+    await expect(business.breadcrumb).toContainText("Windsor Marsden Park Richmond Taxi");
+
+    await categoryLink.click();
+    await expect(page).toHaveURL(/\/category\//);
+  });
+
   test("an invalid business slug returns a real 404", async ({ page }) => {
     const response = await page.goto("/business/nonexistent-business");
 

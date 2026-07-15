@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
+import { Breadcrumb } from "@/features/business-details/Breadcrumb";
 import { BusinessHero } from "@/features/business-details/BusinessHero";
 import { ContactInfo } from "@/features/business-details/ContactInfo";
 import { OpeningHours } from "@/features/business-details/OpeningHours";
@@ -65,7 +66,8 @@ export default async function BusinessPage({ params }: BusinessPageProps) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
-        <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
+        <Breadcrumb businessName={business.name} category={category ?? undefined} />
+        <div className="mt-4 flex flex-col gap-8 lg:flex-row lg:gap-12">
           <div className="flex flex-1 flex-col gap-8">
             <BusinessHero business={business} categoryName={category?.name} />
             <Gallery business={business} />

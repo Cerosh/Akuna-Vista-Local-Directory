@@ -28,6 +28,7 @@ test.describe("Homepage", () => {
     await expect(home.announcementsHeading).toBeVisible();
     await expect(home.localNewsHeading).toBeVisible();
     await expect(home.footer).toBeVisible();
+    await expect(home.footer).toContainText("We acknowledge the Traditional Owners");
     expect(consoleErrors).toEqual([]);
   });
 

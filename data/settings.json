@@ -4,7 +4,7 @@
   "tagline": "Discover trusted local businesses, recommended by your neighbours.",
   "primaryColor": "#2563eb",
   "secondaryColor": "#0d9488",
-  "logo": "/images/logo.svg",
+  "logo": "/images/logo-full.png",
   "heroImage": "/images/hero.jpg",
   "contactEmail": "ceroshjacob@gmail.com",
   "enableSearch": true,

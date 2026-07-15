@@ -55,15 +55,21 @@ export function Footer({ settings }: FooterProps) {
           </div>
         </div>
 
-        <div className="border-border text-muted-foreground flex flex-col gap-3 border-t py-6 text-sm sm:flex-row sm:items-center sm:justify-between">
-          <p>
-            &copy; {year} {settings.communityName}. All rights reserved.
+        <div className="border-border text-muted-foreground border-t py-6 text-sm">
+          <p className="max-w-[720px]">
+            We acknowledge the Traditional Owners of the land on which we work and live, and pay our
+            respects to Elders past, present and emerging.
           </p>
-          <nav aria-label="Legal" className="flex gap-4">
-            {LEGAL_LINKS.map((link) => (
-              <FooterLink key={link.label} {...link} />
-            ))}
-          </nav>
+          <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <p>
+              &copy; {year} {settings.communityName}. All rights reserved.
+            </p>
+            <nav aria-label="Legal" className="flex gap-4">
+              {LEGAL_LINKS.map((link) => (
+                <FooterLink key={link.label} {...link} />
+              ))}
+            </nav>
+          </div>
         </div>
       </Container>
     </footer>
