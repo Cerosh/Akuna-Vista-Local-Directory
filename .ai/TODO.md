@@ -4,20 +4,72 @@
 
 Sprint Number
 
-09b (complete locally — not yet committed/deployed) — awaiting go-ahead for Sprint 10
+11 (complete locally — not yet committed/deployed) — implemented ahead of Sprint 10 per the
+project owner's explicit instruction (2026-07-15)
 
 Sprint Name
 
-Content Cleanup
+Home Tutoring Listing
 
 Status
 
 ✅ Complete locally (lint/typecheck/unit/Playwright/build all pass, manually verified against a
-local production server — commit/push/deploy remain open steps for the project owner)
+local production server including confirming the NSW Transport API key never reaches the browser
+— commit/push/deploy remain open steps for the project owner)
 
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 11 Summary
+
+Delivered: a real business listing ("Private Mathematics & English Tutoring", supplied via a real
+advertisement PDF) with a confirmed enrolment link, a real featured promotion ("Free Demo Lesson",
+2026-07-27 → 2026-09-04), the previous featured promotion un-featured per instruction, Local
+Promotions reordered so the featured one shows first, and a new homepage transit widget showing
+real-time parking availability (Schofields + Tallawong) and Schofields Station's next train
+departures, sourced live from two NSW Transport Open Data APIs (carpark, `departure_mon`).
+
+Key decisions:
+
+- **This project's first live external API integration and first auto-refreshing content**,
+  recorded in `DECISIONS.md` ADR-014 as a permanent, accepted capability (not a one-off) — the
+  project owner confirmed more real-time features are expected. `.ai/CONTEXT.md`,
+  `.ai/ARCHITECTURE.md`, `.ai/PROJECT.md` and `.ai/SECURITY.md` were all updated to remove the old
+  "No APIs" wording and describe this narrowly (read-only, server-side only, no database/
+  auth/persistent state added). Both integrations share one `lib/transportNsw/` client module.
+- **The API key is never exposed to the browser** — server routes (`app/api/carpark/route.ts`,
+  `app/api/departures/route.ts`) hold `TRANSPORT_NSW_API_KEY` server-side only; verified directly
+  (not assumed) via a repo-wide grep and a real browser network inspection during manual testing.
+- **Two real implementation-time discoveries, both caught by calling the real APIs before
+  shipping rather than trusting the specified/sample shapes**: the carpark API's `total` field is
+  occupied spots, not free ones (inverted to show actual free spots); the departure API returns
+  every transport mode at a station (buses included), filtered to trains only in
+  `departureService.ts`.
+- **Two candidate enrolment links were found embedded in the source PDF** (as link annotations, not
+  visible text) — confirmed the correct one with the project owner rather than guessing.
+- **Same-day follow-up #1**: a real contact email (`Tutor.akunavista@gmail.com`) added, and a new
+  optional `Business.websiteLabel` field (schema `1.5.0`) so the enrolment link shows as
+  "Enroll now" instead of a bare URL — kept the project owner's own exact wording rather than
+  "correcting" it to this project's usual Australian spelling without asking.
+- **Same-day follow-up #2, a layout redesign**: after locally verifying the sprint, the project
+  owner clarified this platform is a local business directory first — live transit data shouldn't
+  occupy the page's main visual space. The transit widget (parking + departures combined into one)
+  now sits in a compact sidebar left of Hero, with an empty column reserved right for a future
+  Weather widget (not built). Popular Categories is the first full section after Hero again.
+
+Tests: 154 unit/integration (was 136 — 5 for carpark, 9 for departures, 3 for the `websiteLabel`
+migration, 1 for promotion ordering) + 288 Playwright across Chromium/Firefox/WebKit (16
+documented skips), stable across 3 consecutive full runs — including a rewritten homepage test
+that fails if the browser ever requests `api.transport.nsw.gov.au` directly (for either API).
+`npm run lint`, `typecheck`, `validate:data`, and `build` all pass. Manually verified against a
+local production server with the real API key: real live parking/departure numbers render and
+refresh correctly, the key never appears in any browser-visible request or response, the "Enroll
+now" link and email render correctly, and desktop/mobile screenshots confirmed the new layout.
+
+Full details: `sprints/sprint-11-home-tutoring-listing/`.
 
 ---
 
@@ -383,7 +435,9 @@ future sprint's plan once there's enough to justify one.
 
 Sprint 10 — Future Platform Foundation. Design and interfaces only — a Supabase repository
 interface, authentication architecture, business claiming design, an advertising model,
-multi-community support, an API abstraction layer, and a migration plan.
+multi-community support, an API abstraction layer, and a migration plan. (Sprint 11 was
+implemented ahead of this one, per the project owner's explicit instruction 2026-07-15 — see the
+Sprint 11 Summary above. This does not change Sprint 10's own scope or queue position.)
 
 ---
 

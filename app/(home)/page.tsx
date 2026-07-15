@@ -23,8 +23,8 @@ export default async function Home() {
   return (
     <>
       <Hero settings={settings} />
-      <PopularCategories />
       <Promotions />
+      <PopularCategories />
       <FeaturedBusinesses />
       <CommunityStatistics />
       <WhyChooseLocal />

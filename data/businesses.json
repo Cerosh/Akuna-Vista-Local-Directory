@@ -359,5 +359,24 @@
     "tags": ["Document Witnessing", "Statutory Declarations", "Certified Copies"],
     "createdAt": "2026-07-14T00:00:00Z",
     "updatedAt": "2026-07-14T00:00:00Z"
+  },
+  {
+    "id": "d29584e4-6fea-4ad6-87e1-4786c5b44295",
+    "slug": "private-mathematics-english-tutoring",
+    "name": "Private Mathematics & English Tutoring",
+    "description": "Private, one-on-one Mathematics and English tutoring for students in Years 1 through 6, with engaging, interactive lessons and comprehensive exam preparation. Taught by Rithu Cerosh Jacob, a Year 9 student in the Mathematics Accelerated programme and top English class, offering targeted support to help your child build confidence and stay ahead of the curriculum.",
+    "shortDescription": "One-on-one Maths & English tutoring for Years 1-6.",
+    "categoryId": "tutoring-education",
+    "phone": "0470225569",
+    "website": "https://forms.gle/5BgdwkkUZv8TBiDXA",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/businesses/private-mathematics-english-tutoring.jpg"],
+    "featured": true,
+    "verified": false,
+    "tags": ["Years 1-6", "One-on-One Tutoring", "Exam Preparation"],
+    "createdAt": "2026-07-15T00:00:00Z",
+    "updatedAt": "2026-07-15T00:00:00Z",
+    "email": "Tutor.akunavista@gmail.com",
+    "websiteLabel": "Enroll now"
   }
 ]

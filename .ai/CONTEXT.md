@@ -2,11 +2,11 @@
 
 # Project Context
 
-Version: 1.11
+Version: 1.12
 
-Last Updated: 2026-07-14
+Last Updated: 2026-07-15
 
-Current Sprint: Sprint 09b — Content Cleanup (complete, awaiting go-ahead for Sprint 10)
+Current Sprint: Sprint 11 — Home Tutoring Listing (complete locally, not yet committed/deployed)
 
 ---
 
@@ -22,15 +22,17 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 9b — Content Cleanup (complete, not yet committed/deployed)
+Phase 11 — Home Tutoring Listing (complete locally, not yet committed/deployed)
 
 Current Focus:
 
-Sprint 9b's implementation is complete and verified locally (lint, typecheck, unit tests,
-Playwright across Chromium/Firefox/WebKit, production build, and manual verification against a
-local production server all pass) — not yet committed or deployed to
-`https://akuna-vista-local-directory.vercel.app/`. Waiting for explicit instruction before
-starting Sprint 10 (Future Platform Foundation).
+Sprint 9b shipped and is live in production (`https://akuna-vista-local-directory.vercel.app/`).
+Sprint 11's implementation is complete and verified locally (lint, typecheck, unit tests —
+including the new `app/api/carpark/route.test.ts` — Playwright across Chromium/Firefox/WebKit,
+production build, and manual verification against a local production server, including confirming
+the NSW Transport API key never reaches the browser) — not yet committed or deployed. Sprint 10
+(Future Platform Foundation) remains queued but not started; Sprint 11 was implemented ahead of it
+per the project owner's explicit instruction (2026-07-15).
 
 ---
 
@@ -155,7 +157,8 @@ Project planning completed. Engineering documents created. Project vision define
   hardware) isn't available in this environment — same disclosed limitation Sprint 7 carried
   forward, not silently claimed as done
 
-**Sprint 09b — Content Cleanup**, implemented and verified locally (not yet committed/deployed):
+**Sprint 09b — Content Cleanup**, committed, pushed and live in production
+(`https://akuna-vista-local-directory.vercel.app/`):
 
 - `/search`'s category/suburb filter chips and the homepage's Popular Categories section are now
   computed from real `data/businesses.json` content (`categoriesWithBusinesses`/
@@ -183,18 +186,65 @@ Project planning completed. Engineering documents created. Project vision define
 - `npm run lint`/`typecheck`/`test` (136 unit tests, up from 126) all pass; Playwright 96/96
   (Chromium) + 176/192 passed with 16 documented skips (Firefox/WebKit); `npm run build` succeeds
 
+**Sprint 11 — Home Tutoring Listing**, implemented and verified locally (not yet
+committed/deployed):
+
+- Real business added: "Private Mathematics & English Tutoring" (`categoryId:
+  tutoring-education`, `featured: true`), supplied via a real advertisement PDF from the project
+  owner — includes a confirmed enrolment link (`Business.website`, resolved from two candidate
+  Google Forms links found embedded in the PDF's link annotations), a real contact email
+  (`Tutor.akunavista@gmail.com`), and a new optional `Business.websiteLabel` field (schema
+  `1.5.0`, `scripts/migrate-add-business-website-label.ts`) so the enrolment link shows as
+  "Enroll now" instead of a bare URL — added as a same-day follow-up once the project owner saw
+  the raw URL rendered on the live page; `ContactInfo.tsx` falls back to the bare URL for every
+  other business, unaffected
+- Real featured promotion added ("Free Demo Lesson", `startDate: "2026-07-27"`,
+  `endDate: "2026-09-04"`), and the previously-featured "$10 Off Your First Lawn Mowing Service"
+  un-featured per the project owner's explicit instruction — the tutoring promotion is now the
+  only featured one. `PromotionRepository.getActivePromotions()` now sorts featured promotions
+  first (stable sort), per a follow-up request, so this ordering isn't left to data-file order.
+- New homepage transit widget (`features/homepage/TransitWidget.tsx`) — this project's first live
+  external API integration and first auto-refreshing content (DECISIONS.md ADR-014). Shows live
+  parking availability (Schofields + Tallawong, NSW Transport carpark API, refresh: 5 min) and
+  Schofields Station's next train departures (NSW Transport `departure_mon` API — the
+  departure-board-purpose-built endpoint, not the general-purpose `trip` planner; refresh: 30s).
+  Backed by a shared `lib/transportNsw/` module (client, types, carpark/departure services,
+  a `stop_finder`-based station lookup helper) — both integrations hold
+  `TRANSPORT_NSW_API_KEY` server-side only via `app/api/carpark/route.ts` /
+  `app/api/departures/route.ts`. Notable implementation findings, both caught by calling the real
+  APIs before shipping rather than trusting the specified/sample shapes: the carpark API's `total`
+  field is occupied spots, not free ones (inverted to show actual availability); the departure
+  API returns every transport mode at a station (buses included), filtered to trains only
+  (`product.class === 1`). Both fail gracefully (a clear "temporarily unavailable" message) rather
+  than crashing if their upstream API is unreachable.
+- **Layout redesign**, requested by the project owner after locally verifying the above: this
+  platform is a local business directory first, so live transit data shouldn't occupy the page's
+  main visual space. `Hero.tsx` gained a sidebar grid layout — the transit widget sits compact to
+  the left of Hero's search/tagline, with an empty column reserved on the right for a future
+  Weather widget (not built). `Popular Categories` is the first full section after Hero again
+  (previously it had been pushed down by a full-width parking card). The old
+  `features/homepage/ParkingAvailability.tsx` was deleted outright, superseded by
+  `TransitWidget.tsx`.
+- Verified: `npm run lint`/`typecheck`/`test` (154 unit tests, up from 136 — 5 for carpark, 9 for
+  departures, 3 for the `websiteLabel` migration, 1 for promotion ordering) all pass; Playwright
+  288/288 across Chromium/Firefox/WebKit (16 documented skips), stable across 3 consecutive full
+  runs; `npm run build` succeeds. Manually verified against a local production server with the
+  real API key: real live parking/departure data renders and refreshes correctly, a repo-wide +
+  browser network check confirmed the key never leaks client-side, and desktop/mobile screenshots
+  confirmed the new layout matches the project owner's direction.
+
 ---
 
 # In Progress
 
-Nothing. Sprint 9b is complete. Awaiting explicit instruction to start Sprint 10 (Future Platform
-Foundation).
+Nothing. Sprint 11 is complete locally. Not yet committed, pushed or deployed.
 
 ---
 
 # Not Started
 
-Future Platform Foundation (Sprint 10).
+Future Platform Foundation (Sprint 10) — remains queued but not started; Sprint 11 was implemented
+ahead of it per the project owner's explicit instruction (2026-07-15).
 
 ---
 
@@ -218,6 +268,10 @@ Icons
 Data
 
 - Static JSON via Repository Pattern (`BusinessRepository`, `CategoryRepository`, `SettingsRepository`, `MetadataRepository`, `SuburbRepository`, `EventRepository`, `PromotionRepository`, `AnnouncementRepository`)
+
+Server Routes (Sprint 11 — first use of this pattern, see DECISIONS.md ADR-014)
+
+- `app/api/carpark/route.ts` — server-side proxy for NSW Transport's live carpark API; holds `TRANSPORT_NSW_API_KEY` server-only, never exposed to the browser. Read-only, stateless, revalidated every 5 minutes.
 
 Services
 
@@ -331,11 +385,24 @@ Avoid over-engineering.
 
 # Known Constraints
 
-No backend. No authentication. No CMS. No database. No APIs. No reviews. No advertisements. No payments. No AI implementation.
+No backend. No authentication. No CMS. No database. No reviews. No advertisements. No payments. No AI implementation.
+
+**Read-only, server-side external API integrations are a permanent, accepted capability as of
+2026-07-15** (Sprint 11), not a one-off exception — the project owner confirmed this is an ongoing
+need, not just the parking card. Scope: a lightweight Next.js Route Handler proxies a specific live
+external API (holding any API key server-side only, via `.env.local`/Vercel env vars, never in a
+Client Component or committed file) for features that genuinely need real-time data (e.g. NSW
+Transport's carpark occupancy). This does **not** mean "has a backend" in the sense the other
+constraints above rule out — still no database, no user accounts, no persistent server state, and
+all business/directory content stays static JSON via the Repository Pattern. This project also
+does not yet expose its own API to external consumers — that remains future scope
+(`ARCHITECTURE.md`'s API Strategy). See `sprints/sprint-11-home-tutoring-listing/notes.md` for the
+first real example and `.ai/SECURITY.md`'s Third-Party Services section for the security review
+this pattern requires per integration.
 
 **Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
 
-All business data will remain static until Version 2. Current dataset (18 real businesses, 12 categories, 5 suburbs, 1 real event, 4 promotions, 5 announcements) is real content (Sprint 8b/9b, plus Driving Instructors and JP Services added directly by the project owner 2026-07-14, outside any formal sprint), not placeholder — `data/events.json` deliberately holds only 1 event since Sprint 9b, having removed 5 fake sample events and held out 2 real-but-past-dated ones pending updated dates from the project owner. Sprint 8's seed generator can still produce a full-scale placeholder set on demand (`npm run seed:generate`) but is not used against the real `data/` directory now that real content exists. All business photos — and event images — remain a single shared placeholder SVG until real community photography arrives. **Note:** the 6 Sprint 2 placeholder categories with zero real businesses (Plumbing, Cleaning, Childcare, Cafés & Restaurants, Builders & Renovations, Pet Services) were initially kept-but-hidden by Sprint 09b's F-001/F-002 filtering, then deleted outright from `data/categories.json` per the project owner's explicit request (2026-07-14) — every category now in the data has ≥1 real business, so `totalCategories` (12) is a genuine count, not inflated by empty placeholders. A category slug that no longer exists (e.g. `/category/childcare`) now correctly 404s rather than showing an empty state.
+All business data will remain static until Version 2. Current dataset (19 real businesses, 12 categories, 5 suburbs, 1 real event, 5 promotions, 5 announcements) is real content (Sprint 8b/9b, plus Driving Instructors/JP Services 2026-07-14 and the Sprint 11 tutoring listing 2026-07-15, both added outside/ahead of their originally-queued sprint order per the project owner), not placeholder — `data/events.json` deliberately holds only 1 event since Sprint 9b, having removed 5 fake sample events and held out 2 real-but-past-dated ones pending updated dates from the project owner. Sprint 8's seed generator can still produce a full-scale placeholder set on demand (`npm run seed:generate`) but is not used against the real `data/` directory now that real content exists. All business photos — and event images — remain a single shared placeholder SVG until real community photography arrives. **Note:** the 6 Sprint 2 placeholder categories with zero real businesses (Plumbing, Cleaning, Childcare, Cafés & Restaurants, Builders & Renovations, Pet Services) were initially kept-but-hidden by Sprint 09b's F-001/F-002 filtering, then deleted outright from `data/categories.json` per the project owner's explicit request (2026-07-14) — every category now in the data has ≥1 real business, so `totalCategories` (12) is a genuine count, not inflated by empty placeholders. A category slug that no longer exists (e.g. `/category/childcare`) now correctly 404s rather than showing an empty state.
 
 Events, Promotions and Announcements are authored via manual JSON edits or Sprint 8's CLI tooling (`scripts/admin.ts`, `scripts/import-csv.ts`) — no authenticated admin UI exists yet (that remains ROADMAP.md's 🟡 Future Phase 14 "Admin Portal").
 
@@ -352,9 +419,12 @@ interfaces only — a Supabase repository interface, authentication architecture
 design, an advertising model, multi-community support, an API abstraction layer, and a migration
 plan.
 
-Sprint 09b — Content Cleanup is complete locally; committing/pushing/deploying it remains an open
-step for the project owner. Error monitoring (Sentry) remains open in TODO.md's Backlog,
-independent of both sprints, until the project owner is ready for it.
+Sprint 11 — Home Tutoring Listing is complete locally; committing/pushing/deploying it remains an
+open step for the project owner, including setting `TRANSPORT_NSW_API_KEY` in Vercel's Production
+environment variables before the Parking Availability card will show real data there. Error
+monitoring (Sentry) remains open in TODO.md's Backlog, independent of all of the above, until the
+project owner is ready for it. Two real events (Blacktown Mayoral Fun Run, Blacktown Food Market)
+and business data completeness also remain open in the Backlog.
 
 ---
 
@@ -378,6 +448,6 @@ If there is any conflict between this document and the other project documents, 
 
 Current repository status:
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), Sprint 8 (Admin Preparation), Sprint 8b (Community Pages), and Sprint 9 (Production Readiness) are all complete, committed and pushed. The site is live in production at `https://akuna-vista-local-directory.vercel.app/` — Vercel deployment, previously parked, was connected by the project owner on 2026-07-09. Sprint 9b (Content Cleanup) is implemented and verified locally but not yet committed or deployed.
+Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), Sprint 8 (Admin Preparation), Sprint 8b (Community Pages), Sprint 9 (Production Readiness) and Sprint 9b (Content Cleanup) are all complete, committed and pushed. The site is live in production at `https://akuna-vista-local-directory.vercel.app/` — Vercel deployment, previously parked, was connected by the project owner on 2026-07-09. Sprint 11 (Home Tutoring Listing) is implemented and verified locally but not yet committed or deployed — it was built ahead of Sprint 10 (Future Platform Foundation, still not started) per the project owner's explicit instruction (2026-07-15).
 
 Do not begin Sprint 10 without explicit instruction, even though this document and TODO.md describe its scope.

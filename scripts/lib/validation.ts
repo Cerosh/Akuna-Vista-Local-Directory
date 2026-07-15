@@ -71,6 +71,10 @@ export const businessSchema = z.strictObject({
   phone: z.string().optional(),
   email: z.string().optional(),
   website: z.string().optional(),
+  // Added in schema 1.5.0 — Sprint 11 follow-up: custom display text for
+  // `website` (e.g. "Enrol now") when the link isn't the business's own
+  // domain.
+  websiteLabel: z.string().optional(),
   address: businessAddressSchema.optional(),
   serviceAreas: z.array(z.string()).optional(),
   coordinates: businessCoordinatesSchema.optional(),

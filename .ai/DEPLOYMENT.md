@@ -270,6 +270,11 @@ NEXT_PUBLIC_COMMUNITY_NAME
 
 NEXT_PUBLIC_DEFAULT_THEME
 
+TRANSPORT_NSW_API_KEY (Sprint 11 — server-only, no `NEXT_PUBLIC_` prefix; used by
+`app/api/carpark/route.ts` to call NSW Transport's carpark API server-side. Must be set in
+Vercel's Production environment variables before the homepage's Parking Availability card will
+show real data there — see `.ai/SECURITY.md`'s Third-Party Services section.)
+
 SUPABASE_URL (Future)
 
 SUPABASE_ANON_KEY (Future)

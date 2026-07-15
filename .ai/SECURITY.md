@@ -73,6 +73,9 @@ Included
 - No payments
 - No user accounts
 - No backend
+- As of 2026-07-15 (Sprint 11): read-only, server-side integrations with specific external APIs,
+  via lightweight, stateless Next.js Route Handlers — no database, no user accounts, no persistent
+  server state. See "API Security" and "Third-Party Services" below for the requirements this adds.
 
 Excluded
 
@@ -81,9 +84,11 @@ Excluded
 - Business dashboard
 - Administration portal
 - File uploads
-- APIs
+- This project exposing its own API to external consumers (distinct from the read-only external
+  API calls now allowed above — see "API Security" below)
 
-The attack surface is intentionally minimal.
+The attack surface is intentionally minimal, and every new external API integration is a
+deliberate addition to it, reviewed per "Third-Party Services" below — not a blanket exception.
 
 ---
 
@@ -317,7 +322,10 @@ Future implementation
 
 # API Security
 
-Future APIs should implement:
+Two distinct cases:
+
+**APIs this project exposes** to external consumers — still future scope
+(`ARCHITECTURE.md`'s API Strategy). Should implement:
 
 Authentication.
 
@@ -332,6 +340,20 @@ Output validation.
 Structured error responses.
 
 Versioning.
+
+**APIs this project consumes** (read-only, server-side, as of 2026-07-15 — see `.ai/CONTEXT.md`'s
+Known Constraints) — a narrower set of requirements, since there's no inbound consumer to defend
+against:
+
+- The API key/credential lives server-side only (environment variable, never a `NEXT_PUBLIC_`
+  prefix, never referenced from a Client Component) — verify via the browser's Network tab and a
+  repo-wide grep before merging, not just by reading the route handler code.
+- The route handler fails gracefully on upstream errors (non-200, network failure, malformed
+  response) rather than throwing an unhandled error or returning fabricated data.
+- Server-side caching/revalidation (e.g. Next.js `fetch`'s `next: { revalidate }`) is used where
+  the data doesn't need per-request freshness, so this project doesn't multiply load on the
+  upstream API or get rate-limited/blocked by it.
+- Each integration is documented per "Third-Party Services" below.
 
 ---
 
@@ -443,6 +465,23 @@ Review:
 - Vendor reputation
 
 Document the reason for adoption.
+
+## NSW Transport Open Data (carpark API) — planned, Sprint 11
+
+Reason for adoption: real-time parking availability at Schofields and Tallawong stations, a
+practical everyday feature the project owner asked for directly (2026-07-15).
+
+- Security: API key required (`Authorization: apikey ...`), held server-side only via
+  `TRANSPORT_NSW_API_KEY` — see "API Security" above.
+- Privacy: no personal/user data sent to or received from this API — purely public carpark
+  occupancy figures.
+- Reliability: a NSW Government open data service; this project's own route handler must still
+  degrade gracefully if it's temporarily unavailable (see "API Security" above).
+- Data processing: read-only — this project only reads `total` figures and sums/displays them,
+  never writes to or authenticates users against this API.
+- Vendor: NSW Transport (transport.nsw.gov.au), a government open data provider.
+
+Full technical detail: `sprints/sprint-11-home-tutoring-listing/notes.md`.
 
 ---
 

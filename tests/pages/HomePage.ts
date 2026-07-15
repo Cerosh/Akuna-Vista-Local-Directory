@@ -11,6 +11,7 @@ export class HomePage {
   readonly mobileMenuButton: Locator;
   readonly footer: Locator;
   readonly searchInput: Locator;
+  readonly transitWidgetHeading: Locator;
   readonly popularCategoriesHeading: Locator;
   readonly featuredBusinessesHeading: Locator;
   readonly communityStatisticsHeading: Locator;
@@ -28,6 +29,11 @@ export class HomePage {
     this.mobileMenuButton = page.getByRole("button", { name: /open menu/i });
     this.footer = page.locator("footer");
     this.searchInput = page.getByRole("searchbox", { name: "Search businesses" });
+    // TransitWidget's "Getting around" title is a Card title (styled div,
+    // not a heading element) — same convention as every other Card-based
+    // component in this app (BusinessCard, PromotionCard, etc), so this
+    // is a text locator, not getByRole("heading").
+    this.transitWidgetHeading = page.getByText("Getting around", { exact: true });
     this.popularCategoriesHeading = page.getByRole("heading", { name: "Popular categories" });
     this.featuredBusinessesHeading = page.getByRole("heading", { name: "Featured businesses" });
     this.communityStatisticsHeading = page.getByRole("heading", { name: "A growing community" });

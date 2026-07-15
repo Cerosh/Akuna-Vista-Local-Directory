@@ -87,6 +87,7 @@ Structure
     "phone": "+61 400 000 000",
     "email": "hello@example.com",
     "website": "https://example.com",
+    "websiteLabel": "Enrol now",
     "address": {
       "street": "1 Example Street",
       "suburb": "Schofields",
@@ -133,6 +134,8 @@ Structure
 ```
 
 `priceRange` was added in schema `1.3.0` (Sprint 8 — Admin Preparation), as the demonstration case for this sprint's data migration helper (`scripts/migrate-add-price-range.ts`). It is optional (`"$"`, `"$$"` or `"$$$"`) and purely informational — no UI currently reads it. Every existing business was backfilled with `"$$"` by the migration helper.
+
+`websiteLabel` was added in schema `1.5.0` (Sprint 11 follow-up), via `scripts/migrate-add-business-website-label.ts`. Optional display text for `website` — used when the link isn't the business's own domain (an enrolment form, booking page, etc.) and the bare URL wouldn't mean anything to a resident. `ContactInfo.tsx` renders `websiteLabel` in place of the URL text when present, falling back to the bare URL (`https://` stripped) otherwise. Not backfilled onto existing businesses — none needed it at migration time.
 
 ---
 
@@ -542,6 +545,13 @@ The demonstration case for this sprint's data migration helper
 link back to its original source (council page, DA notice, etc). Not
 backfilled onto existing announcements — none had a real source URL
 supplied at migration time (`scripts/migrate-add-announcement-source-url.ts`).
+
+`1.5.0` (Sprint 11 follow-up): added optional `Business.websiteLabel`
+(plain string), so `ContactInfo.tsx` can show meaningful text (e.g.
+"Enroll now") instead of a bare URL when `website` points somewhere
+other than the business's own domain — an enrolment form, booking page,
+etc. Not backfilled onto existing businesses
+(`scripts/migrate-add-business-website-label.ts`).
 
 ---
 

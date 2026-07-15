@@ -824,6 +824,97 @@ versus need reimplementation against the new data source.
 
 ---
 
+# ADR-014
+
+## Title
+
+Allow read-only, server-side external API integrations for real-time features.
+
+Status
+
+Accepted
+
+Date
+
+2026-07-15
+
+---
+
+### Context
+
+Every architecture doc in this project (`.ai/CONTEXT.md`'s Known Constraints, `.ai/ARCHITECTURE.md`'s
+API Strategy, `.ai/PROJECT.md`'s MVP Scope, `.ai/SECURITY.md`'s Current MVP Security Scope) stated
+"No APIs" as a Version 1 constraint, alongside "no backend, no database, no authentication." Sprint
+11 introduced a concrete requirement that doesn't fit that constraint: a homepage card showing
+real-time parking availability at Schofields and Tallawong stations, sourced live from NSW
+Transport's Open Data carpark API, refreshing periodically. The static-JSON Repository Pattern
+this project otherwise uses for all content has no mechanism for live, externally-sourced,
+auto-refreshing data. The project owner confirmed directly (2026-07-15) that this is not a one-off
+need — more real-time, externally-sourced features are expected.
+
+---
+
+### Decision
+
+Adopt a narrow, specific pattern: read-only, server-side integrations with external APIs via
+lightweight, stateless Next.js Route Handlers (e.g. `app/api/carpark/route.ts`), with any required
+API key held server-side only (environment variable, never a `NEXT_PUBLIC_` prefix, never
+referenced from a Client Component or committed to the repository). This is a permanent, accepted
+capability going forward, not re-litigated per feature.
+
+This explicitly does **not** change: no database, no user accounts, no authentication, no
+persistent server state, and all business/directory content stays static JSON via the existing
+Repository Pattern. This project also still does not expose its own API to external consumers —
+that remains future scope per `ARCHITECTURE.md`'s API Strategy, unaffected by this decision.
+
+---
+
+### Alternatives Considered
+
+- Call external APIs directly from a Client Component — rejected outright: this would ship any
+  required API key in plain sight in every visitor's browser network requests, allowing it to be
+  copied and reused by anyone (risking rate-limit exhaustion or key revocation by the provider).
+- Wait and design a general-purpose external-API abstraction layer first — rejected as premature.
+  That's closer to Sprint 10's territory (design/interfaces only, informed by real usage), and
+  Sprint 11 has one concrete, narrow, immediate need. Building a general framework before a second
+  real example exists would be exactly the kind of over-engineering CLAUDE.md's Engineering
+  Philosophy warns against ("do not introduce unnecessary abstractions").
+- Keep "No APIs" absolute and decline real-time-data features — rejected; the project owner
+  explicitly wants this capability and expects to use it again.
+
+---
+
+### Rationale
+
+A single-purpose Route Handler per integration is the smallest change that unblocks a real,
+concrete feature request, without prematurely building a general abstraction before more than one
+real example exists — consistent with this project's own Decision-Making Principles ("is it
+simpler than the existing solution?", "does it solve a current problem?"). Keeping the API key
+server-side-only is non-negotiable per `.ai/SECURITY.md`'s Secret Management section, which already
+required this for any credential before this ADR existed.
+
+---
+
+### Consequences
+
+`app/api/` becomes a new directory in this project (Sprint 11's `app/api/carpark/route.ts` is the
+first Route Handler). `.ai/CONTEXT.md`, `.ai/ARCHITECTURE.md`, `.ai/PROJECT.md` and `.ai/SECURITY.md`
+were all updated (2026-07-15) to describe this as a permanent, accepted pattern. Every future
+external API integration must still be individually documented per `.ai/SECURITY.md`'s Third-Party
+Services section and follow its API Security requirements (key handling, graceful failure on
+upstream errors, server-side caching/revalidation to avoid multiplying load on the upstream API).
+
+---
+
+### Future Review
+
+Revisit when Sprint 10's API abstraction layer design work happens (or once several of these
+per-feature Route Handlers exist) — evaluate whether they should be consolidated behind a shared
+abstraction, or whether the simple per-feature pattern continues to be preferable given how few
+integrations exist at that point.
+
+---
+
 # Open Decisions
 
 The following topics remain undecided and should not be implemented without discussion.

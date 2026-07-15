@@ -559,11 +559,21 @@ Never raw database queries.
 
 Current
 
-No APIs.
+This project does not expose its own API to external consumers.
+
+As of 2026-07-15 (Sprint 11), it does consume external, read-only APIs for specific real-time
+features — a permanent, accepted pattern going forward, not a one-off. Consumed via a lightweight
+Next.js Route Handler (e.g. `app/api/carpark/route.ts`) that holds any required API key
+server-side only; the browser only ever talks to this app's own route. Stateless — no database, no
+persistent server state. All business/directory content is unaffected and stays static JSON via
+the Repository Pattern above. See `.ai/SECURITY.md`'s Third-Party Services and API Security
+sections for the review each new integration requires, and
+`sprints/sprint-11-home-tutoring-listing/notes.md` for the first real example (NSW Transport
+carpark data).
 
 Future
 
-REST
+REST (this project's own API, exposed to external consumers)
 
 Eventually
 

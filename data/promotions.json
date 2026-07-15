@@ -6,7 +6,7 @@
     "description": "First-time customers receive $10 off their first service with Just Cut Grass — book while spots are available.",
     "startDate": "2026-07-01",
     "endDate": "2026-08-31",
-    "featured": true
+    "featured": false
   },
   {
     "id": "d22b7763-3aaf-4bda-bfb7-e3d21153c250",
@@ -34,5 +34,14 @@
     "startDate": "2026-07-01",
     "endDate": "2026-07-31",
     "featured": false
+  },
+  {
+    "id": "3d3b030e-7eed-4a36-88d3-f87fe658f6cf",
+    "businessId": "d29584e4-6fea-4ad6-87e1-4786c5b44295",
+    "title": "Free Demo Lesson",
+    "description": "Book a free demo lesson for Private Mathematics & English Tutoring (Years 1-6) and see personalised, one-on-one support in action before enrolling.",
+    "startDate": "2026-07-27",
+    "endDate": "2026-09-04",
+    "featured": true
   }
 ]

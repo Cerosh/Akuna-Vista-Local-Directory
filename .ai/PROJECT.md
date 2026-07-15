@@ -323,6 +323,13 @@ No CMS.
 
 No backend.
 
+**Update, 2026-07-15 (Sprint 11):** "no backend" still means no database, no user accounts, no
+persistent server state — that hasn't changed. It no longer means "never calls an external API" —
+read-only, server-side integrations with external APIs (via lightweight, stateless Next.js Route
+Handlers) are now an accepted, permanent capability for features that genuinely need real-time
+data, confirmed by the project owner as an ongoing need rather than a one-off. See
+`ARCHITECTURE.md`'s API Strategy and `.ai/CONTEXT.md`'s Known Constraints for the full detail.
+
 ---
 
 # Out of Scope

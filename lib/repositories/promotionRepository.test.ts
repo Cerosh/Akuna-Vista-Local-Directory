@@ -46,6 +46,22 @@ describe("JSONPromotionRepository", () => {
     }
   });
 
+  it("orders active promotions with featured ones first, preserving relative order otherwise", async () => {
+    const first = makePromotion({ id: "first", featured: false });
+    const second = makePromotion({ id: "second", featured: false });
+    const featured = makePromotion({ id: "featured", featured: true });
+    const repository = new JSONPromotionRepository([first, second, featured]);
+
+    const originalNow = Date.now;
+    Date.now = () => now.getTime();
+    try {
+      const result = await repository.getActivePromotions();
+      expect(result.map((promotion) => promotion.id)).toEqual(["featured", "first", "second"]);
+    } finally {
+      Date.now = originalNow;
+    }
+  });
+
   it("returns only featured promotions", async () => {
     const featured = makePromotion({ id: "featured", featured: true });
     const notFeatured = makePromotion({ id: "not-featured", featured: false });

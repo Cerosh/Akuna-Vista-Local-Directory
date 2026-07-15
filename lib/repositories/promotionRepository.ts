@@ -25,7 +25,13 @@ export class JSONPromotionRepository implements PromotionRepository {
   }
 
   async getActivePromotions(): Promise<Promotion[]> {
-    return this.promotions.filter((promotion) => !isPast(promotion.endDate));
+    // Featured promotions lead the list — same "featured first" convention
+    // as BusinessRepository.getPage()'s default sort. Array.prototype.sort
+    // is stable, so non-featured promotions keep their existing relative
+    // order.
+    return this.promotions
+      .filter((promotion) => !isPast(promotion.endDate))
+      .sort((a, b) => Number(b.featured) - Number(a.featured));
   }
 
   async getFeaturedPromotions(): Promise<Promotion[]> {

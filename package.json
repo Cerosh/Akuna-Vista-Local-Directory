@@ -24,6 +24,7 @@
     "seed:generate": "tsx scripts/seed-generate.ts",
     "migrate:add-price-range": "tsx scripts/migrate-add-price-range.ts",
     "migrate:add-announcement-source-url": "tsx scripts/migrate-add-announcement-source-url.ts",
+    "migrate:add-business-website-label": "tsx scripts/migrate-add-business-website-label.ts",
     "prepare": "husky"
   },
   "lint-staged": {

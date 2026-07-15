@@ -42,19 +42,24 @@ test.describe("Business Directory (/businesses)", () => {
   });
 
   test("pagination moves between pages and disables at the edges", async ({ page }) => {
+    // Reads the real "Page 1 of N" total rather than hardcoding N, so this
+    // test doesn't need updating every time the real business count changes
+    // (it's changed twice already — Sprint 09b's Driving Instructors/JP
+    // Services content, then Sprint 11's tutoring listing).
     const directory = new DirectoryPage(page);
     await directory.goto();
 
-    await expect(page.getByText("Page 1 of 3")).toBeVisible();
+    const pageIndicator = page.getByText(/^Page \d+ of \d+$/);
+    await expect(pageIndicator).toBeVisible();
+    const totalPages = Number((await pageIndicator.textContent())?.match(/of (\d+)/)?.[1]);
+    expect(totalPages).toBeGreaterThan(1);
     await expect(page.getByText("Previous")).toHaveAttribute("aria-disabled", "true");
 
-    await directory.pagination.getByRole("link", { name: /next/i }).click();
-    await expect(page).toHaveURL(/page=2/);
-    await expect(page.getByText("Page 2 of 3")).toBeVisible();
-
-    await directory.pagination.getByRole("link", { name: /next/i }).click();
-    await expect(page).toHaveURL(/page=3/);
-    await expect(page.getByText("Page 3 of 3")).toBeVisible();
+    for (let targetPage = 2; targetPage <= totalPages; targetPage++) {
+      await directory.pagination.getByRole("link", { name: /next/i }).click();
+      await expect(page).toHaveURL(new RegExp(`page=${targetPage}`));
+      await expect(page.getByText(`Page ${targetPage} of ${totalPages}`)).toBeVisible();
+    }
     await expect(page.getByText("Next")).toHaveAttribute("aria-disabled", "true");
   });
 

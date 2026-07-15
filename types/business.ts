@@ -39,6 +39,8 @@ export interface Business {
   phone?: string;
   email?: string;
   website?: string;
+  /** Optional display text for `website` (e.g. "Enrol now") when the link isn't the business's own domain — an enrolment form, booking page, etc. Falls back to the bare URL when absent. */
+  websiteLabel?: string;
   address?: BusinessAddress;
   serviceAreas?: string[];
   coordinates?: BusinessCoordinates;

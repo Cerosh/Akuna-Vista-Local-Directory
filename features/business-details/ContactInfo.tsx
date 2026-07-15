@@ -49,7 +49,7 @@ export function ContactInfo({ business }: ContactInfoProps) {
             className="text-foreground duration-fast hover:text-primary flex items-center gap-2.5 transition-colors"
           >
             <Globe className="text-muted-foreground size-4 shrink-0" aria-hidden="true" />
-            {business.website.replace(/^https?:\/\//, "")}
+            {business.websiteLabel ?? business.website.replace(/^https?:\/\//, "")}
           </a>
         ) : null}
         {business.address ? (
