@@ -488,7 +488,54 @@ Offer alternatives.
 
 Recommend the simplest option.
 
-For UI/behaviour change requests — even small, well-specified ones — ask whether to implement now or track for a future sprint, rather than assuming immediate implementation is wanted. This does not apply to real content the project owner directly supplies (business listings, announcements, contact details, etc.) — that gets implemented immediately, no confirmation needed. Established during Sprint 9/9b planning: offered a trivial fix (flip 4 `featured` flags) via AskUserQuestion and the project owner chose "track for later" over "do it now"; later said explicitly and unprompted, for a larger set of changes, "don't want to implement, want to add to [the plan]."
+Timing question (implement now vs. track for a future sprint) is separate from the spec-first
+requirement below, and is usually already answered by how the project owner asks — a direct
+instruction ("add X", "swap these two") means now. See Spec-Driven Development for what "now"
+actually requires before code is written.
+
+---
+
+# Spec-Driven Development (Strict)
+
+Established 2026-07-15, after a session where several real changes (a UI lightbox, a section
+reorder, a new placeholder card, a `Business` schema field) were implemented directly from chat
+requests and only documented in sprint notes afterward — accurate, but not spec-first. The project
+owner chose full strictness with no exceptions over a lighter content-vs-code threshold.
+
+**No code is written — not even a one-line content edit — until a spec for it exists and has been
+confirmed.** This applies equally to:
+
+- A new feature or architectural change (e.g. a new API integration).
+- A UI change (a lightbox, a reordered section, a new card).
+- A pure content/data change (adding a business's email, editing a description).
+
+There are no exceptions for "this is too small to need a spec."
+
+## The four steps, every time
+
+1. **Capture.** Before writing any code, add or update a Feature entry in the active sprint's
+   `README.md` Features table: an ID (`F-XXX`), a one-line description, a priority, and explicit
+   Acceptance Criteria — the same shape `docs/sprint-template.md` already defines. If no sprint is
+   currently active/appropriate for the change, say so and ask which sprint it belongs to (or
+   whether a new one is needed) rather than picking one unilaterally.
+2. **Confirm.** State the spec back to the project owner (quote the Acceptance Criteria) and get an
+   explicit go-ahead before implementing. When the project owner's own request already contains
+   full acceptance-criteria-level detail, capturing it verbatim as a Feature entry and confirming
+   "I've logged this as F-XXX with your exact criteria — implementing now" in the same turn is
+   sufficient — the requirement is that the spec is written down before code starts, not that
+   every change needs a separate round-trip of back-and-forth.
+3. **Implement.** Build against the confirmed Acceptance Criteria only — nothing extra, nothing
+   assumed.
+4. **Verify and check off.** Mark each Acceptance Criterion complete only once actually
+   verified (tested, observed running) — not just written or coded.
+
+## Correction protocol
+
+If reality diverges from the spec during implementation (a real API returns different data than
+assumed, a library doesn't support what the spec assumed) — stop, update the spec/Acceptance
+Criteria to reflect the correction, flag the change explicitly, and only then continue. Never
+silently code around a stale spec, and never leave the spec and the shipped behaviour disagreeing
+with each other.
 
 ---
 
