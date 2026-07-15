@@ -95,4 +95,38 @@ test.describe("Business Details (/business/[slug])", () => {
 
     expect(response?.status()).toBe(404);
   });
+
+  test("clicking a gallery image opens a zoomed view, closable via the close button or Escape", async ({
+    page,
+  }) => {
+    const consoleErrors: string[] = [];
+    page.on("console", (message) => {
+      if (message.type() === "error") consoleErrors.push(message.text());
+    });
+
+    // The only business with a real (non-placeholder) gallery image as of
+    // Sprint 11's follow-up — see sprints/sprint-11-home-tutoring-listing/notes.md.
+    const business = new BusinessPage(page);
+    await business.goto("private-mathematics-english-tutoring");
+
+    const trigger = page.getByRole("button", { name: /view.*photo.*full size/i }).first();
+    await expect(trigger).toBeVisible();
+    await trigger.click();
+
+    const dialog = page.getByRole("dialog");
+    await expect(dialog).toBeVisible();
+    await expect(dialog.locator("img")).toBeVisible();
+
+    // Closable via the explicit close button...
+    await page.getByRole("button", { name: "Close" }).click();
+    await expect(dialog).toBeHidden();
+
+    // ...and via Escape.
+    await trigger.click();
+    await expect(dialog).toBeVisible();
+    await page.keyboard.press("Escape");
+    await expect(dialog).toBeHidden();
+
+    expect(consoleErrors).toEqual([]);
+  });
 });
