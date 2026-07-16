@@ -70,6 +70,9 @@ Per Feature, the sprint is successful when:
 | F-001 | Add 3 new JP-services listings (JP/Ethiquity Mortgage Services, Praful Saparia, Anjul), all featured, each noting it's a local service | High | Completed |
 | F-002 | Add new "Finance & Mortgage Broking" category | High | Completed |
 | F-003 | Add a second, duplicate listing for Ethiquity Mortgage Services under the new Finance & Mortgage Broking category | High | Completed |
+| F-004 | Add 2 new categories: "Arts & Performing Arts", "Accounting & Tax" | Medium | Completed |
+| F-005 | Add 3 new business listings (Bharatanatyam Kalakshetra, Fortune8 Property Group, Knowledgetree) | Medium | Completed |
+| F-006 | Arihant Party Essentials (North Sydney party/event hire) — deferred, blocked on confirming a local Akuna Vista connection | Low | Blocked |
 
 Status Values
 
@@ -302,6 +305,208 @@ Acceptance Criteria
       business; `categoryId` resolves to the new F-002 category).
 - [x] Appears in Featured Businesses and on the `finance-mortgage-broking` category page.
 - [x] Existing Playwright suite still passes.
+
+---
+
+## Story 4 (F-004 / F-005)
+
+As a visitor
+
+I want new local businesses (a dance school, a real estate agency, an accounting firm) to be
+discoverable under a category that actually describes them
+
+So that I'm not hunting for a Bharatanatyam school under "Tutoring" or an accountant under
+"Finance & Mortgage Broking".
+
+### Source data (as supplied by the project owner, verbatim)
+
+1. "Indian classical dance - The Bharatanatyam Kalakshetra / Hashwini Shanthakumar /
+   hashwiniskumar@gmail.com / 0490947681."
+2. "Arihant Party Essentials, your one-stop shop for all your party equipment hire needs in North
+   Sydney. We're committed to providing quality gazebos, chairs, tables, and lighting to make your
+   event unforgettable." — see F-006 below; **not** implemented this pass.
+3. "Can you also add our Fortune8 realestate business into the group? We at Fortune8 Property Group
+   specialise in Buying, Selling, Leasing & Building Properties (including Investment Properties)
+   throughout Australia. Our business verticals include: 1) Residential Sales (NSW) 2) Property
+   Management (NSW) 3) H&L Packages across Australia 4) Buyers Agency (e.g. SMSF) ... Regards, Mohit
+   Bindal / Fortune8 Property Group / Living on Hornet St. for 5 years"
+4. "I run an accounting firm in AV / www.knowledgetree.com.au / swordfish street but office is in
+   Castle Hill. / we are SMSF specialists. / Your financial future, expertly managed. / Australia's
+   premier accounting and taxation firm — delivering exceptional solutions for individuals and
+   businesses with integrity, expertise, and care."
+
+### Category decisions (confirmed by project owner via clarifying questions, this round)
+
+- **New category: `arts-performing-arts`** ("Arts & Performing Arts", icon `Drama`) — for
+  Bharatanatyam Kalakshetra. Rejected reusing `tutoring-education` — dance is instruction but
+  distinct enough to blur both if merged.
+- **New category: `accounting-tax`** ("Accounting & Tax", icon `Calculator`) — for Knowledgetree.
+  Rejected broadening `finance-mortgage-broking` — accounting/tax is meaningfully distinct from
+  mortgage broking.
+- **`real-estate`** (existing category, `data/categories.json:91-99`) — Fortune8 Property Group
+  fits this cleanly, no new category needed.
+- **`event-party-hire`** ("Event & Party Hire", icon `PartyPopper`) was scoped for Arihant Party
+  Essentials but is **not created this pass** — see F-006 (deferred).
+
+### Assumptions / gaps flagged (confirm or correct)
+
+- **Bharatanatyam Kalakshetra has no address/suburb/service-area given at all** — unlike Arihant
+  (explicitly North Sydney, flagged and deferred per the project owner's answer), this submission is
+  simply silent on locality rather than affirmatively non-local, and was not flagged the way Arihant
+  was. Assumed local and given `serviceAreas: ["Akuna Vista"]` — flag if this assumption is wrong.
+- **Fortune8 Property Group has no phone, email, or website supplied** — only a business description
+  and the submitter's own local residency ("Living on Hornet St. for 5 years"). The submitter
+  explicitly invited a follow-up ("Please let me know if you need any other information"), so this
+  is a real gap worth closing, not silently worked around — the listing is added with the
+  information given, but it currently has **no way for a visitor to make contact**. Recommend
+  following up with Mohit Bindal for a phone/email/website before this listing is genuinely useful.
+- **Knowledgetree's exact registered business name isn't stated** — only the domain
+  `knowledgetree.com.au` and "an accounting firm in AV" are given. Inferred display name
+  "Knowledgetree" from the domain — flag if the real trading name differs.
+- **Knowledgetree's office is in Castle Hill, not Akuna Vista** — same pattern as Sprint 15's
+  Ethiquity Mortgage Services (F-001): the business itself isn't local, but the submitter's own
+  residence is ("swordfish street", matching the same street as F-001's JP/Ethiquity entry in
+  Nirimba Fields). No `address` object is added (Castle Hill street number/postcode weren't given);
+  `serviceAreas: ["Akuna Vista", "Castle Hill"]` and the office location are noted in the
+  description text instead, consistent with the F-001 precedent for partial/unavailable addresses.
+- **No phone or email for Knowledgetree** — only the website. Same "worth following up" flag as
+  Fortune8.
+- **"Most people are looking for smsf firms since recent budget updates"** — this is the project
+  owner's own market-context commentary, not a claim the business made about itself. It is **not**
+  included in the listing's description (would read as an unverifiable promotional claim inserted
+  into what should be neutral factual data) — instead, "SMSF specialists" (something Knowledgetree
+  did say about itself) is captured as an explicit tag so it's still prominently discoverable.
+- **`featured`** — none of these 3 submissions asked to be featured (unlike Sprint 15 F-001's explicit
+  "make them all featured"), so all default to `featured: false`. Flag if any should be featured.
+- **`verified: false`** (default) for all 3, consistent with every prior Sprint 15 entry — no
+  independent verification performed.
+
+### Proposed new categories — `data/categories.json`
+
+```json
+{
+  "id": "arts-performing-arts",
+  "slug": "arts-performing-arts",
+  "name": "Arts & Performing Arts",
+  "icon": "Drama",
+  "description": "Dance, music, and performing arts schools and instruction.",
+  "displayOrder": 14,
+  "featured": false
+}
+```
+
+```json
+{
+  "id": "accounting-tax",
+  "slug": "accounting-tax",
+  "name": "Accounting & Tax",
+  "icon": "Calculator",
+  "description": "Accounting, taxation, and SMSF specialists for individuals and businesses.",
+  "displayOrder": 15,
+  "featured": false
+}
+```
+
+### Proposed new businesses — `data/businesses.json`
+
+```json
+{
+  "id": "4f71fc6f-afd5-4171-bbb9-d84a2a38fe31",
+  "slug": "the-bharatanatyam-kalakshetra",
+  "name": "The Bharatanatyam Kalakshetra",
+  "description": "Local Indian classical dance school teaching Bharatanatyam, run by Hashwini Shanthakumar.",
+  "shortDescription": "Indian classical dance (Bharatanatyam) school, Akuna Vista.",
+  "categoryId": "arts-performing-arts",
+  "phone": "0490947681",
+  "email": "hashwiniskumar@gmail.com",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Bharatanatyam", "Indian Classical Dance", "Local"],
+  "createdAt": "2026-07-16T00:00:00Z",
+  "updatedAt": "2026-07-16T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "954fd972-8c63-49a6-9bf5-751eeeba5521",
+  "slug": "fortune8-property-group",
+  "name": "Fortune8 Property Group",
+  "description": "Local real estate agency specialising in Buying, Selling, Leasing & Building Properties (including Investment Properties) throughout Australia. Verticals: Residential Sales (NSW), Property Management (NSW), House & Land Packages across Australia, and Buyers Agency (e.g. SMSF).",
+  "shortDescription": "Real estate: residential sales, property management, H&L packages, buyers agency.",
+  "categoryId": "real-estate",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Residential Sales", "Property Management", "H&L Packages", "Buyers Agency", "SMSF", "Local"],
+  "createdAt": "2026-07-16T00:00:00Z",
+  "updatedAt": "2026-07-16T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "fa6fec2b-b4ae-4844-972c-86391e4537fa",
+  "slug": "knowledgetree",
+  "name": "Knowledgetree",
+  "description": "Australia's premier accounting and taxation firm — delivering exceptional solutions for individuals and businesses with integrity, expertise, and care. SMSF specialists. Run by a local Akuna Vista resident; office based in Castle Hill.",
+  "shortDescription": "Your financial future, expertly managed. Accounting, tax & SMSF specialists.",
+  "categoryId": "accounting-tax",
+  "website": "https://www.knowledgetree.com.au",
+  "serviceAreas": ["Akuna Vista", "Castle Hill"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["SMSF Specialists", "Accounting", "Taxation", "Local"],
+  "createdAt": "2026-07-16T00:00:00Z",
+  "updatedAt": "2026-07-16T00:00:00Z"
+}
+```
+
+Acceptance Criteria
+
+- [x] Both new categories (`arts-performing-arts`, `accounting-tax`) added to `data/categories.json`.
+- [x] All 3 business entries above added to `data/businesses.json`.
+- [x] `npm run validate:data` passes — no schema violations, no duplicate `id`/`slug`, every
+      `categoryId` resolves to a real category.
+- [x] Each of the 3 appears on its respective category page (`/category/arts-performing-arts`,
+      `/category/real-estate`, `/category/accounting-tax`).
+- [x] Existing Playwright suite still passes.
+- [x] The 3 gaps flagged above (Bharatanatyam's missing locality, Fortune8's missing contact
+      details, Knowledgetree's missing phone/email) are surfaced back to the project owner, not
+      silently dropped.
+
+---
+
+## Story 5 (F-006) — deferred, blocked
+
+As the directory
+
+I want to only list genuinely locally-connected businesses
+
+So that the directory keeps its "recommended by your neighbours" value proposition rather than
+becoming a generic Australia-wide business listing site.
+
+### Why this is blocked
+
+"Arihant Party Essentials, your one-stop shop for all your party equipment hire needs in North
+Sydney" — unlike the other 3 submissions in this Story, nothing indicates a local Akuna Vista
+connection (no resident endorsement, no local service area, no owner residency). North Sydney is a
+genuinely distant, unrelated suburb. Per the project owner's explicit answer to a clarifying
+question this round, this listing is **held back** pending a local connection — not added, not
+rejected outright.
+
+Acceptance Criteria (for when this is picked up)
+
+- [ ] Follow up with the Arihant Party Essentials submitter to establish a local connection (do they
+      service Akuna Vista/Nirimba Fields? Were they recommended by a resident?).
+- [ ] If confirmed local: create the `event-party-hire` category (icon `PartyPopper`) and add the
+      listing, following the same pattern as F-004/F-005.
+- [ ] If no local connection can be established: explicitly decide with the project owner whether to
+      reject the submission or broaden the directory's scope, rather than leaving it in limbo.
 
 ---
 

@@ -115,5 +115,23 @@
     "description": "Mortgage brokers and finance services helping with home loans, refinancing, and lending advice.",
     "displayOrder": 13,
     "featured": false
+  },
+  {
+    "id": "arts-performing-arts",
+    "slug": "arts-performing-arts",
+    "name": "Arts & Performing Arts",
+    "icon": "Drama",
+    "description": "Dance, music, and performing arts schools and instruction.",
+    "displayOrder": 14,
+    "featured": false
+  },
+  {
+    "id": "accounting-tax",
+    "slug": "accounting-tax",
+    "name": "Accounting & Tax",
+    "icon": "Calculator",
+    "description": "Accounting, taxation, and SMSF specialists for individuals and businesses.",
+    "displayOrder": 15,
+    "featured": false
   }
 ]

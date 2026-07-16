@@ -444,5 +444,60 @@
     "tags": ["Mortgage Broker", "Justice of the Peace", "Local"],
     "createdAt": "2026-07-16T00:00:00Z",
     "updatedAt": "2026-07-16T00:00:00Z"
+  },
+  {
+    "id": "4f71fc6f-afd5-4171-bbb9-d84a2a38fe31",
+    "slug": "the-bharatanatyam-kalakshetra",
+    "name": "The Bharatanatyam Kalakshetra",
+    "description": "Local Indian classical dance school teaching Bharatanatyam, run by Hashwini Shanthakumar.",
+    "shortDescription": "Indian classical dance (Bharatanatyam) school, Akuna Vista.",
+    "categoryId": "arts-performing-arts",
+    "phone": "0490947681",
+    "email": "hashwiniskumar@gmail.com",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Bharatanatyam", "Indian Classical Dance", "Local"],
+    "createdAt": "2026-07-16T00:00:00Z",
+    "updatedAt": "2026-07-16T00:00:00Z"
+  },
+  {
+    "id": "954fd972-8c63-49a6-9bf5-751eeeba5521",
+    "slug": "fortune8-property-group",
+    "name": "Fortune8 Property Group",
+    "description": "Local real estate agency specialising in Buying, Selling, Leasing & Building Properties (including Investment Properties) throughout Australia. Verticals: Residential Sales (NSW), Property Management (NSW), House & Land Packages across Australia, and Buyers Agency (e.g. SMSF).",
+    "shortDescription": "Real estate: residential sales, property management, H&L packages, buyers agency.",
+    "categoryId": "real-estate",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": [
+      "Residential Sales",
+      "Property Management",
+      "H&L Packages",
+      "Buyers Agency",
+      "SMSF",
+      "Local"
+    ],
+    "createdAt": "2026-07-16T00:00:00Z",
+    "updatedAt": "2026-07-16T00:00:00Z"
+  },
+  {
+    "id": "fa6fec2b-b4ae-4844-972c-86391e4537fa",
+    "slug": "knowledgetree",
+    "name": "Knowledgetree",
+    "description": "Australia's premier accounting and taxation firm — delivering exceptional solutions for individuals and businesses with integrity, expertise, and care. SMSF specialists. Run by a local Akuna Vista resident; office based in Castle Hill.",
+    "shortDescription": "Your financial future, expertly managed. Accounting, tax & SMSF specialists.",
+    "categoryId": "accounting-tax",
+    "website": "https://www.knowledgetree.com.au",
+    "serviceAreas": ["Akuna Vista", "Castle Hill"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["SMSF Specialists", "Accounting", "Taxation", "Local"],
+    "createdAt": "2026-07-16T00:00:00Z",
+    "updatedAt": "2026-07-16T00:00:00Z"
   }
 ]
