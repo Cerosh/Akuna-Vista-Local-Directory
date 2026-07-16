@@ -36,10 +36,13 @@ without opening a new sprint folder each time.
 
 # Sprint Objective
 
-Add real-world business/service data supplied directly by the project owner to `data/businesses.json`,
-validated against the existing schema (`scripts/lib/validation.ts`, `.ai/JSON_SCHEMA.md`) and
-existing category set (`data/categories.json`) — no new categories, components, or schema fields
-introduced unless a Feature explicitly calls for one.
+Add real-world content supplied directly by the project owner — primarily business/service listings
+in `data/businesses.json`, and as of F-009, other directory content the project owner supplies
+directly (e.g. `data/announcements.json`) — validated against the existing schema
+(`scripts/lib/validation.ts`, `.ai/JSON_SCHEMA.md`) and existing category set
+(`data/categories.json`) — no new categories, components, or schema fields introduced unless a
+Feature explicitly calls for one. Broadened from businesses-only 2026-07-16, matching how Sprint 16
+was similarly broadened from a single content type to a general ongoing bucket.
 
 ---
 
@@ -75,6 +78,7 @@ Per Feature, the sprint is successful when:
 | F-006 | Add Arihant Party Essentials (new "Event & Party Hire" category) — local connection confirmed (Scout Street) | Low | Completed |
 | F-007 | Backfill phone numbers for Fortune8 Property Group and Knowledgetree; name their local contacts in the description | Low | Completed |
 | F-008 | Replace Arihant Party Essentials' placeholder content with real flyer content (prices, service areas, contacts, flyer image) | Low | Completed |
+| F-009 | Replace "Schofields Park upgrade underway" announcement with "Aerodrome Drive to Quakers Hill Parkway link road planned", sorted first | Medium | Completed |
 
 Status Values
 
@@ -647,6 +651,77 @@ Acceptance Criteria
 - [x] `npm run validate:data` passes.
 - [x] Verified visually: the business detail page renders the new image, description, and a working
       click-to-call phone link.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 8 (F-009)
+
+As a resident checking the Community noticeboard
+
+I want to see current, relevant local infrastructure news
+
+So that an announcement about a park upgrade that isn't the most newsworthy item right now doesn't
+sit above genuinely major planned works.
+
+### Source data
+
+Real Blacktown City Council project page content, supplied verbatim by the project owner
+(2026-07-16): "Aerodrome Drive to Quakers Hill Parkway link road ... Project type: Road construction
+... Project value: To be confirmed ... Project schedule: Mid 2027 – 2029 (anticipated) ...
+Contractor name: To be confirmed ... Blacktown City Council is planning the construction of a new
+link road between Aerodrome Drive and Quakers Hill Parkway in Nirimba Fields... construction of a
+new 2.3 kilometre road connecting Aerodrome Drive at Triton Parade to Quakers Hill Parkway... The
+project is currently in the design phase... Construction is anticipated to commence in mid-2027...
+funded by the NSW Government through the Special Infrastructure Contributions (SIC) program...
+Scope of works: new four-lane road (two lanes each direction), a shared user path along the full
+corridor, upgrade of the Quakers Hill Parkway intersection including traffic signals, and associated
+drainage/road infrastructure works... Contact: Mark Bunch, 0407 006 537,
+mark.bunch@blacktown.nsw.gov.au... LAST UPDATED 2 July 2026."
+
+### Changes
+
+- **Removed**: "Schofields Park upgrade underway" (`id: eb5ac6aa-d699-48a3-a4c9-8c7d201c5cc3`),
+  per the project owner's explicit "replace X with Y" instruction.
+- **Added**: "Aerodrome Drive to Quakers Hill Parkway link road planned" — `title`/`message`
+  distilled from the source page down to the noticeboard's established one-paragraph style (matching
+  the existing "Townson Road and Burdekin Road upgrades in planning" entry's tone, since this project
+  is likewise still in the design/planning phase, not under construction).
+- **`publishedAt: "2026-07-16T09:00:00Z"`** — the sort key `announcementRepository.getActiveAnnouncements()`
+  uses (`sort by publishedAt desc`, `lib/repositories/announcementRepository.ts:27`) is what actually
+  controls display order, not array position. Set to the most recent timestamp of any current
+  announcement (later than the previous newest, "Woolworths supermarket proposed", `2026-07-06T09:00:00Z`)
+  so this renders first, per the project owner's explicit "keep that as the first item."
+- **`priority: "normal"`, `featured: false`, no `expiresAt`** — matches the closest existing precedent,
+  "Townson Road and Burdekin Road upgrades in planning" (also NSW-government-funded, multi-km,
+  design-phase, no confirmed construction start) rather than the "high priority"/dated-`expiresAt`
+  treatment given to announcements about construction already underway.
+
+### Assumptions / gaps flagged (confirm or correct)
+
+- **No `sourceUrl` supplied.** The schema has a dedicated `sourceUrl` field (added Sprint 09b F-004
+  specifically so noticeboard items can link back to their real source) and this is clearly a real
+  council project page, but no URL was given — only pasted page content. Per this project's
+  instruction never to guess/generate URLs, none was added. If the project owner has the actual
+  Blacktown City Council project page link, it can be added as a follow-up.
+- **Contact details (Mark Bunch, phone, email) and the "388 Quakers Rd" location from the source page
+  are not included** — the `Announcement` schema has no fields for a contact person or address (only
+  `title`/`message`/dates/`priority`/`featured`/`sourceUrl`), and the noticeboard's existing entries
+  never include this level of detail (compare "Railway Terrace..." — contractor is named, but no
+  personal contact info). Kept consistent with that existing pattern rather than introducing a new
+  level of detail unique to this one entry.
+- **Message length**: condensed from the source page's ~10 sections down to one paragraph, matching
+  every existing announcement's length — flag if more detail (e.g. the full scope-of-works dot points)
+  is wanted instead.
+
+Acceptance Criteria
+
+- [x] "Schofields Park upgrade underway" removed from `data/announcements.json`.
+- [x] New announcement added, with `publishedAt` later than every other current entry so it sorts
+      first in the Community Noticeboard.
+- [x] `npm run validate:data` passes.
+- [x] Verified visually: homepage's Community Noticeboard shows the new announcement as the first
+      item, and the old Schofields Park entry no longer appears anywhere.
 - [x] Existing Playwright suite still passes.
 
 ---
