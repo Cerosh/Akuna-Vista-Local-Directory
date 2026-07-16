@@ -106,5 +106,14 @@
     "description": "Justice of the Peace services — document witnessing, statutory declarations and certified copies.",
     "displayOrder": 12,
     "featured": true
+  },
+  {
+    "id": "finance-mortgage-broking",
+    "slug": "finance-mortgage-broking",
+    "name": "Finance & Mortgage Broking",
+    "icon": "Landmark",
+    "description": "Mortgage brokers and finance services helping with home loans, refinancing, and lending advice.",
+    "displayOrder": 13,
+    "featured": false
   }
 ]
