@@ -73,6 +73,7 @@ Per Feature, the sprint is successful when:
 | F-004 | Add 2 new categories: "Arts & Performing Arts", "Accounting & Tax" | Medium | Completed |
 | F-005 | Add 3 new business listings (Bharatanatyam Kalakshetra, Fortune8 Property Group, Knowledgetree) | Medium | Completed |
 | F-006 | Add Arihant Party Essentials (new "Event & Party Hire" category) — local connection confirmed (Scout Street) | Low | Completed |
+| F-007 | Backfill phone numbers for Fortune8 Property Group and Knowledgetree; name their local contacts in the description | Low | Completed |
 
 Status Values
 
@@ -550,6 +551,42 @@ Acceptance Criteria
 - [x] Arihant Party Essentials entry added to `data/businesses.json`.
 - [x] `npm run validate:data` passes.
 - [x] `/category/event-party-hire` and `/business/arihant-party-essentials` render correctly.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 6 (F-007)
+
+As a visitor viewing Fortune8 Property Group or Knowledgetree
+
+I want a phone number and a named local contact
+
+So that these listings are actually contactable and read as recommended-by-a-neighbour, not just a
+generic Australia-wide business.
+
+### Source data (as supplied by the project owner, verbatim)
+
+"+61 434 515 774 / ~Rishi Ketkar this for Knowledgetree and Mohit Bindal +61 478 005 566 for
+Fortune8 Property Group can you include and update them as well please give them all the local
+business touch"
+
+### Changes
+
+- **Fortune8 Property Group** (`data/businesses.json`) — `phone: "+61 478 005 566"` added;
+  description now opens "Local real estate agency run by Akuna Vista resident Mohit Bindal..."
+  (previously didn't name him, despite his name being known from the original F-005 submission).
+- **Knowledgetree** (`data/businesses.json`) — `phone: "+61 434 515 774"` added; description now
+  reads "...Run by local Akuna Vista resident Rishi Ketkar; office based in Castle Hill." (previously
+  "a local Akuna Vista resident" with no name). `"~Rishi Ketkar"` treated as the contact's name with
+  the leading `~` dropped, same convention as F-001's `"~Anjul"`.
+- Website (Knowledgetree) and email (neither) remain as before — only the phone/named-contact gaps
+  flagged after F-005/F-006 are closed here; still no email for either listing.
+
+Acceptance Criteria
+
+- [x] Both entries updated with the phone numbers above.
+- [x] Both entries' descriptions name their local contact.
+- [x] `npm run validate:data` passes.
 - [x] Existing Playwright suite still passes.
 
 ---
