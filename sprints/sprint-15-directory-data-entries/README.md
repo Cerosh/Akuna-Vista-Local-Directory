@@ -79,6 +79,7 @@ Per Feature, the sprint is successful when:
 | F-007 | Backfill phone numbers for Fortune8 Property Group and Knowledgetree; name their local contacts in the description | Low | Completed |
 | F-008 | Replace Arihant Party Essentials' placeholder content with real flyer content (prices, service areas, contacts, flyer image) | Low | Completed |
 | F-009 | Replace "Schofields Park upgrade underway" announcement with "Aerodrome Drive to Quakers Hill Parkway link road planned", sorted first | Medium | Completed |
+| F-010 | Name the Dharug people specifically in the footer's Acknowledgment of Country | High | Completed |
 
 Status Values
 
@@ -722,6 +723,65 @@ Acceptance Criteria
 - [x] `npm run validate:data` passes.
 - [x] Verified visually: homepage's Community Noticeboard shows the new announcement as the first
       item, and the old Schofields Park entry no longer appears anywhere.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 9 (F-010)
+
+As a Dharug resident of Akuna Vista
+
+I want the site's Acknowledgment of Country to name my people specifically
+
+So that the acknowledgment reflects the actual Traditional Owners of the land the estate is built
+on, not generic wording chosen only because the nation wasn't yet confirmed.
+
+### Background — reopening a previously deferred decision
+
+Sprint 12 (`sprints/sprint-12-branding-navigation-polish/notes.md`, "Acknowledgment of Country —
+wording decision") explicitly considered naming Dharug Country at the time but the project owner
+chose general wording instead — "the safer default when the exact Country for the site's
+represented area isn't independently verified, since an incorrect attribution is a real, not
+cosmetic, error" — and noted that "If a future sprint wants to name Dharug Country specifically,
+that should be its own confirmed decision, not inferred from this note." This Story is that
+confirmed decision: the project owner stated directly (2026-07-16) "this estate is in blacktown we
+are also Dharug people so modify our acknowledgement to reflect that" — self-identifying as Dharug,
+which is a materially stronger basis than the unverified inference Sprint 12 declined to act on.
+
+### Changes
+
+- **`components/layout/Footer.tsx`** — `"We acknowledge the Traditional Owners of the land..."` →
+  `"We acknowledge the Dharug people as the Traditional Owners of the land..."`. The rest of the
+  sentence (community-voice "land on which we work and live" framing, and the standard "pay our
+  respects to Elders past, present and emerging" closing) is unchanged — only the specific naming
+  was added, per a minimal-diff approach to an already-considered piece of wording.
+- **`tests/e2e/homepage.spec.ts:30`** — updated the footer-text assertion from
+  `"We acknowledge the Traditional Owners"` to `"We acknowledge the Dharug people"` to match.
+- **`.ai/TODO.md`** — the Sprint 12 record of the original "general wording" decision is updated
+  (not deleted) to note the 2026-07-16 supersession, so the documented history stays accurate rather
+  than silently contradicting the current footer text.
+
+### Regression caught and fixed during implementation
+
+Sprint 14 (F-006) specifically fixed this same sentence to render on one line at ≥768px by removing
+its `max-w` constraint, with Acceptance Criteria requiring single-line rendering at desktop/tablet
+widths. Adding "Dharug people as the" makes the sentence long enough that it now wraps to 2 lines at
+768–1024px (measured directly via a throwaway Playwright script, run from inside the project
+directory per the Sprint 12 precedent for this exact kind of check). Tried two shorter phrasings
+("as Traditional Owners" without "the"; dropping "our" before "respects") — neither actually fixed
+the wrap at 768–1024px, so trimming words bought no layout benefit while making the sentence read
+less naturally. Reverted to the full, standard phrasing and accepted the 2-line wrap at 768–1024px,
+extending the same reasoning Sprint 14 already applied to mobile ("no font-shrinking hack" to force
+one line) — correctly naming the Traditional Owners takes priority over a line-count preference.
+
+Acceptance Criteria
+
+- [x] Footer names the Dharug people as the Traditional Owners.
+- [x] `tests/e2e/homepage.spec.ts`'s footer-text assertion updated to match.
+- [x] `.ai/TODO.md`'s record of the original wording decision updated to note the supersession.
+- [x] No horizontal overflow introduced at any breakpoint (2-line wrap at 768–1024px is vertical,
+      not an overflow — verified via the same responsive Playwright coverage
+      `tests/e2e/responsive.spec.ts` already runs).
 - [x] Existing Playwright suite still passes.
 
 ---

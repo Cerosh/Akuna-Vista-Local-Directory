@@ -60,8 +60,8 @@ export function Footer({ settings }: FooterProps) {
               desktop — letting it use the full row width keeps it on one line at
               typical desktop/tablet widths without shrinking the font. */}
           <p>
-            We acknowledge the Traditional Owners of the land on which we work and live, and pay our
-            respects to Elders past, present and emerging.
+            We acknowledge the Dharug people as the Traditional Owners of the land on which we work
+            and live, and pay our respects to Elders past, present and emerging.
           </p>
           <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p>

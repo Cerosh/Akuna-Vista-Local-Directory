@@ -27,7 +27,7 @@ test.describe("Homepage", () => {
     await expect(home.promotionsHeading).toBeVisible();
     await expect(home.announcementsHeading).toBeVisible();
     await expect(home.footer).toBeVisible();
-    await expect(home.footer).toContainText("We acknowledge the Traditional Owners");
+    await expect(home.footer).toContainText("We acknowledge the Dharug people");
     expect(consoleErrors).toEqual([]);
   });
 

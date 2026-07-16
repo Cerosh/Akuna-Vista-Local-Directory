@@ -74,9 +74,12 @@ Key decisions:
 - A real bug was found and fixed during implementation: an RGB-mode `favicon.ico` crashed every
   route with a `500` (Turbopack's ICO decoder requires RGBA-mode embedded PNG frames) — caught by
   actually loading the page after generating the asset, not by typecheck/lint.
-- The Acknowledgment of Country uses general wording (no specific Traditional Owners/Country
-  named), confirmed explicitly by the project owner rather than guessing — avoids the risk of
-  misattribution.
+- The Acknowledgment of Country originally used general wording (no specific Traditional Owners/
+  Country named), confirmed explicitly by the project owner rather than guessing — avoided the risk
+  of misattribution while the nation wasn't independently confirmed. **Updated 2026-07-16** (Sprint
+  15, F-010): the project owner confirmed directly (self-identifying as Dharug) that the estate
+  sits on Dharug Country, so the footer now names the Dharug people specifically. See
+  `sprints/sprint-15-directory-data-entries/README.md` Story 9 for the full record.
 - This is the first sprint to follow the Spec-Driven Development process from its very first line
   of code (Sprint 11 adopted the rule partway through).
 
