@@ -32,7 +32,7 @@ export function Footer({ settings }: FooterProps) {
       <Container>
         <div className="grid grid-cols-1 gap-10 py-12 sm:grid-cols-2 md:grid-cols-4">
           <div className="flex flex-col gap-3">
-            <Logo siteName={settings.siteName} />
+            <Logo siteName={settings.siteName} logo={settings.logo ?? "/images/logo-full.png"} />
             {settings.tagline ? (
               <p className="text-muted-foreground max-w-[280px] text-sm">{settings.tagline}</p>
             ) : null}
@@ -56,7 +56,10 @@ export function Footer({ settings }: FooterProps) {
         </div>
 
         <div className="border-border text-muted-foreground border-t py-6 text-sm">
-          <p className="max-w-[720px]">
+          {/* No max-w constraint: at 720px this sentence wraps to two lines even on
+              desktop — letting it use the full row width keeps it on one line at
+              typical desktop/tablet widths without shrinking the font. */}
+          <p>
             We acknowledge the Traditional Owners of the land on which we work and live, and pay our
             respects to Elders past, present and emerging.
           </p>

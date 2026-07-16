@@ -223,6 +223,19 @@ H2
 
 Section titles
 
+On a page stacking many sections (e.g. the homepage), H2 has two weights so the
+page reads as edited rather than templated (added sprint-14 UI polish pass):
+
+- Primary section H2 (the page's main content — e.g. Featured Businesses,
+  Popular Categories, Local promotions): `text-2xl font-semibold tracking-tight
+  sm:text-3xl`.
+- Secondary section H2 (supporting/community content — e.g. Community
+  Statistics, Why Choose Local, Community events, Community noticeboard):
+  `text-xl font-semibold tracking-tight sm:text-2xl`.
+
+Both remain H2 semantically — this is a visual-size distinction only, not a
+new heading level.
+
 H3
 
 Card titles

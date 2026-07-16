@@ -1,12 +1,17 @@
 import { fetchOpenMeteoForecast, WeatherApiError } from "./weatherApi";
 import { getWeatherCondition } from "./weatherCodeMap";
 import { createTtlCache } from "./weatherCache";
+import { WEATHER_REFRESH_MINUTES } from "./weatherConfig";
 import type { DailyForecastDay, OpenMeteoForecastResponse, WeatherData } from "./weather.types";
 
-const CACHE_TTL_MS = 10 * 60 * 1000;
-const REVALIDATE_SECONDS = 10 * 60;
+const CACHE_TTL_MS = WEATHER_REFRESH_MINUTES * 60 * 1000;
+const REVALIDATE_SECONDS = WEATHER_REFRESH_MINUTES * 60;
 
 const cache = createTtlCache<WeatherData>(CACHE_TTL_MS);
+// Coalesces concurrent getSchofieldsWeather() calls that land during a cache
+// miss into a single upstream Open-Meteo request, rather than each caller
+// independently triggering its own fetch while the first is still in flight.
+let inFlightFetch: Promise<WeatherData> | null = null;
 
 const COMPASS_POINTS = [
   "N",
@@ -47,14 +52,42 @@ function toDailyForecastDay(
   };
 }
 
+/**
+ * Open-Meteo's `daily` arrays are expected to be parallel — one entry per
+ * date in `time`. A response where a sibling array is shorter than `time`
+ * would otherwise silently produce `undefined` fields (rather than
+ * throwing) once indexed in `toDailyForecastDay`, which downstream code
+ * doesn't expect.
+ */
+function assertDailyArraysAligned(daily: OpenMeteoForecastResponse["daily"]): void {
+  const expectedLength = daily.time.length;
+  const arrays: Record<string, unknown[]> = {
+    weather_code: daily.weather_code,
+    temperature_2m_max: daily.temperature_2m_max,
+    temperature_2m_min: daily.temperature_2m_min,
+    sunrise: daily.sunrise,
+    sunset: daily.sunset,
+    precipitation_probability_max: daily.precipitation_probability_max,
+  };
+
+  for (const [field, values] of Object.entries(arrays)) {
+    if (values.length !== expectedLength) {
+      throw new WeatherApiError(
+        `Open-Meteo response's daily.${field} length (${values.length}) doesn't match daily.time length (${expectedLength})`,
+      );
+    }
+  }
+}
+
 function transformResponse(raw: OpenMeteoForecastResponse): WeatherData {
   if (!raw.daily.time || raw.daily.time.length === 0) {
     throw new WeatherApiError("Open-Meteo response contained no forecast data");
   }
+  assertDailyArraysAligned(raw.daily);
 
   const current = raw.current;
   const today = toDailyForecastDay(raw.daily, 0);
-  const sevenDay = raw.daily.time.map((_, index) => toDailyForecastDay(raw.daily, index));
+  const dailyForecast = raw.daily.time.map((_, index) => toDailyForecastDay(raw.daily, index));
 
   return {
     current: {
@@ -73,16 +106,17 @@ function transformResponse(raw: OpenMeteoForecastResponse): WeatherData {
       sunrise: raw.daily.sunrise[0],
       sunset: raw.daily.sunset[0],
     },
-    sevenDay,
+    dailyForecast,
     updatedAt: new Date().toISOString(),
   };
 }
 
 /**
- * Current + 7-day forecast for Schofields, NSW. Cached in-process for 10
- * minutes so concurrent homepage visitors share one upstream Open-Meteo
- * call, not one each — checked before the module-level `fetch` cache is
- * even consulted.
+ * Current + daily forecast for Schofields, NSW. Cached in-process for
+ * `WEATHER_REFRESH_MINUTES` so concurrent homepage visitors share one
+ * upstream Open-Meteo call, not one each — checked before the module-level
+ * `fetch` cache is even consulted. Concurrent calls that land during a cache
+ * miss share the same in-flight request rather than each firing their own.
  */
 export async function getSchofieldsWeather(): Promise<WeatherData> {
   const cached = cache.get();
@@ -90,8 +124,20 @@ export async function getSchofieldsWeather(): Promise<WeatherData> {
     return cached;
   }
 
-  const raw = await fetchOpenMeteoForecast(REVALIDATE_SECONDS);
-  const data = transformResponse(raw);
-  cache.set(data);
-  return data;
+  if (inFlightFetch) {
+    return inFlightFetch;
+  }
+
+  inFlightFetch = (async () => {
+    try {
+      const raw = await fetchOpenMeteoForecast(REVALIDATE_SECONDS);
+      const data = transformResponse(raw);
+      cache.set(data);
+      return data;
+    } finally {
+      inFlightFetch = null;
+    }
+  })();
+
+  return inFlightFetch;
 }

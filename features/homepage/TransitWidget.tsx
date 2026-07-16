@@ -53,7 +53,7 @@ export function TransitWidget() {
                 className="text-muted-foreground flex items-center gap-1.5 text-xs font-medium tracking-wide uppercase"
               >
                 <CircleParking className="size-3.5 shrink-0" aria-hidden="true" />
-                Parking free
+                Parking slots available
               </h3>
               {parking.hasError || !parking.data ? (
                 <p className="text-muted-foreground flex items-center gap-1.5 text-xs">

@@ -29,10 +29,10 @@ export async function FeaturedContent() {
   const items = getFeaturedContent(events, resolvedPromotions, announcements);
 
   return (
-    <Section id="featured" className="border-border scroll-mt-20 border-t">
+    <Section id="featured" density="compact" className="border-border scroll-mt-20 border-t">
       <Container>
         <div className="mb-8 flex flex-col gap-2 text-center">
-          <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h2 className="text-foreground text-xl font-semibold tracking-tight sm:text-2xl">
             Featured this week
           </h2>
           <p className="text-muted-foreground">Community content worth not missing.</p>

@@ -8,8 +8,8 @@ import { FeaturedContent } from "@/features/community/FeaturedContent";
 import { CommunityEvents } from "@/features/community/CommunityEvents";
 import { Promotions } from "@/features/community/Promotions";
 import { Announcements } from "@/features/community/Announcements";
-import { LocalNewsPlaceholder } from "@/features/community/LocalNewsPlaceholder";
 import { settingsRepository } from "@/lib/repositories/settingsRepository";
+import { getSchofieldsWeather } from "@/lib/weather/weatherService";
 
 // Title/description are already correct via the root layout's defaults for
 // `/` — only the canonical needs to be explicit here.
@@ -18,11 +18,18 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const settings = await settingsRepository.get();
+  const [settings, initialWeather] = await Promise.all([
+    settingsRepository.get(),
+    // Fetched server-side so the Hero sidebar's weather card shows real
+    // conditions on first paint instead of a guaranteed loading skeleton
+    // (sprint-14 F-018) — degrades to `null` (client-side fetch takes over,
+    // same as before) rather than failing the whole homepage render.
+    getSchofieldsWeather().catch(() => null),
+  ]);
 
   return (
     <>
-      <Hero settings={settings} />
+      <Hero settings={settings} initialWeather={initialWeather} />
       <Promotions />
       <PopularCategories />
       <FeaturedBusinesses />
@@ -33,7 +40,6 @@ export default async function Home() {
       <FeaturedContent />
       <CommunityEvents />
       <Announcements />
-      <LocalNewsPlaceholder />
     </>
   );
 }

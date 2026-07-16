@@ -18,7 +18,7 @@ function dayLabel(dateStr: string, index: number): string {
   return WEEKDAY_FORMATTER.format(new Date(`${dateStr}T12:00:00`));
 }
 
-/** Compact 7-day forecast list — same list-row convention as TransitWidget's departure list. */
+/** Compact 3-day forecast list — same list-row convention as TransitWidget's departure list. */
 export function WeatherForecast({ days }: WeatherForecastProps) {
   return (
     <ul className="flex flex-col gap-1.5">

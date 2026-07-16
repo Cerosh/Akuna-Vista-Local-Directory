@@ -26,7 +26,6 @@ test.describe("Homepage", () => {
     await expect(home.communityEventsHeading).toBeVisible();
     await expect(home.promotionsHeading).toBeVisible();
     await expect(home.announcementsHeading).toBeVisible();
-    await expect(home.localNewsHeading).toBeVisible();
     await expect(home.footer).toBeVisible();
     await expect(home.footer).toContainText("We acknowledge the Traditional Owners");
     expect(consoleErrors).toEqual([]);
@@ -138,37 +137,33 @@ test.describe("Homepage", () => {
     expect(requestedUrls.some((url) => url.includes("api.transport.nsw.gov.au"))).toBe(false);
   });
 
-  test("Weather card shows real Schofields conditions (not the old placeholder) and never calls Open-Meteo directly from the browser", async ({
+  test("Weather card is server-rendered with real Schofields conditions on first paint, and the browser never calls Open-Meteo directly", async ({
     page,
   }) => {
     // Sprint 13 replaced the "Weather coming soon" placeholder in the Hero
-    // sidebar with a real Open-Meteo-backed card. Open-Meteo needs no API
-    // key, but this app's CSP (`connect-src 'self'`) blocks the browser
-    // from calling it directly regardless — the browser should only ever
-    // request this app's own /api/weather route.
+    // sidebar with a real Open-Meteo-backed card; Sprint 14 (F-018) moved the
+    // initial fetch server-side (app/(home)/page.tsx), so the card shows real
+    // conditions in the server-rendered HTML instead of a client-fetched
+    // loading skeleton — the browser no longer needs to (and shouldn't) call
+    // /api/weather itself just to get the first paint's data. Open-Meteo
+    // needs no API key, but this app's CSP (`connect-src 'self'`) blocks the
+    // browser from calling it directly regardless.
     const requestedUrls: string[] = [];
     page.on("request", (request) => requestedUrls.push(request.url()));
-    const weatherResponsePromise = page
-      .waitForResponse((response) => response.url().includes("/api/weather"), { timeout: 15000 })
-      .catch(() => null);
 
     const home = new HomePage(page);
     await home.goto();
 
     await expect(page.getByText("Schofields Weather")).toBeVisible();
 
-    const weatherResponse = await weatherResponsePromise;
-    expect(weatherResponse).not.toBeNull();
-
     // Tolerant of both outcomes — real numbers (Open-Meteo is a live,
     // unauthenticated public API so this should normally succeed) or the
-    // graceful fallback if the upstream call fails for any reason. Either
-    // is a pass; a crash or blank card is not.
+    // graceful fallback if the upstream server-side call fails for any
+    // reason. Either is a pass; a crash or blank card is not.
     await expect(
       page.getByText("Feels like").or(page.getByText("Unavailable right now").first()),
     ).toBeVisible({ timeout: 15000 });
 
-    expect(requestedUrls.some((url) => url.includes("/api/weather"))).toBe(true);
     expect(requestedUrls.some((url) => url.includes("api.open-meteo.com"))).toBe(false);
   });
 

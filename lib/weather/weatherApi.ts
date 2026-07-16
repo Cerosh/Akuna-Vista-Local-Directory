@@ -6,7 +6,9 @@ const OPEN_METEO_BASE_URL = "https://api.open-meteo.com/v1/forecast";
 const SCHOFIELDS_LATITUDE = -33.7037;
 const SCHOFIELDS_LONGITUDE = 150.8786;
 
-const FORECAST_DAYS = 7;
+// A compact Hero sidebar card only has room for a glanceable forecast, not a
+// full week — today plus the next 2 days.
+const FORECAST_DAYS = 3;
 const REQUEST_TIMEOUT_MS = 8000;
 
 const CURRENT_FIELDS = [

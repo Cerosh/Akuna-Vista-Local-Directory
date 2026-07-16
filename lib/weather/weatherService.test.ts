@@ -26,37 +26,13 @@ function fixture(overrides: Partial<OpenMeteoForecastResponse> = {}): OpenMeteoF
       wind_direction_10m: 45,
     },
     daily: {
-      time: [
-        "2026-07-16",
-        "2026-07-17",
-        "2026-07-18",
-        "2026-07-19",
-        "2026-07-20",
-        "2026-07-21",
-        "2026-07-22",
-      ],
-      weather_code: [1, 2, 3, 61, 0, 0, 95],
-      temperature_2m_max: [22, 21, 20, 19, 23, 24, 18],
-      temperature_2m_min: [11, 10, 12, 13, 9, 10, 14],
-      sunrise: [
-        "2026-07-16T06:58",
-        "2026-07-17T06:57",
-        "2026-07-18T06:57",
-        "2026-07-19T06:56",
-        "2026-07-20T06:55",
-        "2026-07-21T06:54",
-        "2026-07-22T06:53",
-      ],
-      sunset: [
-        "2026-07-16T17:04",
-        "2026-07-17T17:05",
-        "2026-07-18T17:06",
-        "2026-07-19T17:06",
-        "2026-07-20T17:07",
-        "2026-07-21T17:08",
-        "2026-07-22T17:09",
-      ],
-      precipitation_probability_max: [10, 20, 30, 80, 0, 0, 90],
+      time: ["2026-07-16", "2026-07-17", "2026-07-18"],
+      weather_code: [1, 2, 3],
+      temperature_2m_max: [22, 21, 20],
+      temperature_2m_min: [11, 10, 12],
+      sunrise: ["2026-07-16T06:58", "2026-07-17T06:57", "2026-07-18T06:57"],
+      sunset: ["2026-07-16T17:04", "2026-07-17T17:05", "2026-07-18T17:06"],
+      precipitation_probability_max: [10, 20, 30],
     },
     ...overrides,
   };
@@ -93,7 +69,7 @@ describe("getSchofieldsWeather", () => {
     expect(data.current.rainMm).toBeNull();
     expect(data.today.maxTemperatureC).toBe(22);
     expect(data.today.sunrise).toBe("2026-07-16T06:58");
-    expect(data.sevenDay).toHaveLength(7);
+    expect(data.dailyForecast).toHaveLength(3);
   });
 
   it("throws when the daily forecast array is empty", async () => {
@@ -130,5 +106,35 @@ describe("getSchofieldsWeather", () => {
     await getSchofieldsWeather();
 
     expect(fetchOpenMeteoForecast).toHaveBeenCalledTimes(1);
+  });
+
+  it("shares a single upstream call across concurrent requests during a cache miss", async () => {
+    let resolveFetch!: (value: OpenMeteoForecastResponse) => void;
+    fetchOpenMeteoForecast.mockReturnValue(
+      new Promise<OpenMeteoForecastResponse>((resolve) => {
+        resolveFetch = resolve;
+      }),
+    );
+    const { getSchofieldsWeather } = await import("./weatherService");
+
+    const first = getSchofieldsWeather();
+    const second = getSchofieldsWeather();
+    resolveFetch(fixture());
+    const [firstResult, secondResult] = await Promise.all([first, second]);
+
+    expect(fetchOpenMeteoForecast).toHaveBeenCalledTimes(1);
+    expect(firstResult).toEqual(secondResult);
+  });
+
+  it("throws when a daily array's length doesn't match daily.time", async () => {
+    const base = fixture();
+    fetchOpenMeteoForecast.mockResolvedValue(
+      fixture({
+        daily: { ...base.daily, sunrise: base.daily.sunrise.slice(0, 1) },
+      }),
+    );
+    const { getSchofieldsWeather } = await import("./weatherService");
+
+    await expect(getSchofieldsWeather()).rejects.toThrow();
   });
 });

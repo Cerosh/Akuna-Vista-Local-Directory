@@ -12,11 +12,12 @@ import { announcementRepository } from "@/lib/repositories/announcementRepositor
 export async function Announcements() {
   const announcements = await announcementRepository.getActiveAnnouncements();
 
+  // No top border — same consolidation reasoning as CommunityEvents.tsx.
   return (
-    <Section id="announcements" className="border-border scroll-mt-20 border-t">
+    <Section id="announcements" density="compact" className="scroll-mt-20">
       <Container narrow>
         <div className="mb-8 flex flex-col gap-2 text-center">
-          <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h2 className="text-foreground text-xl font-semibold tracking-tight sm:text-2xl">
             Community noticeboard
           </h2>
           <p className="text-muted-foreground">Announcements worth knowing about.</p>

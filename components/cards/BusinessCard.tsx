@@ -56,7 +56,10 @@ export function BusinessCard({ business, categoryName }: BusinessCardProps) {
         ) : null}
       </CardContent>
 
-      <CardFooter>
+      {/* Flush, borderless footer — overridden locally rather than changing the
+          shared CardFooter primitive, so other CardFooter consumers (e.g.
+          PromotionCard) keep their divided/shaded treatment unchanged. */}
+      <CardFooter className="border-t-0 bg-transparent pt-0">
         {/* A plain Link styled with buttonVariants, not the Button component —
             this is a navigation link, so it should keep native <a> semantics
             (role="link") rather than Base UI's Button forcing role="button". */}

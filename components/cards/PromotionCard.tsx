@@ -39,7 +39,7 @@ export function PromotionCard({ promotion, businessName, businessSlug }: Promoti
       </CardHeader>
 
       <CardContent className="flex flex-col gap-3">
-        <CardDescription>{promotion.description}</CardDescription>
+        <CardDescription className="line-clamp-2">{promotion.description}</CardDescription>
         <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
           <Tag className="size-3.5" aria-hidden="true" />
           <span>Valid {formatDateRange(promotion.startDate, promotion.endDate)}</span>

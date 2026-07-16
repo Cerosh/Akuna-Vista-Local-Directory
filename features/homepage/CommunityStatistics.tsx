@@ -20,10 +20,13 @@ export async function CommunityStatistics() {
   }
 
   return (
-    <Section className="border-border border-t">
+    // No top border — WhyChooseLocal's tinted background right below already
+    // separates it from FeaturedBusinesses above without a second divider
+    // line immediately after (sprint-14 F-001 divider consolidation).
+    <Section density="compact">
       <Container>
         <div className="mb-8 flex flex-col gap-2 text-center">
-          <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h2 className="text-foreground text-xl font-semibold tracking-tight sm:text-2xl">
             A growing community
           </h2>
         </div>

@@ -21,7 +21,6 @@ export class HomePage {
   readonly communityEventsHeading: Locator;
   readonly promotionsHeading: Locator;
   readonly announcementsHeading: Locator;
-  readonly localNewsHeading: Locator;
 
   constructor(page: Page) {
     this.page = page;
@@ -43,7 +42,6 @@ export class HomePage {
     this.communityEventsHeading = page.getByRole("heading", { name: "Community events" });
     this.promotionsHeading = page.getByRole("heading", { name: "Local promotions" });
     this.announcementsHeading = page.getByRole("heading", { name: "Community noticeboard" });
-    this.localNewsHeading = page.getByRole("heading", { name: "Local news" });
   }
 
   async goto() {

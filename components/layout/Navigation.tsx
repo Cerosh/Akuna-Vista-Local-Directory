@@ -25,16 +25,17 @@ const NAV_LINKS: NavLink[] = [
 
 interface NavigationProps {
   siteName: string;
+  logo: string;
 }
 
-export function Navigation({ siteName }: NavigationProps) {
+export function Navigation({ siteName, logo }: NavigationProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
     <header className="border-border bg-background/95 sticky top-0 z-40 border-b backdrop-blur-sm">
       <Container>
         <div className="flex h-16 items-center justify-between gap-4">
-          <Logo siteName={siteName} />
+          <Logo siteName={siteName} logo={logo} />
 
           <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
             {NAV_LINKS.map((link) => (

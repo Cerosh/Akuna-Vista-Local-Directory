@@ -26,10 +26,10 @@ const REASONS = [
 
 export function WhyChooseLocal() {
   return (
-    <Section className="border-border bg-muted/30 border-t">
+    <Section density="compact" className="border-border bg-muted/30 border-t">
       <Container>
         <div className="mb-10 flex flex-col gap-2 text-center">
-          <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h2 className="text-foreground text-xl font-semibold tracking-tight sm:text-2xl">
             Why choose local
           </h2>
           <p className="text-muted-foreground mx-auto max-w-[560px]">

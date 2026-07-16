@@ -20,7 +20,7 @@ export async function FeaturedBusinesses() {
   return (
     <Section className="border-border border-t">
       <Container>
-        <div className="mb-8 flex flex-col gap-2 text-center">
+        <div className="mb-8 flex flex-col gap-2">
           <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
             Featured businesses
           </h2>
@@ -28,7 +28,7 @@ export async function FeaturedBusinesses() {
             Trusted local businesses recommended by your neighbours.
           </p>
         </div>
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {businesses.map((business) => (
             <BusinessCard
               key={business.id}

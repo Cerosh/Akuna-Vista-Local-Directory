@@ -57,6 +57,6 @@ export interface TodayForecast extends DailyForecastDay {
 export interface WeatherData {
   current: CurrentWeather;
   today: TodayForecast;
-  sevenDay: DailyForecastDay[];
+  dailyForecast: DailyForecastDay[];
   updatedAt: string;
 }

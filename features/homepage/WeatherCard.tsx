@@ -5,26 +5,42 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useWeather } from "@/hooks/useWeather";
 import { WeatherForecast } from "@/features/homepage/WeatherForecast";
+import type { WeatherData } from "@/lib/weather/weather.types";
 
-const TIME_FORMATTER = new Intl.DateTimeFormat("en-AU", {
-  timeZone: "Australia/Sydney",
-  hour: "numeric",
-  minute: "2-digit",
-  hour12: true,
-});
-
+/**
+ * Open-Meteo's sunrise/sunset strings (e.g. "2026-07-16T06:58") are already
+ * Australia/Sydney wall-clock time with no UTC offset — we request
+ * `timezone=Australia/Sydney` specifically so they come back that way.
+ * Parsing via `new Date(isoTime)` would interpret that offset-less string as
+ * local time of whatever runtime executes this (the visitor's own browser),
+ * then reformatting it through a `timeZone: "Australia/Sydney"` Intl
+ * formatter would convert it *again* — double-shifting the displayed time
+ * for any visitor not already on Sydney's clock. Read the hour/minute
+ * straight out of the string instead of round-tripping through `Date`.
+ */
 function formatTime(isoTime: string): string {
-  return TIME_FORMATTER.format(new Date(isoTime));
+  const [, timePart] = isoTime.split("T");
+  const [hourStr, minuteStr] = timePart.split(":");
+  const hour24 = Number(hourStr);
+  const period = hour24 >= 12 ? "pm" : "am";
+  const hour12 = hour24 % 12 === 0 ? 12 : hour24 % 12;
+  return `${hour12}:${minuteStr.padStart(2, "0")} ${period}`;
+}
+
+interface WeatherCardProps {
+  /** Server-fetched initial value (see `app/(home)/page.tsx`) — lets first
+   *  paint show real conditions instead of a guaranteed loading skeleton. */
+  initialData?: WeatherData | null;
 }
 
 /**
- * Real current conditions + 7-day forecast for Schofields, NSW, replacing
+ * Real current conditions + a 3-day forecast for Schofields, NSW, replacing
  * the Sprint 11 `WeatherComingSoon` placeholder in the Hero sidebar. Same
  * `Card size="sm"` / 260px-wide convention as the neighbouring
  * `TransitWidget`.
  */
-export function WeatherCard() {
-  const weather = useWeather();
+export function WeatherCard({ initialData = null }: WeatherCardProps) {
+  const weather = useWeather(initialData);
 
   return (
     <Card size="sm" className="w-full max-w-[260px]">
@@ -44,7 +60,7 @@ export function WeatherCard() {
             <Skeleton className="h-4 w-full" />
             <Skeleton className="h-4 w-3/4" />
           </div>
-        ) : weather.hasError || !weather.data ? (
+        ) : !weather.data ? (
           <p className="text-muted-foreground flex items-center gap-1.5 text-xs">
             <TriangleAlert className="size-3.5 shrink-0" aria-hidden="true" />
             Unavailable right now
@@ -138,7 +154,7 @@ export function WeatherCard() {
             </section>
 
             <section className="border-border border-t pt-3">
-              <WeatherForecast days={weather.data.sevenDay} />
+              <WeatherForecast days={weather.data.dailyForecast} />
             </section>
           </>
         )}

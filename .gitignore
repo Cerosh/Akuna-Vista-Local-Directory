@@ -45,3 +45,4 @@ Thumbs.db
 # Sprint 08 data tooling — local scratch space, never committed
 .backups/
 scripts/seed/output/
+.env*

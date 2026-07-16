@@ -51,7 +51,7 @@ export default async function RootLayout({
         >
           Skip to content
         </a>
-        <Navigation siteName={settings.siteName} />
+        <Navigation siteName={settings.siteName} logo={settings.logo ?? "/images/logo-full.png"} />
         {/* tabIndex={-1}: without it the skip link only scrolls here, it
             never moves keyboard focus — found via Sprint 07's keyboard-nav
             Playwright coverage (tests/e2e/accessibility.spec.ts). */}

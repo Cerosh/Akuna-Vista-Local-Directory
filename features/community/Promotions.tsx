@@ -17,9 +17,12 @@ export async function Promotions() {
   );
 
   return (
-    <Section id="promotions" className="border-border scroll-mt-20 border-t">
+    <Section id="promotions" className="border-border scroll-mt-20 border-t pt-6 sm:pt-8">
       <Container>
-        <div className="mb-8 flex flex-col gap-2 text-center">
+        {/* Reduced top gap (vs. the Section default) so promotion cards are
+            visible without scrolling right after Hero — see sprint-14
+            F-009. Left-aligned heading (F-001) instead of centered. */}
+        <div className="mb-4 flex flex-col gap-2">
           <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
             Local promotions
           </h2>
@@ -32,7 +35,7 @@ export async function Promotions() {
             description="Check back soon — local businesses add new promotions regularly."
           />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {resolved.map(({ promotion, business }) => (
               <PromotionCard
                 key={promotion.id}

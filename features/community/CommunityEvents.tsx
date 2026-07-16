@@ -14,11 +14,14 @@ import { eventRepository } from "@/lib/repositories/eventRepository";
 export async function CommunityEvents() {
   const events = await eventRepository.getUpcomingEvents();
 
+  // No top border — FeaturedContent above already opens this "community
+  // extras" cluster with a divider; three consecutive bordered sections in a
+  // row would read as one repeating block (sprint-14 F-001).
   return (
-    <Section id="events" className="border-border scroll-mt-20 border-t">
+    <Section id="events" density="compact" className="scroll-mt-20">
       <Container>
         <div className="mb-8 flex flex-col gap-2 text-center">
-          <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
+          <h2 className="text-foreground text-xl font-semibold tracking-tight sm:text-2xl">
             Community events
           </h2>
           <p className="text-muted-foreground">What&apos;s coming up around the neighbourhood.</p>

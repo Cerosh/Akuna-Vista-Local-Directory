@@ -6,9 +6,13 @@ import { SearchInput } from "@/components/common/SearchInput";
 import { TransitWidget } from "@/features/homepage/TransitWidget";
 import { WeatherCard } from "@/features/homepage/WeatherCard";
 import type { Settings } from "@/types/settings";
+import type { WeatherData } from "@/lib/weather/weather.types";
 
 interface HeroProps {
   settings: Settings;
+  /** Server-fetched initial weather (see `app/(home)/page.tsx`) — passed
+   *  through to WeatherCard so first paint shows real conditions. */
+  initialWeather: WeatherData | null;
 }
 
 /**
@@ -21,7 +25,7 @@ interface HeroProps {
  * estate". Sidebars stack below Hero content on narrower screens, since a
  * business directory's search/hero should still come first on mobile.
  */
-export function Hero({ settings }: HeroProps) {
+export function Hero({ settings, initialWeather }: HeroProps) {
   return (
     <Section className="pb-8 sm:pb-10">
       <Container>
@@ -55,7 +59,7 @@ export function Hero({ settings }: HeroProps) {
           </div>
 
           <div className="order-3 flex justify-center lg:justify-end">
-            <WeatherCard />
+            <WeatherCard initialData={initialWeather} />
           </div>
         </div>
       </Container>

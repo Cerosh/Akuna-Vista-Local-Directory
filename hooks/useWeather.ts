@@ -1,60 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { usePolling } from "@/hooks/usePolling";
 import type { WeatherData } from "@/lib/weather/weather.types";
+import { WEATHER_REFRESH_MINUTES } from "@/lib/weather/weatherConfig";
 
-// Per the project owner's explicit requirement — refresh every 10 minutes.
-const REFRESH_INTERVAL_MS = 10 * 60 * 1000;
-
-interface WeatherState {
-  data: WeatherData | null;
-  isLoading: boolean;
-  hasError: boolean;
-}
+// Per the project owner's explicit requirement — refresh on the same
+// cadence as the server-side cache (WEATHER_REFRESH_MINUTES).
+const REFRESH_INTERVAL_MS = WEATHER_REFRESH_MINUTES * 60 * 1000;
 
 /**
  * Polls this app's own `/api/weather` route (never Open-Meteo directly —
  * this project's CSP `connect-src 'self'` wouldn't allow it anyway) every
- * 10 minutes for Schofields' current conditions and 7-day forecast.
+ * `WEATHER_REFRESH_MINUTES` for Schofields' current conditions and daily
+ * forecast.
+ *
+ * `initialData` seeds the hook from a server-fetched value (see
+ * `app/(home)/page.tsx`, which calls `getSchofieldsWeather()` directly) so
+ * the homepage's first paint shows real conditions instead of a guaranteed
+ * loading skeleton — this hook then owns only the ongoing client-side
+ * refresh polling.
  */
-export function useWeather(): WeatherState {
-  const [data, setData] = useState<WeatherData | null>(null);
-  const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    let isCancelled = false;
-
-    async function load() {
-      try {
-        const response = await fetch("/api/weather");
-        if (!response.ok) {
-          throw new Error(`Unexpected status ${response.status}`);
-        }
-        const body = (await response.json()) as WeatherData;
-        if (!isCancelled) {
-          setData(body);
-          setHasError(false);
-        }
-      } catch {
-        if (!isCancelled) {
-          setHasError(true);
-        }
-      } finally {
-        if (!isCancelled) {
-          setIsLoading(false);
-        }
-      }
-    }
-
-    load();
-    const intervalId = setInterval(load, REFRESH_INTERVAL_MS);
-
-    return () => {
-      isCancelled = true;
-      clearInterval(intervalId);
-    };
-  }, []);
-
-  return { data, isLoading, hasError };
+export function useWeather(initialData: WeatherData | null = null) {
+  return usePolling<WeatherData>("/api/weather", REFRESH_INTERVAL_MS, { initialData });
 }
