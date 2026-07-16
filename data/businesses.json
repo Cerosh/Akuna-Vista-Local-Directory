@@ -499,5 +499,20 @@
     "tags": ["SMSF Specialists", "Accounting", "Taxation", "Local"],
     "createdAt": "2026-07-16T00:00:00Z",
     "updatedAt": "2026-07-16T00:00:00Z"
+  },
+  {
+    "id": "99b128c6-7c10-48bc-a040-d918c7c24638",
+    "slug": "arihant-party-essentials",
+    "name": "Arihant Party Essentials",
+    "description": "Local party equipment hire based on Scout Street, Akuna Vista — your one-stop shop for gazebos, chairs, tables, and lighting to make your event unforgettable.",
+    "shortDescription": "Local party equipment hire: gazebos, chairs, tables & lighting.",
+    "categoryId": "event-party-hire",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Party Hire", "Event Equipment", "Local"],
+    "createdAt": "2026-07-16T00:00:00Z",
+    "updatedAt": "2026-07-16T00:00:00Z"
   }
 ]

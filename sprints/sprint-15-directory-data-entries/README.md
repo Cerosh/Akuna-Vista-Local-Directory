@@ -72,7 +72,7 @@ Per Feature, the sprint is successful when:
 | F-003 | Add a second, duplicate listing for Ethiquity Mortgage Services under the new Finance & Mortgage Broking category | High | Completed |
 | F-004 | Add 2 new categories: "Arts & Performing Arts", "Accounting & Tax" | Medium | Completed |
 | F-005 | Add 3 new business listings (Bharatanatyam Kalakshetra, Fortune8 Property Group, Knowledgetree) | Medium | Completed |
-| F-006 | Arihant Party Essentials (North Sydney party/event hire) — deferred, blocked on confirming a local Akuna Vista connection | Low | Blocked |
+| F-006 | Add Arihant Party Essentials (new "Event & Party Hire" category) — local connection confirmed (Scout Street) | Low | Completed |
 
 Status Values
 
@@ -481,7 +481,7 @@ Acceptance Criteria
 
 ---
 
-## Story 5 (F-006) — deferred, blocked
+## Story 5 (F-006) — unblocked, implemented
 
 As the directory
 
@@ -490,23 +490,67 @@ I want to only list genuinely locally-connected businesses
 So that the directory keeps its "recommended by your neighbours" value proposition rather than
 becoming a generic Australia-wide business listing site.
 
-### Why this is blocked
+### Resolution
 
-"Arihant Party Essentials, your one-stop shop for all your party equipment hire needs in North
-Sydney" — unlike the other 3 submissions in this Story, nothing indicates a local Akuna Vista
-connection (no resident endorsement, no local service area, no owner residency). North Sydney is a
-genuinely distant, unrelated suburb. Per the project owner's explicit answer to a clarifying
-question this round, this listing is **held back** pending a local connection — not added, not
-rejected outright.
+Originally held back — the initial submission ("your one-stop shop for all your party equipment
+hire needs in North Sydney") gave no indication of a local Akuna Vista connection. The project owner
+has since confirmed directly: "Arihant Party is from Scout street and its local" — this supersedes
+the "North Sydney" framing from the original marketing blurb (treated as generic template copy, not
+an accurate service-area claim). Unblocked and implemented this pass.
 
-Acceptance Criteria (for when this is picked up)
+### Assumptions / gaps flagged (confirm or correct)
 
-- [ ] Follow up with the Arihant Party Essentials submitter to establish a local connection (do they
-      service Akuna Vista/Nirimba Fields? Were they recommended by a resident?).
-- [ ] If confirmed local: create the `event-party-hire` category (icon `PartyPopper`) and add the
-      listing, following the same pattern as F-004/F-005.
-- [ ] If no local connection can be established: explicitly decide with the project owner whether to
-      reject the submission or broaden the directory's scope, rather than leaving it in limbo.
+- **No phone, email, or website supplied** — same "worth following up" gap as Fortune8 (F-005) and
+  Knowledgetree (F-005). The listing is added with the information given, but currently has no way
+  for a visitor to make contact.
+- **No suburb/postcode for Scout Street** — same pattern as every other Sprint 15 entry lacking a
+  full address: `serviceAreas: ["Akuna Vista"]` used instead of a structured `address` object, with
+  the street mentioned in the description text.
+- The original North Sydney framing is dropped from the description entirely (superseded by the
+  project owner's direct correction), rather than kept alongside the new local framing — flag if
+  Arihant actually serves both areas and both should be mentioned.
+
+### Proposed new category — `data/categories.json`
+
+```json
+{
+  "id": "event-party-hire",
+  "slug": "event-party-hire",
+  "name": "Event & Party Hire",
+  "icon": "PartyPopper",
+  "description": "Party and event equipment hire — gazebos, chairs, tables, and lighting.",
+  "displayOrder": 16,
+  "featured": false
+}
+```
+
+### Proposed new business — `data/businesses.json`
+
+```json
+{
+  "id": "99b128c6-7c10-48bc-a040-d918c7c24638",
+  "slug": "arihant-party-essentials",
+  "name": "Arihant Party Essentials",
+  "description": "Local party equipment hire based on Scout Street, Akuna Vista — your one-stop shop for gazebos, chairs, tables, and lighting to make your event unforgettable.",
+  "shortDescription": "Local party equipment hire: gazebos, chairs, tables & lighting.",
+  "categoryId": "event-party-hire",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Party Hire", "Event Equipment", "Local"],
+  "createdAt": "2026-07-16T00:00:00Z",
+  "updatedAt": "2026-07-16T00:00:00Z"
+}
+```
+
+Acceptance Criteria
+
+- [x] `event-party-hire` category added to `data/categories.json`.
+- [x] Arihant Party Essentials entry added to `data/businesses.json`.
+- [x] `npm run validate:data` passes.
+- [x] `/category/event-party-hire` and `/business/arihant-party-essentials` render correctly.
+- [x] Existing Playwright suite still passes.
 
 ---
 

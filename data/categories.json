@@ -133,5 +133,14 @@
     "description": "Accounting, taxation, and SMSF specialists for individuals and businesses.",
     "displayOrder": 15,
     "featured": false
+  },
+  {
+    "id": "event-party-hire",
+    "slug": "event-party-hire",
+    "name": "Event & Party Hire",
+    "icon": "PartyPopper",
+    "description": "Party and event equipment hire — gazebos, chairs, tables, and lighting.",
+    "displayOrder": 16,
+    "featured": false
   }
 ]
