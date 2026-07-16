@@ -74,6 +74,7 @@ Per Feature, the sprint is successful when:
 | F-005 | Add 3 new business listings (Bharatanatyam Kalakshetra, Fortune8 Property Group, Knowledgetree) | Medium | Completed |
 | F-006 | Add Arihant Party Essentials (new "Event & Party Hire" category) — local connection confirmed (Scout Street) | Low | Completed |
 | F-007 | Backfill phone numbers for Fortune8 Property Group and Knowledgetree; name their local contacts in the description | Low | Completed |
+| F-008 | Replace Arihant Party Essentials' placeholder content with real flyer content (prices, service areas, contacts, flyer image) | Low | Completed |
 
 Status Values
 
@@ -587,6 +588,65 @@ Acceptance Criteria
 - [x] Both entries updated with the phone numbers above.
 - [x] Both entries' descriptions name their local contact.
 - [x] `npm run validate:data` passes.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 7 (F-008)
+
+As a visitor looking at Arihant Party Essentials
+
+I want to see real pricing, real service areas, and real contact details
+
+So that I can actually decide whether to book them, instead of seeing a generic placeholder
+description.
+
+### Source data
+
+Real promotional flyer image supplied by the project owner (2026-07-16): "Arihant Party Essentials
+— Event Rentals for Every Occasion! Serving Schofields, Marsden Park, The Ponds, Riverstone &
+Quakers Hill. Best Prices in Town! Rental Items & Prices: Gazebos $50/day, Chairs $1 each, Tables
+$15 each, Pooja Backdrop + Artificial Flower Decorations from $50, Flood Lights $20 each. Perfect
+for Parties, Pooja. Pooja Backdrop & Decoration Packages Available. Trusted by many happy customers!
+Call/Text: Jay Shah +61 451 237 658, Gunjan Shah +61 406 225 245."
+
+### Changes
+
+- **`description`/`shortDescription`** rewritten from the earlier generic placeholder text to the
+  flyer's real content: per-item pricing, the "best prices in town" positioning, and both named
+  contacts with their numbers.
+- **`serviceAreas`** expanded from the earlier assumed `["Akuna Vista"]` to match the flyer's stated
+  coverage — `["Akuna Vista", "Schofields", "Marsden Park", "The Ponds", "Riverstone", "Quakers Hill"]`.
+  "Akuna Vista" is kept alongside the flyer's list since the project owner separately confirmed
+  (F-006) the business is based on Scout Street, Akuna Vista — the flyer's "serving" list and the
+  owner's own home base are two different, compatible facts, not a contradiction.
+- **`phone`** added: `"+61 451 237 658"` (Jay Shah). **Assumption flagged:** the flyer lists two
+  contacts (Jay Shah, Gunjan Shah) but `Business.phone` is a single string that
+  `features/business-details/ContactInfo.tsx:28` uses directly as `tel:${business.phone}` — unlike
+  F-001's comma-separated dual-email precedent, cramming two numbers into `phone` here would produce
+  a broken `tel:` link, not just an odd-looking one. Jay Shah (listed first on the flyer) was chosen
+  as the single structured/clickable `phone`; Gunjan Shah's name and number are preserved in the
+  description text instead, so no contact information is lost, but only one is a clickable link.
+  Flag if Gunjan Shah should be the primary instead.
+- **`images`** replaced: the flyer image itself was supplied, resized/compressed from the original
+  1024×1536 PNG (2.9MB) down to a 1200px-wide JPEG (~396KB, matching the size of the existing
+  `private-mathematics-english-tutoring.jpg` precedent) and saved to
+  `public/images/businesses/arihant-party-essentials.jpg`. `next/image` (used by
+  `features/business-details/Gallery.tsx`) still further optimises/resizes at request time; the
+  pre-resize was to avoid committing an unnecessarily large source asset.
+- **`tags`** updated from generic ("Party Hire", "Event Equipment") to flyer-specific ("Party & Event
+  Hire", "Pooja Backdrop & Decorations"), keeping "Local".
+
+Acceptance Criteria
+
+- [x] `description`/`shortDescription` reflect the flyer's real pricing, service areas, and both
+      named contacts.
+- [x] `serviceAreas` includes both the flyer's stated coverage and Akuna Vista.
+- [x] `phone` is a single, valid number that produces a working `tel:` link.
+- [x] `images` points at the real flyer image, saved locally at a reasonable file size.
+- [x] `npm run validate:data` passes.
+- [x] Verified visually: the business detail page renders the new image, description, and a working
+      click-to-call phone link.
 - [x] Existing Playwright suite still passes.
 
 ---

@@ -506,14 +506,22 @@
     "id": "99b128c6-7c10-48bc-a040-d918c7c24638",
     "slug": "arihant-party-essentials",
     "name": "Arihant Party Essentials",
-    "description": "Local party equipment hire based on Scout Street, Akuna Vista — your one-stop shop for gazebos, chairs, tables, and lighting to make your event unforgettable.",
-    "shortDescription": "Local party equipment hire: gazebos, chairs, tables & lighting.",
+    "description": "Event rentals for every occasion — gazebos, chairs, tables, flood lights, and Pooja backdrop & decoration packages, at the best prices in town. Based on Scout Street, Akuna Vista, serving Schofields, Marsden Park, The Ponds, Riverstone & Quakers Hill. Gazebos $50/day, chairs $1 each, tables $15 each, flood lights $20 each, Pooja backdrop & decorations from $50. Call or text Jay Shah (+61 451 237 658) or Gunjan Shah (+61 406 225 245).",
+    "shortDescription": "Event rentals: gazebos, chairs, tables, flood lights & Pooja decor hire.",
     "categoryId": "event-party-hire",
-    "serviceAreas": ["Akuna Vista"],
-    "images": ["/images/placeholder-business.svg"],
+    "phone": "+61 451 237 658",
+    "serviceAreas": [
+      "Akuna Vista",
+      "Schofields",
+      "Marsden Park",
+      "The Ponds",
+      "Riverstone",
+      "Quakers Hill"
+    ],
+    "images": ["/images/businesses/arihant-party-essentials.jpg"],
     "featured": false,
     "verified": false,
-    "tags": ["Party Hire", "Event Equipment", "Local"],
+    "tags": ["Party & Event Hire", "Pooja Backdrop & Decorations", "Local"],
     "createdAt": "2026-07-16T00:00:00Z",
     "updatedAt": "2026-07-16T00:00:00Z"
   }
