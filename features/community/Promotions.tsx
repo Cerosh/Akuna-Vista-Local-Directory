@@ -24,7 +24,7 @@ export async function Promotions() {
             F-009. Left-aligned heading (F-001) instead of centered. */}
         <div className="mb-4 flex flex-col gap-2">
           <h2 className="text-foreground text-2xl font-semibold tracking-tight sm:text-3xl">
-            Local promotions
+            Akuna Vista residents-only promotions
           </h2>
           <p className="text-muted-foreground">Current deals from businesses in the directory.</p>
         </div>

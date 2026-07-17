@@ -80,6 +80,7 @@ Per Feature, the sprint is successful when:
 | F-008 | Replace Arihant Party Essentials' placeholder content with real flyer content (prices, service areas, contacts, flyer image) | Low | Completed |
 | F-009 | Replace "Schofields Park upgrade underway" announcement with "Aerodrome Drive to Quakers Hill Parkway link road planned", sorted first | Medium | Completed |
 | F-010 | Name the Dharug people specifically in the footer's Acknowledgment of Country | High | Completed |
+| F-011 | Rename Promotions section to "Akuna Vista residents-only promotions"; add Knowledgetree SMSF deal and new Simran's Detailing business + promotion; remove 4 unrelated promotions, keeping only 3 (tutoring, Knowledgetree, Simran's Detailing) | High | Completed |
 
 Status Values
 
@@ -786,6 +787,154 @@ Acceptance Criteria
 
 ---
 
+## Story 10 (F-011)
+
+As an Akuna Vista resident browsing the homepage Promotions section
+
+I want it to be clear these deals are specifically for AV residents, and to see the two new local
+offers (a Knowledgetree SMSF setup deal, a Simran's Detailing discount) instead of promotions that
+are no longer wanted in that section
+
+So that the section reflects the actual current, resident-specific offers the project owner wants
+surfaced.
+
+### Source data (as supplied by the project owner, verbatim)
+
+1. "Yes, we have just launched a special for AV residents.. SUPER SMSF DEAL! www.knowledgetree.com.au
+   Take advantage of old SMSF borrowing rules, which will finish on 10th August 2026. Create your
+   SMSF by 10th August for $990 (normally $1650) We will also introduce your SMSF to 2 reputed
+   buyers agents and 2 reputed mortgage brokers to build your property portfolio!"
+2. "instead of Local promotions make it Akuna Vista Residents only Promotion. and keep Private
+   Mathematics & English Tutoring Free Demo Lesson then keep www.knowledgetree.com.au"
+3. "then a new advertisement I'm a car detailer on Hornet Street. My business is Simran's Detailing
+   Here's the website https://simransdetailing.com.au ... I'm happy to offer 10% off final quotes
+   for AV residents only"
+4. "remove all others in that section. just keep three of them."
+
+### Decisions confirmed via clarifying questions (this round)
+
+- **New category for Simran's Detailing:** none of the 17 existing categories fit a car detailer.
+  Added `automotive-detailing` ("Automotive & Detailing", icon `Car`, `displayOrder: 17`) rather than
+  a narrower "Car Detailing" category, so future automotive listings have a home too.
+- **Section heading wording:** `"Akuna Vista residents-only promotions"` — sentence case, matching
+  every other homepage section heading (`"Featured businesses"`, `"Popular categories"`, `"Community
+  spotlight"`), rather than the verbatim `"Akuna Vista Residents Only Promotion"` phrasing.
+- **Simran's Detailing promo end date:** the 10% off has no stated deadline, but `Promotion.endDate`
+  is required. Set to `2026-10-17` (3 months from today), matching the typical length of other
+  open-ended promos already in the data (e.g. the taxi discount runs ~6 months, the lawn-mowing
+  discount ~2 months).
+
+### Assumptions / gaps flagged (confirm or correct)
+
+- **Simran's Detailing has no phone or email supplied** — only a website. Same "worth following up"
+  gap as Fortune8/Knowledgetree in Story 4 above; the listing is added with the information given.
+- **Knowledgetree's promo `startDate`** set to today (2026-07-17, when the offer was supplied)
+  through the stated `2026-08-10` deadline. `featured: true` chosen since it's a dated, dollar-figure,
+  resident-only deal — this means 2 of the 3 remaining promotions are `featured: true` (Knowledgetree
+  and the pre-existing tutoring Free Demo Lesson); `PromotionCard.tsx` shows a "Featured" badge
+  per-card with no cap enforced, so this isn't a conflict, just worth noting since earlier sprints'
+  data only ever had one `featured: true` promotion at once.
+- **Removed promotions** (4, all currently in `data/promotions.json`, none reference AV-resident
+  exclusivity): "$10 Off Your First Lawn Mowing Service" (Just Cut Grass), "15% Off for West & North
+  Western Sydney Residents" (Windsor Marsden Park Richmond Taxi), "Free Roofing Quote" (Brar Roofing
+  Solution), "Free Assessment for Term 2 Enrolment" (Educally). Only the **promotion** entries are
+  removed — the underlying business listings themselves stay in `data/businesses.json` and remain
+  browsable via category pages / search, just no longer promoted on the homepage section.
+- **Existing "Free Demo Lesson" promotion (Private Mathematics & English Tutoring) is unchanged** —
+  kept exactly as-is, per "keep Private Mathematics & English Tutoring Free Demo Lesson."
+- **Section subtitle** (`"Current deals from businesses in the directory."`, directly under the
+  heading) is left unchanged — only the heading rename was requested.
+
+### Proposed new category — `data/categories.json`
+
+```json
+{
+  "id": "automotive-detailing",
+  "slug": "automotive-detailing",
+  "name": "Automotive & Detailing",
+  "icon": "Car",
+  "description": "Car detailing, cleaning, and other automotive services.",
+  "displayOrder": 17,
+  "featured": false
+}
+```
+
+### Proposed new business — `data/businesses.json`
+
+```json
+{
+  "id": "f911829f-e952-4dc3-95d6-00ed9e6492ee",
+  "slug": "simrans-detailing",
+  "name": "Simran's Detailing",
+  "description": "Local car detailing service based on Hornet Street, Akuna Vista.",
+  "shortDescription": "Local car detailing, Hornet Street, Akuna Vista.",
+  "categoryId": "automotive-detailing",
+  "website": "https://simransdetailing.com.au",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Car Detailing", "Local"],
+  "createdAt": "2026-07-17T00:00:00Z",
+  "updatedAt": "2026-07-17T00:00:00Z"
+}
+```
+
+### Proposed new promotions — `data/promotions.json`
+
+```json
+{
+  "id": "8eee89d6-509f-4178-b67f-36a55c0e3a1d",
+  "businessId": "fa6fec2b-b4ae-4844-972c-86391e4537fa",
+  "title": "Super SMSF Deal — AV Residents Only",
+  "description": "Take advantage of the old SMSF borrowing rules before they end on 10 August 2026. Create your SMSF by 10 August for $990 (normally $1,650) — Akuna Vista residents only. Knowledgetree will also introduce you to 2 reputed buyers agents and 2 reputed mortgage brokers to help build your property portfolio.",
+  "startDate": "2026-07-17",
+  "endDate": "2026-08-10",
+  "featured": true
+}
+```
+
+```json
+{
+  "id": "5dfb8c60-568f-4527-bc37-a7aff7f01561",
+  "businessId": "f911829f-e952-4dc3-95d6-00ed9e6492ee",
+  "title": "10% Off Final Quotes — AV Residents Only",
+  "description": "Simran's Detailing offers 10% off final quotes for Akuna Vista residents.",
+  "startDate": "2026-07-17",
+  "endDate": "2026-10-17",
+  "featured": false
+}
+```
+
+### Promotions removed from `data/promotions.json`
+
+- `e7c3c9bd-321e-4700-83fd-2016139b7fe4` — "$10 Off Your First Lawn Mowing Service"
+- `d22b7763-3aaf-4bda-bfb7-e3d21153c250` — "15% Off for West & North Western Sydney Residents"
+- `d45dd677-2dd6-47ec-be2e-6fe16544808a` — "Free Roofing Quote"
+- `eee704c4-6bf2-4bb9-821e-26f25b4a068e` — "Free Assessment for Term 2 Enrolment"
+
+### Code changes
+
+- **`features/community/Promotions.tsx`** — heading text `"Local promotions"` →
+  `"Akuna Vista residents-only promotions"`.
+- **`tests/pages/HomePage.ts`** — `promotionsHeading` locator's `name` updated to match.
+- **`tests/e2e/homepage.spec.ts`** — the `sectionOrder[0]` assertion string updated to match.
+
+Acceptance Criteria
+
+- [x] `automotive-detailing` category added to `data/categories.json`.
+- [x] Simran's Detailing added to `data/businesses.json`.
+- [x] Knowledgetree SMSF and Simran's Detailing promotions added to `data/promotions.json`; the 4
+      listed promotions removed; the tutoring Free Demo Lesson promotion left untouched — exactly 3
+      promotions remain in the file.
+- [x] Promotions section heading reads "Akuna Vista residents-only promotions" on the homepage.
+- [x] `npm run validate:data` passes.
+- [x] `/category/automotive-detailing` and `/business/simrans-detailing` render correctly.
+- [x] Homepage Promotions section shows exactly 3 cards: tutoring, Knowledgetree, Simran's Detailing.
+- [x] Existing Playwright suite still passes (with the 2 test-file locator/assertion updates above).
+
+---
+
 # Dependencies
 
 - F-002 must be added before F-003 (F-003's `categoryId` must resolve to F-002's category, or
@@ -833,5 +982,21 @@ F-001–F-003 implemented and verified (2026-07-16):
   of the Peace" text; `Landmark` confirmed as a real `lucide-react` export (won't fall back to the
   `Store` icon).
 
-Still open for future data-entry Features in this ongoing sprint (F-004, F-005...) as more listings
-arrive.
+F-011 implemented and verified (2026-07-17):
+
+- `automotive-detailing` category added to `data/categories.json` (`displayOrder: 17`).
+- Simran's Detailing added to `data/businesses.json`.
+- `data/promotions.json` rewritten: 4 promotions removed (lawn mowing, taxi, roofing, Educally),
+  2 added (Knowledgetree SMSF deal, Simran's Detailing 10% off); tutoring's Free Demo Lesson kept
+  unchanged — exactly 3 entries remain.
+- `features/community/Promotions.tsx` heading changed to "Akuna Vista residents-only promotions";
+  `tests/pages/HomePage.ts` locator and `tests/e2e/homepage.spec.ts`'s section-order assertion (plus
+  its explanatory comment) updated to match.
+- `npm run validate:data` — passes, no schema/referential-integrity errors.
+- `npx playwright test` — 281 passed, 16 skipped, 0 failed.
+- Manually verified via a temporary local dev server: `/`, `/business/simrans-detailing`, and
+  `/category/automotive-detailing` all return 200; the homepage HTML confirms the new heading text
+  and all 3 promotion cards (Free Demo Lesson, Super SMSF Deal — AV Residents Only, 10% Off Final
+  Quotes — AV Residents Only) render with their correct descriptions.
+
+Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.

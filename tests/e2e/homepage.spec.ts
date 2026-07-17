@@ -107,14 +107,14 @@ test.describe("Homepage", () => {
 
     await expect(home.transitWidgetHeading).toBeVisible();
 
-    // Local Promotions — not the transit widget — is the first full
-    // section (h2) after Hero; the transit widget lives inside the Hero
-    // row itself, not as its own section. (Local Promotions/Popular
-    // Categories were swapped 2026-07-15, per the project owner.)
+    // Akuna Vista residents-only promotions — not the transit widget — is
+    // the first full section (h2) after Hero; the transit widget lives
+    // inside the Hero row itself, not as its own section. (Promotions/
+    // Popular Categories were swapped 2026-07-15, per the project owner.)
     const sectionOrder = await page.evaluate(() =>
       Array.from(document.querySelectorAll("h2")).map((h) => h.textContent),
     );
-    expect(sectionOrder[0]).toBe("Local promotions");
+    expect(sectionOrder[0]).toBe("Akuna Vista residents-only promotions");
 
     const [carparkResponse, departuresResponse] = await Promise.all([
       carparkResponsePromise,

@@ -142,5 +142,14 @@
     "description": "Party and event equipment hire — gazebos, chairs, tables, and lighting.",
     "displayOrder": 16,
     "featured": false
+  },
+  {
+    "id": "automotive-detailing",
+    "slug": "automotive-detailing",
+    "name": "Automotive & Detailing",
+    "icon": "Car",
+    "description": "Car detailing, cleaning, and other automotive services.",
+    "displayOrder": 17,
+    "featured": false
   }
 ]

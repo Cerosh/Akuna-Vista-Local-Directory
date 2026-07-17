@@ -40,7 +40,9 @@ export class HomePage {
     this.communitySpotlightHeading = page.getByRole("heading", { name: "Community spotlight" });
     this.featuredContentHeading = page.getByRole("heading", { name: "Featured this week" });
     this.communityEventsHeading = page.getByRole("heading", { name: "Community events" });
-    this.promotionsHeading = page.getByRole("heading", { name: "Local promotions" });
+    this.promotionsHeading = page.getByRole("heading", {
+      name: "Akuna Vista residents-only promotions",
+    });
     this.announcementsHeading = page.getByRole("heading", { name: "Community noticeboard" });
   }
 
