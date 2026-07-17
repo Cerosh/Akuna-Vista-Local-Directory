@@ -25,6 +25,11 @@
     "migrate:add-price-range": "tsx scripts/migrate-add-price-range.ts",
     "migrate:add-announcement-source-url": "tsx scripts/migrate-add-announcement-source-url.ts",
     "migrate:add-business-website-label": "tsx scripts/migrate-add-business-website-label.ts",
+    "validate:no-contradiction": "tsx scripts/validate-no-self-contradiction.ts",
+    "validate:sprint-doc-contact": "tsx scripts/validate-sprint-doc-contact.ts",
+    "validate:sprint-consistency": "tsx scripts/validate-sprint-consistency.ts",
+    "validate:doc-freshness": "tsx scripts/validate-doc-freshness.ts",
+    "validate:docs": "npm run validate:sprint-consistency && npm run validate:no-contradiction && npm run validate:doc-freshness",
     "prepare": "husky"
   },
   "lint-staged": {

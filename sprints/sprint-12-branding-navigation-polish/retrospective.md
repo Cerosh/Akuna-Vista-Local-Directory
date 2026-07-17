@@ -78,7 +78,7 @@ Items not completed.
 
 | Task | Reason | Next Sprint |
 |------|--------|-------------|
-| Commit / push / deploy this sprint's changes | Implementation complete and verified locally; deployment is the project owner's decision | N/A — awaiting explicit instruction |
+| ~~Commit / push / deploy this sprint's changes~~ | Resolved 2026-07-17 doc audit: completed — commit `c880c96` is on `main` and deployed. | N/A |
 
 ---
 

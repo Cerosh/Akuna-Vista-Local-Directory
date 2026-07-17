@@ -70,19 +70,19 @@ Why does this sprint matter?
 
 The sprint is successful when:
 
-- [ ] All acceptance criteria are met.
-- [ ] `/about`, `/contact`, `/privacy`, `/terms` exist, are linked from the Footer (replacing the
+- [x] All acceptance criteria are met.
+- [x] `/about`, `/contact`, `/privacy`, `/terms` exist, are linked from the Footer (replacing the
       current 404-bound placeholder links), and follow existing layout/typography conventions.
-- [ ] `.ai/TESTING.md`'s "Contact page" Critical User Journey passes.
-- [ ] Each page meets the same accessibility/SEO bar Sprint 7 established for the rest of the
+- [x] `.ai/TESTING.md`'s "Contact page" Critical User Journey passes.
+- [x] Each page meets the same accessibility/SEO bar Sprint 7 established for the rest of the
       site (axe-core zero critical/serious violations; correct heading hierarchy; per-page
       title/description/canonical).
-- [ ] Privacy Policy and Terms of Service content accurately reflects what this platform actually
+- [x] Privacy Policy and Terms of Service content accurately reflects what this platform actually
       does today (no accounts, no user data collection beyond what Sprint 9's analytics will add)
       — and is clearly flagged as a starting draft for the project owner's own legal review, not
       presented as vetted legal advice (see Risks).
-- [ ] Sprint 09's own planning docs are updated to record this gap as resolved, not left open.
-- [ ] Tests pass. No known critical defects.
+- [x] Sprint 09's own planning docs are updated to record this gap as resolved, not left open.
+- [x] Tests pass. No known critical defects.
 
 ---
 
@@ -90,11 +90,11 @@ The sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | About page | High | Not Started |
-| F-002 | Contact page | High | Not Started |
-| F-003 | Privacy Policy page | High | Not Started |
-| F-004 | Terms of Service page | Medium | Not Started |
-| F-005 | Footer link updates | High | Not Started |
+| F-001 | About page | High | Completed |
+| F-002 | Contact page | High | Completed |
+| F-003 | Privacy Policy page | High | Completed |
+| F-004 | Terms of Service page | Medium | Completed |
+| F-005 | Footer link updates | High | Completed |
 
 Status Values
 
@@ -118,9 +118,9 @@ So that I understand what I'm looking at before I trust a business listing.
 
 Acceptance Criteria
 
-- [ ] `/about` explains the platform's purpose (per PROJECT.md's mission — a trusted, community-driven local directory for Akuna Vista) in plain language.
-- [ ] Reuses `PageHeader`/`Container`/`Section`, matching every other simple page's layout.
-- [ ] Linked from the Footer without `prefetch={false}` (the route is now real).
+- [x] `/about` explains the platform's purpose (per PROJECT.md's mission — a trusted, community-driven local directory for Akuna Vista) in plain language.
+- [x] Reuses `PageHeader`/`Container`/`Section`, matching every other simple page's layout.
+- [x] Linked from the Footer without `prefetch={false}` (the route is now real).
 
 ---
 
@@ -134,8 +134,8 @@ So that I can ask a question, report an issue, or suggest a business — the exa
 
 Acceptance Criteria
 
-- [ ] `/contact` displays the community contact email (`Settings.contactEmail`, already in the schema) as a `mailto:` link, not a submission form — this project has no backend/email-sending infrastructure (ADR-002: JSON-only, no backend), and building one is out of scope for a simple static-pages sprint. See notes.md for why a form was considered and deliberately not built here.
-- [ ] The journey is reachable from the Footer and passes `.ai/TESTING.md`'s "Contact page" Critical User Journey.
+- [x] `/contact` displays the community contact email (`Settings.contactEmail`, already in the schema) as a `mailto:` link, not a submission form — this project has no backend/email-sending infrastructure (ADR-002: JSON-only, no backend), and building one is out of scope for a simple static-pages sprint. See notes.md for why a form was considered and deliberately not built here.
+- [x] The journey is reachable from the Footer and passes `.ai/TESTING.md`'s "Contact page" Critical User Journey.
 
 ---
 
@@ -149,9 +149,9 @@ So that I can trust the platform before it starts tracking anything.
 
 Acceptance Criteria
 
-- [ ] `/privacy` accurately describes the current state: no user accounts, no authentication (ADR-006), no data collected by the platform itself today; explains that Sprint 9 will add analytics and what that will mean in plain language.
-- [ ] Clearly states this is a v1 policy that will be revisited as the platform grows (per `.ai/SECURITY.md`'s Privacy principle: "designed so it can evolve to meet additional regulatory obligations if the product expands").
-- [ ] Flagged in this sprint's own documentation as a draft requiring the project owner's legal judgement before being treated as binding — not asserted as vetted legal advice (see Risks).
+- [x] `/privacy` accurately describes the current state: no user accounts, no authentication (ADR-006), no data collected by the platform itself today; explains that Sprint 9 will add analytics and what that will mean in plain language.
+- [x] Clearly states this is a v1 policy that will be revisited as the platform grows (per `.ai/SECURITY.md`'s Privacy principle: "designed so it can evolve to meet additional regulatory obligations if the product expands").
+- [x] Flagged in this sprint's own documentation as a draft requiring the project owner's legal judgement before being treated as binding — not asserted as vetted legal advice (see Risks).
 
 ---
 
@@ -165,10 +165,10 @@ So that expectations (accuracy of listings, no warranty, appropriate use) are st
 
 Acceptance Criteria
 
-- [ ] `/terms` covers, in plain language: the directory is community-informational, not a
+- [x] `/terms` covers, in plain language: the directory is community-informational, not a
       guarantee of business quality or availability; no user accounts exist yet; contact details
       for corrections.
-- [ ] Same legal-draft caveat as Story 3.
+- [x] Same legal-draft caveat as Story 3.
 
 ---
 
@@ -224,13 +224,13 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] `app/about/page.tsx`
-- [ ] `app/contact/page.tsx`
-- [ ] `app/privacy/page.tsx`
-- [ ] `app/terms/page.tsx`
-- [ ] `Footer.tsx` updated: About/Contact links de-prefetch-guarded, Privacy/Terms links added
-- [ ] All four routes added to the existing accessibility/responsive Playwright test suites
-- [ ] Sprint 09's README.md/notes.md updated to record this gap as resolved
+- [x] `app/about/page.tsx`
+- [x] `app/contact/page.tsx`
+- [x] `app/privacy/page.tsx`
+- [x] `app/terms/page.tsx`
+- [x] `Footer.tsx` updated: About/Contact links de-prefetch-guarded, Privacy/Terms links added
+- [x] All four routes added to the existing accessibility/responsive Playwright test suites
+- [x] Sprint 09's README.md/notes.md updated to record this gap as resolved
 
 ---
 
@@ -282,44 +282,44 @@ Required by Sprint 9:
 
 Unit Tests
 
-- [ ] N/A — no new business logic; pages read `Settings.contactEmail` via the existing `SettingsRepository`, already covered by Sprint 1's repository tests.
+- [x] N/A — no new business logic; pages read `Settings.contactEmail` via the existing `SettingsRepository`, already covered by Sprint 1's repository tests.
 
 Integration Tests
 
-- [ ] N/A.
+- [x] N/A.
 
 Playwright
 
-- [ ] All four new routes added to `tests/e2e/accessibility.spec.ts`'s `ROUTES` list (axe-core, zero critical/serious violations) and `tests/e2e/responsive.spec.ts`'s `ROUTES` list (no horizontal overflow at any breakpoint).
-- [ ] A new `tests/e2e/community-pages.spec.ts` (or extension of an existing homepage/footer spec) verifying: Footer links to `/about`/`/contact`/`/privacy`/`/terms` all resolve with a real `<h1>`, no console errors; the Contact page's `mailto:` link has the correct `href`.
+- [x] All four new routes added to `tests/e2e/accessibility.spec.ts`'s `ROUTES` list (axe-core, zero critical/serious violations) and `tests/e2e/responsive.spec.ts`'s `ROUTES` list (no horizontal overflow at any breakpoint).
+- [x] A new `tests/e2e/community-pages.spec.ts` (or extension of an existing homepage/footer spec) verifying: Footer links to `/about`/`/contact`/`/privacy`/`/terms` all resolve with a real `<h1>`, no console errors; the Contact page's `mailto:` link has the correct `href`.
 
 Manual Testing
 
-- [ ] Visual check at mobile/tablet/desktop/large-desktop widths (or rely on the Playwright responsive suite above, consistent with how Sprint 7 automated this).
-- [ ] Read through Privacy/Terms content once more for tone and accuracy before considering the sprint done.
+- [x] Visual check at mobile/tablet/desktop/large-desktop widths (or rely on the Playwright responsive suite above, consistent with how Sprint 7 automated this).
+- [x] Read through Privacy/Terms content once more for tone and accuracy before considering the sprint done.
 
 Responsive Testing
 
-- [ ] Covered by `tests/e2e/responsive.spec.ts` extension above.
+- [x] Covered by `tests/e2e/responsive.spec.ts` extension above.
 
 Accessibility
 
-- [ ] Covered by `tests/e2e/accessibility.spec.ts` extension above — same zero-critical/serious-violations bar as every other route.
+- [x] Covered by `tests/e2e/accessibility.spec.ts` extension above — same zero-critical/serious-violations bar as every other route.
 
 ---
 
 # Definition of Done
 
-- [ ] Acceptance criteria completed.
-- [ ] Code reviewed against REVIEW_CHECKLIST.md.
-- [ ] TypeScript passes.
-- [ ] ESLint passes.
-- [ ] Tests pass (unit + Playwright, including the new routes added to existing accessibility/responsive suites).
-- [ ] Responsive.
-- [ ] Accessible (axe-core zero critical/serious violations, matching Sprint 7's bar).
-- [ ] Documentation updated (this sprint's own docs, plus Sprint 09's README.md/notes.md referencing this sprint as the resolution to their flagged gap).
-- [ ] No console errors.
-- [ ] Ready for deployment.
+- [x] Acceptance criteria completed.
+- [x] Code reviewed against REVIEW_CHECKLIST.md.
+- [x] TypeScript passes.
+- [x] ESLint passes.
+- [x] Tests pass (unit + Playwright, including the new routes added to existing accessibility/responsive suites).
+- [x] Responsive.
+- [x] Accessible (axe-core zero critical/serious violations, matching Sprint 7's bar).
+- [x] Documentation updated (this sprint's own docs, plus Sprint 09's README.md/notes.md referencing this sprint as the resolution to their flagged gap).
+- [x] No console errors.
+- [x] Ready for deployment.
 
 ---
 
@@ -384,13 +384,13 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md
-- [ ] ROADMAP.md — consider noting Phase 5's remaining pages (About/Contact/Privacy/Terms) as delivered by this sprint.
-- [ ] DECISIONS.md — only if a new architectural decision emerges (none anticipated).
-- [ ] CHANGELOG.md
-- [ ] AI_MEMORY.md
-- [ ] **sprints/sprint-09-production/README.md and notes.md — required follow-up**: update the About/Contact/Privacy/Terms risk entries to reference this sprint as the resolution, not an open decision.
+- [x] CONTEXT.md
+- [x] TODO.md
+- [x] ROADMAP.md — consider noting Phase 5's remaining pages (About/Contact/Privacy/Terms) as delivered by this sprint.
+- [x] DECISIONS.md — only if a new architectural decision emerges (none anticipated).
+- [x] CHANGELOG.md
+- [x] AI_MEMORY.md
+- [x] **sprints/sprint-09-production/README.md and notes.md — required follow-up**: update the About/Contact/Privacy/Terms risk entries to reference this sprint as the resolution, not an open decision. Confirmed done — `sprints/sprint-09-production/README.md`'s Risks table already reads "RESOLVED — see `sprints/sprint-08b-community-pages/`."
 
 Only update documents that genuinely changed.
 

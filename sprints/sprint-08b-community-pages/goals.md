@@ -78,12 +78,12 @@ is monitoring/security/crawlability infrastructure, not new pages) or leaving th
 
 Sprint 08b is successful when:
 
-- [ ] `/about`, `/contact`, `/privacy`, `/terms` exist and are reachable from the Footer.
-- [ ] `.ai/TESTING.md`'s "Contact page" Critical User Journey passes.
-- [ ] All four routes pass the same axe-core/responsive Playwright checks every other route does.
-- [ ] Privacy/Terms content is accurate to current platform behaviour and flagged as a draft for
+- [x] `/about`, `/contact`, `/privacy`, `/terms` exist and are reachable from the Footer.
+- [x] `.ai/TESTING.md`'s "Contact page" Critical User Journey passes.
+- [x] All four routes pass the same axe-core/responsive Playwright checks every other route does.
+- [x] Privacy/Terms content is accurate to current platform behaviour and flagged as a draft for
       legal review, not asserted as vetted advice.
-- [ ] Sprint 09's README.md/notes.md are updated to reference this sprint as the resolution to
+- [x] Sprint 09's README.md/notes.md are updated to reference this sprint as the resolution to
       their previously-open About/Contact/Privacy/Terms risk.
 
 ---

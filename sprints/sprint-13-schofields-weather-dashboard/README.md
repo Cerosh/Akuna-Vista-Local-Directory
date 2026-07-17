@@ -10,7 +10,7 @@ Sprint Goal: Replace the homepage's "Weather coming soon" placeholder (Sprint 11
 `WeatherComingSoon.tsx`) with real current conditions and a 7-day forecast for Schofields, NSW,
 sourced from the free, keyless Open-Meteo API.
 
-Sprint Status: ✅ Complete locally (not yet committed/deployed)
+Sprint Status: ✅ Complete and deployed (commit df2e394)
 
 Start Date: 2026-07-16
 
@@ -22,10 +22,20 @@ Last Updated: 2026-07-16
 
 ---
 
+# Note (added 2026-07-17, doc audit)
+
+This sprint shipped a 7-day forecast, as described throughout this document below (accurate as of
+the 2026-07-16 deploy). Sprint 14 (F-007) later reduced the forecast window to 3 days
+(`FORECAST_DAYS = 3` in `lib/weather/weatherApi.ts`). The "7-day forecast" wording below is left
+as-is — it accurately describes what this sprint delivered — but the live product currently shows
+3 days; see Sprint 14's README for the change and its rationale.
+
+---
+
 # Numbering
 
-Sequential addition after Sprint 12 (Branding & Navigation Polish, complete locally, not yet
-committed). Sprint 10 (Future Platform Foundation) is still not started and its scope doesn't fit
+Sequential addition after Sprint 12 (Branding & Navigation Polish, complete and deployed, commit
+`c880c96`). Sprint 10 (Future Platform Foundation) is still not started and its scope doesn't fit
 this work, so per the precedent Sprints 11 and 12 both set, this is its own sprint — Sprint 13.
 
 ---

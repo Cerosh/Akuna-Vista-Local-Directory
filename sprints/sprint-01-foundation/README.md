@@ -44,13 +44,18 @@ Why does this sprint matter?
 
 The sprint is successful when:
 
-- [ ] All acceptance criteria are met.
-- [ ] The application builds, lints and type-checks successfully.
-- [ ] CI passes on GitHub Actions for every pull request.
-- [ ] The application deploys to Vercel.
-- [ ] The repository pattern, JSON structure, base layout and theme are in place.
-- [ ] The AI Engineering Kit (`.ai/`, `docs/`, `sprints/`) is committed to the repository.
-- [ ] No business functionality or business data has been introduced.
+- [x] All acceptance criteria are met.
+- [x] The application builds, lints and type-checks successfully.
+- [x] CI passes on GitHub Actions for every pull request.
+- [ ] The application deploys to Vercel. Not true at this sprint's own close (commit `85e4890`,
+      2026-07-06) — Vercel wasn't connected until 2026-07-09, per `.ai/CONTEXT.md`'s prior Known
+      Constraints entry (removed 2026-07-17 as obsolete once resolved). Corrected 2026-07-17: this
+      sprint built the scaffold ready to deploy; the actual connection happened days later, roughly
+      alongside Sprint 08b/09's work — left unchecked as genuinely not this sprint's own deliverable,
+      not re-flipped to match the site's current live state.
+- [x] The repository pattern, JSON structure, base layout and theme are in place.
+- [x] The AI Engineering Kit (`.ai/`, `docs/`, `sprints/`) is committed to the repository.
+- [x] No business functionality or business data has been introduced.
 
 ---
 
@@ -58,14 +63,14 @@ The sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | Repository & tooling setup (Next.js, TypeScript, Tailwind, shadcn/ui, ESLint, Prettier, Husky) | High | Not Started |
-| F-002 | GitHub Actions CI pipeline | High | Not Started |
-| F-003 | Playwright end-to-end test scaffold | High | Not Started |
-| F-004 | Repository Pattern + JSON data structure | High | Not Started |
-| F-005 | Base layout, navigation shell, footer | High | Not Started |
-| F-006 | Theme (design tokens, typography, spacing) | High | Not Started |
-| F-007 | AI Engineering Kit committed (`.ai/`, `docs/`, `sprints/`) | High | Not Started |
-| F-008 | Vercel deployment | High | Not Started |
+| F-001 | Repository & tooling setup (Next.js, TypeScript, Tailwind, shadcn/ui, ESLint, Prettier, Husky) | High | Completed |
+| F-002 | GitHub Actions CI pipeline | High | Completed |
+| F-003 | Playwright end-to-end test scaffold | High | Completed |
+| F-004 | Repository Pattern + JSON data structure | High | Completed |
+| F-005 | Base layout, navigation shell, footer | High | Completed |
+| F-006 | Theme (design tokens, typography, spacing) | High | Completed |
+| F-007 | AI Engineering Kit committed (`.ai/`, `docs/`, `sprints/`) | High | Completed |
+| F-008 | Vercel deployment | High | Deferred — not connected until 2026-07-09 (roughly alongside Sprint 08b/09), 3 days after this sprint's own commit `85e4890` (2026-07-06); the app was left deploy-ready but the actual Vercel connection wasn't this sprint's own deliverable |
 
 Status Values
 
@@ -89,9 +94,9 @@ So that future features can be developed consistently and safely by both humans 
 
 Acceptance Criteria
 
-- [ ] `npm run build`, `npm run lint` and `npm run typecheck` all pass.
-- [ ] Husky + lint-staged block commits that fail lint/format/type-check.
-- [ ] GitHub Actions runs the same checks on every Pull Request.
+- [x] `npm run build`, `npm run lint` and `npm run typecheck` all pass.
+- [x] Husky + lint-staged block commits that fail lint/format/type-check.
+- [x] GitHub Actions runs the same checks on every Pull Request.
 
 ---
 
@@ -105,9 +110,9 @@ So that I never need to read JSON files directly from a UI component.
 
 Acceptance Criteria
 
-- [ ] `BusinessRepository` and `CategoryRepository` interfaces exist with a JSON-backed implementation.
-- [ ] `data/` contains schema-valid JSON files per JSON_SCHEMA.md (empty arrays are acceptable at this stage).
-- [ ] No component imports JSON directly.
+- [x] `BusinessRepository` and `CategoryRepository` interfaces exist with a JSON-backed implementation.
+- [x] `data/` contains schema-valid JSON files per JSON_SCHEMA.md (empty arrays are acceptable at this stage).
+- [x] No component imports JSON directly.
 
 ---
 
@@ -121,9 +126,9 @@ So that the platform already feels trustworthy and professional before any conte
 
 Acceptance Criteria
 
-- [ ] The homepage renders navigation, a content placeholder, and a footer.
-- [ ] The layout is responsive on mobile, tablet and desktop.
-- [ ] The theme (colours, typography, spacing) matches DESIGN_SYSTEM.md.
+- [x] The homepage renders navigation, a content placeholder, and a footer.
+- [x] The layout is responsive on mobile, tablet and desktop.
+- [x] The theme (colours, typography, spacing) matches DESIGN_SYSTEM.md.
 
 ---
 
@@ -187,21 +192,21 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] Repository created
-- [ ] Next.js App Router
-- [ ] TypeScript
-- [ ] Tailwind CSS
-- [ ] shadcn/ui
-- [ ] ESLint
-- [ ] Prettier
-- [ ] Husky
-- [ ] GitHub Actions
-- [ ] Playwright
-- [ ] Repository pattern
-- [ ] JSON structure
-- [ ] Base layout
-- [ ] Theme
-- [ ] AI Engineering Kit committed
+- [x] Repository created
+- [x] Next.js App Router
+- [x] TypeScript
+- [x] Tailwind CSS
+- [x] shadcn/ui
+- [x] ESLint
+- [x] Prettier
+- [x] Husky
+- [x] GitHub Actions
+- [x] Playwright
+- [x] Repository pattern
+- [x] JSON structure
+- [x] Base layout
+- [x] Theme
+- [x] AI Engineering Kit committed
 
 ---
 
@@ -246,45 +251,46 @@ This sprint blocks every later sprint:
 
 Unit Tests
 
-- [ ] Repository layer (JSON loading, mapping) has basic unit tests.
+- [x] Repository layer (JSON loading, mapping) has basic unit tests.
 
 Integration Tests
 
-- [ ] N/A for this sprint — no feature integration exists yet.
+- [x] N/A for this sprint — no feature integration exists yet.
 
 Playwright
 
-- [ ] Playwright installed and configured (Page Object Model, fixtures, helpers per TESTING.md).
-- [ ] One smoke test: homepage loads, navigation and footer render.
+- [x] Playwright installed and configured (Page Object Model, fixtures, helpers per TESTING.md).
+- [x] One smoke test: homepage loads, navigation and footer render.
 
 Manual Testing
 
-- [ ] Verify build, lint and typecheck locally.
-- [ ] Verify Husky pre-commit hook blocks a failing commit.
-- [ ] Verify GitHub Actions runs on a test Pull Request.
+- [x] Verify build, lint and typecheck locally.
+- [x] Verify Husky pre-commit hook blocks a failing commit.
+- [x] Verify GitHub Actions runs on a test Pull Request.
 
 Responsive Testing
 
-- [ ] Verify layout on mobile, tablet, desktop and large desktop breakpoints.
+- [x] Verify layout on mobile, tablet, desktop and large desktop breakpoints.
 
 Accessibility
 
-- [ ] Verify semantic HTML, keyboard navigation and visible focus states on the base layout.
+- [x] Verify semantic HTML, keyboard navigation and visible focus states on the base layout.
 
 ---
 
 # Definition of Done
 
-- [ ] Project builds successfully.
-- [ ] CI passes.
-- [ ] Deploys to Vercel.
-- [ ] All engineering documents in place.
-- [ ] TypeScript passes.
-- [ ] ESLint passes.
-- [ ] Responsive.
-- [ ] Accessible.
-- [ ] No console errors.
-- [ ] Ready for Sprint 2 (Homepage).
+- [x] Project builds successfully.
+- [x] CI passes.
+- [ ] Deploys to Vercel. Not true at this sprint's own close — see Success Criteria note above;
+      Vercel wasn't connected until 2026-07-09.
+- [x] All engineering documents in place.
+- [x] TypeScript passes.
+- [x] ESLint passes.
+- [x] Responsive.
+- [x] Accessible.
+- [x] No console errors.
+- [x] Ready for Sprint 2 (Homepage).
 
 ---
 
@@ -344,12 +350,12 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md
-- [ ] ROADMAP.md
-- [ ] DECISIONS.md
-- [ ] CHANGELOG.md
-- [ ] AI_MEMORY.md
+- [x] CONTEXT.md
+- [x] TODO.md
+- [x] ROADMAP.md
+- [x] DECISIONS.md
+- [x] CHANGELOG.md
+- [x] AI_MEMORY.md
 
 Only update documents that genuinely changed.
 

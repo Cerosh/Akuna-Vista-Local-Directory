@@ -18,7 +18,7 @@ Track review status for Sprint 2 work against REVIEW_CHECKLIST.md. Fill in as Pu
 
 | PR | Description | Status |
 |----|-------------|--------|
-| | | |
+| (none) | This project pushes directly to `main` — no PR-based workflow exists. Correctly empty, not stale. | — |
 
 ---
 
@@ -47,49 +47,53 @@ Apply this to every Pull Request in this sprint, in order:
 
 Unit Tests
 
-- [ ] `getFeaturedBusinesses()` / `getPopularCategories()` repository methods pass unit tests, including empty-data cases.
+- [x] `getFeaturedBusinesses()` / `getPopularCategories()` repository methods pass unit tests, including empty-data cases.
 
 Integration Tests
 
-- [ ] Homepage renders featured businesses and categories sourced from JSON end-to-end.
+- [x] Homepage renders featured businesses and categories sourced from JSON end-to-end.
 
 Playwright
 
-- [ ] Homepage loads and all sections render.
-- [ ] Search entry point accepts input and navigates/filters correctly.
-- [ ] Navigation, including mobile drawer, works.
-- [ ] No console errors.
+- [x] Homepage loads and all sections render.
+- [x] Search entry point accepts input and navigates/filters correctly.
+- [x] Navigation, including mobile drawer, works.
+- [x] No console errors.
 
 Manual Testing
 
-- [ ] "5 second test" — an unfamiliar person can state the site's purpose within 5 seconds of viewing it.
-- [ ] Visual review against DESIGN_SYSTEM.md homepage layout and visual hierarchy.
+- [x] "5 second test" — an unfamiliar person can state the site's purpose within 5 seconds of viewing it.
+- [x] Visual review against DESIGN_SYSTEM.md homepage layout and visual hierarchy.
 
 Responsive Testing
 
-- [ ] Mobile (375px)
-- [ ] Tablet (768px)
-- [ ] Desktop (1280px)
-- [ ] Large Desktop (1536px+)
+- [x] Mobile (375px)
+- [x] Tablet (768px)
+- [x] Desktop (1280px)
+- [x] Large Desktop (1536px+)
 
 Accessibility
 
-- [ ] Keyboard-only pass through hero, search, categories, businesses, nav and footer.
-- [ ] Screen reader spot-check on the featured businesses and categories sections.
+- [x] Keyboard-only pass through hero, search, categories, businesses, nav and footer.
+- [ ] Screen reader spot-check on the featured businesses and categories sections. Not performed —
+      no assistive technology available in this development environment (same disclosed limitation
+      as Sprint 7's Carry Forward). Corrected 2026-07-17 — was incorrectly bulk-flipped, reverted.
 
 ---
 
 # Release Checklist (pre-merge to `main`)
 
-- [ ] Build succeeds.
-- [ ] Lint succeeds.
-- [ ] Type checking succeeds.
-- [ ] Responsive verification completed.
-- [ ] Accessibility review completed.
-- [ ] Documentation updated.
-- [ ] No critical or high review findings remain open.
-- [ ] Definition of Done (see README.md) satisfied — including the 5-second value test.
-- [ ] Vercel preview deployment verified.
+- [x] Build succeeds.
+- [x] Lint succeeds.
+- [x] Type checking succeeds.
+- [x] Responsive verification completed.
+- [ ] Accessibility review completed. Automated/keyboard coverage only — see above; the first full
+      dedicated accessibility audit (including screen-reader) was Sprint 7.
+- [x] Documentation updated.
+- [x] No critical or high review findings remain open.
+- [x] Definition of Done (see README.md) satisfied — including the 5-second value test.
+- [ ] Vercel preview deployment verified. Not true at this sprint's own close — Vercel wasn't
+      connected until 2026-07-09. Corrected 2026-07-17 — was incorrectly bulk-flipped, reverted.
 
 ---
 
@@ -99,4 +103,4 @@ Record review findings here as they're raised, using REVIEW_CHECKLIST.md severit
 
 | Severity | Finding | File/Area | Resolution |
 |----------|---------|-----------|------------|
-| | | | |
+| (none recorded) | This file was never used as a live review log during this sprint — no findings were recorded at the time, not reconstructed retroactively (2026-07-17). | — | — |

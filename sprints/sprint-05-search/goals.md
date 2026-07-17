@@ -51,12 +51,12 @@ Sprint 2 deliberately built only a thin search entry point on the homepage and d
 
 Sprint 5 is successful when:
 
-- [ ] `/search` exists and supports keyword, category and suburb search against the current dataset.
-- [ ] Results update instantly (debounced, client-side) as the user types, with no full page reload.
-- [ ] Suggestions surface relevant business names, categories and suburbs as the user types.
-- [ ] A no-match query renders a friendly, actionable empty state.
-- [ ] All search logic is reachable through one `SearchService`-style interface, not scattered inline in components.
-- [ ] Category/suburb matching reuses Sprint 3's filtering logic rather than a second implementation.
+- [x] `/search` exists and supports keyword, category and suburb search against the current dataset.
+- [x] Results update instantly (debounced, client-side) as the user types, with no full page reload.
+- [x] Suggestions surface relevant business names, categories and suburbs as the user types.
+- [x] A no-match query renders a friendly, actionable empty state.
+- [x] All search logic is reachable through one `SearchService`-style interface, not scattered inline in components.
+- [x] Category/suburb matching reuses Sprint 3's filtering logic rather than a second implementation.
 
 ---
 

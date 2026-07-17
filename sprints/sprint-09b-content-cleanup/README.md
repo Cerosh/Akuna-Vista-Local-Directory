@@ -10,7 +10,7 @@ Sprint Goal: Make every category/suburb filter and the homepage's Popular Catego
 match the real content that now exists, close the small data-completeness gaps that have been
 accumulating in TODO.md's Backlog, and remove content that's still fake with no real replacement.
 
-Sprint Status: ✅ Complete locally (not yet committed/deployed)
+Sprint Status: ✅ Complete and deployed (commit 135c12d)
 
 Start Date: 2026-07-14
 
@@ -359,8 +359,7 @@ Accessibility
 - [x] Documentation updated (this sprint's own docs, `.ai/TODO.md` Backlog entries closed out,
       `.ai/JSON_SCHEMA.md` updated for `sourceUrl`).
 - [x] No console errors.
-- [ ] Ready for deployment — implementation complete and verified locally; committing, pushing and
-      deploying remain open steps for the project owner.
+- [x] Ready for deployment — deployed (commit `135c12d`).
 
 ---
 

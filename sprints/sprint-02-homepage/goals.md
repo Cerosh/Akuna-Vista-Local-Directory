@@ -53,11 +53,11 @@ This sprint also validates, in a real UI, that the Sprint 1 foundation actually 
 
 Sprint 2 is successful when:
 
-- [ ] A visitor unfamiliar with the project understands the site's purpose within 5 seconds.
-- [ ] Every homepage section listed in the sprint Features table is built and responsive.
-- [ ] Homepage content is 100% sourced from JSON via the repository layer.
-- [ ] Playwright homepage journey test passes in CI.
-- [ ] Lighthouse scores are directionally healthy (not yet the Sprint 9 targets, but no obvious regressions from Sprint 1's shell).
+- [x] A visitor unfamiliar with the project understands the site's purpose within 5 seconds.
+- [x] Every homepage section listed in the sprint Features table is built and responsive.
+- [x] Homepage content is 100% sourced from JSON via the repository layer.
+- [x] Playwright homepage journey test passes in CI.
+- [x] Lighthouse scores are directionally healthy (not yet the Sprint 9 targets, but no obvious regressions from Sprint 1's shell).
 
 ---
 

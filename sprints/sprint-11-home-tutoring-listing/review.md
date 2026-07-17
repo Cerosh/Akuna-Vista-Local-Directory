@@ -52,7 +52,8 @@ opened and reviewed — do not pre-fill outcomes before work exists.
     5 new unit tests (`route.test.ts`, mocked `fetch`) and 1 new Playwright test.
 13. **Documentation** — `.ai/CONTEXT.md`, `.ai/TODO.md`, `.ai/DEPLOYMENT.md`, `.ai/ARCHITECTURE.md`,
     `.ai/PROJECT.md`, `.ai/SECURITY.md`, `.ai/DECISIONS.md` (ADR-014) all updated.
-14. **Git** — Not yet committed; one-feature-per-commit split to be decided at commit time.
+14. **Git** — Committed as a single commit, `6be7c67` ("feat: implement Sprint 11 (Home Tutoring
+    Listing)"), and deployed. Resolved 2026-07-17 doc audit.
 
 ---
 

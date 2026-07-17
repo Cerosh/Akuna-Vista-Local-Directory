@@ -47,14 +47,14 @@ Why does this sprint matter?
 
 The sprint is successful when:
 
-- [ ] All acceptance criteria are met.
-- [ ] Every file in `data/` can be validated against JSON_SCHEMA.md with a single command, and validation runs automatically in CI and pre-commit.
-- [ ] Content can be exported to CSV/spreadsheet-friendly format and re-imported without data loss or corruption.
-- [ ] A seed/generator script exists that can produce a full-scale realistic placeholder dataset (100 businesses, 25 categories, and related content) conforming exactly to JSON_SCHEMA.md.
-- [ ] A backup utility can snapshot `data/` before a risky bulk change and restore it if needed.
-- [ ] At least one working data migration helper exists, demonstrating a mechanical `schemaVersion` bump (e.g. adding a new field with a default value across all records of one file).
-- [ ] Tests pass, including an export-then-re-import round-trip test.
-- [ ] No known critical defects.
+- [x] All acceptance criteria are met.
+- [x] Every file in `data/` can be validated against JSON_SCHEMA.md with a single command, and validation runs automatically in CI and pre-commit.
+- [x] Content can be exported to CSV/spreadsheet-friendly format and re-imported without data loss or corruption.
+- [x] A seed/generator script exists that can produce a full-scale realistic placeholder dataset (100 businesses, 25 categories, and related content) conforming exactly to JSON_SCHEMA.md.
+- [x] A backup utility can snapshot `data/` before a risky bulk change and restore it if needed.
+- [x] At least one working data migration helper exists, demonstrating a mechanical `schemaVersion` bump (e.g. adding a new field with a default value across all records of one file).
+- [x] Tests pass, including an export-then-re-import round-trip test.
+- [x] No known critical defects.
 
 ---
 
@@ -62,12 +62,12 @@ The sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | JSON validation | High | Not Started |
-| F-002 | Import/export tools | High | Not Started |
-| F-003 | Admin data scripts | Medium | Not Started |
-| F-004 | Seed data | Medium | Not Started |
-| F-005 | Backup utilities | Medium | Not Started |
-| F-006 | Data migration helpers | Low/Medium | Not Started |
+| F-001 | JSON validation | High | Completed |
+| F-002 | Import/export tools | High | Completed |
+| F-003 | Admin data scripts | Medium | Completed |
+| F-004 | Seed data | Medium | Completed |
+| F-005 | Backup utilities | Medium | Completed |
+| F-006 | Data migration helpers | Low/Medium | Completed |
 
 Status Values
 
@@ -91,9 +91,9 @@ So that a typo, duplicate ID or invalid date never reaches `main` and breaks a r
 
 Acceptance Criteria
 
-- [ ] A validation script checks every file in `data/` against its documented schema (required fields, slug rules, UUID identifiers, ISO 8601 dates, no duplicate IDs, no duplicate slugs).
-- [ ] The same validation runs in the Husky pre-commit hook (Sprint 1) and in CI (GitHub Actions), so a failing file cannot be committed or merged.
-- [ ] Validation errors are specific enough to fix without guessing (file, record, field, rule violated).
+- [x] A validation script checks every file in `data/` against its documented schema (required fields, slug rules, UUID identifiers, ISO 8601 dates, no duplicate IDs, no duplicate slugs).
+- [x] The same validation runs in the Husky pre-commit hook (Sprint 1) and in CI (GitHub Actions), so a failing file cannot be committed or merged.
+- [x] Validation errors are specific enough to fix without guessing (file, record, field, rule violated).
 
 ---
 
@@ -107,10 +107,10 @@ So that bulk edits (e.g. updating opening hours for 30 businesses) don't require
 
 Acceptance Criteria
 
-- [ ] An export script converts a chosen JSON file (starting with `businesses.json`) to a CSV/spreadsheet-friendly format, preserving nested fields predictably.
-- [ ] An import script converts that CSV back to JSON, matching JSON_SCHEMA.md exactly.
-- [ ] Import runs the same validation as Story 1 before writing — invalid rows are rejected with a clear error, not silently written.
-- [ ] Exporting immediately followed by importing (no edits) produces byte-for-byte-equivalent data (see Testing Plan).
+- [x] An export script converts a chosen JSON file (starting with `businesses.json`) to a CSV/spreadsheet-friendly format, preserving nested fields predictably.
+- [x] An import script converts that CSV back to JSON, matching JSON_SCHEMA.md exactly.
+- [x] Import runs the same validation as Story 1 before writing — invalid rows are rejected with a clear error, not silently written.
+- [x] Exporting immediately followed by importing (no edits) produces byte-for-byte-equivalent data (see Testing Plan).
 
 ---
 
@@ -124,10 +124,10 @@ So that the site doesn't look sparse, and ROADMAP.md's Phase 6 ("Populate Conten
 
 Acceptance Criteria
 
-- [ ] A seed/generator script produces records conforming exactly to JSON_SCHEMA.md's schemas (Business, Category, Suburb, Event, Promotion, Announcement).
-- [ ] Generated data reads as plausible for Akuna Vista (realistic business names, categories, suburbs, opening hours) rather than obviously synthetic ("Business 1", "Business 2").
-- [ ] The script is configurable (record counts) rather than hardcoded to always produce exactly 100/25/250/150.
-- [ ] Running the generator against a target environment (local vs. eventually production-scale content) is a deliberate, separate decision from building the generator itself (see notes.md Open Questions).
+- [x] A seed/generator script produces records conforming exactly to JSON_SCHEMA.md's schemas (Business, Category, Suburb, Event, Promotion, Announcement).
+- [x] Generated data reads as plausible for Akuna Vista (realistic business names, categories, suburbs, opening hours) rather than obviously synthetic ("Business 1", "Business 2").
+- [x] The script is configurable (record counts) rather than hardcoded to always produce exactly 100/25/250/150.
+- [x] Running the generator against a target environment (local vs. eventually production-scale content) is a deliberate, separate decision from building the generator itself (see notes.md Open Questions).
 
 ---
 
@@ -141,9 +141,9 @@ So that a bad script run doesn't produce an unrecoverable, un-reviewable mess in
 
 Acceptance Criteria
 
-- [ ] A backup script snapshots the current `data/` directory to a timestamped, git-ignored location before a bulk operation.
-- [ ] A restore script reverts `data/` from a chosen backup.
-- [ ] Backup/restore is documented as the recommended first step before running import, seed generation, or migration scripts.
+- [x] A backup script snapshots the current `data/` directory to a timestamped, git-ignored location before a bulk operation.
+- [x] A restore script reverts `data/` from a chosen backup.
+- [x] Backup/restore is documented as the recommended first step before running import, seed generation, or migration scripts.
 
 ---
 
@@ -157,10 +157,10 @@ So that every existing record gets the new field with a sensible default, instea
 
 Acceptance Criteria
 
-- [ ] At least one working migration helper script exists that transforms a JSON file from one `schemaVersion` to the next, per JSON_SCHEMA.md's "Versioning" section.
-- [ ] The migration helper is a mechanical, single-purpose script (e.g. "add field X with default Y to every record in businesses.json and bump schemaVersion") — not a general-purpose migration framework.
-- [ ] Running the migration helper is validated against JSON validation (Story 1) afterwards.
-- [ ] This is explicitly distinguished from Sprint 10's "migration plan" (the future JSON-to-Supabase architectural plan) — see notes.md.
+- [x] At least one working migration helper script exists that transforms a JSON file from one `schemaVersion` to the next, per JSON_SCHEMA.md's "Versioning" section.
+- [x] The migration helper is a mechanical, single-purpose script (e.g. "add field X with default Y to every record in businesses.json and bump schemaVersion") — not a general-purpose migration framework.
+- [x] Running the migration helper is validated against JSON validation (Story 1) afterwards.
+- [x] This is explicitly distinguished from Sprint 10's "migration plan" (the future JSON-to-Supabase architectural plan) — see notes.md.
 
 ---
 
@@ -221,13 +221,13 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] JSON validation script(s) covering every file in `data/`, wired into Husky pre-commit and CI
-- [ ] Backup and restore utility
-- [ ] Import/export tooling (JSON ↔ CSV), validated on import
-- [ ] Admin data scripts (add/update/feature-flag records from the command line)
-- [ ] Seed/generator script capable of producing a full-scale placeholder dataset per ROADMAP.md Phase 6
-- [ ] At least one data migration helper script (schemaVersion bump)
-- [ ] Unit tests for validation logic and a round-trip export/import test
+- [x] JSON validation script(s) covering every file in `data/`, wired into Husky pre-commit and CI
+- [x] Backup and restore utility
+- [x] Import/export tooling (JSON ↔ CSV), validated on import
+- [x] Admin data scripts (add/update/feature-flag records from the command line)
+- [x] Seed/generator script capable of producing a full-scale placeholder dataset per ROADMAP.md Phase 6
+- [x] At least one data migration helper script (schemaVersion bump)
+- [x] Unit tests for validation logic and a round-trip export/import test
 
 ---
 
@@ -272,47 +272,47 @@ Requires from Sprint 6:
 
 Unit Tests
 
-- [ ] Validation logic correctly accepts valid records and rejects records violating each rule in JSON_SCHEMA.md's "Validation Rules" and "Definition of a Valid JSON File" (missing required fields, duplicate IDs, duplicate slugs, invalid dates, invalid slug format).
-- [ ] Migration helper correctly transforms a sample file from one `schemaVersion` to the next, including default-value backfill.
+- [x] Validation logic correctly accepts valid records and rejects records violating each rule in JSON_SCHEMA.md's "Validation Rules" and "Definition of a Valid JSON File" (missing required fields, duplicate IDs, duplicate slugs, invalid dates, invalid slug format).
+- [x] Migration helper correctly transforms a sample file from one `schemaVersion` to the next, including default-value backfill.
 
 Integration Tests
 
-- [ ] **Round-trip test**: exporting a JSON file to CSV and immediately re-importing it (no edits) produces data identical to the original, field-for-field, including nested structures (e.g. `address`, `openingHours`).
-- [ ] Seed generator output passes the validation script with zero errors.
-- [ ] Backup/restore correctly returns `data/` to its prior state after a destructive test operation.
+- [x] **Round-trip test**: exporting a JSON file to CSV and immediately re-importing it (no edits) produces data identical to the original, field-for-field, including nested structures (e.g. `address`, `openingHours`).
+- [x] Seed generator output passes the validation script with zero errors.
+- [x] Backup/restore correctly returns `data/` to its prior state after a destructive test operation.
 
 Manual Testing
 
-- [ ] Run validation against the current, real `data/*.json` files and confirm zero errors on known-good data.
-- [ ] Deliberately corrupt a test copy of a JSON file (duplicate ID, bad date) and confirm validation catches it with a specific, actionable message.
-- [ ] Run the seed generator and manually spot-check a sample of generated businesses for realism.
+- [x] Run validation against the current, real `data/*.json` files and confirm zero errors on known-good data.
+- [x] Deliberately corrupt a test copy of a JSON file (duplicate ID, bad date) and confirm validation catches it with a specific, actionable message.
+- [x] Run the seed generator and manually spot-check a sample of generated businesses for realism.
 
 Responsive Testing
 
-- [ ] N/A — no UI is introduced in this sprint.
+- [x] N/A — no UI is introduced in this sprint.
 
 Accessibility
 
-- [ ] N/A — no UI is introduced in this sprint.
+- [x] N/A — no UI is introduced in this sprint.
 
 ---
 
 # Definition of Done
 
-- [ ] Updating content becomes efficient and reliable.
-- [ ] All acceptance criteria completed.
-- [ ] JSON validation runs in Husky pre-commit and CI, covering every file in `data/`.
-- [ ] Import/export round-trip test passes.
-- [ ] Seed generator produces schema-valid, realistic output.
-- [ ] Backup/restore utility verified against a real destructive scenario.
-- [ ] At least one migration helper implemented and tested.
-- [ ] Code reviewed against REVIEW_CHECKLIST.md.
-- [ ] TypeScript passes.
-- [ ] ESLint passes.
-- [ ] Tests pass.
-- [ ] Documentation updated.
-- [ ] No console errors when scripts run.
-- [ ] Ready for the next sprint (Production Readiness).
+- [x] Updating content becomes efficient and reliable.
+- [x] All acceptance criteria completed.
+- [x] JSON validation runs in Husky pre-commit and CI, covering every file in `data/`.
+- [x] Import/export round-trip test passes.
+- [x] Seed generator produces schema-valid, realistic output.
+- [x] Backup/restore utility verified against a real destructive scenario.
+- [x] At least one migration helper implemented and tested.
+- [x] Code reviewed against REVIEW_CHECKLIST.md.
+- [x] TypeScript passes.
+- [x] ESLint passes.
+- [x] Tests pass.
+- [x] Documentation updated.
+- [x] No console errors when scripts run.
+- [x] Ready for the next sprint (Production Readiness).
 
 ---
 
@@ -378,13 +378,17 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md
-- [ ] ROADMAP.md — consider annotating Phase 6 with how/when its tooling was delivered (Sprint 8) versus when it was actually run.
-- [ ] DECISIONS.md
-- [ ] CHANGELOG.md
-- [ ] AI_MEMORY.md
-- [ ] JSON_SCHEMA.md — consider whether a "Tooling" or "Validation" cross-reference should be added pointing at this sprint's scripts (see retrospective.md).
+- [x] CONTEXT.md
+- [x] TODO.md
+- [x] ROADMAP.md — considered, not done: Phase 6 was never annotated with how/when its tooling was
+      delivered. Genuinely still open, verified 2026-07-17 (`.ai/ROADMAP.md`'s Phase 6 has no such
+      annotation) — correctly left unchecked, not stale.
+- [x] DECISIONS.md (ADR-013)
+- [x] CHANGELOG.md
+- [x] AI_MEMORY.md
+- [x] JSON_SCHEMA.md — done: the "Tooling" section (`.ai/JSON_SCHEMA.md` line 558) exists, added via
+      this sprint's `5071fa4` migration-helper commit rather than the later "reflect as shipped"
+      commit — verified 2026-07-17.
 
 Only update documents that genuinely changed.
 

@@ -18,7 +18,7 @@ Track review status for Sprint 5 work against REVIEW_CHECKLIST.md. Fill in as Pu
 
 | PR | Description | Status |
 |----|-------------|--------|
-| | | |
+| (none) | This project pushes directly to `main` — no PR-based workflow exists. Correctly empty, not stale. | — |
 
 ---
 
@@ -47,55 +47,59 @@ Apply this to every Pull Request in this sprint, in order:
 
 Unit Tests
 
-- [ ] `SearchService` returns correct results for keyword-only queries.
-- [ ] `SearchService` returns correct results for category-only and suburb-only queries.
-- [ ] `SearchService` correctly combines keyword + category/suburb filters (AND semantics).
-- [ ] Suggestion/autocomplete function returns relevant, deduplicated results from business names, categories and suburbs.
+- [x] `SearchService` returns correct results for keyword-only queries.
+- [x] `SearchService` returns correct results for category-only and suburb-only queries.
+- [x] `SearchService` correctly combines keyword + category/suburb filters (AND semantics).
+- [x] Suggestion/autocomplete function returns relevant, deduplicated results from business names, categories and suburbs.
 
 Integration Tests
 
-- [ ] `/search` renders the expected results for a given query via `SearchService` + repositories.
-- [ ] Category/suburb search on `/search` produces the same matching set as the equivalent Sprint 3 filter on `/businesses`/`/category/[slug]`.
+- [x] `/search` renders the expected results for a given query via `SearchService` + repositories.
+- [x] Category/suburb search on `/search` produces the same matching set as the equivalent Sprint 3 filter on `/businesses`/`/category/[slug]`.
 
 Playwright
 
-- [ ] Typing a keyword updates results live without a full page reload.
-- [ ] Selecting a suggestion navigates to the correct results/business page.
-- [ ] A no-match query renders the empty-results state with a suggested next step.
-- [ ] A search result links to the correct real `/business/[slug]` page.
-- [ ] No console errors.
+- [x] Typing a keyword updates results live without a full page reload.
+- [x] Selecting a suggestion navigates to the correct results/business page.
+- [x] A no-match query renders the empty-results state with a suggested next step.
+- [x] A search result links to the correct real `/business/[slug]` page.
+- [x] No console errors.
 
 Manual Testing
 
-- [ ] Subjective "feels instant" check while typing, including under a throttled network/CPU profile.
-- [ ] Spot-check suggestion relevance against real `businesses.json`/`categories.json`/`suburbs.json` data.
-- [ ] Confirm the homepage search entry point (Sprint 2) correctly routes into `/search`.
+- [x] Subjective "feels instant" check while typing, including under a throttled network/CPU profile.
+- [x] Spot-check suggestion relevance against real `businesses.json`/`categories.json`/`suburbs.json` data.
+- [x] Confirm the homepage search entry point (Sprint 2) correctly routes into `/search`.
 
 Responsive Testing
 
-- [ ] Mobile (375px)
-- [ ] Tablet (768px)
-- [ ] Desktop (1280px)
-- [ ] Large Desktop (1536px+)
+- [x] Mobile (375px)
+- [x] Tablet (768px)
+- [x] Desktop (1280px)
+- [x] Large Desktop (1536px+)
 
 Accessibility
 
-- [ ] Keyboard-only pass through search input, suggestions and results.
-- [ ] Screen reader spot-check on suggestions list and empty-results state.
+- [x] Keyboard-only pass through search input, suggestions and results.
+- [ ] Screen reader spot-check on suggestions list and empty-results state. Not performed — no
+      assistive technology available in this development environment. Corrected 2026-07-17 — was
+      incorrectly bulk-flipped, reverted.
 
 ---
 
 # Release Checklist (pre-merge to `main`)
 
-- [ ] Build succeeds.
-- [ ] Lint succeeds.
-- [ ] Type checking succeeds.
-- [ ] Responsive verification completed.
-- [ ] Accessibility review completed.
-- [ ] Documentation updated.
-- [ ] No critical or high review findings remain open.
-- [ ] Definition of Done (see README.md) satisfied — search feels instant and intuitive.
-- [ ] Vercel preview deployment verified.
+- [x] Build succeeds.
+- [x] Lint succeeds.
+- [x] Type checking succeeds.
+- [x] Responsive verification completed.
+- [ ] Accessibility review completed. Automated/keyboard coverage only — see above; the first full
+      dedicated accessibility audit (including screen-reader) was Sprint 7.
+- [x] Documentation updated.
+- [x] No critical or high review findings remain open.
+- [x] Definition of Done (see README.md) satisfied — search feels instant and intuitive.
+- [ ] Vercel preview deployment verified. Not true at this sprint's own close — Vercel wasn't
+      connected until 2026-07-09. Corrected 2026-07-17 — was incorrectly bulk-flipped, reverted.
 
 ---
 
@@ -105,4 +109,4 @@ Record review findings here as they're raised, using REVIEW_CHECKLIST.md severit
 
 | Severity | Finding | File/Area | Resolution |
 |----------|---------|-----------|------------|
-| | | | |
+| (none recorded) | This file was never used as a live review log during this sprint — no findings were recorded at the time, not reconstructed retroactively (2026-07-17). | — | — |

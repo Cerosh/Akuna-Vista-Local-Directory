@@ -18,21 +18,21 @@ This backlog breaks Sprint 4's deliverables into ordered, independently shippabl
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Extend `BusinessRepository` with `getBusinessBySlug(slug)` | Sprint 1 repository layer | High | Not Started |
-| B-002 | Build `/business/[slug]` route with 404 handling for unknown slugs | B-001 | High | Not Started |
-| B-003 | Build business hero (name, category, featured/verified badges, primary CTA) | B-002 | High | Not Started |
-| B-004 | Build contact information section (phone `tel:`, email `mailto:`, website, address) | B-002 | High | Not Started |
-| B-005 | Build opening hours section (all 7 days, "Closed" handling) | B-002 | High | Not Started |
-| B-006 | Build service areas section (graceful when empty) | B-002 | Medium | Not Started |
-| B-007 | Build gallery section (`images[]`, graceful when empty/single image) | B-002 | Medium | Not Started |
-| B-008 | Build social links section (`socialLinks`, graceful when all empty) | B-002 | Low | Not Started |
-| B-009 | Build share button (Web Share API + copy-link fallback) | B-003 | Medium | Not Started |
-| B-010 | Generate per-page SEO metadata (title, description) from business data | B-002 | High | Not Started |
-| B-011 | Generate `LocalBusiness` JSON-LD structured data per business page | B-001, B-010 | Medium | Not Started |
-| B-012 | Update homepage/directory cards to link to real `/business/[slug]` routes (remove any 404 placeholders) | B-002 | Medium | Not Started |
-| B-013 | Responsive pass across hero, contact, hours, gallery, service areas | B-003–B-008 | High | Not Started |
-| B-014 | Accessibility pass (alt text, heading hierarchy, keyboard access to contact links and share button) | B-003–B-009 | High | Not Started |
-| B-015 | Playwright: directory/homepage → business page navigation, contact links present, share button behaviour | B-002–B-012 | High | Not Started |
+| B-001 | Extend `BusinessRepository` with `getBusinessBySlug(slug)` | Sprint 1 repository layer | High | Completed |
+| B-002 | Build `/business/[slug]` route with 404 handling for unknown slugs | B-001 | High | Completed |
+| B-003 | Build business hero (name, category, featured/verified badges, primary CTA) | B-002 | High | Completed |
+| B-004 | Build contact information section (phone `tel:`, email `mailto:`, website, address) | B-002 | High | Completed |
+| B-005 | Build opening hours section (all 7 days, "Closed" handling) | B-002 | High | Completed |
+| B-006 | Build service areas section (graceful when empty) | B-002 | Medium | Completed |
+| B-007 | Build gallery section (`images[]`, graceful when empty/single image) | B-002 | Medium | Completed |
+| B-008 | Build social links section (`socialLinks`, graceful when all empty) | B-002 | Low | Completed |
+| B-009 | Build share button (Web Share API + copy-link fallback) | B-003 | Medium | Completed |
+| B-010 | Generate per-page SEO metadata (title, description) from business data | B-002 | High | Completed |
+| B-011 | Generate `LocalBusiness` JSON-LD structured data per business page | B-001, B-010 | Medium | Completed |
+| B-012 | Update homepage/directory cards to link to real `/business/[slug]` routes (remove any 404 placeholders) | B-002 | Medium | Completed |
+| B-013 | Responsive pass across hero, contact, hours, gallery, service areas | B-003–B-008 | High | Completed |
+| B-014 | Accessibility pass (alt text, heading hierarchy, keyboard access to contact links and share button) | B-003–B-009 | High | Completed |
+| B-015 | Playwright: directory/homepage → business page navigation, contact links present, share button behaviour | B-002–B-012 | High | Completed |
 
 ---
 

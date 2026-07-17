@@ -8,6 +8,16 @@ Last Updated: 2026-07-16
 
 ---
 
+# Note (added 2026-07-17, doc audit)
+
+This sprint shipped a 7-day forecast, as described throughout this document below (accurate as of
+the 2026-07-16 deploy). Sprint 14 (F-007) later reduced the forecast window to 3 days
+(`FORECAST_DAYS = 3` in `lib/weather/weatherApi.ts`). The "7-day forecast" wording below is left
+as-is — it accurately describes what this sprint delivered — but the live product currently shows
+3 days; see Sprint 14's README for the change and its rationale.
+
+---
+
 # Sprint Goal
 
 Replace the homepage's "Weather coming soon" placeholder with real current conditions and a 7-day

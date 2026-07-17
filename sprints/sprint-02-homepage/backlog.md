@@ -18,20 +18,20 @@ This backlog breaks Sprint 2's deliverables into ordered, independently shippabl
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Add sample data to `categories.json` and `businesses.json` (small, realistic set; mark a subset `featured: true`) | Sprint 1 repository layer | High | Not Started |
-| B-002 | Add/confirm community figures in `settings.json` / `metadata.json` (member count, businesses listed, recommendations) | B-001 | Medium | Not Started |
-| B-003 | Build Hero section (headline, supporting copy, primary CTA) | Sprint 1 theme/layout | High | Not Started |
-| B-004 | Build Search entry point (input + CTA, routes to directory or filters featured businesses) | B-003 | High | Not Started |
-| B-005 | Build Popular Categories section (`CategoryRepository`, ordered by `displayOrder`) | B-001 | High | Not Started |
-| B-006 | Build Featured Businesses section (`BusinessRepository`, filtered by `featured`) | B-001 | High | Not Started |
-| B-007 | Build "Why choose local" section (static copy + supporting icons/illustrations) | Sprint 1 shared components | Medium | Not Started |
-| B-008 | Build Community Statistics section (`settings.json` / `metadata.json`) | B-002 | Medium | Not Started |
-| B-009 | Make Navigation functional (real routes/anchors, no more placeholder links) | Sprint 1 navigation shell | High | Not Started |
-| B-010 | Make Footer functional (real routes/anchors, no more placeholder links) | Sprint 1 footer shell | High | Not Started |
-| B-011 | Responsive pass across all sections (mobile, tablet, desktop, large desktop) | B-003–B-010 | High | Not Started |
-| B-012 | Accessibility pass (heading hierarchy, alt text, keyboard nav, focus states) | B-003–B-010 | High | Not Started |
-| B-013 | Playwright homepage journey test (loads, sections render, search interactive, nav works) | B-003–B-011 | High | Not Started |
-| B-014 | Empty-state handling for categories/featured businesses (in case data is sparse) | B-005, B-006 | Medium | Not Started |
+| B-001 | Add sample data to `categories.json` and `businesses.json` (small, realistic set; mark a subset `featured: true`) | Sprint 1 repository layer | High | Completed |
+| B-002 | Add/confirm community figures in `settings.json` / `metadata.json` (member count, businesses listed, recommendations) | B-001 | Medium | Completed |
+| B-003 | Build Hero section (headline, supporting copy, primary CTA) | Sprint 1 theme/layout | High | Completed |
+| B-004 | Build Search entry point (input + CTA, routes to directory or filters featured businesses) | B-003 | High | Completed |
+| B-005 | Build Popular Categories section (`CategoryRepository`, ordered by `displayOrder`) | B-001 | High | Completed |
+| B-006 | Build Featured Businesses section (`BusinessRepository`, filtered by `featured`) | B-001 | High | Completed |
+| B-007 | Build "Why choose local" section (static copy + supporting icons/illustrations) | Sprint 1 shared components | Medium | Completed |
+| B-008 | Build Community Statistics section (`settings.json` / `metadata.json`) | B-002 | Medium | Completed |
+| B-009 | Make Navigation functional (real routes/anchors, no more placeholder links) | Sprint 1 navigation shell | High | Completed |
+| B-010 | Make Footer functional (real routes/anchors, no more placeholder links) | Sprint 1 footer shell | High | Completed |
+| B-011 | Responsive pass across all sections (mobile, tablet, desktop, large desktop) | B-003–B-010 | High | Completed |
+| B-012 | Accessibility pass (heading hierarchy, alt text, keyboard nav, focus states) | B-003–B-010 | High | Completed |
+| B-013 | Playwright homepage journey test (loads, sections render, search interactive, nav works) | B-003–B-011 | High | Completed |
+| B-014 | Empty-state handling for categories/featured businesses (in case data is sparse) | B-005, B-006 | Medium | Completed |
 
 ---
 

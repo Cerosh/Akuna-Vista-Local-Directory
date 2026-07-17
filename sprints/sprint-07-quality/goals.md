@@ -52,15 +52,23 @@ This sprint exists because quality claims made informally during Sprints 1–6 (
 
 Sprint 7 is successful when:
 
-- [ ] A documented Lighthouse baseline exists for every major route (homepage, `/businesses`, `/category/[slug]`, `/business/[slug]`, `/search`, community page), taken before any fix.
-- [ ] Every major route's after-fix Lighthouse scores meet or exceed: Performance 95+, Accessibility 100, Best Practices 100, SEO 95+.
-- [ ] LCP < 2.5 seconds and CLS < 0.1 on every major route.
-- [ ] First Load < 2 seconds on every major route.
+- [x] A documented Lighthouse baseline exists for every major route (homepage, `/businesses`, `/category/[slug]`, `/business/[slug]`, `/search`, community page), taken before any fix.
+- [x] Every major route's after-fix Lighthouse scores meet or exceed: Performance 95+, Accessibility 100, Best Practices 100, SEO 95+.
+- [ ] LCP < 2.5 seconds and CLS < 0.1 on every major route. CLS met everywhere (≤0.025); desktop LCP
+      comfortably met everywhere; mobile LCP sits at or just above the 2.5s target on all 5 routes,
+      root-caused (not a further-fixable code defect at the time) and carried forward per
+      retrospective.md's Carry Forward table — left unchecked rather than claimed fully met.
+- [x] First Load < 2 seconds on every major route.
 - [ ] Zero critical/serious automated accessibility violations, confirmed by a manual keyboard/screen-reader pass.
-- [ ] A custom `app/not-found.tsx`, `app/error.tsx` and `app/global-error.tsx` exist and follow DESIGN_SYSTEM.md/UI_GUIDELINES.md "Error States."
-- [ ] `loading.tsx`/Suspense boundaries exist consistently across homepage, business detail, search and community page.
-- [ ] Per-page SEO (titles, meta descriptions, Open Graph, structured data, heading hierarchy) audited and fixed across all existing pages.
-- [ ] No component reads data outside the repository layer as a side effect of any fix made in this sprint.
+      Automated (axe-core) zero violations: true. Keyboard-navigation pass: true (Playwright).
+      Manual screen-reader (VoiceOver/NVDA) pass: not performed — no assistive technology available
+      in this development environment, disclosed in retrospective.md's Carry Forward table as owed
+      before a production launch decision — left unchecked since the criterion as written wasn't
+      fully met.
+- [x] A custom `app/not-found.tsx`, `app/error.tsx` and `app/global-error.tsx` exist and follow DESIGN_SYSTEM.md/UI_GUIDELINES.md "Error States."
+- [x] `loading.tsx`/Suspense boundaries exist consistently across homepage, business detail, search and community page.
+- [x] Per-page SEO (titles, meta descriptions, Open Graph, structured data, heading hierarchy) audited and fixed across all existing pages.
+- [x] No component reads data outside the repository layer as a side effect of any fix made in this sprint.
 
 ---
 

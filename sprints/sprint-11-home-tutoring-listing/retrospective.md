@@ -88,8 +88,8 @@ Items not completed.
 
 | Task | Reason | Next Sprint |
 |------|--------|-------------|
-| Commit / push / deploy this sprint's changes | Implementation complete and verified locally; deployment is the project owner's decision | N/A — awaiting explicit instruction |
-| Set `TRANSPORT_NSW_API_KEY` in Vercel's Production environment variables | Only set locally (`.env.local`) so far; needed before the Parking Availability card shows real data in production | Whenever this sprint's changes are deployed |
+| ~~Commit / push / deploy this sprint's changes~~ | Resolved 2026-07-17 doc audit: completed — commit `6be7c67` is on `main` and deployed. | N/A |
+| ~~Set `TRANSPORT_NSW_API_KEY` in Vercel's Production environment variables~~ | Resolved 2026-07-17 doc audit: confirmed set — live parking/departure data renders in production. | N/A |
 
 ---
 
@@ -151,8 +151,8 @@ What was delivered?
 
 What remains?
 
-- Committing, pushing and deploying this sprint's changes.
-- Setting `TRANSPORT_NSW_API_KEY` in Vercel's Production environment variables.
+- Nothing — resolved 2026-07-17 doc audit: committed/pushed/deployed (commit `6be7c67`) and
+  `TRANSPORT_NSW_API_KEY` confirmed set in Production.
 
 What should the next sprint focus on?
 

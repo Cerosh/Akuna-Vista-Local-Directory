@@ -51,11 +51,11 @@ This sprint also creates the first pages with real, addressable URLs per categor
 
 Sprint 3 is successful when:
 
-- [ ] A visitor can discover a business by browsing categories and filters alone, with no search input involved.
-- [ ] `/businesses` and `/category/[slug]` both work correctly with zero, one, and many results.
-- [ ] Filter, sort and pagination state survive a page refresh (i.e. live in the URL).
-- [ ] Playwright coverage exists for the browse → filter → sort → paginate journey.
-- [ ] No component reads JSON directly — everything flows through the Sprint 1 repository layer.
+- [x] A visitor can discover a business by browsing categories and filters alone, with no search input involved.
+- [x] `/businesses` and `/category/[slug]` both work correctly with zero, one, and many results.
+- [x] Filter, sort and pagination state survive a page refresh (i.e. live in the URL).
+- [x] Playwright coverage exists for the browse → filter → sort → paginate journey.
+- [x] No component reads JSON directly — everything flows through the Sprint 1 repository layer.
 
 ---
 

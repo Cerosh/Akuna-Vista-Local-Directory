@@ -52,7 +52,8 @@ opened and reviewed — do not pre-fill outcomes before work exists.
     suite re-run twice, 0 failures both times.
 13. **Documentation** — This sprint's own README.md/goals.md/tasks.md/backlog.md/notes.md/
     retrospective.md/review.md all filled in.
-14. **Git** — Not yet committed.
+14. **Git** — Committed as commit `c880c96` ("feat: add breadcrumb, real logo, and Acknowledgment
+    of Country (Sprint 12)") and deployed. Resolved 2026-07-17 doc audit.
 
 ---
 

@@ -18,7 +18,7 @@ Track review status for Sprint 1 work against REVIEW_CHECKLIST.md. Fill in as Pu
 
 | PR | Description | Status |
 |----|-------------|--------|
-| | | |
+| (none) | This project pushes directly to `main` — no PR-based workflow exists (confirmed 2026-07-17). Correctly empty, not stale. | — |
 
 ---
 
@@ -47,46 +47,53 @@ Apply this to every Pull Request in this sprint, in order:
 
 Unit Tests
 
-- [ ] Repository layer unit tests pass.
+- [x] Repository layer unit tests pass.
 
 Playwright
 
-- [ ] Homepage smoke test passes locally.
-- [ ] Homepage smoke test passes in CI.
+- [x] Homepage smoke test passes locally.
+- [x] Homepage smoke test passes in CI.
 
 Manual Testing
 
-- [ ] `npm run build` succeeds.
-- [ ] `npm run lint` succeeds.
-- [ ] `npm run typecheck` succeeds.
-- [ ] Husky blocks a deliberately failing commit (verified once, then removed).
-- [ ] GitHub Actions runs and passes on a real Pull Request.
+- [x] `npm run build` succeeds.
+- [x] `npm run lint` succeeds.
+- [x] `npm run typecheck` succeeds.
+- [x] Husky blocks a deliberately failing commit (verified once, then removed).
+- [ ] GitHub Actions runs and passes on a real Pull Request. This project pushes directly to `main`
+      (confirmed 2026-07-17) — CI runs on push, not PR. Left unchecked since the criterion as
+      literally written (a PR) doesn't apply; CI itself is green.
 
 Responsive Testing
 
-- [ ] Mobile (375px)
-- [ ] Tablet (768px)
-- [ ] Desktop (1280px)
-- [ ] Large Desktop (1536px+)
+- [x] Mobile (375px)
+- [x] Tablet (768px)
+- [x] Desktop (1280px)
+- [x] Large Desktop (1536px+)
 
 Accessibility
 
-- [ ] Keyboard-only navigation through nav, drawer and footer.
-- [ ] Screen reader spot-check on homepage shell.
+- [x] Keyboard-only navigation through nav, drawer and footer.
+- [ ] Screen reader spot-check on homepage shell. Not performed — no assistive technology available
+      in this development environment (same disclosed limitation as Sprint 7's Carry Forward).
 
 ---
 
 # Release Checklist (pre-merge to `main`)
 
-- [ ] Build succeeds.
-- [ ] Lint succeeds.
-- [ ] Type checking succeeds.
-- [ ] Responsive verification completed.
-- [ ] Accessibility review completed.
-- [ ] Documentation updated (`.ai/`, `docs/`, `sprints/` committed).
-- [ ] No critical or high review findings remain open.
-- [ ] Definition of Done (see README.md) satisfied.
-- [ ] Vercel preview deployment verified.
+- [x] Build succeeds.
+- [x] Lint succeeds.
+- [x] Type checking succeeds.
+- [x] Responsive verification completed.
+- [ ] Accessibility review completed. Automated/keyboard coverage only — see Accessibility above;
+      the first full dedicated accessibility audit was Sprint 7.
+- [x] Documentation updated (`.ai/`, `docs/`, `sprints/` committed).
+- [x] No critical or high review findings remain open.
+- [x] Definition of Done (see README.md) satisfied.
+- [ ] Vercel preview deployment verified. Corrected 2026-07-17: not true at this sprint's own close
+      — Vercel wasn't connected until 2026-07-09, 3 days after this sprint's commit `85e4890`
+      (2026-07-06). Left unchecked as genuinely not this sprint's own deliverable, not re-flipped to
+      match the site's current live state.
 
 ---
 
@@ -96,4 +103,4 @@ Record review findings here as they're raised, using REVIEW_CHECKLIST.md severit
 
 | Severity | Finding | File/Area | Resolution |
 |----------|---------|-----------|------------|
-| | | | |
+| (none recorded) | This file was never used as a live review log during this sprint — no findings were recorded at the time, not reconstructed retroactively (2026-07-17). | — | — |

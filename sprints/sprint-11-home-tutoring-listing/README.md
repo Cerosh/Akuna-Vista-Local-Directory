@@ -16,7 +16,7 @@ API) and a live Schofields Station next-train departure board (NSW Transport `de
 business directory first (the project owner's explicit framing, 2026-07-15; see notes.md "Layout
 redesign"). Also reorders Local Promotions so the featured promotion shows first.
 
-Sprint Status: ✅ Complete locally (not yet committed/deployed)
+Sprint Status: ✅ Complete and deployed (commit 6be7c67)
 
 Start Date: 2026-07-15
 
@@ -612,9 +612,9 @@ Accessibility
 - [x] Documentation updated (`.ai/CONTEXT.md` dataset counts, `.ai/DEPLOYMENT.md` env var,
       `.ai/ARCHITECTURE.md`/`.ai/PROJECT.md`/`.ai/SECURITY.md`, `.ai/DECISIONS.md` ADR-014).
 - [x] No console errors.
-- [ ] Ready for deployment — implementation complete and verified locally; committing, pushing,
-      deploying, and setting `TRANSPORT_NSW_API_KEY` in Vercel's Production environment remain
-      open steps for the project owner.
+- [x] Ready for deployment — deployed (commit `6be7c67`). `TRANSPORT_NSW_API_KEY` was set in
+      Vercel's Production environment (live parking/departure data confirmed rendering in
+      production).
 
 ---
 

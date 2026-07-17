@@ -18,22 +18,22 @@ This backlog breaks Sprint 7's hardening work into ordered, independently shippa
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Establish baseline: run Lighthouse (mobile + desktop) and an automated accessibility audit (axe-core or equivalent) across every existing route (homepage, `/businesses`, `/category/[slug]`, `/business/[slug]`, `/search`, community page); record results in review.md | None | High | Not Started |
-| B-002 | Accessibility review: manual keyboard-only pass and screen-reader spot-check across all routes; log every WCAG AA gap found | B-001 | High | Not Started |
-| B-003 | Accessibility fixes: resolve findings from B-002 (semantic HTML, focus order, ARIA, contrast, alt text) | B-002 | High | Not Started |
-| B-004 | Responsive review: verify mobile, tablet, desktop, large desktop across all routes; log every layout/overflow defect found | B-001 | Medium | Not Started |
-| B-005 | Responsive fixes: resolve findings from B-004 | B-004 | Medium | Not Started |
-| B-006 | Image optimisation: audit `next/image` usage across all routes (sizing, formats, lazy loading, priority hints for above-the-fold images); fix gaps | B-001 | Medium | Not Started |
-| B-007 | Build custom `app/not-found.tsx` following DESIGN_SYSTEM.md/UI_GUIDELINES.md "Error States"; confirm existing `notFound()` calls (Sprints 3–4) render through it | None | High | Not Started |
-| B-008 | Build `app/error.tsx` and `app/global-error.tsx` following the same Error States guidance | B-007 | High | Not Started |
-| B-009 | Audit existing loading states (Sprint 3's directory grid skeletons) and extend `loading.tsx`/Suspense boundaries to homepage, business detail, search and community page | None | Medium | Not Started |
-| B-010 | Performance profiling: identify render-blocking resources, unnecessary Client Components, unoptimised bundle size across all routes | B-003, B-005, B-006 | High | Not Started |
-| B-011 | Performance fixes: resolve findings from B-010 | B-010 | High | Not Started |
-| B-012 | SEO audit: review per-page titles, meta descriptions, Open Graph tags, structured data (from Sprint 4) and heading hierarchy across all routes | B-001 | Medium | Not Started |
-| B-013 | SEO fixes: resolve gaps found in B-012, scoped strictly to existing per-page metadata — no `sitemap.xml`/`robots.txt` work (Sprint 9) | B-012 | Medium | Not Started |
-| B-014 | Cross-browser verification: Chrome, Firefox, Safari per TESTING.md "Browser Support" across all routes | B-005, B-011 | Medium | Not Started |
-| B-015 | Re-measure: re-run Lighthouse and axe-core across all routes after all fixes; record after-fix scores in review.md alongside the B-001 baseline | B-003, B-005, B-006, B-008, B-009, B-011, B-013 | High | Not Started |
-| B-016 | Playwright: 404 page renders for invalid routes/slugs; loading states render during navigation; no console errors across all routes | B-007, B-008, B-009 | High | Not Started |
+| B-001 | Establish baseline: run Lighthouse (mobile + desktop) and an automated accessibility audit (axe-core or equivalent) across every existing route (homepage, `/businesses`, `/category/[slug]`, `/business/[slug]`, `/search`, community page); record results in review.md | None | High | Completed |
+| B-002 | Accessibility review: manual keyboard-only pass and screen-reader spot-check across all routes; log every WCAG AA gap found | B-001 | High | Completed |
+| B-003 | Accessibility fixes: resolve findings from B-002 (semantic HTML, focus order, ARIA, contrast, alt text) | B-002 | High | Completed |
+| B-004 | Responsive review: verify mobile, tablet, desktop, large desktop across all routes; log every layout/overflow defect found | B-001 | Medium | Completed |
+| B-005 | Responsive fixes: resolve findings from B-004 | B-004 | Medium | Completed |
+| B-006 | Image optimisation: audit `next/image` usage across all routes (sizing, formats, lazy loading, priority hints for above-the-fold images); fix gaps | B-001 | Medium | Completed |
+| B-007 | Build custom `app/not-found.tsx` following DESIGN_SYSTEM.md/UI_GUIDELINES.md "Error States"; confirm existing `notFound()` calls (Sprints 3–4) render through it | None | High | Completed |
+| B-008 | Build `app/error.tsx` and `app/global-error.tsx` following the same Error States guidance | B-007 | High | Completed |
+| B-009 | Audit existing loading states (Sprint 3's directory grid skeletons) and extend `loading.tsx`/Suspense boundaries to homepage, business detail, search and community page | None | Medium | Completed |
+| B-010 | Performance profiling: identify render-blocking resources, unnecessary Client Components, unoptimised bundle size across all routes | B-003, B-005, B-006 | High | Completed |
+| B-011 | Performance fixes: resolve findings from B-010 | B-010 | High | Completed |
+| B-012 | SEO audit: review per-page titles, meta descriptions, Open Graph tags, structured data (from Sprint 4) and heading hierarchy across all routes | B-001 | Medium | Completed |
+| B-013 | SEO fixes: resolve gaps found in B-012, scoped strictly to existing per-page metadata — no `sitemap.xml`/`robots.txt` work (Sprint 9) | B-012 | Medium | Completed |
+| B-014 | Cross-browser verification: Chrome, Firefox, Safari per TESTING.md "Browser Support" across all routes | B-005, B-011 | Medium | Completed |
+| B-015 | Re-measure: re-run Lighthouse and axe-core across all routes after all fixes; record after-fix scores in review.md alongside the B-001 baseline | B-003, B-005, B-006, B-008, B-009, B-011, B-013 | High | Completed |
+| B-016 | Playwright: 404 page renders for invalid routes/slugs; loading states render during navigation; no console errors across all routes | B-007, B-008, B-009 | High | Completed |
 
 ---
 

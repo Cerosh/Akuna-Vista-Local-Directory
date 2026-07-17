@@ -287,6 +287,39 @@ Every commit should leave the project in a working state.
 
 ---
 
+# Doc-Staleness Guardrails (Sprint 16, F-006)
+
+Automated Husky hooks that catch the specific documentation-staleness patterns found and fixed in
+the 2026-07-17 doc audit (Sprint 16, F-004) — full incident history in
+`sprints/sprint-16-backlog/README.md`.
+
+`.husky/pre-commit` (fails the commit, no escape hatch — this is a file-internal consistency
+check, not a judgement call):
+
+- **Sprint doc consistency** (`npm run validate:sprint-consistency`) — if a sprint's `README.md`
+  Features table is 100% "Completed," that sprint's `tasks.md` must have zero unchecked boxes.
+
+`.husky/commit-msg` (fails the commit; bypass with a `Docs-Deferred: <reason>` trailer in the
+commit message — visible in `git log`, not a silent `--no-verify` skip):
+
+- **No self-contradiction** (`npm run validate:no-contradiction`) — blocks "not yet
+  committed/deployed"-style text if it appears in lines this commit is adding. `scripts/**` is
+  exempt (the pattern list itself legitimately contains these phrases).
+- **Sprint doc contact** (`npm run validate:sprint-doc-contact`) — if the commit message references
+  a sprint (e.g. "Sprint 11", "Sprint 09b" — this project's own convention since Sprint 09b) and
+  touches `app/`, `components/`, `features/`, or `lib/`, at least one file under that sprint's own
+  `sprints/sprint-NN-*/` folder must be part of the same commit. Forward-looking only — cannot
+  retroactively flag commits made before this project's commit-message convention existed.
+- **Doc freshness** (`npm run validate:doc-freshness`) — if a commit adds a "Sprint Status:
+  ...Complete/Deployed" line to a sprint's `README.md`, `.ai/CONTEXT.md` must be part of the same
+  commit.
+
+Run `npm run validate:docs` to check staged changes against all of the above ad hoc, before
+committing. In CI, the same checks run against the push/PR's full commit range
+(`.github/workflows/ci.yml`).
+
+---
+
 # Pull Request Standards
 
 Every Pull Request should include:

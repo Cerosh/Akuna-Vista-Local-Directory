@@ -10,7 +10,7 @@ Sprint Goal: Add a real logo (supplied directly by the project owner,
 `ChatGPT Image Jul 15, 2026, 10_21_59 PM.png`) across the site, give the business detail page its
 own in-page way back to Home, and add an Acknowledgment of Country to the footer.
 
-Sprint Status: ✅ Complete locally (not yet committed/deployed)
+Sprint Status: ✅ Complete and deployed (commit c880c96)
 
 Start Date: 2026-07-16
 

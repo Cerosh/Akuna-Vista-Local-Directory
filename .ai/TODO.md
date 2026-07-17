@@ -4,21 +4,33 @@
 
 Sprint Number
 
-13 (complete locally — not yet committed/deployed) — implemented ahead of Sprint 10 per the
-project owner's explicit instruction (2026-07-16)
+15 and 16, running concurrently (updated 2026-07-17 doc audit) — Sprint 15 (Directory Data
+Entries) and Sprint 16 (Backlog) are both open-ended, ongoing sprints with no fixed end date; see
+`sprints/sprint-15-directory-data-entries/README.md` and `sprints/sprint-16-backlog/README.md` for
+their live Feature tables rather than duplicating them here. Sprints 11–14 are complete and
+deployed (commits `6be7c67`, `c880c96`, `df2e394`, `980814b`); Sprint 13 is no longer "not yet
+committed/deployed" as this section previously (and stale-ly) stated.
 
 Sprint Name
 
-Schofields Weather Dashboard
+Sprint 15: Directory Data Entries · Sprint 16: Backlog
 
 Status
 
-✅ Complete locally (lint/typecheck/unit/Playwright/build all pass, verified against the real
-Open-Meteo API — commit/push/deploy remain open steps for the project owner)
+🔄 Both In Progress (ongoing — see each sprint's own README for current Feature status)
 
 Recommended Claude Model
 
 Claude Sonnet
+
+---
+
+# Sprint 14 Summary
+
+Delivered: UI polish across 10+ features (card truncation, spacing, hover states, etc.) plus
+weather-widget bugfixes, including reducing the Schofields forecast from 7 days to 3 days (F-007)
+and a shared cache TTL constant (F-020). Deployed — commit `980814b`. See
+`sprints/sprint-14-ui-polish/README.md` for the full Feature table and Acceptance Criteria.
 
 ---
 
@@ -53,6 +65,10 @@ Schofields conditions and a sensible 7-day forecast render correctly, the browse
 `api.open-meteo.com` directly.
 
 Full details: `sprints/sprint-13-schofields-weather-dashboard/`.
+
+Note (2026-07-17): Sprint 14 (F-007) later reduced the forecast window from 7 days to 3 days
+(`FORECAST_DAYS` in `lib/weather/weatherApi.ts`) — the "7-day forecast" above accurately describes
+what this sprint shipped, not the current live behaviour.
 
 ---
 
@@ -471,31 +487,15 @@ Full plan: `sprints/sprint-05-search/`.
 
 # Backlog (not yet scheduled into any sprint)
 
-Sprint 09b closed out the Popular Categories `featured`-flag mismatch, search filter chip
-accuracy, and `Announcement.sourceUrl` — see `sprints/sprint-09b-content-cleanup/` for full detail.
-(Footer social link placeholders — also originally tracked here — were resolved directly, ahead of
-Sprint 09b: removed outright rather than wired up with real links; see Sprint 09b's `notes.md`
-F-006 for the record.) Two items remain genuinely open, carried forward rather than dropped:
-
-- **Error monitoring (Sentry)** — deferred during Sprint 09 (Production Readiness), 2026-07-14.
-  The project owner chose not to set up a Sentry account rather than block the rest of that
-  sprint on it. When picked up: install Sentry per `.ai/DEPLOYMENT.md`'s "Observability" section,
-  set `SENTRY_DSN` in Vercel's environment variables, deliberately trigger a real production
-  error, and confirm it reaches the Sentry dashboard — "wired up" and "verified receiving real
-  events" are two separate checkboxes, per Sprint 09's own Definition of Done. See
-  `sprints/sprint-09-production/review.md`/`retrospective.md` for full context.
-- **`data/events.json`: Blacktown Mayoral Fun Run and Blacktown Food Market** — real event content
-  supplied 2026-07-09, held out of Sprint 09b because both were supplied with 2024 dates already
-  past (would be silently invisible via `eventRepository.getUpcomingEvents()`'s past-event
-  filter). When picked up: get the actual next-occurrence date (2026/2027) from the project owner
-  for one or both, then add via the same real-content pattern Sprint 09b used for the Fingerprints
-  Workshop entry. See `sprints/sprint-09b-content-cleanup/notes.md` F-003 for full detail.
-- **Business data completeness** (email/address/opening-hours/verification) — carried forward from
-  Sprint 09b (F-005); the project owner had nothing new to supply this sprint. When picked up: add
-  via `scripts/admin.ts update`, one business at a time, backup first.
-
-Add new small, concrete, not-yet-scheduled requirements here as they come up; fold them into a
-future sprint's plan once there's enough to justify one.
+**Moved to `sprints/sprint-16-backlog/README.md` (2026-07-17)**, as F-007 through F-017, alongside
+every other genuinely-still-open item found scattered across individual sprints' `retrospective.md`
+Carry Forward tables — Sentry, the 2 held-out real events, business data completeness, the Rich
+Results Test, the screen-reader spot-check, mobile LCP re-measurement, Lighthouse CI wiring, the
+Privacy/Terms legal review, nonce-based CSP, a real Contact form, and CODING_STANDARDS.md's Scripts
+section. Consolidated into one place at the project owner's explicit request, so planning what's
+left doesn't require checking 8+ separate files. **Do not duplicate items here going forward** —
+add new not-yet-scheduled requirements directly to `sprints/sprint-16-backlog/README.md`'s Features
+table instead, so this list doesn't silently diverge from that one again.
 
 ---
 

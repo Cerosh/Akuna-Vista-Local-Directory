@@ -64,7 +64,7 @@ Items not completed.
 | Mobile LCP is at or just above ARCHITECTURE.md's 2.5s target on all 5 routes (desktop LCP is comfortably met everywhere) | Root-caused to text-element render delay under Lighthouse's simulated mobile CPU/network throttle (TTFB + main-thread work), not a specific code defect this sprint found a further fix for without fighting Next.js's own rendering pipeline for an unverified, marginal gain | Revisit if Sprint 9 (Production Readiness) introduces real infrastructure (CDN, edge caching) that changes the TTFB baseline, or if a future sprint profiles hydration cost more deeply |
 | Screen-reader spot-check (VoiceOver/NVDA) not performed | No assistive technology available in this development environment | Perform manually before a production launch decision (Sprint 9) |
 | Google Rich Results Test not run against a live URL | This project isn't deployed to a public URL yet | Run once Sprint 9 or a deployment step makes the site publicly reachable |
-| Vercel preview deployment not verified | No Vercel deployment configured in this environment | Verify as part of Sprint 9's deployment work |
+| ~~Vercel preview deployment not verified~~ | Superseded (2026-07-17): this project has no PR-based workflow (pushes directly to `main`), so a distinct "preview" deployment was never applicable — production deploys are live and verified (confirmed via Sprint 9 and every sprint since). | N/A |
 | Lighthouse CI wiring into the CI pipeline | Sprint 07's own notes.md set this as the default assumption (manual/local runs sufficient for this sprint) | Reasonable Sprint 9 candidate once monitoring infrastructure exists |
 
 ---

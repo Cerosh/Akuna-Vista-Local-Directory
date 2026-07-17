@@ -87,8 +87,8 @@ Items not completed.
 
 | Task | Reason | Next Sprint |
 |------|--------|-------------|
-| Seed generator not run against the real `data/` directory at production scale | Deliberately left open per notes.md's Open Questions — a product/content decision, not an engineering one | Project owner to decide; revisit before or during Sprint 9 (Production Readiness) launch prep if the site still looks sparse |
-| CI's new "Validate data" step not exercised on a live GitHub Actions run (PR/branch) | This session works locally only; no push was made | Confirm on the first real PR/push that touches `data/` |
+| ~~Seed generator not run against the real `data/` directory at production scale~~ | Resolved implicitly (2026-07-17): the project owner chose the real-content path instead (Sprints 8b/9b/11/15 added real businesses — 27 as of 2026-07-17, verified via `data/businesses.json`) rather than seeding placeholder data. `npm run seed:generate` remains available on demand but was never needed against real `data/`. | N/A |
+| ~~CI's new "Validate data" step not exercised on a live GitHub Actions run~~ | Resolved (2026-07-17): confirmed live and enforced across many pushes since — `validate:data` blocks a deliberately-corrupted commit, verified directly this session. | N/A |
 | `CODING_STANDARDS.md` "Scripts" conventions section | Considered, judged not yet necessary (see Lessons Learned) | Revisit if a future sprint's script work finds the existing conventions ambiguous |
 
 ---

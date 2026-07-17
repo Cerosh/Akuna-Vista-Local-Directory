@@ -6,8 +6,7 @@ Owner: Cerosh Jacob
 
 Last Updated: 2026-07-09
 
-Status: Complete (2026-07-14) — implemented and verified locally; commit/push/deploy remain open
-steps for the project owner.
+Status: Complete and deployed (commit `135c12d`).
 
 ---
 
@@ -72,7 +71,7 @@ Items not completed.
 |------|--------|-------------|
 | Blacktown Mayoral Fun Run / Blacktown Food Market (`data/events.json`) | Supplied with 2024 dates already past; held out rather than published invisible or with a guessed date | Whenever the project owner supplies updated 2026/2027 dates — not tied to Sprint 10 |
 | Business data completeness (email/address/opening-hours/verification) | Project owner had nothing new to supply this sprint | Whenever real data is supplied — not tied to Sprint 10 |
-| Commit / push / deploy this sprint's changes | Implementation complete and verified locally; deployment is the project owner's decision | N/A — awaiting explicit instruction |
+| ~~Commit / push / deploy this sprint's changes~~ | Resolved 2026-07-17 doc audit: completed — commit `135c12d` is on `main` and deployed. | N/A |
 
 ---
 
@@ -101,8 +100,8 @@ Sprint Velocity (optional): 7 features, 1 working session.
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md — remove closed Backlog entries, keep anything carried forward with current status
+- [x] CONTEXT.md
+- [x] TODO.md — remove closed Backlog entries, keep anything carried forward with current status
 - [ ] ROADMAP.md
 - [ ] DECISIONS.md
 - [ ] CHANGELOG.md

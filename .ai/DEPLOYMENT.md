@@ -217,6 +217,11 @@ Every Pull Request should execute:
 
 A failing CI pipeline blocks merging.
 
+Since Sprint 8, CI also runs `validate:data` (JSON schema/referential-integrity checks). Since
+Sprint 16 (F-006), CI additionally runs the doc-staleness guardrails against the push/PR's commit
+range — see `.ai/GIT_WORKFLOW.md`'s "Doc-Staleness Guardrails" section for what each check catches
+and how to bypass one with a disclosed `Docs-Deferred:` trailer when genuinely needed.
+
 ---
 
 # Continuous Deployment

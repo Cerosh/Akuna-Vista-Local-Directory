@@ -41,12 +41,12 @@ Why does this sprint matter?
 
 The sprint is successful when:
 
-- [ ] All acceptance criteria are met.
-- [ ] Users can discover businesses without using search.
-- [ ] The directory and category pages source all data through the Sprint 1 repository layer.
-- [ ] Filtering, sorting and pagination behave correctly at any dataset size, including zero and one result.
-- [ ] Tests pass, including Playwright coverage of browse → filter → paginate.
-- [ ] No known critical defects.
+- [x] All acceptance criteria are met.
+- [x] Users can discover businesses without using search.
+- [x] The directory and category pages source all data through the Sprint 1 repository layer.
+- [x] Filtering, sorting and pagination behave correctly at any dataset size, including zero and one result.
+- [x] Tests pass, including Playwright coverage of browse → filter → paginate.
+- [x] No known critical defects.
 
 ---
 
@@ -54,13 +54,13 @@ The sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | Business cards (grid) | High | Not Started |
-| F-002 | Category filters | High | Not Started |
-| F-003 | Category pages (`/category/[slug]`) | High | Not Started |
-| F-004 | Pagination | High | Not Started |
-| F-005 | Sorting | Medium | Not Started |
-| F-006 | Empty states | High | Not Started |
-| F-007 | Loading skeletons | Medium | Not Started |
+| F-001 | Business cards (grid) | High | Completed |
+| F-002 | Category filters | High | Completed |
+| F-003 | Category pages (`/category/[slug]`) | High | Completed |
+| F-004 | Pagination | High | Completed |
+| F-005 | Sorting | Medium | Completed |
+| F-006 | Empty states | High | Completed |
+| F-007 | Loading skeletons | Medium | Completed |
 
 Status Values
 
@@ -84,9 +84,9 @@ So that I can scan what's available without knowing exactly what to search for.
 
 Acceptance Criteria
 
-- [ ] `/businesses` renders a responsive grid of Business Cards sourced from `BusinessRepository`.
-- [ ] Each card matches DESIGN_SYSTEM.md's Business Card Design (name, category, short description, location, rating, recommendation count, featured badge, primary CTA).
-- [ ] The grid reflows correctly at 12/8/4 columns (desktop/tablet/mobile).
+- [x] `/businesses` renders a responsive grid of Business Cards sourced from `BusinessRepository`.
+- [x] Each card matches DESIGN_SYSTEM.md's Business Card Design (name, category, short description, location, rating, recommendation count, featured badge, primary CTA).
+- [x] The grid reflows correctly at 12/8/4 columns (desktop/tablet/mobile).
 
 ---
 
@@ -100,9 +100,9 @@ So that I only see plumbers, or only electricians, without visiting a separate p
 
 Acceptance Criteria
 
-- [ ] Category filter controls are visible on `/businesses` and reflect the current selection in the URL (shareable, bookmarkable).
-- [ ] Selecting a category updates the grid without a full page reload where practical (Server Component + search params).
-- [ ] Filters compose correctly with sorting and pagination (e.g. page resets to 1 when the filter changes).
+- [x] Category filter controls are visible on `/businesses` and reflect the current selection in the URL (shareable, bookmarkable).
+- [x] Selecting a category updates the grid without a full page reload where practical (Server Component + search params).
+- [x] Filters compose correctly with sorting and pagination (e.g. page resets to 1 when the filter changes).
 
 ---
 
@@ -116,9 +116,9 @@ So that I land directly on relevant businesses with a clear, shareable URL.
 
 Acceptance Criteria
 
-- [ ] `/category/[slug]` renders only businesses belonging to that category.
-- [ ] The page has a clear heading and short description of the category.
-- [ ] An invalid or unknown category slug renders a proper 404, not a broken page.
+- [x] `/category/[slug]` renders only businesses belonging to that category.
+- [x] The page has a clear heading and short description of the category.
+- [x] An invalid or unknown category slug renders a proper 404, not a broken page.
 
 ---
 
@@ -132,9 +132,9 @@ So that I'm not scrolling through an unmanageable list.
 
 Acceptance Criteria
 
-- [ ] Users can sort by at least one meaningful order (e.g. Featured first, Name A–Z, Recommendation count).
-- [ ] Pagination (or "load more") works correctly, including on the last page and with a single page of results.
-- [ ] Sort and pagination state is reflected in the URL.
+- [x] Users can sort by at least one meaningful order (e.g. Featured first, Name A–Z, Recommendation count).
+- [x] Pagination (or "load more") works correctly, including on the last page and with a single page of results.
+- [x] Sort and pagination state is reflected in the URL.
 
 ---
 
@@ -148,8 +148,8 @@ So that I understand there's nothing there yet rather than assuming something is
 
 Acceptance Criteria
 
-- [ ] Every zero-result state (empty category, empty filter combination) shows an explanation and a suggested next action (per UI_GUIDELINES.md "Empty States").
-- [ ] Loading states use skeleton loaders, not a blank screen or spinner-only state (DESIGN_SYSTEM.md "Loading States").
+- [x] Every zero-result state (empty category, empty filter combination) shows an explanation and a suggested next action (per UI_GUIDELINES.md "Empty States").
+- [x] Loading states use skeleton loaders, not a blank screen or spinner-only state (DESIGN_SYSTEM.md "Loading States").
 
 ---
 
@@ -210,13 +210,13 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] Business cards
-- [ ] Category filters
-- [ ] Category pages
-- [ ] Pagination
-- [ ] Sorting
-- [ ] Empty states
-- [ ] Loading skeletons
+- [x] Business cards
+- [x] Category filters
+- [x] Category pages
+- [x] Pagination
+- [x] Sorting
+- [x] Empty states
+- [x] Loading skeletons
 
 ---
 
@@ -262,52 +262,52 @@ Requires from Sprint 2:
 
 Unit Tests
 
-- [ ] Category filter logic (filter businesses by categoryId).
-- [ ] Sort logic (each supported sort order).
-- [ ] Pagination logic (page size, last page, single page, zero results).
+- [x] Category filter logic (filter businesses by categoryId).
+- [x] Sort logic (each supported sort order).
+- [x] Pagination logic (page size, last page, single page, zero results).
 
 Integration Tests
 
-- [ ] Directory + repository integration: filters, sort and pagination correctly narrow the JSON-backed dataset.
+- [x] Directory + repository integration: filters, sort and pagination correctly narrow the JSON-backed dataset.
 
 Playwright
 
-- [ ] `/businesses` loads and displays a grid of business cards.
-- [ ] Selecting a category filter updates the grid and the URL.
-- [ ] Sorting changes the order of results.
-- [ ] Pagination moves between pages correctly.
-- [ ] `/category/[slug]` renders only matching businesses; an invalid slug renders 404.
-- [ ] Empty category shows the empty state, not a blank page.
+- [x] `/businesses` loads and displays a grid of business cards.
+- [x] Selecting a category filter updates the grid and the URL.
+- [x] Sorting changes the order of results.
+- [x] Pagination moves between pages correctly.
+- [x] `/category/[slug]` renders only matching businesses; an invalid slug renders 404.
+- [x] Empty category shows the empty state, not a blank page.
 
 Manual Testing
 
-- [ ] Manually verify every category, including ones with zero and one business, renders sensibly.
+- [x] Manually verify every category, including ones with zero and one business, renders sensibly.
 
 Responsive Testing
 
-- [ ] Grid, filters and pagination controls at mobile, tablet, desktop, large desktop.
+- [x] Grid, filters and pagination controls at mobile, tablet, desktop, large desktop.
 
 Accessibility
 
-- [ ] Filter controls and pagination are keyboard accessible and properly labelled.
-- [ ] Loading skeletons don't trap focus or announce misleadingly to screen readers.
+- [x] Filter controls and pagination are keyboard accessible and properly labelled.
+- [x] Loading skeletons don't trap focus or announce misleadingly to screen readers.
 
 ---
 
 # Definition of Done
 
-- [ ] Users can discover businesses without using search.
-- [ ] All acceptance criteria completed.
-- [ ] Everything driven by JSON via the repository layer.
-- [ ] Code reviewed against REVIEW_CHECKLIST.md.
-- [ ] TypeScript passes.
-- [ ] ESLint passes.
-- [ ] Tests pass.
-- [ ] Responsive.
-- [ ] Accessible.
-- [ ] Documentation updated.
-- [ ] No console errors.
-- [ ] Ready for deployment.
+- [x] Users can discover businesses without using search.
+- [x] All acceptance criteria completed.
+- [x] Everything driven by JSON via the repository layer.
+- [x] Code reviewed against REVIEW_CHECKLIST.md.
+- [x] TypeScript passes.
+- [x] ESLint passes.
+- [x] Tests pass.
+- [x] Responsive.
+- [x] Accessible.
+- [x] Documentation updated.
+- [x] No console errors.
+- [x] Ready for deployment.
 
 ---
 
@@ -370,12 +370,12 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md
-- [ ] ROADMAP.md
-- [ ] DECISIONS.md
-- [ ] CHANGELOG.md
-- [ ] AI_MEMORY.md
+- [x] CONTEXT.md
+- [x] TODO.md
+- [x] ROADMAP.md
+- [x] DECISIONS.md
+- [x] CHANGELOG.md
+- [x] AI_MEMORY.md
 
 Only update documents that genuinely changed.
 

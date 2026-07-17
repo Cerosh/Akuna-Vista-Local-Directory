@@ -2,11 +2,14 @@
 
 # Project Context
 
-Version: 1.12
+Version: 1.13
 
-Last Updated: 2026-07-15
+Last Updated: 2026-07-17
 
-Current Sprint: Sprint 11 — Home Tutoring Listing (complete locally, not yet committed/deployed)
+Current Sprint: Sprint 15 (Directory Data Entries) and Sprint 16 (Backlog), running concurrently —
+both open-ended, ongoing sprints with no fixed end date. Sprints 11–14 are complete and deployed
+(commits `6be7c67`, `c880c96`, `df2e394`, `980814b`). See `sprints/sprint-15-directory-data-entries/`
+and `sprints/sprint-16-backlog/` for their live Feature tables rather than duplicating them here.
 
 ---
 
@@ -22,17 +25,18 @@ The long-term goal is to support multiple communities through configuration rath
 
 # Current Phase
 
-Phase 11 — Home Tutoring Listing (complete locally, not yet committed/deployed)
+Sprints 15 (Directory Data Entries) and 16 (Backlog) — both ongoing, running concurrently.
 
 Current Focus:
 
-Sprint 9b shipped and is live in production (`https://akuna-vista-local-directory.vercel.app/`).
-Sprint 11's implementation is complete and verified locally (lint, typecheck, unit tests —
-including the new `app/api/carpark/route.test.ts` — Playwright across Chromium/Firefox/WebKit,
-production build, and manual verification against a local production server, including confirming
-the NSW Transport API key never reaches the browser) — not yet committed or deployed. Sprint 10
-(Future Platform Foundation) remains queued but not started; Sprint 11 was implemented ahead of it
-per the project owner's explicit instruction (2026-07-15).
+Sprints 1 through 14 are all complete and live in production
+(`https://akuna-vista-local-directory.vercel.app/`), including Sprint 11 (Home Tutoring Listing,
+commit `6be7c67`), Sprint 12 (Branding & Navigation Polish, commit `c880c96`), Sprint 13
+(Schofields Weather Dashboard, commit `df2e394`), and Sprint 14 (UI Polish, commit `980814b`).
+Sprint 10 (Future Platform Foundation) remains queued but not started — Sprints 11–16 were all
+implemented ahead of it per the project owner's explicit instruction. Sprint 15 keeps adding real
+business/service listings as the project owner supplies them; Sprint 16 is the general-purpose
+backlog for everything else (UI fixes, infra/CI-CD). Neither has a fixed end date.
 
 ---
 
@@ -133,8 +137,8 @@ Project planning completed. Engineering documents created. Project vision define
   repository layer), a metadata sanity check, browser compatibility, and a full regression pass —
   all verified against the real live deployment, not just built and assumed correct
 - **Sentry (error monitoring) explicitly deferred** by the project owner (2026-07-14) rather than
-  block the rest of the sprint — tracked in `.ai/TODO.md` Backlog, not silently dropped; Vercel
-  Analytics chosen over Google Analytics (zero external account needed)
+  block the rest of the sprint — tracked as F-007 in `sprints/sprint-16-backlog/README.md`, not
+  silently dropped; Vercel Analytics chosen over Google Analytics (zero external account needed)
 - Found and fixed a real, pre-existing production bug (not caused by this sprint):
   `NEXT_PUBLIC_SITE_URL` was never set in Vercel's Production env vars, so canonical URLs/Open
   Graph/JSON-LD were all emitting `http://localhost:3000` live — confirmed via direct `curl`,
@@ -186,8 +190,7 @@ Project planning completed. Engineering documents created. Project vision define
 - `npm run lint`/`typecheck`/`test` (136 unit tests, up from 126) all pass; Playwright 96/96
   (Chromium) + 176/192 passed with 16 documented skips (Firefox/WebKit); `npm run build` succeeds
 
-**Sprint 11 — Home Tutoring Listing**, implemented and verified locally (not yet
-committed/deployed):
+**Sprint 11 — Home Tutoring Listing**, committed and deployed (commit `6be7c67`):
 
 - Real business added: "Private Mathematics & English Tutoring" (`categoryId:
   tutoring-education`, `featured: true`), supplied via a real advertisement PDF from the project
@@ -233,18 +236,35 @@ committed/deployed):
   browser network check confirmed the key never leaks client-side, and desktop/mobile screenshots
   confirmed the new layout matches the project owner's direction.
 
+**Sprint 12 — Branding & Navigation Polish**, committed and deployed (commit `c880c96`): breadcrumb
+navigation, a real logo, and an Acknowledgment of Country. See
+`sprints/sprint-12-branding-navigation-polish/README.md` for the full Feature table.
+
+**Sprint 13 — Schofields Weather Dashboard**, committed and deployed (commit `df2e394`): real
+current conditions and a forecast for Schofields, NSW via the free, keyless Open-Meteo API,
+replacing Sprint 11's "Weather coming soon" placeholder in the Hero sidebar. The forecast window
+was originally 7 days; Sprint 14 (F-007) later reduced it to 3. See
+`sprints/sprint-13-schofields-weather-dashboard/README.md`.
+
+**Sprint 14 — UI Polish**, committed and deployed (commit `980814b`): UI polish across 10+ features
+(card truncation, spacing, hover states) plus weather-widget bugfixes, including the 7-day → 3-day
+forecast reduction (F-007) and a shared cache TTL constant (F-020). See
+`sprints/sprint-14-ui-polish/README.md` for the full Feature table.
+
 ---
 
 # In Progress
 
-Nothing. Sprint 11 is complete locally. Not yet committed, pushed or deployed.
+Sprint 15 (Directory Data Entries) and Sprint 16 (Backlog) — both open-ended, ongoing sprints with
+no fixed end date. See each sprint's own README.md for its live Feature table rather than
+duplicating it here; this document is a quick status summary, not the source of truth for either.
 
 ---
 
 # Not Started
 
-Future Platform Foundation (Sprint 10) — remains queued but not started; Sprint 11 was implemented
-ahead of it per the project owner's explicit instruction (2026-07-15).
+Future Platform Foundation (Sprint 10) — remains queued but not started; Sprints 11–16 were all
+implemented ahead of it per the project owner's explicit instruction.
 
 ---
 
@@ -293,7 +313,8 @@ Data Tooling (Sprint 8 — CLI/local/CI only, no UI)
 
 Hosting
 
-- Vercel — **not yet connected** (see Known Constraints)
+- Vercel — connected and live in production since 2026-07-09
+  (`https://akuna-vista-local-directory.vercel.app/`)
 
 Future Data Source
 
@@ -303,7 +324,16 @@ Future Data Source
 
 # Current Repository State
 
-Sprint 1 through Sprint 9 are complete, committed, pushed and live in production at `https://akuna-vista-local-directory.vercel.app/`. Sprint 9b (Content Cleanup) is implemented and verified locally — not yet committed or deployed. Repository builds, lints, type-checks, and passes all tests (136 unit/integration, up from 126 + 10 new for Sprint 9b's search-chip filtering and `sourceUrl` migration; 96/96 Playwright passing on Chromium, 176/192 on Firefox/WebKit with 16 documented browser-limitation skips). Homepage, business directory, category pages, business detail pages, search, the community content sections, About/Contact/Privacy/Terms, and production security headers/analytics/robots.txt/sitemap.xml are all live with real content (Sprint 8b), backed by validated, tooled data management (Sprint 8) and hardened, verified production infrastructure (Sprint 9). Sprint 9b's local changes (filter-chip accuracy, `Announcement.sourceUrl`, real event content, homepage reorder) are not yet in production pending commit/push/deploy.
+Sprints 1 through 14 are all complete, committed, pushed and live in production at
+`https://akuna-vista-local-directory.vercel.app/` (commits through `980814b`, Sprint 14). Sprints
+15 (Directory Data Entries) and 16 (Backlog) are ongoing, open-ended sprints layering real content
+and small fixes on top — see their own README.md files for current Feature status rather than a
+point-in-time test-count snapshot here, which would go stale immediately given how frequently they
+change. Homepage, business directory, category pages, business detail pages, search, community
+content sections, About/Contact/Privacy/Terms, production security headers/analytics/robots.txt/
+sitemap.xml, the Sprint 11 transit widget, and the Sprint 13 weather dashboard (3-day forecast as
+of Sprint 14) are all live with real content, backed by validated, tooled data management
+(Sprint 8) and hardened, verified production infrastructure (Sprint 9).
 
 ---
 
@@ -400,9 +430,7 @@ does not yet expose its own API to external consumers — that remains future sc
 first real example and `.ai/SECURITY.md`'s Third-Party Services section for the security review
 this pattern requires per integration.
 
-**Vercel deployment is intentionally deferred.** The project owner has parked connecting the repository to Vercel for several sprints — this is a deliberate decision, not an oversight. The app builds and runs correctly locally and in CI; it simply has not been deployed yet. Revisit this before Sprint 9 (Production Readiness) at the latest.
-
-All business data will remain static until Version 2. Current dataset (19 real businesses, 12 categories, 5 suburbs, 1 real event, 5 promotions, 5 announcements) is real content (Sprint 8b/9b, plus Driving Instructors/JP Services 2026-07-14 and the Sprint 11 tutoring listing 2026-07-15, both added outside/ahead of their originally-queued sprint order per the project owner), not placeholder — `data/events.json` deliberately holds only 1 event since Sprint 9b, having removed 5 fake sample events and held out 2 real-but-past-dated ones pending updated dates from the project owner. Sprint 8's seed generator can still produce a full-scale placeholder set on demand (`npm run seed:generate`) but is not used against the real `data/` directory now that real content exists. All business photos — and event images — remain a single shared placeholder SVG until real community photography arrives. **Note:** the 6 Sprint 2 placeholder categories with zero real businesses (Plumbing, Cleaning, Childcare, Cafés & Restaurants, Builders & Renovations, Pet Services) were initially kept-but-hidden by Sprint 09b's F-001/F-002 filtering, then deleted outright from `data/categories.json` per the project owner's explicit request (2026-07-14) — every category now in the data has ≥1 real business, so `totalCategories` (12) is a genuine count, not inflated by empty placeholders. A category slug that no longer exists (e.g. `/category/childcare`) now correctly 404s rather than showing an empty state.
+All business data will remain static until Version 2. Current dataset as of 2026-07-17 (27 real businesses, 16 categories, 5 suburbs, 1 real event, 5 promotions, 5 announcements — a snapshot, not a ceiling, since Sprint 15 keeps adding real listings; check `data/*.json` directly for the current count rather than trusting this number for long) is real content (Sprint 8b/9b/11/15, plus Driving Instructors/JP Services 2026-07-14, both added outside/ahead of their originally-queued sprint order per the project owner), not placeholder — `data/events.json` deliberately holds only 1 event since Sprint 9b, having removed 5 fake sample events and held out 2 real-but-past-dated ones pending updated dates from the project owner. Sprint 8's seed generator can still produce a full-scale placeholder set on demand (`npm run seed:generate`) but is not used against the real `data/` directory now that real content exists. All business photos — and event images — remain a single shared placeholder SVG until real community photography arrives. **Note:** the 6 Sprint 2 placeholder categories with zero real businesses (Plumbing, Cleaning, Childcare, Cafés & Restaurants, Builders & Renovations, Pet Services) were initially kept-but-hidden by Sprint 09b's F-001/F-002 filtering, then deleted outright from `data/categories.json` per the project owner's explicit request (2026-07-14) — every category now in the data has ≥1 real business, so `totalCategories` (12) is a genuine count, not inflated by empty placeholders. A category slug that no longer exists (e.g. `/category/childcare`) now correctly 404s rather than showing an empty state.
 
 Events, Promotions and Announcements are authored via manual JSON edits or Sprint 8's CLI tooling (`scripts/admin.ts`, `scripts/import-csv.ts`) — no authenticated admin UI exists yet (that remains ROADMAP.md's 🟡 Future Phase 14 "Admin Portal").
 
@@ -419,12 +447,12 @@ interfaces only — a Supabase repository interface, authentication architecture
 design, an advertising model, multi-community support, an API abstraction layer, and a migration
 plan.
 
-Sprint 11 — Home Tutoring Listing is complete locally; committing/pushing/deploying it remains an
-open step for the project owner, including setting `TRANSPORT_NSW_API_KEY` in Vercel's Production
-environment variables before the Parking Availability card will show real data there. Error
-monitoring (Sentry) remains open in TODO.md's Backlog, independent of all of the above, until the
-project owner is ready for it. Two real events (Blacktown Mayoral Fun Run, Blacktown Food Market)
-and business data completeness also remain open in the Backlog.
+Sprints 15 and 16 are the actual ongoing work (see `sprints/sprint-15-directory-data-entries/` and
+`sprints/sprint-16-backlog/` for their live Feature tables). All other outstanding work — Sentry
+(F-007), the 2 held-out real events (F-008), business data completeness (F-009), and everything
+else found across the project's various Carry Forward notes — is consolidated in
+`sprints/sprint-16-backlog/README.md` (F-007–F-017) as of 2026-07-17; check there rather than
+`.ai/TODO.md`'s old Backlog section, which now just points here.
 
 ---
 
@@ -446,8 +474,15 @@ If there is any conflict between this document and the other project documents, 
 
 # Session Notes
 
-Current repository status:
+Current repository status (updated 2026-07-17):
 
-Sprint 1 (Project Foundation), Sprint 2 (Homepage), Sprint 3 (Business Directory), Sprint 4 (Business Details), Sprint 5 (Search), Sprint 6 (Community Content), Sprint 7 (Quality & Performance), Sprint 8 (Admin Preparation), Sprint 8b (Community Pages), Sprint 9 (Production Readiness) and Sprint 9b (Content Cleanup) are all complete, committed and pushed. The site is live in production at `https://akuna-vista-local-directory.vercel.app/` — Vercel deployment, previously parked, was connected by the project owner on 2026-07-09. Sprint 11 (Home Tutoring Listing) is implemented and verified locally but not yet committed or deployed — it was built ahead of Sprint 10 (Future Platform Foundation, still not started) per the project owner's explicit instruction (2026-07-15).
+Sprint 1 (Project Foundation) through Sprint 14 (UI Polish) are all complete, committed and
+pushed — including Sprint 8b (Community Pages) and Sprint 9b (Content Cleanup), both inserted
+without renumbering, and Sprints 11–14 (Home Tutoring Listing, Branding & Navigation Polish,
+Schofields Weather Dashboard, UI Polish), all implemented ahead of Sprint 10 per the project
+owner's explicit instruction. The site is live in production at
+`https://akuna-vista-local-directory.vercel.app/` — Vercel deployment, previously parked, was
+connected by the project owner on 2026-07-09. Sprints 15 (Directory Data Entries) and 16 (Backlog)
+are the current, ongoing, open-ended work.
 
 Do not begin Sprint 10 without explicit instruction, even though this document and TODO.md describe its scope.

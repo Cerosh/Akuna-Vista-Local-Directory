@@ -55,13 +55,13 @@ This sprint also does not introduce new product surface area. Everything it touc
 
 Sprint 9 is successful when:
 
-- [ ] Monitoring and analytics are both wired up and confirmed to receive real events in production, not just configured.
-- [ ] Security headers are live in production, having been tested in Preview first.
-- [ ] `robots.txt` and `sitemap.xml` exist, are correct, and are reachable in production.
-- [ ] The metadata final check finds Sprint 4/7 SEO work intact, with no open findings.
-- [ ] Browser compatibility is verified against the matrix in README.md (Chrome primary, Firefox/Safari secondary, mobile browsers).
-- [ ] A full regression pass across Critical User Journeys completes with no critical or high defects open.
-- [ ] DEPLOYMENT.md's Release Checklist and Deployment Checklist are both satisfied.
+- [ ] Monitoring and analytics are both wired up and confirmed to receive real events in production, not just configured. Split outcome: analytics (Vercel Analytics) is done and verified; monitoring (Sentry) is explicitly deferred by the project owner (2026-07-14), tracked in `.ai/TODO.md` Backlog — see README.md F-001. Left unchecked since the criterion as written requires both.
+- [x] Security headers are live in production, having been tested in Preview first.
+- [x] `robots.txt` and `sitemap.xml` exist, are correct, and are reachable in production.
+- [x] The metadata final check finds Sprint 4/7 SEO work intact, with no open findings.
+- [x] Browser compatibility is verified against the matrix in README.md (Chrome primary, Firefox/Safari secondary, mobile browsers) — automated Playwright cross-browser proxy; real physical-device testing disclosed as unavailable, see review.md.
+- [x] A full regression pass across Critical User Journeys completes with no critical or high defects open.
+- [x] DEPLOYMENT.md's Release Checklist and Deployment Checklist are both satisfied.
 - [x] The About/Contact/Privacy/Terms gap has an explicit, recorded decision from the project owner — resolved by Sprint 08b.
 
 ---

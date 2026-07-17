@@ -10,7 +10,7 @@ Sprint Goal: Make the homepage and business-card grids feel more compact, elegan
 sophisticated to visitors — without changing colour tokens, primitives, or accessibility posture —
 by fixing pacing/repetition issues identified in a full UI design review.
 
-Sprint Status: ✅ Complete locally (not yet committed/deployed)
+Sprint Status: ✅ Complete and deployed (commit 980814b)
 
 Start Date: 2026-07-16
 

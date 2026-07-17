@@ -78,11 +78,11 @@ sprint"). This is that sprint.
 
 Sprint 09b is successful when:
 
-- [ ] No category or suburb filter chip anywhere on the site (search, homepage) can be clicked
+- [x] No category or suburb filter chip anywhere on the site (search, homepage) can be clicked
       to reach zero results.
-- [ ] `data/events.json` contains only real content or is empty — never fake sample data.
-- [ ] `Announcement.sourceUrl` is implemented end to end.
-- [ ] `.ai/TODO.md`'s Backlog section reflects reality — closed items removed, anything still
+- [x] `data/events.json` contains only real content or is empty — never fake sample data.
+- [x] `Announcement.sourceUrl` is implemented end to end.
+- [x] `.ai/TODO.md`'s Backlog section reflects reality — closed items removed, anything still
       genuinely open (no real content supplied yet) stays and is clearly why.
 
 ---

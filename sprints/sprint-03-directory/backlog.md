@@ -18,19 +18,19 @@ This backlog breaks Sprint 3's deliverables into ordered, independently shippabl
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Expand sample data in `businesses.json` / `categories.json` if needed to meaningfully exercise pagination (still placeholder-realistic, not the full Sprint 6 dataset) | Sprint 2 sample data | Medium | Not Started |
-| B-002 | Extend `BusinessRepository` with `getBusinesses({ categoryId, sort, page, pageSize })`-style query support | Sprint 1 repository layer | High | Not Started |
-| B-003 | Build `/businesses` route rendering a responsive grid of Business Cards | B-002 | High | Not Started |
-| B-004 | Build category filter controls, backed by URL search params | B-003 | High | Not Started |
-| B-005 | Build `/category/[slug]` route, reusing the same filtering logic as B-004 | B-002, B-004 | High | Not Started |
-| B-006 | Handle invalid/unknown category slug with a proper 404 | B-005 | Medium | Not Started |
-| B-007 | Build sorting controls (Featured first, Name A–Z, Recommendation count) | B-003 | Medium | Not Started |
-| B-008 | Build pagination (or load-more), backed by URL search params | B-003, B-007 | High | Not Started |
-| B-009 | Build empty states for zero-result filter/category combinations | B-004, B-005 | High | Not Started |
-| B-010 | Build loading skeletons for the grid and filter transitions | B-003 | Medium | Not Started |
-| B-011 | Responsive pass across grid, filters, sort, pagination | B-003–B-010 | High | Not Started |
-| B-012 | Accessibility pass (filter/sort/pagination controls labelled and keyboard operable) | B-003–B-010 | High | Not Started |
-| B-013 | Playwright: browse → filter → sort → paginate journey, plus empty-state and 404 coverage | B-003–B-010 | High | Not Started |
+| B-001 | Expand sample data in `businesses.json` / `categories.json` if needed to meaningfully exercise pagination (still placeholder-realistic, not the full Sprint 6 dataset) | Sprint 2 sample data | Medium | Completed |
+| B-002 | Extend `BusinessRepository` with `getBusinesses({ categoryId, sort, page, pageSize })`-style query support | Sprint 1 repository layer | High | Completed |
+| B-003 | Build `/businesses` route rendering a responsive grid of Business Cards | B-002 | High | Completed |
+| B-004 | Build category filter controls, backed by URL search params | B-003 | High | Completed |
+| B-005 | Build `/category/[slug]` route, reusing the same filtering logic as B-004 | B-002, B-004 | High | Completed |
+| B-006 | Handle invalid/unknown category slug with a proper 404 | B-005 | Medium | Completed |
+| B-007 | Build sorting controls (Featured first, Name A–Z, Recommendation count) | B-003 | Medium | Completed |
+| B-008 | Build pagination (or load-more), backed by URL search params | B-003, B-007 | High | Completed |
+| B-009 | Build empty states for zero-result filter/category combinations | B-004, B-005 | High | Completed |
+| B-010 | Build loading skeletons for the grid and filter transitions | B-003 | Medium | Completed |
+| B-011 | Responsive pass across grid, filters, sort, pagination | B-003–B-010 | High | Completed |
+| B-012 | Accessibility pass (filter/sort/pagination controls labelled and keyboard operable) | B-003–B-010 | High | Completed |
+| B-013 | Playwright: browse → filter → sort → paginate journey, plus empty-state and 404 coverage | B-003–B-010 | High | Completed |
 
 ---
 

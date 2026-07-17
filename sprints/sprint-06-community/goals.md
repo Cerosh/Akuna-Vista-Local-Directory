@@ -53,12 +53,12 @@ Note: this sprint deliberately pulls Community Events and Promotions forward fro
 
 Sprint 6 is successful when:
 
-- [ ] Events, promotions and announcements are all sourced from JSON via dedicated repositories, following the Repository Pattern (ADR-003).
-- [ ] A single featured content mechanism surfaces `featured` items across all three content types.
-- [ ] A community spotlight highlights one featured business or event without introducing a new content type.
-- [ ] The local news section is present, clearly labelled "coming soon," and contains no real news logic.
-- [ ] Playwright coverage exists for the community page's new sections.
-- [ ] No component reads JSON directly — everything flows through its respective repository.
+- [x] Events, promotions and announcements are all sourced from JSON via dedicated repositories, following the Repository Pattern (ADR-003).
+- [x] A single featured content mechanism surfaces `featured` items across all three content types.
+- [x] A community spotlight highlights one featured business or event without introducing a new content type. Shipped this sprint (commit `81b607c`); later un-rendered from the homepage by Sprint 09b (component/tests left intact).
+- [x] The local news section is present, clearly labelled "coming soon," and contains no real news logic. Shipped this sprint (commit `a792d2b`); later deleted outright by Sprint 14 F-002.
+- [x] Playwright coverage exists for the community page's new sections.
+- [x] No component reads JSON directly — everything flows through its respective repository.
 
 ---
 

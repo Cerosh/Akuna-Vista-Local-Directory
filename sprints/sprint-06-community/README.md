@@ -42,13 +42,13 @@ Why does this sprint matter?
 
 The sprint is successful when:
 
-- [ ] All acceptance criteria are met.
-- [ ] The community page/homepage surfaces events, promotions and announcements from JSON via dedicated repositories.
-- [ ] A single "featured content" mechanism surfaces whichever event, promotion or announcement is currently marked `featured` — not three separate ad hoc implementations.
-- [ ] A community spotlight highlights one featured business or event.
-- [ ] A local news placeholder section exists and is honestly presented as "coming soon."
-- [ ] Tests pass, including Playwright coverage of the community page.
-- [ ] No known critical defects.
+- [x] All acceptance criteria are met.
+- [x] The community page/homepage surfaces events, promotions and announcements from JSON via dedicated repositories.
+- [x] A single "featured content" mechanism surfaces whichever event, promotion or announcement is currently marked `featured` — not three separate ad hoc implementations.
+- [x] A community spotlight highlights one featured business or event.
+- [x] A local news placeholder section exists and is honestly presented as "coming soon."
+- [x] Tests pass, including Playwright coverage of the community page.
+- [x] No known critical defects.
 
 ---
 
@@ -56,12 +56,12 @@ The sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | Community events | High | Not Started |
-| F-002 | Promotions | High | Not Started |
-| F-003 | Announcements | Medium | Not Started |
-| F-004 | Featured content (unified mechanism) | Medium | Not Started |
-| F-005 | Community spotlight | Medium | Not Started |
-| F-006 | Local news placeholder | Low | Not Started |
+| F-001 | Community events | High | Completed |
+| F-002 | Promotions | High | Completed |
+| F-003 | Announcements | Medium | Completed |
+| F-004 | Featured content (unified mechanism) | Medium | Completed |
+| F-005 | Community spotlight | Medium | Completed (built and shipped this sprint, commit `81b607c`; deliberately removed from the homepage render by Sprint 09b — component/tests left intact, described there as "temporary, not a deletion") |
+| F-006 | Local news placeholder | Low | Completed (built and shipped this sprint, commit `a792d2b`; deleted outright by Sprint 14 F-002, which called it "the unbuilt 'Coming soon' local news placeholder" — the underlying news feature was never built, but this sprint's static placeholder itself was) |
 
 Status Values
 
@@ -85,9 +85,9 @@ So that I feel connected to what's happening locally, not just to a list of trad
 
 Acceptance Criteria
 
-- [ ] A community events section lists upcoming events (`title`, `startDate`, `endDate`, `location`, `image`) sourced from `EventRepository`.
-- [ ] Past events (where `endDate` has passed) are not displayed as upcoming.
-- [ ] An empty events list shows a helpful empty state, not a blank section, per DESIGN_SYSTEM.md "Empty States."
+- [x] A community events section lists upcoming events (`title`, `startDate`, `endDate`, `location`, `image`) sourced from `EventRepository`.
+- [x] Past events (where `endDate` has passed) are not displayed as upcoming.
+- [x] An empty events list shows a helpful empty state, not a blank section, per DESIGN_SYSTEM.md "Empty States."
 
 ---
 
@@ -101,9 +101,9 @@ So that I have a reason to check the site even when I'm not actively looking for
 
 Acceptance Criteria
 
-- [ ] A promotions section lists active promotions (`title`, `description`, `startDate`, `endDate`) sourced from `PromotionRepository`.
-- [ ] Each promotion links to its parent business via `businessId`, resolving through `BusinessRepository` and pointing at the Sprint 4 business detail page.
-- [ ] Expired promotions (past `endDate`) are not displayed as active.
+- [x] A promotions section lists active promotions (`title`, `description`, `startDate`, `endDate`) sourced from `PromotionRepository`.
+- [x] Each promotion links to its parent business via `businessId`, resolving through `BusinessRepository` and pointing at the Sprint 4 business detail page.
+- [x] Expired promotions (past `endDate`) are not displayed as active.
 
 ---
 
@@ -117,9 +117,9 @@ So that I can catch anything noteworthy without having to ask the WhatsApp group
 
 Acceptance Criteria
 
-- [ ] An announcements section lists current announcements (`title`, `message`, `publishedAt`), sourced from a new `AnnouncementRepository`, ordered newest first.
-- [ ] Announcements with a past `expiresAt` are not displayed.
-- [ ] A community spotlight section highlights one `featured` business or event, reusing existing `Business`/`Event` data — not a new review or testimonial mechanism.
+- [x] An announcements section lists current announcements (`title`, `message`, `publishedAt`), sourced from a new `AnnouncementRepository`, ordered newest first.
+- [x] Announcements with a past `expiresAt` are not displayed.
+- [x] A community spotlight section highlights one `featured` business or event, reusing existing `Business`/`Event` data — not a new review or testimonial mechanism.
 
 ---
 
@@ -133,8 +133,8 @@ So that I understand the feature is planned, not broken.
 
 Acceptance Criteria
 
-- [ ] A local news section exists on the community page with a clear "coming soon" message.
-- [ ] No real news content, feed logic or external data source is implemented — this is intentionally a placeholder only.
+- [x] A local news section exists on the community page with a clear "coming soon" message.
+- [x] No real news content, feed logic or external data source is implemented — this is intentionally a placeholder only.
 
 ---
 
@@ -195,12 +195,12 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] Community events section
-- [ ] Promotions section
-- [ ] Announcements section
-- [ ] Featured content mechanism
-- [ ] Community spotlight
-- [ ] Local news placeholder
+- [x] Community events section
+- [x] Promotions section
+- [x] Announcements section
+- [x] Featured content mechanism
+- [x] Community spotlight
+- [x] Local news placeholder
 
 ---
 
@@ -252,53 +252,53 @@ Requires from Sprint 4:
 
 Unit Tests
 
-- [ ] Event/Promotion "is currently active" helpers (start/end date logic) for events, promotions and announcement expiry.
-- [ ] Featured content selector correctly aggregates `featured` items across events, promotions and announcements.
+- [x] Event/Promotion "is currently active" helpers (start/end date logic) for events, promotions and announcement expiry.
+- [x] Featured content selector correctly aggregates `featured` items across events, promotions and announcements.
 
 Integration Tests
 
-- [ ] Community page renders events, promotions, announcements, featured content, spotlight and the news placeholder from their respective repositories.
-- [ ] A promotion links through to the correct business detail page.
+- [x] Community page renders events, promotions, announcements, featured content, spotlight and the news placeholder from their respective repositories.
+- [x] A promotion links through to the correct business detail page.
 
 Playwright
 
-- [ ] Community page loads and displays all six sections.
-- [ ] Clicking a promotion opens the correct business page.
-- [ ] Empty states render correctly when a content type has no active records.
-- [ ] No console errors.
+- [x] Community page loads and displays all six sections.
+- [x] Clicking a promotion opens the correct business page.
+- [x] Empty states render correctly when a content type has no active records.
+- [x] No console errors.
 
 Manual Testing
 
-- [ ] Review the community page with a full dataset and with a sparse/empty dataset.
-- [ ] Confirm the news placeholder reads as "coming soon," not as a broken or missing feature.
+- [x] Review the community page with a full dataset and with a sparse/empty dataset.
+- [x] Confirm the news placeholder reads as "coming soon," not as a broken or missing feature.
 
 Responsive Testing
 
-- [ ] Mobile, tablet, desktop, large desktop for all six sections.
+- [x] Mobile, tablet, desktop, large desktop for all six sections.
 
 Accessibility
 
-- [ ] Event/promotion/announcement images have descriptive alt text.
-- [ ] Heading hierarchy is correct across sections.
-- [ ] All interactive elements (links to businesses, event details) are keyboard accessible.
+- [x] Event/promotion/announcement images have descriptive alt text.
+- [x] Heading hierarchy is correct across sections.
+- [x] All interactive elements (links to businesses, event details) are keyboard accessible.
 
 ---
 
 # Definition of Done
 
-- [ ] The site encourages repeat visits even when users aren't looking for a business.
-- [ ] All acceptance criteria completed.
-- [ ] All content comes from JSON via repositories.
-- [ ] Featured content mechanism is unified across content types.
-- [ ] Code reviewed against REVIEW_CHECKLIST.md.
-- [ ] TypeScript passes.
-- [ ] ESLint passes.
-- [ ] Tests pass.
-- [ ] Responsive.
-- [ ] Accessible.
-- [ ] Documentation updated.
-- [ ] No console errors.
-- [ ] Ready for deployment.
+- [x] The site encourages repeat visits even when users aren't looking for a business.
+- [x] All acceptance criteria completed.
+- [x] All content comes from JSON via repositories.
+- [x] Featured content mechanism is unified across content types.
+- [x] Code reviewed against REVIEW_CHECKLIST.md.
+- [x] TypeScript passes.
+- [x] ESLint passes.
+- [x] Tests pass.
+- [x] Responsive.
+- [x] Accessible.
+- [x] Documentation updated.
+- [x] No console errors.
+- [x] Ready for deployment.
 
 ---
 
@@ -360,14 +360,14 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md
-- [ ] ROADMAP.md
-- [ ] DECISIONS.md
-- [ ] CHANGELOG.md
-- [ ] AI_MEMORY.md
-- [ ] PROJECT.md — update "Out of Scope" (Events) and "Future Roadmap" Version 4 (Events, Community Deals) now that this sprint has pulled them forward, so the document reflects what has actually shipped.
-- [ ] JSON_SCHEMA.md — remove the "(Future)" label from the Event Schema and Promotion Schema once shipped, and add the new Announcement schema as a first-class schema.
+- [x] CONTEXT.md
+- [x] TODO.md
+- [x] ROADMAP.md
+- [x] DECISIONS.md (ADR-011)
+- [x] CHANGELOG.md
+- [x] AI_MEMORY.md
+- [x] PROJECT.md — update "Out of Scope" (Events) and "Future Roadmap" Version 4 (Events, Community Deals) now that this sprint has pulled them forward, so the document reflects what has actually shipped.
+- [x] JSON_SCHEMA.md — remove the "(Future)" label from the Event Schema and Promotion Schema once shipped, and add the new Announcement schema as a first-class schema.
 
 Only update documents that genuinely changed.
 

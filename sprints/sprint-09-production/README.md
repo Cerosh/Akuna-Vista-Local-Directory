@@ -204,16 +204,16 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] Monitoring (Sentry) wired up and verified in production
-- [ ] Error logging in place, following SECURITY.md's logging rules
-- [ ] Analytics wired up and verified in production
-- [ ] Security headers configured and verified
-- [ ] `robots.txt` covering all public routes
-- [ ] `sitemap.xml` covering all business/category/community/static routes
-- [ ] Final metadata sanity check across all route types
-- [ ] Browser compatibility verification (Chrome, Firefox, Safari, mobile)
-- [ ] Full regression pass across Critical User Journeys
-- [ ] Release/Deployment checklist sign-off
+- [ ] Monitoring (Sentry) wired up and verified in production — Deferred (F-001), see README.md above.
+- [x] Error logging in place, following SECURITY.md's logging rules
+- [x] Analytics wired up and verified in production
+- [x] Security headers configured and verified
+- [x] `robots.txt` covering all public routes
+- [x] `sitemap.xml` covering all business/category/community/static routes
+- [x] Final metadata sanity check across all route types
+- [x] Browser compatibility verification (Chrome, Firefox, Safari, mobile) — automated Playwright cross-browser proxy; real physical-device testing disclosed as unavailable, see review.md.
+- [x] Full regression pass across Critical User Journeys
+- [x] Release/Deployment checklist sign-off
 
 ---
 
@@ -267,44 +267,44 @@ Requires from Sprint 8 (Admin Preparation):
 
 Unit Tests
 
-- [ ] Sitemap generation logic produces correct URLs for every business, category, community and static route, including handling of an empty or partial dataset.
-- [ ] Robots.txt content is generated correctly per environment (e.g. disallow-all in non-production environments if applicable).
+- [x] Sitemap generation logic produces correct URLs for every business, category, community and static route, including handling of an empty or partial dataset.
+- [x] Robots.txt content is generated correctly per environment (e.g. disallow-all in non-production environments if applicable).
 
 Integration Tests
 
-- [ ] Security headers are present on responses across representative route types (homepage, business detail, category, search, community).
-- [ ] Monitoring/analytics SDK initialises without throwing and without blocking page render.
+- [x] Security headers are present on responses across representative route types (homepage, business detail, category, search, community).
+- [ ] Monitoring/analytics SDK initialises without throwing and without blocking page render. Analytics (Vercel Analytics): confirmed. Monitoring (Sentry): N/A, deferred per F-001 — no SDK installed. Left unchecked since the criterion as written covers both.
 
 Playwright
 
-- [ ] Full regression across `.ai/TESTING.md`'s Critical User Journeys: homepage loads, navigation works, search works, directory loads, business page loads, responsive navigation works. (Contact page and 404 page journeys are addressed per the gap noted in Risks above and in retrospective.md — 404 is covered via Sprint 7's custom error page; Contact page is not currently buildable because no such page is scheduled.)
-- [ ] No console errors across the full regression pass.
+- [x] Full regression across `.ai/TESTING.md`'s Critical User Journeys: homepage loads, navigation works, search works, directory loads, business page loads, responsive navigation works. (Contact page and 404 page journeys are addressed per the gap noted in Risks above and in retrospective.md — 404 is covered via Sprint 7's custom error page; Contact page is not currently buildable because no such page is scheduled.)
+- [x] No console errors across the full regression pass.
 
 Manual Testing
 
-- [ ] `robots.txt` and `sitemap.xml` manually opened and reviewed in a browser for correctness.
-- [ ] Security headers manually inspected via browser dev tools / an online header-checking tool in Preview, then re-verified in Production.
-- [ ] A real error is deliberately triggered and confirmed to appear in the Sentry dashboard.
-- [ ] A real page view is confirmed to appear in the analytics dashboard.
-- [ ] Final metadata spot-check: titles, descriptions, Open Graph previews and structured data on a sample of business, category and homepage routes.
+- [x] `robots.txt` and `sitemap.xml` manually opened and reviewed in a browser for correctness.
+- [x] Security headers manually inspected via browser dev tools / an online header-checking tool in Preview, then re-verified in Production.
+- [ ] A real error is deliberately triggered and confirmed to appear in the Sentry dashboard. — Deferred (F-001), no Sentry account exists.
+- [x] A real page view is confirmed to appear in the analytics dashboard.
+- [x] Final metadata spot-check: titles, descriptions, Open Graph previews and structured data on a sample of business, category and homepage routes.
 
 Browser Compatibility Matrix (per TESTING.md "Browser Support")
 
 | Browser | Priority | Status |
 |---------|----------|--------|
-| Chrome (desktop) | Primary | Not Started |
-| Firefox (desktop) | Secondary | Not Started |
-| Safari (desktop) | Secondary | Not Started |
-| Mobile Safari (iOS) | Secondary | Not Started |
-| Mobile Chrome (Android) | Secondary | Not Started |
+| Chrome (desktop) | Primary | Completed |
+| Firefox (desktop) | Secondary | Completed |
+| Safari (desktop) | Secondary | Completed |
+| Mobile Safari (iOS) | Secondary | Completed (automated proxy — real physical-device testing disclosed as unavailable, see review.md) |
+| Mobile Chrome (Android) | Secondary | Completed (automated proxy — real physical-device testing disclosed as unavailable, see review.md) |
 
 Responsive Testing
 
-- [ ] Mobile, tablet, desktop, large desktop across all critical journeys as part of the final regression pass.
+- [x] Mobile, tablet, desktop, large desktop across all critical journeys as part of the final regression pass.
 
 Accessibility
 
-- [ ] Confirm Sprint 7's WCAG AA baseline still holds after this sprint's changes (headers, scripts) — no new accessibility regressions introduced by monitoring/analytics scripts.
+- [x] Confirm Sprint 7's WCAG AA baseline still holds after this sprint's changes (headers, scripts) — no new accessibility regressions introduced by monitoring/analytics scripts.
 
 ---
 
@@ -411,8 +411,8 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md
+- [x] CONTEXT.md
+- [x] TODO.md
 - [ ] ROADMAP.md
 - [ ] DECISIONS.md
 - [ ] CHANGELOG.md

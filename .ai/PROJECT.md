@@ -4,7 +4,7 @@
 
 Version: 1.0
 
-Project Status: Planning
+Project Status: MVP in Production — 15+ sprints delivered (see `sprints/` and `.ai/TODO.md`)
 
 Owner: Cerosh Jacob
 

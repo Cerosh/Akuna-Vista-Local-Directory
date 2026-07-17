@@ -18,19 +18,19 @@ This backlog breaks Sprint 9's deliverables into ordered, independently shippabl
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Configure security headers (CSP, HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) per `.ai/SECURITY.md` "Headers" and "Content Security Policy" | None | High | Not Started |
-| B-002 | Test security headers in Preview deployment; confirm no broken functionality (scripts, fonts, images, embeds) before enabling in Production | B-001 | High | Not Started |
-| B-003 | Wire up error logging and monitoring (Sentry) via `SENTRY_DSN`, following DEPLOYMENT.md's "Observability" and SECURITY.md's "Logging" rules | None | High | Not Started |
-| B-004 | Verify monitoring receives a real, deliberately triggered production error | B-003 | High | Not Started |
-| B-005 | Wire up analytics (Vercel Analytics / Google Analytics) via the relevant environment variable(s) | None | Medium | Not Started |
-| B-006 | Verify analytics receives a real production page view/event | B-005 | Medium | Not Started |
-| B-007 | Build and publish `robots.txt` covering all public routes | None | High | Not Started |
-| B-008 | Build `sitemap.xml` generation covering all business, category, community and static routes; reference it from `robots.txt` | B-007 | High | Not Started |
-| B-009 | Verify `robots.txt` and `sitemap.xml` are correct and reachable in production | B-008 | High | Not Started |
-| B-010 | Final metadata sanity check: spot-check titles, descriptions, Open Graph previews and structured data across a representative sample of route types (not a fresh audit — see Prioritisation Notes) | B-009 | Medium | Not Started |
-| B-011 | Browser compatibility pass: Chrome (primary), Firefox and Safari (secondary), mobile Safari and mobile Chrome, per TESTING.md "Browser Support" | B-002 | Medium | Not Started |
-| B-012 | Full final regression pass across TESTING.md's Critical User Journeys | B-004, B-006, B-009, B-010, B-011 | High | Not Started |
-| B-013 | Complete DEPLOYMENT.md's Release Checklist and Deployment Checklist sign-off | B-012 | High | Not Started |
+| B-001 | Configure security headers (CSP, HSTS, X-Content-Type-Options, Referrer-Policy, Permissions-Policy) per `.ai/SECURITY.md` "Headers" and "Content Security Policy" | None | High | Completed |
+| B-002 | Test security headers in Preview deployment; confirm no broken functionality (scripts, fonts, images, embeds) before enabling in Production | B-001 | High | Completed |
+| B-003 | Wire up error logging and monitoring (Sentry) via `SENTRY_DSN`, following DEPLOYMENT.md's "Observability" and SECURITY.md's "Logging" rules | None | High | Deferred — project owner chose not to set up a Sentry account this sprint (2026-07-14); tracked in `.ai/TODO.md` Backlog, not silently dropped (see README.md F-001) |
+| B-004 | Verify monitoring receives a real, deliberately triggered production error | B-003 | High | Deferred, same as B-003 |
+| B-005 | Wire up analytics (Vercel Analytics / Google Analytics) via the relevant environment variable(s) | None | Medium | Completed |
+| B-006 | Verify analytics receives a real production page view/event | B-005 | Medium | Completed |
+| B-007 | Build and publish `robots.txt` covering all public routes | None | High | Completed |
+| B-008 | Build `sitemap.xml` generation covering all business, category, community and static routes; reference it from `robots.txt` | B-007 | High | Completed |
+| B-009 | Verify `robots.txt` and `sitemap.xml` are correct and reachable in production | B-008 | High | Completed |
+| B-010 | Final metadata sanity check: spot-check titles, descriptions, Open Graph previews and structured data across a representative sample of route types (not a fresh audit — see Prioritisation Notes) | B-009 | Medium | Completed |
+| B-011 | Browser compatibility pass: Chrome (primary), Firefox and Safari (secondary), mobile Safari and mobile Chrome, per TESTING.md "Browser Support" | B-002 | Medium | Completed |
+| B-012 | Full final regression pass across TESTING.md's Critical User Journeys | B-004, B-006, B-009, B-010, B-011 | High | Completed |
+| B-013 | Complete DEPLOYMENT.md's Release Checklist and Deployment Checklist sign-off | B-012 | High | Completed |
 
 ---
 

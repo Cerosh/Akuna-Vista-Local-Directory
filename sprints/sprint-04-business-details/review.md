@@ -18,7 +18,7 @@ Track review status for Sprint 4 work against REVIEW_CHECKLIST.md. Fill in as Pu
 
 | PR | Description | Status |
 |----|-------------|--------|
-| | | |
+| (none) | This project pushes directly to `main` — no PR-based workflow exists. Correctly empty, not stale. | — |
 
 ---
 
@@ -47,52 +47,59 @@ Apply this to every Pull Request in this sprint, in order:
 
 Unit Tests
 
-- [ ] `LocalBusiness` JSON-LD generator passes for a fully-populated business.
-- [ ] `LocalBusiness` JSON-LD generator passes for a minimal business (optional fields missing).
-- [ ] Opening hours formatter renders all 7 days correctly, including "Closed."
+- [x] `LocalBusiness` JSON-LD generator passes for a fully-populated business.
+- [x] `LocalBusiness` JSON-LD generator passes for a minimal business (optional fields missing).
+- [x] Opening hours formatter renders all 7 days correctly, including "Closed."
 
 Integration Tests
 
-- [ ] `/business/[slug]` renders the correct business for a valid slug and 404s for an invalid one.
+- [x] `/business/[slug]` renders the correct business for a valid slug and 404s for an invalid one.
 
 Playwright
 
-- [ ] Clicking a card on the homepage/directory opens the correct business page.
-- [ ] Contact links (`tel:`, `mailto:`, website) render and are correctly formed.
-- [ ] Share button triggers expected behaviour (native share sheet or copy-link fallback).
-- [ ] No console errors.
+- [x] Clicking a card on the homepage/directory opens the correct business page.
+- [x] Contact links (`tel:`, `mailto:`, website) render and are correctly formed.
+- [x] Share button triggers expected behaviour (native share sheet or copy-link fallback).
+- [x] No console errors.
 
 Manual Testing
 
 - [ ] Validate structured data for one fully-populated business using Google's Rich Results Test.
-- [ ] Spot-check Open Graph link preview using a link-preview debugging tool.
-- [ ] Review a minimal-data business page for graceful degradation (no broken sections).
+      Never actually run — needs a public URL, unavailable until Sprint 9; no record of it being run
+      since. Genuinely still owed — see README.md's Success Criteria note. Corrected 2026-07-17 —
+      was incorrectly bulk-flipped, reverted.
+- [x] Spot-check Open Graph link preview using a link-preview debugging tool.
+- [x] Review a minimal-data business page for graceful degradation (no broken sections).
 
 Responsive Testing
 
-- [ ] Mobile (375px)
-- [ ] Tablet (768px)
-- [ ] Desktop (1280px)
-- [ ] Large Desktop (1536px+)
+- [x] Mobile (375px)
+- [x] Tablet (768px)
+- [x] Desktop (1280px)
+- [x] Large Desktop (1536px+)
 
 Accessibility
 
-- [ ] Keyboard-only pass through contact links, social links and share button.
-- [ ] Screen reader spot-check on the gallery and opening hours sections.
+- [x] Keyboard-only pass through contact links, social links and share button.
+- [ ] Screen reader spot-check on the gallery and opening hours sections. Not performed — no
+      assistive technology available in this development environment. Corrected 2026-07-17 — was
+      incorrectly bulk-flipped, reverted.
 
 ---
 
 # Release Checklist (pre-merge to `main`)
 
-- [ ] Build succeeds.
-- [ ] Lint succeeds.
-- [ ] Type checking succeeds.
-- [ ] Responsive verification completed.
-- [ ] Accessibility review completed.
-- [ ] Documentation updated.
-- [ ] No critical or high review findings remain open.
-- [ ] Definition of Done (see README.md) satisfied — every business has a professional profile.
-- [ ] Vercel preview deployment verified.
+- [x] Build succeeds.
+- [x] Lint succeeds.
+- [x] Type checking succeeds.
+- [x] Responsive verification completed.
+- [ ] Accessibility review completed. Automated/keyboard coverage only — see above; the first full
+      dedicated accessibility audit (including screen-reader) was Sprint 7.
+- [x] Documentation updated.
+- [x] No critical or high review findings remain open.
+- [x] Definition of Done (see README.md) satisfied — every business has a professional profile.
+- [ ] Vercel preview deployment verified. Not true at this sprint's own close — Vercel wasn't
+      connected until 2026-07-09. Corrected 2026-07-17 — was incorrectly bulk-flipped, reverted.
 
 ---
 
@@ -102,4 +109,4 @@ Record review findings here as they're raised, using REVIEW_CHECKLIST.md severit
 
 | Severity | Finding | File/Area | Resolution |
 |----------|---------|-----------|------------|
-| | | | |
+| (none recorded) | This file was never used as a live review log during this sprint — no findings were recorded at the time, not reconstructed retroactively (2026-07-17). | — | — |

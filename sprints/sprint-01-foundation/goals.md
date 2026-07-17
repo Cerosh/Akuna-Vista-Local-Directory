@@ -55,13 +55,16 @@ Sprint 1 exists to lock these guarantees in before any product feature is writte
 
 Sprint 1 is successful when:
 
-- [ ] The application builds, lints and type-checks with zero errors.
-- [ ] GitHub Actions CI passes on a real Pull Request.
-- [ ] Playwright's smoke test passes locally and in CI.
-- [ ] The application is live on a Vercel preview and production URL.
-- [ ] The repository pattern is respected — no UI component imports JSON directly.
-- [ ] `.ai/`, `docs/` and `sprints/` are committed to version control.
-- [ ] CONTEXT.md and TODO.md accurately reflect "Sprint 01 complete" once done.
+- [x] The application builds, lints and type-checks with zero errors.
+- [x] GitHub Actions CI passes on a real Pull Request.
+- [x] Playwright's smoke test passes locally and in CI.
+- [ ] The application is live on a Vercel preview and production URL. Not true at this sprint's own
+      close — Vercel wasn't connected until 2026-07-09, 3 days after this sprint's commit `85e4890`
+      (2026-07-06). Corrected 2026-07-17 — left unchecked as genuinely not this sprint's own
+      deliverable, not re-flipped to match the site's current live state.
+- [x] The repository pattern is respected — no UI component imports JSON directly.
+- [x] `.ai/`, `docs/` and `sprints/` are committed to version control.
+- [x] CONTEXT.md and TODO.md accurately reflect "Sprint 01 complete" once done.
 
 ---
 

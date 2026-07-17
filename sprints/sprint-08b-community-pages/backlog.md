@@ -20,13 +20,13 @@ existing, and testing/documentation close out the sprint.
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Build `/about` | None | High | Not Started |
-| B-002 | Build `/contact` (mailto link, `Settings.contactEmail`) | None | High | Not Started |
-| B-003 | Build `/privacy` | None | High | Not Started |
-| B-004 | Build `/terms` | None | Medium | Not Started |
-| B-005 | Update `Footer.tsx` — de-prefetch-guard `/about`/`/contact`, add `/privacy`/`/terms` links | B-001, B-002, B-003, B-004 | High | Not Started |
-| B-006 | Extend `tests/e2e/accessibility.spec.ts` and `tests/e2e/responsive.spec.ts` with the four new routes; add/extend a Playwright spec covering Footer links + Contact `mailto:` href | B-005 | High | Not Started |
-| B-007 | Update Sprint 09's README.md/notes.md to record the About/Contact/Privacy/Terms risk as resolved | B-001–B-004 | Medium | Not Started |
+| B-001 | Build `/about` | None | High | Completed |
+| B-002 | Build `/contact` (mailto link, `Settings.contactEmail`) | None | High | Completed |
+| B-003 | Build `/privacy` | None | High | Completed |
+| B-004 | Build `/terms` | None | Medium | Completed |
+| B-005 | Update `Footer.tsx` — de-prefetch-guard `/about`/`/contact`, add `/privacy`/`/terms` links | B-001, B-002, B-003, B-004 | High | Completed |
+| B-006 | Extend `tests/e2e/accessibility.spec.ts` and `tests/e2e/responsive.spec.ts` with the four new routes; add/extend a Playwright spec covering Footer links + Contact `mailto:` href | B-005 | High | Completed |
+| B-007 | Update Sprint 09's README.md/notes.md to record the About/Contact/Privacy/Terms risk as resolved | B-001–B-004 | Medium | Completed |
 
 ---
 

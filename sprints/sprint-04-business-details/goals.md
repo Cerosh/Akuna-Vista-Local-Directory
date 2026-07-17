@@ -51,11 +51,17 @@ This is also the point where individual businesses become independently valuable
 
 Sprint 4 is successful when:
 
-- [ ] Every business record in the dataset renders a complete, professional-looking profile page.
-- [ ] Optional fields (gallery, social links, service areas) degrade gracefully when absent — no broken UI.
+- [x] Every business record in the dataset renders a complete, professional-looking profile page.
+- [x] Optional fields (gallery, social links, service areas) degrade gracefully when absent — no broken UI.
 - [ ] Structured data for at least one business validates against Google's Rich Results Test.
-- [ ] Playwright coverage exists for directory → business page navigation.
-- [ ] No component reads JSON directly — everything flows through `BusinessRepository`.
+      Structurally re-validated against schema.org's `LocalBusiness` properties in Sprint 7
+      (`lib/services/structuredData.ts`, no gaps found) — but an actual Google Rich Results Test
+      run was never performed; it needs a public URL, which this project didn't have until Sprint 9,
+      and no record exists of it being run since. Disclosed in `sprints/sprint-07-quality/review.md`
+      and `.ai/CONTEXT.md`'s Known Constraints, not silently marked done. Left unchecked —
+      genuinely still owed, not a documentation staleness issue like the rest of this pass.
+- [x] Playwright coverage exists for directory → business page navigation.
+- [x] No component reads JSON directly — everything flows through `BusinessRepository`.
 
 ---
 

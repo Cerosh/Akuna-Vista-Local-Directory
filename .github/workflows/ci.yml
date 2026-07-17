@@ -13,6 +13,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          # Full history needed to diff the push/PR range — the doc-staleness
+          # guardrails (Sprint 16 F-006) compare against the commit(s) before
+          # this push, which a shallow (fetch-depth: 1) checkout can't do.
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -28,6 +33,32 @@ jobs:
 
       - name: Validate data
         run: npm run validate:data
+
+      - name: Determine doc-validation range
+        id: range
+        run: |
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            git fetch origin "${{ github.event.pull_request.base.sha }}" --depth=1
+            echo "base=${{ github.event.pull_request.base.sha }}" >> "$GITHUB_OUTPUT"
+            echo "head=${{ github.event.pull_request.head.sha }}" >> "$GITHUB_OUTPUT"
+          elif [ "${{ github.event.before }}" != "0000000000000000000000000000000000000000" ]; then
+            echo "base=${{ github.event.before }}" >> "$GITHUB_OUTPUT"
+            echo "head=${{ github.event.after }}" >> "$GITHUB_OUTPUT"
+          else
+            # First push to a new branch (or a force-push with no common
+            # ancestor available) — nothing to diff against, skip.
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Doc-staleness guardrails (Sprint 16 F-006)
+        if: steps.range.outputs.skip != 'true'
+        run: |
+          npm run validate:no-contradiction -- --range "${{ steps.range.outputs.base }}" "${{ steps.range.outputs.head }}"
+          npm run validate:sprint-doc-contact -- --range "${{ steps.range.outputs.base }}" "${{ steps.range.outputs.head }}"
+          npm run validate:doc-freshness -- --range "${{ steps.range.outputs.base }}" "${{ steps.range.outputs.head }}"
+
+      - name: Sprint doc consistency (Sprint 16 F-006, Check 3)
+        run: npm run validate:sprint-consistency
 
       - name: Lint
         run: npm run lint

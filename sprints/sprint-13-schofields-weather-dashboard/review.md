@@ -57,7 +57,8 @@ opened and reviewed — do not pre-fill outcomes before work exists.
     suite re-run, 0 failures.
 13. **Documentation** — This sprint's own README.md/goals.md/tasks.md/backlog.md/notes.md/
     retrospective.md/review.md filled in; `.ai/TODO.md` updated.
-14. **Git** — Not yet committed.
+14. **Git** — Committed as commit `df2e394` ("feat: add Schofields weather dashboard via
+    Open-Meteo (Sprint 13)") and deployed. Resolved 2026-07-17 doc audit.
 
 ---
 

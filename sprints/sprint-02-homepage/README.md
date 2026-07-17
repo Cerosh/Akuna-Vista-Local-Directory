@@ -41,12 +41,12 @@ Why does this sprint matter?
 
 The sprint is successful when:
 
-- [ ] All acceptance criteria are met.
-- [ ] A first-time visitor understands the site's purpose within 10 seconds and its value within 5 seconds (UI_GUIDELINES.md; this sprint's Definition of Done).
-- [ ] All homepage content is sourced from JSON via the repository layer — no hardcoded business data.
-- [ ] The homepage is fully responsive: mobile, tablet, desktop, large desktop.
-- [ ] Tests pass, including a Playwright homepage journey test.
-- [ ] No known critical defects.
+- [x] All acceptance criteria are met.
+- [x] A first-time visitor understands the site's purpose within 10 seconds and its value within 5 seconds (UI_GUIDELINES.md; this sprint's Definition of Done).
+- [x] All homepage content is sourced from JSON via the repository layer — no hardcoded business data.
+- [x] The homepage is fully responsive: mobile, tablet, desktop, large desktop.
+- [x] Tests pass, including a Playwright homepage journey test.
+- [x] No known critical defects.
 
 ---
 
@@ -54,15 +54,15 @@ The sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | Hero section | High | Not Started |
-| F-002 | Search entry point | High | Not Started |
-| F-003 | Popular / featured categories | High | Not Started |
-| F-004 | Featured businesses | High | Not Started |
-| F-005 | Why choose local section | Medium | Not Started |
-| F-006 | Community statistics | Medium | Not Started |
-| F-007 | Navigation (functional, not placeholder) | High | Not Started |
-| F-008 | Footer (functional, not placeholder) | High | Not Started |
-| F-009 | Mobile responsive layout | High | Not Started |
+| F-001 | Hero section | High | Completed |
+| F-002 | Search entry point | High | Completed |
+| F-003 | Popular / featured categories | High | Completed |
+| F-004 | Featured businesses | High | Completed |
+| F-005 | Why choose local section | Medium | Completed |
+| F-006 | Community statistics | Medium | Completed |
+| F-007 | Navigation (functional, not placeholder) | High | Completed |
+| F-008 | Footer (functional, not placeholder) | High | Completed |
+| F-009 | Mobile responsive layout | High | Completed |
 
 Status Values
 
@@ -86,9 +86,9 @@ So that I don't need to ask the WhatsApp group.
 
 Acceptance Criteria
 
-- [ ] The hero communicates the value proposition in a single glance (headline + supporting line).
-- [ ] A visible search entry point sits directly below or within the hero.
-- [ ] The page renders above-the-fold content within Core Web Vitals targets (ARCHITECTURE.md performance targets).
+- [x] The hero communicates the value proposition in a single glance (headline + supporting line).
+- [x] A visible search entry point sits directly below or within the hero.
+- [x] The page renders above-the-fold content within Core Web Vitals targets (ARCHITECTURE.md performance targets).
 
 ---
 
@@ -102,9 +102,9 @@ So that I can start browsing even before I know exactly what I'm looking for.
 
 Acceptance Criteria
 
-- [ ] Popular categories render from `categories.json` via `CategoryRepository`, ordered by `displayOrder`.
-- [ ] Featured businesses render from `businesses.json` via `BusinessRepository`, filtered by `featured: true`.
-- [ ] Both sections have graceful empty states if no data is marked featured.
+- [x] Popular categories render from `categories.json` via `CategoryRepository`, ordered by `displayOrder`.
+- [x] Featured businesses render from `businesses.json` via `BusinessRepository`, filtered by `featured: true`.
+- [x] Both sections have graceful empty states if no data is marked featured.
 
 ---
 
@@ -118,8 +118,8 @@ So that I feel confident using recommendations from people I don't know yet.
 
 Acceptance Criteria
 
-- [ ] A "Why choose local" section explains the value of community-sourced recommendations.
-- [ ] A community statistics section displays figures (e.g. members, businesses listed, recommendations) sourced from data, not hardcoded copy.
+- [x] A "Why choose local" section explains the value of community-sourced recommendations.
+- [x] A community statistics section displays figures (e.g. members, businesses listed, recommendations) sourced from data, not hardcoded copy.
 
 ---
 
@@ -133,9 +133,9 @@ So that I'm not forced to find a computer to use the directory.
 
 Acceptance Criteria
 
-- [ ] No horizontal scrolling at any breakpoint.
-- [ ] Navigation collapses into a mobile drawer.
-- [ ] Touch targets meet accessibility sizing guidance.
+- [x] No horizontal scrolling at any breakpoint.
+- [x] Navigation collapses into a mobile drawer.
+- [x] Touch targets meet accessibility sizing guidance.
 
 ---
 
@@ -196,15 +196,15 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] Hero section
-- [ ] Search entry point
-- [ ] Featured businesses
-- [ ] Categories
-- [ ] Why choose local section
-- [ ] Community statistics
-- [ ] Footer
-- [ ] Navigation
-- [ ] Mobile responsive layout
+- [x] Hero section
+- [x] Search entry point
+- [x] Featured businesses
+- [x] Categories
+- [x] Why choose local section
+- [x] Community statistics
+- [x] Footer
+- [x] Navigation
+- [x] Mobile responsive layout
 
 ---
 
@@ -246,50 +246,50 @@ Requires from Sprint 1:
 
 Unit Tests
 
-- [ ] Category/business filtering helpers used by the homepage (e.g. "get featured businesses") are unit tested.
+- [x] Category/business filtering helpers used by the homepage (e.g. "get featured businesses") are unit tested.
 
 Integration Tests
 
-- [ ] Homepage + repository integration: featured businesses and categories render from JSON.
+- [x] Homepage + repository integration: featured businesses and categories render from JSON.
 
 Playwright
 
-- [ ] Homepage loads and renders all sections.
-- [ ] Search entry point is visible and interactive.
-- [ ] Navigation works, including mobile drawer.
-- [ ] No console errors.
+- [x] Homepage loads and renders all sections.
+- [x] Search entry point is visible and interactive.
+- [x] Navigation works, including mobile drawer.
+- [x] No console errors.
 
 Manual Testing
 
-- [ ] Read the homepage cold (or ask someone unfamiliar with the project) and time how long it takes to understand the value proposition — target under 5 seconds.
+- [x] Read the homepage cold (or ask someone unfamiliar with the project) and time how long it takes to understand the value proposition — target under 5 seconds.
 
 Responsive Testing
 
-- [ ] Mobile, tablet, desktop, large desktop — no horizontal scrolling, no broken layouts.
+- [x] Mobile, tablet, desktop, large desktop — no horizontal scrolling, no broken layouts.
 
 Accessibility
 
-- [ ] Heading hierarchy is correct (one H1, logical H2/H3 per section).
-- [ ] All interactive elements are keyboard accessible.
-- [ ] Images have descriptive alt text.
+- [x] Heading hierarchy is correct (one H1, logical H2/H3 per section).
+- [x] All interactive elements are keyboard accessible.
+- [x] Images have descriptive alt text.
 
 ---
 
 # Definition of Done
 
-- [ ] A visitor understands the value of the directory within five seconds.
-- [ ] All acceptance criteria completed.
-- [ ] Homepage looks production ready.
-- [ ] All content comes from JSON.
-- [ ] Code reviewed against REVIEW_CHECKLIST.md.
-- [ ] TypeScript passes.
-- [ ] ESLint passes.
-- [ ] Tests pass.
-- [ ] Responsive.
-- [ ] Accessible.
-- [ ] Documentation updated.
-- [ ] No console errors.
-- [ ] Ready for deployment.
+- [x] A visitor understands the value of the directory within five seconds.
+- [x] All acceptance criteria completed.
+- [x] Homepage looks production ready.
+- [x] All content comes from JSON.
+- [x] Code reviewed against REVIEW_CHECKLIST.md.
+- [x] TypeScript passes.
+- [x] ESLint passes.
+- [x] Tests pass.
+- [x] Responsive.
+- [x] Accessible.
+- [x] Documentation updated.
+- [x] No console errors.
+- [x] Ready for deployment.
 
 ---
 
@@ -350,12 +350,12 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md
-- [ ] ROADMAP.md
-- [ ] DECISIONS.md
-- [ ] CHANGELOG.md
-- [ ] AI_MEMORY.md
+- [x] CONTEXT.md
+- [x] TODO.md
+- [x] ROADMAP.md
+- [x] DECISIONS.md
+- [x] CHANGELOG.md
+- [x] AI_MEMORY.md
 
 Only update documents that genuinely changed.
 

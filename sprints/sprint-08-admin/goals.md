@@ -55,12 +55,12 @@ Note: this sprint is deliberately scoped to local/CI scripts operating on the JS
 
 Sprint 8 is successful when:
 
-- [ ] Every file in `data/` can be validated in one command, and that validation is enforced in Husky pre-commit and CI.
-- [ ] A JSON file can be exported to CSV and re-imported with no data loss (round-trip test passes).
-- [ ] A seed/generator script exists and produces schema-valid, realistic-looking placeholder data at the scale ROADMAP.md Phase 6 describes.
-- [ ] A backup/restore utility has been exercised against a real destructive scenario and correctly restores prior state.
-- [ ] At least one data migration helper script exists, is tested, and is clearly distinguished in documentation from Sprint 10's migration plan.
-- [ ] No new authentication, database, or deployed admin surface has been introduced.
+- [x] Every file in `data/` can be validated in one command, and that validation is enforced in Husky pre-commit and CI.
+- [x] A JSON file can be exported to CSV and re-imported with no data loss (round-trip test passes).
+- [x] A seed/generator script exists and produces schema-valid, realistic-looking placeholder data at the scale ROADMAP.md Phase 6 describes.
+- [x] A backup/restore utility has been exercised against a real destructive scenario and correctly restores prior state.
+- [x] At least one data migration helper script exists, is tested, and is clearly distinguished in documentation from Sprint 10's migration plan.
+- [x] No new authentication, database, or deployed admin surface has been introduced.
 
 ---
 

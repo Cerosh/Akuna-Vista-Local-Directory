@@ -41,13 +41,13 @@ Why does this sprint matter?
 
 The sprint is successful when:
 
-- [ ] All acceptance criteria are met.
-- [ ] `/search` supports keyword, category and suburb search against the existing JSON dataset.
-- [ ] Filtering/results update instantly (debounced, client-side) as the user types.
-- [ ] Empty results show helpful, actionable messaging rather than a blank page.
-- [ ] Search logic is isolated behind a `SearchService`-style abstraction, not scattered across components.
-- [ ] Tests pass, including Playwright coverage of the search journey.
-- [ ] No known critical defects.
+- [x] All acceptance criteria are met.
+- [x] `/search` supports keyword, category and suburb search against the existing JSON dataset.
+- [x] Filtering/results update instantly (debounced, client-side) as the user types.
+- [x] Empty results show helpful, actionable messaging rather than a blank page.
+- [x] Search logic is isolated behind a `SearchService`-style abstraction, not scattered across components.
+- [x] Tests pass, including Playwright coverage of the search journey.
+- [x] No known critical defects.
 
 ---
 
@@ -55,13 +55,13 @@ The sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | Keyword search | High | Not Started |
-| F-002 | Category search | High | Not Started |
-| F-003 | Suburb search | High | Not Started |
-| F-004 | Instant filtering | High | Not Started |
-| F-005 | Search suggestions | Medium | Not Started |
-| F-006 | Empty results | High | Not Started |
-| F-007 | Recent searches (optional) | Low | Not Started |
+| F-001 | Keyword search | High | Completed |
+| F-002 | Category search | High | Completed |
+| F-003 | Suburb search | High | Completed |
+| F-004 | Instant filtering | High | Completed |
+| F-005 | Search suggestions | Medium | Completed |
+| F-006 | Empty results | High | Completed |
+| F-007 | Recent searches (optional) | Low | Completed |
 
 Status Values
 
@@ -85,9 +85,9 @@ So that I don't need to browse categories or ask the WhatsApp group.
 
 Acceptance Criteria
 
-- [ ] Typing a keyword matches against business `name`, `description`, `tags`, and category name.
-- [ ] Results update as the user types, debounced so it feels instant without excessive re-computation.
-- [ ] Each result links to its real `/business/[slug]` page (Sprint 4).
+- [x] Typing a keyword matches against business `name`, `description`, `tags`, and category name.
+- [x] Results update as the user types, debounced so it feels instant without excessive re-computation.
+- [x] Each result links to its real `/business/[slug]` page (Sprint 4).
 
 ---
 
@@ -101,9 +101,9 @@ So that I find something relevant without re-learning a separate filtering UI.
 
 Acceptance Criteria
 
-- [ ] Search matches against `categoryId`/category name, `address.suburb`, and `serviceAreas`.
-- [ ] Category/suburb search reuses the filtering logic already built for `/businesses` and `/category/[slug]` in Sprint 3 rather than re-implementing it.
-- [ ] Combining a keyword with a category or suburb narrows results further (AND, not OR).
+- [x] Search matches against `categoryId`/category name, `address.suburb`, and `serviceAreas`.
+- [x] Category/suburb search reuses the filtering logic already built for `/businesses` and `/category/[slug]` in Sprint 3 rather than re-implementing it.
+- [x] Combining a keyword with a category or suburb narrows results further (AND, not OR).
 
 ---
 
@@ -117,9 +117,9 @@ So that I can find the right result faster and with fewer keystrokes.
 
 Acceptance Criteria
 
-- [ ] A typeahead/suggestions list appears after a minimum number of characters, sourced from existing JSON data (no AI/semantic matching — that's Version 3).
-- [ ] Suggestions are keyboard-navigable (arrow keys, Enter, Escape).
-- [ ] Selecting a suggestion navigates to or filters `/search` accordingly.
+- [x] A typeahead/suggestions list appears after a minimum number of characters, sourced from existing JSON data (no AI/semantic matching — that's Version 3).
+- [x] Suggestions are keyboard-navigable (arrow keys, Enter, Escape).
+- [x] Selecting a suggestion navigates to or filters `/search` accordingly.
 
 ---
 
@@ -133,9 +133,9 @@ So that I don't think the site is broken or give up on the directory entirely.
 
 Acceptance Criteria
 
-- [ ] Zero-result searches render a friendly message per DESIGN_SYSTEM.md/UI_GUIDELINES.md Empty States guidance (explanation + suggested action), not a blank page.
-- [ ] The empty state suggests an alternative action (e.g. browse categories, clear filters, try a broader term).
-- [ ] (Optional/stretch) Recently used searches, if implemented, are stored in `localStorage` and offered as a quick way to retry a previous search.
+- [x] Zero-result searches render a friendly message per DESIGN_SYSTEM.md/UI_GUIDELINES.md Empty States guidance (explanation + suggested action), not a blank page.
+- [x] The empty state suggests an alternative action (e.g. browse categories, clear filters, try a broader term).
+- [x] (Optional/stretch) Recently used searches, if implemented, are stored in `localStorage` and offered as a quick way to retry a previous search.
 
 ---
 
@@ -198,13 +198,13 @@ Always for this sprint
 
 # Deliverables
 
-- [ ] Keyword search
-- [ ] Category search
-- [ ] Suburb search
-- [ ] Instant filtering
-- [ ] Search suggestions
-- [ ] Empty results
-- [ ] Recent searches (optional)
+- [x] Keyword search
+- [x] Category search
+- [x] Suburb search
+- [x] Instant filtering
+- [x] Search suggestions
+- [x] Empty results
+- [x] Recent searches (optional)
 
 ---
 
@@ -255,56 +255,56 @@ Requires from Sprint 4:
 
 Unit Tests
 
-- [ ] `SearchService`/search matching function returns correct results for keyword, category and suburb queries, individually and combined.
-- [ ] Empty-query and no-match cases are handled explicitly (not as an accidental empty array with no messaging logic).
-- [ ] Suggestion/autocomplete function returns relevant, deduplicated suggestions from business names, categories and suburbs.
+- [x] `SearchService`/search matching function returns correct results for keyword, category and suburb queries, individually and combined.
+- [x] Empty-query and no-match cases are handled explicitly (not as an accidental empty array with no messaging logic).
+- [x] Suggestion/autocomplete function returns relevant, deduplicated suggestions from business names, categories and suburbs.
 
 Integration Tests
 
-- [ ] `/search` route + `SearchService` + repositories: a given query renders the expected set of results.
-- [ ] Category/suburb search on `/search` produces the same matching businesses as the equivalent Sprint 3 filter on `/businesses`.
+- [x] `/search` route + `SearchService` + repositories: a given query renders the expected set of results.
+- [x] Category/suburb search on `/search` produces the same matching businesses as the equivalent Sprint 3 filter on `/businesses`.
 
 Playwright
 
-- [ ] Typing a keyword into search updates results without a full page reload.
-- [ ] Selecting a suggestion navigates to the correct filtered results or business page.
-- [ ] A query with no matches renders the empty-results state with a suggested next step.
-- [ ] A search result links to the correct real `/business/[slug]` page.
-- [ ] No console errors.
+- [x] Typing a keyword into search updates results without a full page reload.
+- [x] Selecting a suggestion navigates to the correct filtered results or business page.
+- [x] A query with no matches renders the empty-results state with a suggested next step.
+- [x] A search result links to the correct real `/business/[slug]` page.
+- [x] No console errors.
 
 Manual Testing
 
-- [ ] Subjectively confirm search "feels instant" while typing on a mid-range device/network throttle.
-- [ ] Spot-check suggestions for relevance against real `businesses.json`/`categories.json`/`suburbs.json` data.
-- [ ] Confirm combining keyword + category/suburb narrows results correctly.
+- [x] Subjectively confirm search "feels instant" while typing on a mid-range device/network throttle.
+- [x] Spot-check suggestions for relevance against real `businesses.json`/`categories.json`/`suburbs.json` data.
+- [x] Confirm combining keyword + category/suburb narrows results correctly.
 
 Responsive Testing
 
-- [ ] Mobile, tablet, desktop, large desktop for the search input, suggestions dropdown and results list.
+- [x] Mobile, tablet, desktop, large desktop for the search input, suggestions dropdown and results list.
 
 Accessibility
 
-- [ ] Search input has a proper label/`aria-label`.
-- [ ] Suggestions list is keyboard-navigable and announced correctly to screen readers.
-- [ ] Empty-results state uses semantic HTML and is not conveyed by colour/icon alone.
+- [x] Search input has a proper label/`aria-label`.
+- [x] Suggestions list is keyboard-navigable and announced correctly to screen readers.
+- [x] Empty-results state uses semantic HTML and is not conveyed by colour/icon alone.
 
 ---
 
 # Definition of Done
 
-- [ ] Search feels instant and intuitive.
-- [ ] All acceptance criteria completed.
-- [ ] Search logic sits behind a replaceable `SearchService`-style abstraction.
-- [ ] Category/suburb search reuses Sprint 3's filtering infrastructure rather than duplicating it.
-- [ ] Code reviewed against REVIEW_CHECKLIST.md.
-- [ ] TypeScript passes.
-- [ ] ESLint passes.
-- [ ] Tests pass.
-- [ ] Responsive.
-- [ ] Accessible.
-- [ ] Documentation updated.
-- [ ] No console errors.
-- [ ] Ready for deployment.
+- [x] Search feels instant and intuitive.
+- [x] All acceptance criteria completed.
+- [x] Search logic sits behind a replaceable `SearchService`-style abstraction.
+- [x] Category/suburb search reuses Sprint 3's filtering infrastructure rather than duplicating it.
+- [x] Code reviewed against REVIEW_CHECKLIST.md.
+- [x] TypeScript passes.
+- [x] ESLint passes.
+- [x] Tests pass.
+- [x] Responsive.
+- [x] Accessible.
+- [x] Documentation updated.
+- [x] No console errors.
+- [x] Ready for deployment.
 
 ---
 
@@ -365,12 +365,12 @@ See [retrospective.md](./retrospective.md).
 
 At the end of the sprint determine whether the following documents require updates:
 
-- [ ] CONTEXT.md
-- [ ] TODO.md
-- [ ] ROADMAP.md
-- [ ] DECISIONS.md
-- [ ] CHANGELOG.md
-- [ ] AI_MEMORY.md
+- [x] CONTEXT.md
+- [x] TODO.md
+- [x] ROADMAP.md
+- [x] DECISIONS.md
+- [x] CHANGELOG.md
+- [x] AI_MEMORY.md
 
 Only update documents that genuinely changed.
 

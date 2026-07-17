@@ -18,17 +18,17 @@ This backlog breaks Sprint 8's deliverables into ordered, independently shippabl
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Build the JSON validation script/library covering every schema in JSON_SCHEMA.md (Business, Category, Suburb, Event, Promotion, Announcement, Settings, Metadata) — required fields, slug rules, UUID identifiers, ISO 8601 dates, no duplicate IDs/slugs | Sprint 1 repository layer, JSON_SCHEMA.md | High | Not Started |
-| B-002 | Build the backup utility (timestamped, git-ignored snapshot of `data/`) and restore script | B-001 (validate before/after backup operations) | High | Not Started |
-| B-003 | Build export tooling: JSON → CSV/spreadsheet-friendly format, starting with `businesses.json` | B-001 | High | Not Started |
-| B-004 | Build import tooling: CSV → JSON, validating every row against B-001 before writing, rejecting invalid rows with specific errors | B-001, B-003 | High | Not Started |
-| B-005 | Build admin data scripts (add record, update record, toggle `featured`/`verified` flags) operating on `data/*.json` via the command line | B-001, B-002 | Medium | Not Started |
-| B-006 | Build the seed/generator script capable of producing a full-scale, realistic placeholder dataset (businesses, categories, suburbs, events, promotions, announcements) conforming exactly to JSON_SCHEMA.md, closing the ROADMAP.md Phase 6 gap | B-001, B-002 | Medium | Not Started |
-| B-007 | Build at least one data migration helper script (mechanical `schemaVersion` bump — e.g. add a new field with a default value across all records in one file) per JSON_SCHEMA.md's Versioning section | B-001, B-002 | Low/Medium | Not Started |
-| B-008 | Wire JSON validation (B-001) into the Husky pre-commit hook and the GitHub Actions CI workflow from Sprint 1 | B-001 | High | Not Started |
-| B-009 | Unit tests: validation logic (accepts valid records, rejects each documented rule violation); migration helper transform correctness | B-001, B-007 | High | Not Started |
-| B-010 | Integration test: export-then-re-import round-trip produces identical data | B-003, B-004 | High | Not Started |
-| B-011 | Integration test: seed generator output passes validation with zero errors; backup/restore correctly reverts a destructive test operation | B-006, B-002 | Medium | Not Started |
+| B-001 | Build the JSON validation script/library covering every schema in JSON_SCHEMA.md (Business, Category, Suburb, Event, Promotion, Announcement, Settings, Metadata) — required fields, slug rules, UUID identifiers, ISO 8601 dates, no duplicate IDs/slugs | Sprint 1 repository layer, JSON_SCHEMA.md | High | Completed |
+| B-002 | Build the backup utility (timestamped, git-ignored snapshot of `data/`) and restore script | B-001 (validate before/after backup operations) | High | Completed |
+| B-003 | Build export tooling: JSON → CSV/spreadsheet-friendly format, starting with `businesses.json` | B-001 | High | Completed |
+| B-004 | Build import tooling: CSV → JSON, validating every row against B-001 before writing, rejecting invalid rows with specific errors | B-001, B-003 | High | Completed |
+| B-005 | Build admin data scripts (add record, update record, toggle `featured`/`verified` flags) operating on `data/*.json` via the command line | B-001, B-002 | Medium | Completed |
+| B-006 | Build the seed/generator script capable of producing a full-scale, realistic placeholder dataset (businesses, categories, suburbs, events, promotions, announcements) conforming exactly to JSON_SCHEMA.md, closing the ROADMAP.md Phase 6 gap | B-001, B-002 | Medium | Completed |
+| B-007 | Build at least one data migration helper script (mechanical `schemaVersion` bump — e.g. add a new field with a default value across all records in one file) per JSON_SCHEMA.md's Versioning section | B-001, B-002 | Low/Medium | Completed |
+| B-008 | Wire JSON validation (B-001) into the Husky pre-commit hook and the GitHub Actions CI workflow from Sprint 1 | B-001 | High | Completed |
+| B-009 | Unit tests: validation logic (accepts valid records, rejects each documented rule violation); migration helper transform correctness | B-001, B-007 | High | Completed |
+| B-010 | Integration test: export-then-re-import round-trip produces identical data | B-003, B-004 | High | Completed |
+| B-011 | Integration test: seed generator output passes validation with zero errors; backup/restore correctly reverts a destructive test operation | B-006, B-002 | Medium | Completed |
 
 ---
 

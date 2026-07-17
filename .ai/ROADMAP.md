@@ -780,7 +780,10 @@ feat: build administration portal
 
 Status
 
-🟢 Ready when MVP complete
+✅ Condition met, launched — live in production since 2026-07-09
+(`https://akuna-vista-local-directory.vercel.app/`), hardened by Sprint 9 (Production Readiness).
+Monitoring (Sentry) is the one checklist item still open, tracked as F-007 in
+`sprints/sprint-16-backlog/README.md`, not silently dropped.
 
 Model
 

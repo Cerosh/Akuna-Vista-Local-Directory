@@ -18,21 +18,21 @@ This backlog breaks Sprint 5's deliverables into ordered, independently shippabl
 
 | ID | Item | Depends On | Priority | Status |
 |----|------|------------|----------|--------|
-| B-001 | Define `SearchService` interface (`search(query, filters): SearchResult[]`) so the implementation is swappable per ARCHITECTURE.md's Search Architecture | Sprint 1 repository layer | High | Not Started |
-| B-002 | Build the current client-side implementation of `SearchService` (in-memory index/scoring over `BusinessRepository`/`CategoryRepository` data) | B-001 | High | Not Started |
-| B-003 | Implement keyword matching (`name`, `description`, `tags`, category name) | B-002 | High | Not Started |
-| B-004 | Implement category and suburb matching (`categoryId`, `address.suburb`, `serviceAreas`), reusing Sprint 3's existing filter logic rather than re-implementing it | B-002 | High | Not Started |
-| B-005 | Support combined keyword + category/suburb queries (AND semantics) | B-003, B-004 | Medium | Not Started |
-| B-006 | Build `/search` route with URL search params for query/category/suburb (consistent with Sprint 3's URL-param-driven filtering) | B-002 | High | Not Started |
-| B-007 | Build instant/live filtering UI: debounced input, results update without full page reload | B-006 | High | Not Started |
-| B-008 | Build search suggestions/autocomplete (business names, categories, suburbs), keyboard-navigable | B-002 | Medium | Not Started |
-| B-009 | Build empty-results state (explanation + suggested action, per UI_GUIDELINES.md Empty States) | B-006 | High | Not Started |
-| B-010 | Upgrade Sprint 2's homepage search entry point to route into real `/search` instead of its thin directory redirect/filter | B-006 | Medium | Not Started |
-| B-011 | (Optional/stretch) Recent searches via `localStorage`, offered as quick re-search shortcuts | B-007 | Low | Not Started |
-| B-012 | Responsive pass across search input, suggestions dropdown, results list, empty state | B-006–B-009 | High | Not Started |
-| B-013 | Accessibility pass (labelled input, keyboard-navigable suggestions, screen-reader-friendly empty state) | B-006–B-009 | High | Not Started |
-| B-014 | Unit tests for `SearchService` matching/scoring and suggestion logic | B-002–B-005, B-008 | High | Not Started |
-| B-015 | Playwright: type-to-search, select suggestion, empty state, result links to real business page | B-006–B-010 | High | Not Started |
+| B-001 | Define `SearchService` interface (`search(query, filters): SearchResult[]`) so the implementation is swappable per ARCHITECTURE.md's Search Architecture | Sprint 1 repository layer | High | Completed |
+| B-002 | Build the current client-side implementation of `SearchService` (in-memory index/scoring over `BusinessRepository`/`CategoryRepository` data) | B-001 | High | Completed |
+| B-003 | Implement keyword matching (`name`, `description`, `tags`, category name) | B-002 | High | Completed |
+| B-004 | Implement category and suburb matching (`categoryId`, `address.suburb`, `serviceAreas`), reusing Sprint 3's existing filter logic rather than re-implementing it | B-002 | High | Completed |
+| B-005 | Support combined keyword + category/suburb queries (AND semantics) | B-003, B-004 | Medium | Completed |
+| B-006 | Build `/search` route with URL search params for query/category/suburb (consistent with Sprint 3's URL-param-driven filtering) | B-002 | High | Completed |
+| B-007 | Build instant/live filtering UI: debounced input, results update without full page reload | B-006 | High | Completed |
+| B-008 | Build search suggestions/autocomplete (business names, categories, suburbs), keyboard-navigable | B-002 | Medium | Completed |
+| B-009 | Build empty-results state (explanation + suggested action, per UI_GUIDELINES.md Empty States) | B-006 | High | Completed |
+| B-010 | Upgrade Sprint 2's homepage search entry point to route into real `/search` instead of its thin directory redirect/filter | B-006 | Medium | Completed |
+| B-011 | (Optional/stretch) Recent searches via `localStorage`, offered as quick re-search shortcuts | B-007 | Low | Completed |
+| B-012 | Responsive pass across search input, suggestions dropdown, results list, empty state | B-006–B-009 | High | Completed |
+| B-013 | Accessibility pass (labelled input, keyboard-navigable suggestions, screen-reader-friendly empty state) | B-006–B-009 | High | Completed |
+| B-014 | Unit tests for `SearchService` matching/scoring and suggestion logic | B-002–B-005, B-008 | High | Completed |
+| B-015 | Playwright: type-to-search, select suggestion, empty state, result links to real business page | B-006–B-010 | High | Completed |
 
 ---
 
