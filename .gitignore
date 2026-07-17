@@ -42,6 +42,9 @@ Thumbs.db
 # Claude Code local settings (per-user, not shared)
 .claude/settings.local.json
 
+# Claude Code session runtime files (machine/session-specific, never shared)
+.claude/*.lock
+
 # Sprint 08 data tooling — local scratch space, never committed
 .backups/
 scripts/seed/output/
