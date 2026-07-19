@@ -81,6 +81,7 @@ Per Feature, the sprint is successful when:
 | F-009 | Replace "Schofields Park upgrade underway" announcement with "Aerodrome Drive to Quakers Hill Parkway link road planned", sorted first | Medium | Completed |
 | F-010 | Name the Dharug people specifically in the footer's Acknowledgment of Country | High | Completed |
 | F-011 | Rename Promotions section to "Akuna Vista residents-only promotions"; add Knowledgetree SMSF deal and new Simran's Detailing business + promotion; remove 4 unrelated promotions, keeping only 3 (tutoring, Knowledgetree, Simran's Detailing) | High | Completed |
+| F-012 | Add new business "Capital Hub" (mortgage broker, Firefly Street) to the existing Finance & Mortgage Broking category, plus a "Free Consultancy — AV Residents Only" promotion | Medium | Completed |
 
 Status Values
 
@@ -932,6 +933,105 @@ Acceptance Criteria
 - [x] `/category/automotive-detailing` and `/business/simrans-detailing` render correctly.
 - [x] Homepage Promotions section shows exactly 3 cards: tutoring, Knowledgetree, Simran's Detailing.
 - [x] Existing Playwright suite still passes (with the 2 test-file locator/assertion updates above).
+
+---
+
+## Story 11 (F-012)
+
+As an Akuna Vista resident looking to buy or refinance a home loan
+
+I want to find Capital Hub, a local mortgage broker, in the directory with a way to get free
+consultancy as an AV resident
+
+So that I have another local finance option, alongside the existing Ethiquity Mortgage Services
+listing (Story 4/F-003).
+
+### Source data (as supplied by the project owner, verbatim)
+
+"AV local mortgage broker ,Capital Hub, Firefly street,https://www.capitalhub.au/Ph - 0433670434 /
+0451815822 / 02 8631 6429,Looking to buy or refinance your home loan? Get free help from an Capital
+Hub* any offers for av residence:free consultancy please add this."
+
+### Decisions — PROPOSED, awaiting project owner confirmation before implementation
+
+- **Category:** existing `finance-mortgage-broking` — no new category needed, matching Ethiquity
+  Mortgage Services (Story 4/F-003).
+- **Address:** only "Firefly Street" supplied, no suburb/state/postcode — following the Simran's
+  Detailing precedent (Story 10/F-011), no formal `address` object; the street is named in
+  `description` instead, with `serviceAreas: ["Akuna Vista"]`.
+- **Phone:** three numbers supplied with no indication of which is primary — following the
+  Ethiquity dual-email precedent (Story 4/F-003, comma-separated in a single field), all three
+  combined into the single `phone` string field, separated by " / ":
+  `"0433 670 434 / 0451 815 822 / 02 8631 6429"`.
+- **Promotion:** "free consultancy" for AV residents → new promotion "Free Consultancy — AV
+  Residents Only", linked to the new business, following the resident-only promotion pattern from
+  Story 10/F-011.
+- **Promotion `endDate`:** no deadline stated — following the Simran's Detailing precedent, set 3
+  months from today (2026-07-19 → 2026-10-19).
+- **`featured`:** `false` for both the business and the promotion — no stated reason to feature
+  this over other unfeatured listings (unlike Knowledgetree's dated, dollar-figure deal).
+
+### Assumptions / gaps flagged (confirm or correct)
+
+- Business name taken as "Capital Hub" — the trailing "*" in "Capital Hub*" and the merged
+  "https://www.capitalhub.au/Ph -" text look like copy/paste artifacts, not intended content.
+- No suburb/state/postcode for Firefly Street supplied — if available, a full `address` object can
+  be added instead of just naming the street in the description.
+- No email address supplied — left unset.
+
+### Proposed new business — `data/businesses.json`
+
+```json
+{
+  "id": "bbd5c287-20ac-46d5-87a2-1b33b89a6971",
+  "slug": "capital-hub",
+  "name": "Capital Hub",
+  "description": "Looking to buy or refinance your home loan? Get free help from Capital Hub, a local mortgage broker based on Firefly Street, Akuna Vista.",
+  "shortDescription": "Local mortgage broker, Firefly Street, Akuna Vista.",
+  "categoryId": "finance-mortgage-broking",
+  "phone": "0433 670 434 / 0451 815 822 / 02 8631 6429",
+  "website": "https://www.capitalhub.au/",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Mortgage Broker", "Home Loans", "Local"],
+  "createdAt": "2026-07-19T00:00:00Z",
+  "updatedAt": "2026-07-19T00:00:00Z"
+}
+```
+
+### Proposed new promotion — `data/promotions.json`
+
+```json
+{
+  "id": "bca7ec92-faa2-4e8c-ae22-098b4dfba323",
+  "businessId": "bbd5c287-20ac-46d5-87a2-1b33b89a6971",
+  "title": "Free Consultancy — AV Residents Only",
+  "description": "Capital Hub offers a free consultancy for Akuna Vista residents looking to buy or refinance their home loan.",
+  "startDate": "2026-07-19",
+  "endDate": "2026-10-19",
+  "featured": false
+}
+```
+
+Acceptance Criteria
+
+- [x] Capital Hub added to `data/businesses.json` under `finance-mortgage-broking`.
+- [x] "Free Consultancy — AV Residents Only" promotion added to `data/promotions.json`, linked to
+      Capital Hub.
+- [x] `npm run validate:data` passes.
+- [x] `/business/capital-hub` renders correctly (verified 200 + "Capital Hub" text via a temporary
+      local dev server).
+- [x] Homepage "Akuna Vista residents-only promotions" section includes the new Capital Hub
+      promotion card (4th card — no test asserts a fixed card count, confirmed by inspecting
+      `tests/e2e/homepage.spec.ts` and `tests/pages/HomePage.ts`; "Free Consultancy" text confirmed
+      present on `/`).
+- [x] Existing Playwright suite still passes — no new regressions. 271 passed, 16 skipped, 10 failed,
+      all `[firefox]`, all a pre-existing "no console errors" CSP `unsafe-eval` failure
+      (`next dev`'s HMR runtime tripping the strict CSP in Firefox specifically) confirmed present
+      on `main` before this change too (re-ran the same failing test after `git stash`ing F-012's
+      changes) — unrelated to this Feature, not a new regression.
 
 ---
 

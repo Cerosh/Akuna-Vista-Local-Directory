@@ -446,6 +446,23 @@
     "updatedAt": "2026-07-16T00:00:00Z"
   },
   {
+    "id": "bbd5c287-20ac-46d5-87a2-1b33b89a6971",
+    "slug": "capital-hub",
+    "name": "Capital Hub",
+    "description": "Looking to buy or refinance your home loan? Get free help from Capital Hub, a local mortgage broker based on Firefly Street, Akuna Vista.",
+    "shortDescription": "Local mortgage broker, Firefly Street, Akuna Vista.",
+    "categoryId": "finance-mortgage-broking",
+    "phone": "0433 670 434 / 0451 815 822 / 02 8631 6429",
+    "website": "https://www.capitalhub.au/",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Mortgage Broker", "Home Loans", "Local"],
+    "createdAt": "2026-07-19T00:00:00Z",
+    "updatedAt": "2026-07-19T00:00:00Z"
+  },
+  {
     "id": "4f71fc6f-afd5-4171-bbb9-d84a2a38fe31",
     "slug": "the-bharatanatyam-kalakshetra",
     "name": "The Bharatanatyam Kalakshetra",

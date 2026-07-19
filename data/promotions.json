@@ -25,5 +25,14 @@
     "startDate": "2026-07-17",
     "endDate": "2026-10-17",
     "featured": false
+  },
+  {
+    "id": "bca7ec92-faa2-4e8c-ae22-098b4dfba323",
+    "businessId": "bbd5c287-20ac-46d5-87a2-1b33b89a6971",
+    "title": "Free Consultancy — AV Residents Only",
+    "description": "Capital Hub offers a free consultancy for Akuna Vista residents looking to buy or refinance their home loan.",
+    "startDate": "2026-07-19",
+    "endDate": "2026-10-19",
+    "featured": false
   }
 ]
