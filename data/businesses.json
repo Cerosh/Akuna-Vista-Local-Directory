@@ -557,5 +557,24 @@
     "tags": ["Car Detailing", "Local"],
     "createdAt": "2026-07-17T00:00:00Z",
     "updatedAt": "2026-07-17T00:00:00Z"
+  },
+  {
+    "id": "f33752d6-ebc8-4df5-b835-95b854c9a7c1",
+    "slug": "pankhuris-artistry-avenue",
+    "name": "Pankhuri's Artistry Avenue",
+    "description": "Exploring the intersection of art and imagination — capturing moments of wonder and colour. Local Akuna Vista artist creating handcrafted home décor, personalized gifts, and unique art pieces. From resin art and wooden name plates to Lippan art, MDF décor, festive creations, and custom gifts, every piece is carefully designed to add beauty to your space.",
+    "shortDescription": "Local handmade art, resin art & personalized gifts, Akuna Vista.",
+    "categoryId": "arts-crafts",
+    "phone": "+61 469 714 644",
+    "serviceAreas": ["Akuna Vista"],
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/pankhuri_artistry_avenue8"
+    },
+    "images": ["/images/businesses/pankhuris-artistry-avenue.jpg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Resin Art", "Handmade Gifts", "Home Décor", "Local"],
+    "createdAt": "2026-07-21T00:00:00Z",
+    "updatedAt": "2026-07-21T00:00:00Z"
   }
 ]

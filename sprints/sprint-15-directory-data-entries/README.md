@@ -82,6 +82,7 @@ Per Feature, the sprint is successful when:
 | F-010 | Name the Dharug people specifically in the footer's Acknowledgment of Country | High | Completed |
 | F-011 | Rename Promotions section to "Akuna Vista residents-only promotions"; add Knowledgetree SMSF deal and new Simran's Detailing business + promotion; remove 4 unrelated promotions, keeping only 3 (tutoring, Knowledgetree, Simran's Detailing) | High | Completed |
 | F-012 | Add new business "Capital Hub" (mortgage broker, Firefly Street) to the existing Finance & Mortgage Broking category, plus a "Free Consultancy — AV Residents Only" promotion | Medium | Completed |
+| F-013 | Add new "Arts & Crafts" category and new business "Pankhuri's Artistry Avenue" (handmade art/décor/gifts, Akuna Vista resident), with logo image | Medium | Completed |
 
 Status Values
 
@@ -1032,6 +1033,111 @@ Acceptance Criteria
       (`next dev`'s HMR runtime tripping the strict CSP in Firefox specifically) confirmed present
       on `main` before this change too (re-ran the same failing test after `git stash`ing F-012's
       changes) — unrelated to this Feature, not a new regression.
+
+---
+
+## Story 12 (F-013)
+
+As a visitor interested in handmade art, resin art, or personalized home décor/gifts
+
+I want to find a local artist/maker in the directory
+
+So that I can discover and support a small, locally-based creative business (Pankhuri's Artistry
+Avenue) instead of only generic retail options.
+
+### Source data (as supplied by the project owner, verbatim)
+
+"Exploring the intersection of art and imagination. Capturing moments of wonder and color. I create
+handcrafted home décor, personalized gifts, and unique art pieces made with love and attention to
+detail. From resin art and wooden name plates to Lippan art, MDF décor, festive creations, and
+custom gifts, every piece is carefully designed to add beauty to your space. Whether you're looking
+for a thoughtful gift, elegant home décor, or a personalized keepsake, I'm here to bring your ideas
+to life with creativity and craftsmanship. Thank you for supporting small business. Business name -
+Pankhuri's Artistry Avenue / Contact Number - +61469714644 / Instagram handle -
+https://www.instagram.com/pankhuri_artistry_avenue8" — plus a circular logo image (dark
+background, rose-gold "A" monogram and floral line art, "Pankhuri's Artistry Avenue" text).
+
+### Decisions confirmed by project owner (this round, via clarifying questions)
+
+- **New category: `arts-crafts`** ("Arts & Craft s", icon `Palette`) — none of the 17 existing
+  categories fit a handmade-art/resin-art/home-décor/gifts business (closest, `arts-performing-arts`,
+  is for dance/music instruction, not craft/product businesses; `furniture-homewares` is general
+  retail homewares, not handmade art). Rejected reusing either.
+- **Local connection:** confirmed directly by project owner — "Yes local and Lives in Akuna Vista"
+  — so unlike the Bharatanatyam/Fortune8 precedent (silent-on-locality, only assumed),
+  `serviceAreas: ["Akuna Vista"]` here is a confirmed fact, not an assumption.
+- **`featured: false`** — confirmed by project owner, matching the default for most recent additions
+  (Simran's Detailing, Capital Hub) rather than being featured.
+
+### Assumptions / gaps flagged (confirm or correct)
+
+- **No street address, email, or website supplied** — only a phone number and an Instagram handle.
+  `socialLinks.instagram` (existing schema field, `types/business.ts`) is used for the Instagram URL;
+  no `address`/`email`/`website` fields are set.
+- **Logo image usage:** the supplied circular logo (dark background, rose-gold monogram/floral
+  design) is used as the listing's card/gallery image (`images[0]`), per the project owner's explicit
+  request ("add this logo as the card image"). This differs from the Arihant Party Essentials
+  precedent (a real product/pricing flyer used as the image) — here the source image is a brand logo,
+  not a photo of work/products, which is what's available.
+- **Image processing:** source PNG (1324×1102, fully opaque despite RGBA mode — no real transparency)
+  resized/converted to a ~1200px-wide JPEG and saved to
+  `public/images/businesses/pankhuris-artistry-avenue.jpg`, matching the size/format precedent set by
+  the Arihant flyer and tutoring images.
+- **Description text** is condensed from the project owner's supplied paragraph (verbatim brand
+  copy) rather than rewritten, since it already reads as natural business-facing description text
+  (unlike raw flyer/text-message data in earlier stories that needed authoring).
+
+### Proposed new category — `data/categories.json`
+
+```json
+{
+  "id": "arts-crafts",
+  "slug": "arts-crafts",
+  "name": "Arts & Crafts",
+  "icon": "Palette",
+  "description": "Handmade art, resin art, home décor, and personalized gifts from local makers.",
+  "displayOrder": 18,
+  "featured": false
+}
+```
+
+### Proposed new business — `data/businesses.json`
+
+```json
+{
+  "id": "f33752d6-ebc8-4df5-b835-95b854c9a7c1",
+  "slug": "pankhuris-artistry-avenue",
+  "name": "Pankhuri's Artistry Avenue",
+  "description": "Exploring the intersection of art and imagination — capturing moments of wonder and colour. Local Akuna Vista artist creating handcrafted home décor, personalized gifts, and unique art pieces. From resin art and wooden name plates to Lippan art, MDF décor, festive creations, and custom gifts, every piece is carefully designed to add beauty to your space.",
+  "shortDescription": "Local handmade art, resin art & personalized gifts, Akuna Vista.",
+  "categoryId": "arts-crafts",
+  "phone": "+61 469 714 644",
+  "serviceAreas": ["Akuna Vista"],
+  "socialLinks": {
+    "instagram": "https://www.instagram.com/pankhuri_artistry_avenue8"
+  },
+  "images": ["/images/businesses/pankhuris-artistry-avenue.jpg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Resin Art", "Handmade Gifts", "Home Décor", "Local"],
+  "createdAt": "2026-07-21T00:00:00Z",
+  "updatedAt": "2026-07-21T00:00:00Z"
+}
+```
+
+Acceptance Criteria
+
+- [x] `arts-crafts` category added to `data/categories.json`.
+- [x] Pankhuri's Artistry Avenue added to `data/businesses.json` with the supplied logo as its
+      `images[0]`.
+- [x] `npm run validate:data` passes — no schema violations, no duplicate `id`/`slug`, `categoryId`
+      resolves to the new category.
+- [x] `/category/arts-crafts` and `/business/pankhuris-artistry-avenue` render correctly, including
+      the logo image (verified 200 + "Pankhuri's Artistry Avenue" text + logo filename present, via
+      a temporary local dev server).
+- [x] Existing Playwright suite still passes — 271 passed, 16 skipped, 10 failed, all `[firefox]`,
+      all the same pre-existing "no console errors" CSP `unsafe-eval` failure documented in F-012
+      (unrelated to this change, not a new regression).
 
 ---
 

@@ -151,5 +151,14 @@
     "description": "Car detailing, cleaning, and other automotive services.",
     "displayOrder": 17,
     "featured": false
+  },
+  {
+    "id": "arts-crafts",
+    "slug": "arts-crafts",
+    "name": "Arts & Crafts",
+    "icon": "Palette",
+    "description": "Handmade art, resin art, home décor, and personalized gifts from local makers.",
+    "displayOrder": 18,
+    "featured": false
   }
 ]
