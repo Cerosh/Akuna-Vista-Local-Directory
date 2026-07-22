@@ -83,6 +83,7 @@ Per Feature, the sprint is successful when:
 | F-011 | Rename Promotions section to "Akuna Vista residents-only promotions"; add Knowledgetree SMSF deal and new Simran's Detailing business + promotion; remove 4 unrelated promotions, keeping only 3 (tutoring, Knowledgetree, Simran's Detailing) | High | Completed |
 | F-012 | Add new business "Capital Hub" (mortgage broker, Firefly Street) to the existing Finance & Mortgage Broking category, plus a "Free Consultancy — AV Residents Only" promotion | Medium | Completed |
 | F-013 | Add new "Arts & Crafts" category and new business "Pankhuri's Artistry Avenue" (handmade art/décor/gifts, Akuna Vista resident), with logo image | Medium | Completed |
+| F-014 | Update Simran's Detailing promotion to "Mention AV10 to receive 10% off Paint Protection Packages — AV Residents Only"; add phone number and name contact Manisha | Low | Completed |
 
 Status Values
 
@@ -1141,6 +1142,49 @@ Acceptance Criteria
 
 ---
 
+## Story 13 (F-014)
+
+As a visitor viewing Simran's Detailing
+
+I want to see the current, correct promotion offer and have a phone number and named contact
+
+So that I know exactly what the AV-resident discount applies to and can actually reach the business.
+
+### Source data (as supplied by the project owner, verbatim)
+
+"update this business offer https://akuna-vista-local-directory.vercel.app/business/simrans-detailing
+to 'Mention AV10 to receive 10% off Paint Protection Packages' also include a phone number
++61 410 094 574 and contact Manisha" — plus a follow-up confirming the new offer title should also
+carry the existing "— AV Residents Only" suffix convention used by this promotion and others in the
+same homepage section (Story 10/F-011, Story 11/F-012).
+
+### Changes
+
+- **`data/promotions.json`** (id `5dfb8c60-568f-4527-bc37-a7aff7f01561`) — `title` changed from
+  "10% Off Final Quotes — AV Residents Only" to "Mention AV10 to receive 10% off Paint Protection
+  Packages — AV Residents Only"; `description` rewritten to match. `startDate`/`endDate` left
+  unchanged (`2026-07-17` – `2026-10-17`) — no new deadline was supplied.
+- **`data/businesses.json`** (`simrans-detailing`) — `phone: "+61 410 094 574"` added; `description`
+  updated to name Manisha as the contact, following the existing "run by [name]" precedent
+  (Fortune8/Knowledgetree, Story 6/F-007; Bharatanatyam, Story 4/F-005).
+
+### Assumptions flagged (confirm or correct)
+
+- No email supplied — left unset, same gap as originally flagged in Story 10/F-011.
+- Only the promotion's `title`/`description` change; its offer now covers "Paint Protection
+  Packages" specifically rather than "final quotes" generally — treated as the project owner
+  replacing the old offer, not adding a second one.
+
+### Acceptance Criteria
+
+- [x] Promotion title/description updated as above.
+- [x] Business phone and contact name added as above.
+- [x] `npm run validate:data` passes.
+- [x] `/business/simrans-detailing` renders the new phone, contact, and offer text.
+- [x] Existing Playwright suite still passes.
+
+---
+
 # Dependencies
 
 - F-002 must be added before F-003 (F-003's `categoryId` must resolve to F-002's category, or
@@ -1204,5 +1248,19 @@ F-011 implemented and verified (2026-07-17):
   `/category/automotive-detailing` all return 200; the homepage HTML confirms the new heading text
   and all 3 promotion cards (Free Demo Lesson, Super SMSF Deal — AV Residents Only, 10% Off Final
   Quotes — AV Residents Only) render with their correct descriptions.
+
+F-014 implemented and verified (2026-07-22):
+
+- `data/promotions.json` — Simran's Detailing promotion title/description updated to "Mention AV10
+  to receive 10% off Paint Protection Packages — AV Residents Only".
+- `data/businesses.json` — `simrans-detailing` phone (`+61 410 094 574`) added; description now
+  names Manisha as the contact.
+- `npm run validate:data` — passes.
+- Manually verified via a temporary local dev server: homepage promotions section shows the new
+  offer title/description; `/business/simrans-detailing` shows the new phone and "Manisha" contact.
+- `npx playwright test` — 271 passed, 16 skipped, 10 failed, all `[firefox]`, all the same
+  pre-existing "no console errors" CSP `unsafe-eval` failure documented in F-012/F-013 (confirmed by
+  isolated rerun of `homepage.spec.ts` — the only failing assertion is the console-errors check,
+  Dharug footer text still passes) — unrelated to this change, not a new regression.
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.

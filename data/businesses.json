@@ -546,9 +546,10 @@
     "id": "f911829f-e952-4dc3-95d6-00ed9e6492ee",
     "slug": "simrans-detailing",
     "name": "Simran's Detailing",
-    "description": "Local car detailing service based on Hornet Street, Akuna Vista.",
+    "description": "Local car detailing service based on Hornet Street, Akuna Vista. Contact: Manisha.",
     "shortDescription": "Local car detailing, Hornet Street, Akuna Vista.",
     "categoryId": "automotive-detailing",
+    "phone": "+61 410 094 574",
     "website": "https://simransdetailing.com.au",
     "serviceAreas": ["Akuna Vista"],
     "images": ["/images/placeholder-business.svg"],
@@ -556,7 +557,7 @@
     "verified": false,
     "tags": ["Car Detailing", "Local"],
     "createdAt": "2026-07-17T00:00:00Z",
-    "updatedAt": "2026-07-17T00:00:00Z"
+    "updatedAt": "2026-07-22T00:00:00Z"
   },
   {
     "id": "f33752d6-ebc8-4df5-b835-95b854c9a7c1",
