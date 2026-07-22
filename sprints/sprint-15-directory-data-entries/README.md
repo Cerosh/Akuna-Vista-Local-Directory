@@ -84,6 +84,7 @@ Per Feature, the sprint is successful when:
 | F-012 | Add new business "Capital Hub" (mortgage broker, Firefly Street) to the existing Finance & Mortgage Broking category, plus a "Free Consultancy — AV Residents Only" promotion | Medium | Completed |
 | F-013 | Add new "Arts & Crafts" category and new business "Pankhuri's Artistry Avenue" (handmade art/décor/gifts, Akuna Vista resident), with logo image | Medium | Completed |
 | F-014 | Update Simran's Detailing promotion to "Mention AV10 to receive 10% off Paint Protection Packages — AV Residents Only"; add phone number and name contact Manisha | Low | Completed |
+| F-015 | Remove `featured` from Knowledgetree's "Super SMSF Deal — AV Residents Only" promotion | Low | Completed |
 
 Status Values
 
@@ -1181,6 +1182,37 @@ same homepage section (Story 10/F-011, Story 11/F-012).
 - [x] Business phone and contact name added as above.
 - [x] `npm run validate:data` passes.
 - [x] `/business/simrans-detailing` renders the new phone, contact, and offer text.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 14 (F-015)
+
+As the project owner viewing the Knowledgetree business page / homepage promotions section
+
+I want the "Super SMSF Deal — AV Residents Only" promotion no longer marked as featured
+
+So that it no longer shows a "Featured" badge on the homepage's promotions section.
+
+### Clarification (confirmed via clarifying question this round)
+
+The request referenced `/business/knowledgetree`, but Knowledgetree's own `Business.featured` field
+was already `false` (no "Featured" badge exists on the business detail page itself — confirmed by
+checking both the local data and the live production page). The only `featured: true` anywhere tied
+to Knowledgetree is its promotion (`data/promotions.json`, id `8eee89d6-509f-4178-b67f-36a55c0e3a1d`),
+which is what renders a "Featured" badge on the homepage's "Akuna Vista residents-only promotions"
+section (`PromotionCard.tsx:37`). Confirmed this is the intended target before editing.
+
+### Change
+
+- `data/promotions.json` — Knowledgetree's "Super SMSF Deal — AV Residents Only" promotion:
+  `featured: true` → `featured: false`.
+
+### Acceptance Criteria
+
+- [x] Promotion's `featured` field set to `false`.
+- [x] `npm run validate:data` passes.
+- [x] Homepage promotions section no longer shows a "Featured" badge on the Knowledgetree card.
 - [x] Existing Playwright suite still passes.
 
 ---
