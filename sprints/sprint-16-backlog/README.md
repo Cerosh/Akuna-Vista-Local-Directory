@@ -80,7 +80,7 @@ Per Feature, the sprint is successful when:
 |----|----------|----------|--------|
 | F-001 | Clamp `BusinessCard`'s heading to a single line with ellipsis truncation | Medium | Not Started |
 | F-002 | Gate production deploys behind CI passing (CI-gated CD) | Medium | Not Started |
-| F-003 | Enable Playwright `retries` locally (currently `retries: process.env.CI ? 2 : 0`) so the pre-push hook isn't blocked by known WebKit search-suite flakes | Low | Not Started |
+| F-003 | Fix root cause of `search.spec.ts` WebKit flakes: a Next.js hydration race where `.fill()` right after `goto()` can run before React's `onChange` listener attaches, so `query` state silently stays empty | Low | Completed |
 | F-004 | Fix stale sprint/top-level documentation status claims found in the 2026-07-17 doc audit | Medium | Completed |
 | F-005 | `.ai/ARCHITECTURE.md`'s "Monitoring" section lists Vercel Analytics under "Future" though it's live in production | Low | Not Started |
 | F-006 | Doc-staleness guardrails: automated checks in pre-commit/commit-msg + CI to prevent the 2026-07-17 doc-staleness pattern from recurring | Medium | Completed |
@@ -547,6 +547,79 @@ Acceptance Criteria
 
 ---
 
+## Story 6 (F-003)
+
+As the project owner
+
+I want `git push` to stop being blocked by a flaky WebKit test
+
+So that a genuine intermittent test bug doesn't cost a retry every push, and so the fix addresses
+the actual defect rather than just tolerating it.
+
+### Investigation (2026-07-22)
+
+Reproduced directly rather than assumed: ran 30 concurrent WebKit page loads of `/search` against a
+production build (`npm run build && npm run start`, matching `playwright.config.ts`'s `webServer`),
+instrumented to read the input's live DOM value immediately after `.fill("roof")`, first with 1
+worker (10/10 passed, no contention) and then with all 3 browser projects running simultaneously
+(matching real `.husky/pre-push` load). Under contention, 2 of 90 runs failed, in the same shape
+reported by the project owner:
+
+- `domValue:"" listboxVisible:false` — matches the reported failure exactly ("Start typing…"
+  placeholder still visible, meaning `hasActiveSearch` was false, i.e. `query` never left `""`).
+- `domValue:"roof" listboxVisible:false` — value stuck but the suggestions listbox hadn't painted
+  yet when checked.
+
+**Root cause:** `SearchExperience.tsx`'s query input is a controlled React component
+(`value={query}`). Playwright's `.fill()` sets the native DOM value and dispatches one `input`
+event immediately after `search.goto()`. Under CPU contention, Next.js hydration (which attaches
+the `onChange` listener) can still be in flight at that instant — the dispatched event is lost (no
+listener yet), `query` stays `""`, and when hydration finishes moments later the controlled input's
+`value={query}` re-render overwrites the DOM's "roof" back to empty. This is a **test-timing race
+against hydration**, not a bug in `SearchExperience.tsx`, `SearchSuggestions.tsx`, or the debounce
+comment in `SearchExperience.tsx:45–48` (which only affects filtering, not suggestions — confirmed
+by reading the component: `suggestions` is computed from `query` directly, `deferredQuery` is only
+used for `results`).
+
+**Why "enable retries locally" (the original F-003 scope) was rejected:** it would have masked this
+specific race statistically without fixing it, and would equally mask a real future regression in
+this same test file until retries exhausted — weakening the signal `.husky/pre-push` exists to give.
+
+### Changes
+
+- **`tests/e2e/search.spec.ts`** — added a `typeAndSettle(input, value)` helper that wraps the
+  fill in Playwright's own `expect(...).toPass()` retry pattern (re-runs `fill()` +
+  `expect(input).toHaveValue(value)` until it actually sticks, instead of firing once and hoping):
+
+  ```ts
+  async function typeAndSettle(input: Locator, value: string) {
+    await expect(async () => {
+      await input.fill(value);
+      await expect(input).toHaveValue(value);
+    }).toPass({ timeout: 5000 });
+  }
+  ```
+
+  Applied at the 4 call sites that `.fill()` immediately after `search.goto()` (the only ones
+  susceptible to the hydration race): "typing filters results instantly and shows suggestions",
+  "selecting a suggestion via keyboard...", "a query with no matches shows the empty state...", and
+  "Escape closes the suggestions list".
+- No application code touched — `SearchExperience.tsx`, `SearchInput.tsx`, and
+  `playwright.config.ts`'s `retries` setting are all unchanged. This is deliberately a test-only fix
+  for a test-timing race, not a product change.
+
+### Acceptance Criteria
+
+- [x] Root cause reproduced with direct evidence (not assumed) before any fix was written.
+- [x] `typeAndSettle` helper added to `tests/e2e/search.spec.ts`, replacing the 4 susceptible
+      `.fill()` call sites.
+- [x] Re-ran the same 30-concurrent-load stress scenario that reproduced the original failure — 0
+      failures across 3 repeated full-suite runs (chromium + firefox + webkit together).
+- [x] Full existing suite still passes with no new regressions.
+- [x] No application code changed — fix is scoped to the test file only.
+
+---
+
 # Consolidated Backlog Items (F-007–F-017)
 
 Added 2026-07-17 at the project owner's explicit request: **every genuinely-still-open item found
@@ -605,14 +678,12 @@ a distinct preview step was never applicable) rather than carried forward as sti
   commit `ba98234`) and requires a new `VERCEL_TOKEN` GitHub secret plus a Vercel dashboard change —
   not purely a code change, so implementation will need the project owner present to confirm the
   Vercel-side setting.
-- F-003: raised 2026-07-16 after `git push` was blocked 3 times in a row by
-  `tests/e2e/search.spec.ts`'s WebKit suite failing intermittently under `.husky/pre-push` (each
-  failing test passed cleanly when rerun in isolation, and the full suite itself passed clean on a
-  separate manual run moments later — genuine flakiness, not a real regression).
-  `playwright.config.ts:6` already has `retries: process.env.CI ? 2 : 0`, so CI absorbs this via
-  retries but local pre-push has zero tolerance for a single flake. Enabling retries locally (or a
-  smaller retry count) would fix this without weakening the quality bar — a genuinely broken test
-  still fails after retries exhaust.
+- F-003: raised 2026-07-16 after `git push` was blocked by `tests/e2e/search.spec.ts`'s WebKit suite
+  failing intermittently under `.husky/pre-push` (each failing test passed cleanly when rerun in
+  isolation). Originally scoped as "enable `retries` locally" (a mitigation, not a fix — a real
+  regression would still eventually fail after retries exhaust, but so would a genuine intermittent
+  bug most of the time, just less often). Re-scoped 2026-07-22 after actually reproducing the root
+  cause (see Story 6/F-003 below): fixed the real race instead of papering over it with retries.
 - F-004: none — purely editing existing Markdown files against evidence already gathered in the
   2026-07-17 audit; no code, schema, or infra changes involved. Independent of F-001–F-003.
 - F-005: none — same profile as F-004 (docs-only), discovered as a side effect of implementing it.
@@ -663,7 +734,16 @@ flagged this sprint's own backlog notes and the guardrail scripts' own source as
 full detail in the Acceptance Criteria above, not just declared done. `npm run typecheck`,
 `npm run lint`, and the full `npm run test` suite (217/217) all pass with F-006 in place.
 
-Everything else — **F-001, F-002, F-003, F-005, and F-007 through F-017 — remains captured but not
+F-003 is also implemented and verified (2026-07-22) — the WebKit `search.spec.ts` flake's actual
+root cause (a Next.js hydration race, not component debounce) was reproduced directly via a 30-run
+concurrent-load stress script before any fix was written (see its Story above for the full
+evidence). Fixed with a test-only `typeAndSettle()` retry helper in `tests/e2e/search.spec.ts` — no
+application code changed. Re-verified: the same 3-browser concurrent-load scenario that originally
+reproduced the failure now passes 3/3 full runs (81/81 individual tests), and the complete suite
+(`npx playwright test`) passes clean at 281 passed / 16 skipped / 0 failed against a production
+build (`npm run build && npm run start`).
+
+Everything else — **F-001, F-002, F-005, and F-007 through F-017 — remains captured but not
 implemented.** F-007–F-017 were consolidated here 2026-07-17 from `.ai/TODO.md`'s Backlog section
 and every individual sprint's `retrospective.md` Carry Forward table, at the project owner's
 explicit request, specifically so this one file is sufficient for planning what's left rather than

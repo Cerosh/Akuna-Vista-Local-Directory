@@ -1,6 +1,19 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Locator } from "@playwright/test";
 import { SearchPage } from "../pages/SearchPage";
 import { HomePage } from "../pages/HomePage";
+
+// Filling an input right after goto() can race Next.js hydration: if the
+// input event fires before React's onChange listener attaches, the value
+// is lost (and a later hydration re-render can even reset the DOM value
+// back to empty, since this is a controlled input). Retrying the whole
+// fill+verify until it actually sticks removes the race instead of just
+// tolerating it via Playwright `retries` (Sprint 16 F-003).
+async function typeAndSettle(input: Locator, value: string) {
+  await expect(async () => {
+    await input.fill(value);
+    await expect(input).toHaveValue(value);
+  }).toPass({ timeout: 5000 });
+}
 
 test.describe("Search (/search)", () => {
   test("homepage search form submits to /search with the query", async ({ page }) => {
@@ -32,7 +45,7 @@ test.describe("Search (/search)", () => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.input.fill("roof");
+    await typeAndSettle(search.input, "roof");
 
     await expect(page.getByRole("listbox", { name: "Search suggestions" })).toBeVisible();
     await expect(page.getByRole("option", { name: /Brar Roofing Solution/ })).toBeVisible();
@@ -52,7 +65,7 @@ test.describe("Search (/search)", () => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.input.fill("roof");
+    await typeAndSettle(search.input, "roof");
     await search.input.press("ArrowDown");
     await search.input.press("Enter");
 
@@ -102,7 +115,7 @@ test.describe("Search (/search)", () => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.input.fill("zzzznomatch");
+    await typeAndSettle(search.input, "zzzznomatch");
 
     await expect(page.getByRole("heading", { name: "No businesses found" })).toBeVisible();
     await expect(search.businessCards).toHaveCount(0);
@@ -112,7 +125,7 @@ test.describe("Search (/search)", () => {
     const search = new SearchPage(page);
     await search.goto();
 
-    await search.input.fill("roof");
+    await typeAndSettle(search.input, "roof");
     await expect(page.getByRole("listbox", { name: "Search suggestions" })).toBeVisible();
 
     await search.input.press("Escape");
