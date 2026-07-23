@@ -85,6 +85,8 @@ Per Feature, the sprint is successful when:
 | F-013 | Add new "Arts & Crafts" category and new business "Pankhuri's Artistry Avenue" (handmade art/décor/gifts, Akuna Vista resident), with logo image | Medium | Completed |
 | F-014 | Update Simran's Detailing promotion to "Mention AV10 to receive 10% off Paint Protection Packages — AV Residents Only"; add phone number and name contact Manisha | Low | Completed |
 | F-015 | Remove `featured` from Knowledgetree's "Super SMSF Deal — AV Residents Only" promotion | Low | Completed |
+| F-016 | Add new business "SAVAA Properties" (real estate, Phantom Street) to existing Real Estate category | Low | Completed |
+| F-017 | Add new "Migration & Visa Services" category and new business "Elite Australia Immigration" (Valiant Street), with logo image | Low | Completed |
 
 Status Values
 
@@ -1213,6 +1215,147 @@ section (`PromotionCard.tsx:37`). Confirmed this is the intended target before e
 - [x] Promotion's `featured` field set to `false`.
 - [x] `npm run validate:data` passes.
 - [x] Homepage promotions section no longer shows a "Featured" badge on the Knowledgetree card.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 15 (F-016)
+
+As a visitor looking for a local real estate agent
+
+I want to find SAVAA Properties in the directory
+
+So that I have another local option alongside the existing Fortune8 Property Group listing.
+
+### Source data (as supplied by the project owner, verbatim)
+
+"hantom St / Real Estate - SAVAA Properties / BUY | SELL | LEASE | INVEST / ROHAN BAROT /
+0406 700 777" — plus a follow-up supplying the website `https://savaaproperties.com.au/`.
+
+### Clarification (confirmed via clarifying question this round)
+
+The street name was supplied as "hantom St" — clearly missing a leading letter from a paste
+artifact. Confirmed by the project owner as **Phantom St**.
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "2b397f2f-cdf7-4af3-bee6-a88d84ea49d7",
+  "slug": "savaa-properties",
+  "name": "SAVAA Properties",
+  "description": "Local real estate agency run by Rohan Barot, based on Phantom Street, Akuna Vista, offering buying, selling, leasing, and investment services.",
+  "shortDescription": "Local real estate: buy, sell, lease, invest. Phantom Street, Akuna Vista.",
+  "categoryId": "real-estate",
+  "phone": "0406 700 777",
+  "website": "https://savaaproperties.com.au/",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Real Estate", "Buy", "Sell", "Lease", "Invest", "Local"],
+  "createdAt": "2026-07-23T00:00:00Z",
+  "updatedAt": "2026-07-23T00:00:00Z"
+}
+```
+
+- Existing `real-estate` category reused — no new category needed (matches Fortune8 Property Group
+  precedent, Sprint 15 Story 4).
+- No email supplied — left unset.
+- **No promotion created** — the project owner explicitly confirmed no offer was supplied for this
+  business, unlike the resident-only-promo pattern used elsewhere in this sprint.
+
+### Acceptance Criteria
+
+- [x] SAVAA Properties added to `data/businesses.json` under `real-estate`, with the confirmed
+      website link.
+- [x] `npm run validate:data` passes.
+- [x] `/business/savaa-properties` renders correctly.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 16 (F-017)
+
+As a visitor needing migration/visa advice
+
+I want to find a registered migration agent in the directory
+
+So that I can discover a local, MARN-registered agent instead of searching generically.
+
+### Source data (as supplied by the project owner, verbatim)
+
+"Valiant Street. Our business name is Elite Australia Immigration. Website is under construction!
+Elite Australia Immigration — Trusted, personalised migration advice from a MARN-registered agent
+(MARN: 2519015, Giriraj Joshi). We specialise in Parent Visas, Tourist Visas, Student Visas,
+Employer Sponsored Visas, and Permanent Visas — guiding you through every step with accuracy and
+care. Free initial consultation for Akuna Vista residents, plus special discounts on professional
+fees. 📞 0469 351 259 ✉️ office@eliteaustraliaimmigration.com.au" — plus a supplied logo image
+(circular-cropped globe-and-arrow mark, "ELITE AUSTRALIA IMMIGRATION" text).
+
+### Decisions and assumptions
+
+- **New category: `migration-visa-services`** ("Migration & Visa Services", icon `PlaneTakeoff`,
+  `displayOrder: 19`) — none of the 18 existing categories fit a migration agent; closest,
+  `jp-services`, is a different kind of professional service. Icon verified as a real
+  `lucide-react` export before use (won't fall back to the `Store` icon).
+- **No `website`** — explicitly stated as "under construction," so omitted rather than left as a
+  dead/placeholder link, consistent with never fabricating a URL.
+- **Logo image**: supplied file was small (150×150px, ~3.5KB) — used as-is at `images[0]` rather
+  than upscaled, since upscaling wouldn't add real detail; saved to
+  `public/images/businesses/elite-australia-immigration.jpg`. Flag if a higher-resolution version
+  becomes available later.
+- **"Free initial consultation... discounts" is kept in the business description text** (it's real,
+  factual content about the business) **but does not get a separate homepage Promotion entry** —
+  the project owner explicitly confirmed neither this nor SAVAA Properties supplied a promotable
+  offer in the sense used elsewhere in this sprint (dated, resident-only deals like Simran's
+  Detailing or Capital Hub).
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "migration-visa-services",
+  "slug": "migration-visa-services",
+  "name": "Migration & Visa Services",
+  "icon": "PlaneTakeoff",
+  "description": "Registered migration agents helping with visas, permanent residency, and immigration advice.",
+  "displayOrder": 19,
+  "featured": false
+}
+```
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "343afecc-fc86-4d73-be6e-b65420b80799",
+  "slug": "elite-australia-immigration",
+  "name": "Elite Australia Immigration",
+  "description": "Trusted, personalised migration advice from a MARN-registered agent (MARN: 2519015), Giriraj Joshi, based on Valiant Street, Akuna Vista. Specialising in Parent Visas, Tourist Visas, Student Visas, Employer Sponsored Visas, and Permanent Visas — guiding you through every step with accuracy and care. Free initial consultation for Akuna Vista residents, plus special discounts on professional fees.",
+  "shortDescription": "MARN-registered migration agent: parent, tourist, student, employer & permanent visas.",
+  "categoryId": "migration-visa-services",
+  "phone": "0469 351 259",
+  "email": "office@eliteaustraliaimmigration.com.au",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/businesses/elite-australia-immigration.jpg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Migration Agent", "Visa Services", "MARN Registered", "Local"],
+  "createdAt": "2026-07-23T00:00:00Z",
+  "updatedAt": "2026-07-23T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] `migration-visa-services` category added to `data/categories.json`.
+- [x] Elite Australia Immigration added to `data/businesses.json` with the supplied logo as
+      `images[0]`, no `website` field.
+- [x] `npm run validate:data` passes.
+- [x] `/category/migration-visa-services` and `/business/elite-australia-immigration` render
+      correctly, including the logo image.
+- [x] No promotion entry created for either F-016 or F-017.
 - [x] Existing Playwright suite still passes.
 
 ---

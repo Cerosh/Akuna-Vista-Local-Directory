@@ -160,5 +160,14 @@
     "description": "Handmade art, resin art, home décor, and personalized gifts from local makers.",
     "displayOrder": 18,
     "featured": false
+  },
+  {
+    "id": "migration-visa-services",
+    "slug": "migration-visa-services",
+    "name": "Migration & Visa Services",
+    "icon": "PlaneTakeoff",
+    "description": "Registered migration agents helping with visas, permanent residency, and immigration advice.",
+    "displayOrder": 19,
+    "featured": false
   }
 ]

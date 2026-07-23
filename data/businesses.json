@@ -577,5 +577,39 @@
     "tags": ["Resin Art", "Handmade Gifts", "Home Décor", "Local"],
     "createdAt": "2026-07-21T00:00:00Z",
     "updatedAt": "2026-07-21T00:00:00Z"
+  },
+  {
+    "id": "2b397f2f-cdf7-4af3-bee6-a88d84ea49d7",
+    "slug": "savaa-properties",
+    "name": "SAVAA Properties",
+    "description": "Local real estate agency run by Rohan Barot, based on Phantom Street, Akuna Vista, offering buying, selling, leasing, and investment services.",
+    "shortDescription": "Local real estate: buy, sell, lease, invest. Phantom Street, Akuna Vista.",
+    "categoryId": "real-estate",
+    "phone": "0406 700 777",
+    "website": "https://savaaproperties.com.au/",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Real Estate", "Buy", "Sell", "Lease", "Invest", "Local"],
+    "createdAt": "2026-07-23T00:00:00Z",
+    "updatedAt": "2026-07-23T00:00:00Z"
+  },
+  {
+    "id": "343afecc-fc86-4d73-be6e-b65420b80799",
+    "slug": "elite-australia-immigration",
+    "name": "Elite Australia Immigration",
+    "description": "Trusted, personalised migration advice from a MARN-registered agent (MARN: 2519015), Giriraj Joshi, based on Valiant Street, Akuna Vista. Specialising in Parent Visas, Tourist Visas, Student Visas, Employer Sponsored Visas, and Permanent Visas — guiding you through every step with accuracy and care. Free initial consultation for Akuna Vista residents, plus special discounts on professional fees.",
+    "shortDescription": "MARN-registered migration agent: parent, tourist, student, employer & permanent visas.",
+    "categoryId": "migration-visa-services",
+    "phone": "0469 351 259",
+    "email": "office@eliteaustraliaimmigration.com.au",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/businesses/elite-australia-immigration.jpg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Migration Agent", "Visa Services", "MARN Registered", "Local"],
+    "createdAt": "2026-07-23T00:00:00Z",
+    "updatedAt": "2026-07-23T00:00:00Z"
   }
 ]
