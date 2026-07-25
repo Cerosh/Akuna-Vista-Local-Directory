@@ -87,6 +87,7 @@ Per Feature, the sprint is successful when:
 | F-015 | Remove `featured` from Knowledgetree's "Super SMSF Deal — AV Residents Only" promotion | Low | Completed |
 | F-016 | Add new business "SAVAA Properties" (real estate, Phantom Street) to existing Real Estate category | Low | Completed |
 | F-017 | Add new "Migration & Visa Services" category and new business "Elite Australia Immigration" (Valiant Street), with logo image | Low | Completed |
+| F-018 | Update Simran's Detailing phone number from +61 410 094 574 to +61 411 913 251 | Low | Completed |
 
 Status Values
 
@@ -1356,6 +1357,28 @@ fees. 📞 0469 351 259 ✉️ office@eliteaustraliaimmigration.com.au" — plus
 - [x] `/category/migration-visa-services` and `/business/elite-australia-immigration` render
       correctly, including the logo image.
 - [x] No promotion entry created for either F-016 or F-017.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 17 (F-018)
+
+As the project owner
+
+I want Simran's Detailing's phone number updated
+
+So that the listing shows the correct, current contact number.
+
+### Change — `data/businesses.json`
+
+- `simrans-detailing`'s `phone` changed from `+61 410 094 574` to `+61 411 913 251`. No other field
+  touched.
+
+### Acceptance Criteria
+
+- [x] `phone` updated as above.
+- [x] `npm run validate:data` passes.
+- [x] `/business/simrans-detailing` renders the new phone number.
 - [x] Existing Playwright suite still passes.
 
 ---
