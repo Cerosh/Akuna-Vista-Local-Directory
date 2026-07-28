@@ -537,6 +537,20 @@ Criteria to reflect the correction, flag the change explicitly, and only then co
 silently code around a stale spec, and never leave the spec and the shipped behaviour disagreeing
 with each other.
 
+## Model delegation for the Implement step
+
+Established 2026-07-28. Capture, Confirm, and Verify all require judgment (scoping, ambiguity
+resolution, and honest verification) and should run on the primary model. For a **data-only**
+Feature (a new/updated record in `data/*.json`, no code change) whose Confirm step is already
+complete — spec, exact JSON payload, and Acceptance Criteria all settled — the Implement step is
+mechanical enough to delegate to the `data-entry` subagent (`.claude/agents/data-entry.md`, pinned
+to a smaller/cheaper model). That subagent's job is strictly to write the already-agreed JSON
+into the target file(s) and run `npm run validate:data` — it must not make any content decision
+(wording, category choice, field values). `npm run validate:data`, Husky pre-commit, and CI remain
+the safety net regardless of which model did the write. This does not apply to Features that touch
+application code, schema (`types/`), or repository/validation logic — those stay on the primary
+model end to end.
+
 ---
 
 # Behaviour
