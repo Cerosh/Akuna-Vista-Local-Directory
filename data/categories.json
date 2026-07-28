@@ -169,5 +169,14 @@
     "description": "Registered migration agents helping with visas, permanent residency, and immigration advice.",
     "displayOrder": 19,
     "featured": false
+  },
+  {
+    "id": "digital-marketing",
+    "slug": "digital-marketing",
+    "name": "Digital Marketing",
+    "icon": "Megaphone",
+    "description": "SEO, website development, digital advertising, and social media marketing services.",
+    "displayOrder": 20,
+    "featured": false
   }
 ]

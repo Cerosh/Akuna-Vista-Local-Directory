@@ -88,6 +88,7 @@ Per Feature, the sprint is successful when:
 | F-016 | Add new business "SAVAA Properties" (real estate, Phantom Street) to existing Real Estate category | Low | Completed |
 | F-017 | Add new "Migration & Visa Services" category and new business "Elite Australia Immigration" (Valiant Street), with logo image | Low | Completed |
 | F-018 | Update Simran's Detailing phone number from +61 410 094 574 to +61 411 913 251 | Low | Completed |
+| F-019 | Add new "Digital Marketing" category and new business "Solution Savvy" (digital marketing agency, Seagull Street, Schofields) | Medium | Completed |
 
 Status Values
 
@@ -1460,5 +1461,116 @@ F-014 implemented and verified (2026-07-22):
   pre-existing "no console errors" CSP `unsafe-eval` failure documented in F-012/F-013 (confirmed by
   isolated rerun of `homepage.spec.ts` — the only failing assertion is the console-errors check,
   Dharug footer text still passes) — unrelated to this change, not a new regression.
+
+---
+
+## Story 18 (F-019)
+
+As a visitor looking for a digital marketing / SEO / web / ads agency
+
+I want Solution Savvy listed in the directory
+
+So that I can find and contact a locally-based digital marketing provider.
+
+### Source data (as supplied via chat, 2026-07-28)
+
+- "Solution Savvy is a Nirimba Fields-based digital marketing agency helping businesses across
+  Sydney and all major Australian cities. We specialise in SEO, local SEO, AEO/GEO, Website
+  development, Google Ads/Meta Ads, Social Media Marketing and Business Automation. Our focus is on
+  delivering practical, results-driven strategies that increase visibility, attract qualified
+  traffic, and generate consistent customer enquiries. We help small and mid-sized businesses grow
+  online with sustainable rankings and real business outcomes."
+- Phone: 0469 355 221
+- Email: sales@solutionsavvy.com.au
+- Street (confirmed by project owner): Seagull Street
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Suburb/postcode (confirmed by project owner):** Schofields, NSW 2762.
+- **New category (confirmed by project owner):** no existing category fits (closest is
+  `real-estate` or a services catch-all, neither appropriate) — adding `digital-marketing` /
+  "Digital Marketing" rather than reusing an unrelated category. Icon `"Megaphone"` chosen (a real
+  `lucide-react` export). `displayOrder: 20` (after `migration-visa-services` at 19). `featured:
+  false` — a brand-new single-business category, same reasoning as prior new-category additions
+  (F-002, F-017).
+- **`serviceAreas`:** the business describes itself as serving "Sydney and all major Australian
+  cities," which is broader than every existing entry's suburb-level `serviceAreas`. Kept
+  `serviceAreas` to `["Schofields", "Nirimba Fields"]` (the local area, matching the directory's
+  actual purpose) and preserved the wider reach as prose in `description` instead — flagging this
+  in case the project owner wants the broader area reflected structurally instead.
+- **`featured: false`** — not requested as featured, unlike some prior entries (F-001, F-011).
+- **No website supplied** — `website`/`websiteLabel` fields omitted (both optional).
+- **`verified: false`** (default) — no independent verification performed.
+- Description/short description/tags authored (not verbatim) to fit the schema's required
+  `description` field and match existing listings' tone.
+
+### Proposed entry — `data/categories.json`
+
+```json
+{
+  "id": "digital-marketing",
+  "slug": "digital-marketing",
+  "name": "Digital Marketing",
+  "icon": "Megaphone",
+  "description": "SEO, website development, digital advertising, and social media marketing services.",
+  "displayOrder": 20,
+  "featured": false
+}
+```
+
+### Proposed entry — `data/businesses.json`
+
+```json
+{
+  "id": "17d1ba24-1805-4112-ac1e-27bd391fb2d7",
+  "slug": "solution-savvy",
+  "name": "Solution Savvy",
+  "description": "Local digital marketing agency based in Nirimba Fields, helping businesses across Sydney and all major Australian cities with SEO, local SEO, AEO/GEO, website development, Google Ads/Meta Ads, social media marketing, and business automation. Focused on practical, results-driven strategies that increase visibility, attract qualified traffic, and generate consistent customer enquiries.",
+  "shortDescription": "Local digital marketing agency — SEO, Ads, social media, and business automation.",
+  "categoryId": "digital-marketing",
+  "phone": "0469 355 221",
+  "email": "sales@solutionsavvy.com.au",
+  "address": {
+    "street": "Seagull Street",
+    "suburb": "Schofields",
+    "state": "NSW",
+    "postcode": "2762"
+  },
+  "serviceAreas": ["Schofields", "Nirimba Fields"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["SEO", "Digital Marketing", "Website Development", "Social Media Marketing"],
+  "createdAt": "2026-07-28T00:00:00Z",
+  "updatedAt": "2026-07-28T00:00:00Z"
+}
+```
+
+Acceptance Criteria
+
+- [x] New category added to `data/categories.json` with `id`/`slug: "digital-marketing"`.
+- [x] New business added to `data/businesses.json` with `categoryId: "digital-marketing"`, the
+      contact details and Seagull Street/Schofields address above.
+- [x] `npm run validate:data` passes — no schema violations, no duplicate `id`/`slug`, `categoryId`
+      resolves to an existing category.
+- [x] `/category/digital-marketing` and `/business/solution-savvy` render via existing dynamic
+      routes with no code change required.
+- [x] Existing Playwright suite still passes (no regressions).
+
+F-019 implemented and verified (2026-07-28):
+
+- `data/categories.json` / `data/businesses.json` — entries appended exactly as specified above
+  (diffed against the confirmed spec, no deviation).
+- Implement step delegated to a Haiku-model subagent per the new "Model delegation for the
+  Implement step" convention in `.ai/CLAUDE.md`; Capture/Confirm/Verify stayed on the primary
+  model. A reusable `.claude/agents/data-entry.md` subagent was also created for this going
+  forward — this run itself used an ad-hoc `general-purpose` agent with a Haiku model override,
+  since a subagent definition created mid-session isn't picked up until the next session.
+- `npm run validate:data` — passes ("All data files ... are valid").
+- Manually verified via a temporary local dev server: `/`, `/category/digital-marketing`, and
+  `/business/solution-savvy` all return 200.
+- `npx playwright test` — 280 passed, 16 skipped, 1 failed (`[webkit] Escape closes the
+  suggestions list`, a pre-existing WebKit search-suite timing flake — passed 2/2 when rerun in
+  isolation, unrelated to this change, not a new regression).
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.
