@@ -95,6 +95,7 @@ Per Feature, the sprint is successful when:
 | F-023 | Add new "Builders & Construction" category and new business "Accura Homes" (custom homes, duplexes, knockdown rebuilds, Bella Vista, local connection via Nabthorpe Parade) | Medium | Completed |
 | F-024 | Remove "Just Cut Grass" and "Arshdeep Landscaping" (no longer in business) and remove the now-empty "Landscaping & Gardening" category | Medium | Completed |
 | F-025 | Add new business "iConsult Mortgage Solutions" (mortgage broker, Bhavna Dada, Nirimba Fields) to the existing Finance & Mortgage Broking category | Medium | Completed |
+| F-026 | Remove the ACL/Credit Representative parenthetical from iConsult Mortgage Solutions' description, per Bhavna's request | Low | Completed |
 
 Status Values
 
@@ -2079,5 +2080,54 @@ F-025 implemented and verified (2026-07-31):
 - `npx playwright test` — 280 passed, 16 skipped, 1 failed (`[webkit] selecting a suggestion via
   keyboard`, the same recurring WebKit search-suite timing flake — passed 2/2 in isolation,
   unrelated to this change).
+
+---
+
+## Story 25 (F-026)
+
+As Bhavna, the owner of iConsult Mortgage Solutions
+
+I want my listing's description to match the bio I actually supplied
+
+So that it reads the way I intended, without added regulatory detail I didn't ask for.
+
+### Source data (as supplied via email, 2026-07-31)
+
+- "I noticed that '(Credit Representative Number 560511, ABN 16 678 658 467, authorised under
+  Australian Credit Licence Number 384704).' this is added in the introduction, could you please
+  remove it." — followed by the exact description text she wants instead.
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **F-025's authored addition of the ACL/Credit Representative numbers (matching the
+  licence-number convention used for other regulated trades in this directory) was not something
+  Bhavna asked for** — she supplied only the plain bio. This F-025 assumption is now corrected by
+  Bhavna directly; the licence numbers are removed, not relocated elsewhere in the record.
+- Only `description` changes — no other field affected.
+
+### Change — `data/businesses.json`
+
+`iconsult-mortgage-solutions`'s `description` changes from the F-025 version to:
+
+```
+I'm Bhavna, your local Akuna Vista mortgage broker from iConsult Mortgage Solutions. Whether you're purchasing your first home, upgrading, refinancing, or investing, I can help you find a loan from a wide range of lenders — residential, commercial, SMSF, asset finance, low doc/alt doc, and personal loans. Contact me today for a no-obligation home loan review.
+```
+
+Acceptance Criteria
+
+- [x] `iconsult-mortgage-solutions`'s `description` in `data/businesses.json` exactly matches the
+      text above (no ACL/Credit Representative parenthetical).
+- [x] `npm run validate:data` passes.
+- [x] `/business/iconsult-mortgage-solutions` renders the updated description.
+- [x] Existing Playwright suite still passes (no regressions).
+
+F-026 implemented and verified (2026-07-31):
+
+- `data/businesses.json` — `iconsult-mortgage-solutions.description` updated to the exact text
+  Bhavna supplied (diffed to confirm only this one field changed, nothing else touched).
+- `npm run validate:data` — passes.
+- Manually verified via a temporary local dev server: `/business/iconsult-mortgage-solutions` no
+  longer contains "Credit Representative Number", still renders the rest of the bio.
+- `npx playwright test` — 281 passed, 16 skipped, 0 failed.
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.
