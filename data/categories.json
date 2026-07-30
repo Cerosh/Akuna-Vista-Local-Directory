@@ -178,5 +178,14 @@
     "description": "SEO, website development, digital advertising, and social media marketing services.",
     "displayOrder": 20,
     "featured": false
+  },
+  {
+    "id": "security-home-automation",
+    "slug": "security-home-automation",
+    "name": "Security & Home Automation",
+    "icon": "ShieldCheck",
+    "description": "CCTV, alarm systems, intercoms, home theatre, and home automation installation services.",
+    "displayOrder": 21,
+    "featured": false
   }
 ]

@@ -634,5 +634,27 @@
     "tags": ["SEO", "Digital Marketing", "Website Development", "Social Media Marketing"],
     "createdAt": "2026-07-28T00:00:00Z",
     "updatedAt": "2026-07-28T00:00:00Z"
+  },
+  {
+    "id": "e0d9c718-f0a5-4f55-9cba-1b05f360c841",
+    "slug": "danish-security-home-automation",
+    "name": "Danish",
+    "description": "Local security technology installer based on Mariner Avenue, Akuna Vista, offering CCTV, alarm systems, intercoms, home theatre, and home automation installation.",
+    "shortDescription": "Local CCTV, alarms, intercom, home theatre, and home automation installer.",
+    "categoryId": "security-home-automation",
+    "phone": "+61 430 778 821",
+    "address": {
+      "street": "17 Mariner Avenue",
+      "suburb": "Schofields",
+      "state": "NSW",
+      "postcode": "2762"
+    },
+    "serviceAreas": ["Schofields", "Akuna Vista"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["CCTV", "Home Automation", "Local"],
+    "createdAt": "2026-07-31T00:00:00Z",
+    "updatedAt": "2026-07-31T00:00:00Z"
   }
 ]

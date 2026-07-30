@@ -91,6 +91,7 @@ Per Feature, the sprint is successful when:
 | F-019 | Add new "Digital Marketing" category and new business "Solution Savvy" (digital marketing agency, Seagull Street, Schofields) | Medium | Completed |
 | F-020 | Add "FREE 1 Month SEO + AEO + GEO" promotion for Solution Savvy — AV residents only, featured, 2026-07-30 to 2026-10-30 | Medium | Completed |
 | F-021 | Replace Solution Savvy's placeholder image with its real logo, composited onto a dark background tile | Low | Completed |
+| F-022 | Add new "Security & Home Automation" category and new business "Danish" (CCTV, alarms, intercom, home theatre, home automation, 17 Mariner Avenue, Schofields) | Medium | Completed |
 
 Status Values
 
@@ -1706,5 +1707,106 @@ F-021 implemented and verified (2026-07-30):
   in isolation, unrelated to this change). Note: this is the third distinct WebKit search test to
   flake across three full-suite runs today (F-019, F-020, F-021) — worth a dedicated look
   separately from this sprint's data-entry work.
+
+---
+
+## Story 21 (F-022)
+
+As a visitor needing CCTV, alarms, intercom, home theatre, or home automation installed
+
+I want a local security tech provider listed in the directory
+
+So that I can find and contact one.
+
+### Source data (as supplied via chat, 2026-07-30/31)
+
+- "Danish here. I own a security tech business. I do CCTV alarms intercom Hoem theatre and home
+  automation. Will you please add me to the directory?"
+- Sender number: +61 430 778 821
+- "This is my number" / "Website under maintenance" / "I live on 17 Mariner Avenue"
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **No business/trading name given (confirmed by project owner via clarifying question):** listed
+  as `"Danish"` — matches the existing first-name-only precedent (`anjul-jp`, `praful-saparia-jp`).
+- **Phone number (confirmed by project owner via clarifying question):** the sender's own number,
+  `+61 430 778 821`, used as the contact number — "This is my number" had no digits attached in the
+  chat log itself.
+- **Suburb/postcode (confirmed by project owner):** Schofields, NSW 2762.
+- **New category (confirmed by project owner):** no existing category covers
+  CCTV/alarms/intercom/home theatre/home automation — adding `security-home-automation` /
+  "Security & Home Automation". Icon `"ShieldCheck"` chosen (a real `lucide-react` export).
+  `displayOrder: 21` (after `digital-marketing` at 20). `featured: false` — same reasoning as prior
+  new-category additions.
+- **No website** — under maintenance per Danish, so `website`/`websiteLabel` omitted.
+- **`serviceAreas`:** `["Schofields", "Akuna Vista"]` — Mariner Avenue falls within Akuna Vista per
+  the existing `anjul-jp` entry's service area, plus the wider Schofields suburb from the address.
+- **`tags`:** includes `"Local"`, matching the convention for Akuna Vista residents offering
+  services locally (same as the JP entries).
+- **`featured: false`, `verified: false`** — not requested as featured; no independent verification
+  performed.
+- Description/short description authored (not verbatim) to fit the schema's required `description`
+  field.
+
+### Proposed entry — `data/categories.json`
+
+```json
+{
+  "id": "security-home-automation",
+  "slug": "security-home-automation",
+  "name": "Security & Home Automation",
+  "icon": "ShieldCheck",
+  "description": "CCTV, alarm systems, intercoms, home theatre, and home automation installation services.",
+  "displayOrder": 21,
+  "featured": false
+}
+```
+
+### Proposed entry — `data/businesses.json`
+
+```json
+{
+  "id": "e0d9c718-f0a5-4f55-9cba-1b05f360c841",
+  "slug": "danish-security-home-automation",
+  "name": "Danish",
+  "description": "Local security technology installer based on Mariner Avenue, Akuna Vista, offering CCTV, alarm systems, intercoms, home theatre, and home automation installation.",
+  "shortDescription": "Local CCTV, alarms, intercom, home theatre, and home automation installer.",
+  "categoryId": "security-home-automation",
+  "phone": "+61 430 778 821",
+  "address": {
+    "street": "17 Mariner Avenue",
+    "suburb": "Schofields",
+    "state": "NSW",
+    "postcode": "2762"
+  },
+  "serviceAreas": ["Schofields", "Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["CCTV", "Home Automation", "Local"],
+  "createdAt": "2026-07-31T00:00:00Z",
+  "updatedAt": "2026-07-31T00:00:00Z"
+}
+```
+
+Acceptance Criteria
+
+- [x] New category added to `data/categories.json` with `id`/`slug: "security-home-automation"`.
+- [x] New business added to `data/businesses.json` with `categoryId: "security-home-automation"`,
+      the contact details and Mariner Avenue/Schofields address above.
+- [x] `npm run validate:data` passes — no schema violations, no duplicate `id`/`slug`, `categoryId`
+      resolves to an existing category.
+- [x] `/category/security-home-automation` and `/business/danish-security-home-automation` render
+      via existing dynamic routes with no code change required.
+- [x] Existing Playwright suite still passes (no regressions).
+
+F-022 implemented and verified (2026-07-31):
+
+- `data/categories.json` / `data/businesses.json` — entries appended exactly as specified above
+  (diffed against the confirmed spec, no deviation).
+- `npm run validate:data` — passes ("All data files ... are valid").
+- Manually verified via a temporary local dev server: `/category/security-home-automation` and
+  `/business/danish-security-home-automation` both return 200.
+- `npx playwright test` — 281 passed, 16 skipped, 0 failed (clean run, no WebKit flake this time).
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.
