@@ -89,6 +89,8 @@ Per Feature, the sprint is successful when:
 | F-017 | Add new "Migration & Visa Services" category and new business "Elite Australia Immigration" (Valiant Street), with logo image | Low | Completed |
 | F-018 | Update Simran's Detailing phone number from +61 410 094 574 to +61 411 913 251 | Low | Completed |
 | F-019 | Add new "Digital Marketing" category and new business "Solution Savvy" (digital marketing agency, Seagull Street, Schofields) | Medium | Completed |
+| F-020 | Add "FREE 1 Month SEO + AEO + GEO" promotion for Solution Savvy — AV residents only, featured, 2026-07-30 to 2026-10-30 | Medium | Completed |
+| F-021 | Replace Solution Savvy's placeholder image with its real logo, composited onto a dark background tile | Low | Completed |
 
 Status Values
 
@@ -1572,5 +1574,137 @@ F-019 implemented and verified (2026-07-28):
 - `npx playwright test` — 280 passed, 16 skipped, 1 failed (`[webkit] Escape closes the
   suggestions list`, a pre-existing WebKit search-suite timing flake — passed 2/2 when rerun in
   isolation, unrelated to this change, not a new regression).
+
+---
+
+## Story 19 (F-020)
+
+As a visitor browsing the promotions section
+
+I want to see Solution Savvy's sign-up offer
+
+So that I know AV residents get a free month on their SEO/AEO/GEO package.
+
+### Source data (as supplied via chat, 2026-07-30)
+
+- Title: "FREE 1 Month SEO + AEO + GEO - Exclusive for AV Residents only"
+- Description: "Sign up for our 6-month SEO, AEO & GEO package and get your first month FREE.
+  Exclusive to AV residents only. Limited-time offer."
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Dates (confirmed by project owner via clarifying question):** no exact dates were supplied
+  with "limited-time offer" — project owner chose `startDate: "2026-07-30"`,
+  `endDate: "2026-10-30"` (3 months), matching the window most other active promotions use.
+- **`featured: true`** (confirmed by project owner via clarifying question) — highlighted like the
+  tutoring Free Demo Lesson promotion, unlike the 3 standard promotions.
+- **`businessId`** resolves to the existing `solution-savvy` business
+  (`17d1ba24-1805-4112-ac1e-27bd391fb2d7`, added in F-019) — no new business record needed.
+- Title/description used verbatim from the project owner's message, matching the promotion
+  schema's required `title`/`description` fields.
+
+### Proposed entry — `data/promotions.json`
+
+```json
+{
+  "id": "02d89015-4bd4-4f75-adbe-794eed31bf9f",
+  "businessId": "17d1ba24-1805-4112-ac1e-27bd391fb2d7",
+  "title": "FREE 1 Month SEO + AEO + GEO - Exclusive for AV Residents only",
+  "description": "Sign up for our 6-month SEO, AEO & GEO package and get your first month FREE. Exclusive to AV residents only. Limited-time offer.",
+  "startDate": "2026-07-30",
+  "endDate": "2026-10-30",
+  "featured": true
+}
+```
+
+Acceptance Criteria
+
+- [x] New promotion added to `data/promotions.json` with `businessId` resolving to `solution-savvy`.
+- [x] `npm run validate:data` passes — no schema violations, no duplicate `id`, `businessId`
+      resolves to an existing business.
+- [x] Promotion appears in the homepage Promotions section (`/`) and links to
+      `/business/solution-savvy`.
+- [x] Existing Playwright suite still passes (no regressions).
+
+F-020 implemented and verified (2026-07-30):
+
+- `data/promotions.json` — entry appended exactly as specified above (diffed against the confirmed
+  spec, no deviation). Implement step delegated to the Haiku data-entry convention as before.
+- `npm run validate:data` — passes ("All data files ... are valid").
+- Manually verified via a temporary local dev server: homepage HTML contains the promotion title
+  and a link to `/business/solution-savvy`.
+- `npx playwright test` — 280 passed, 16 skipped, 1 failed (`[webkit] a query with no matches
+  shows the empty state`, a pre-existing WebKit search-suite timing flake — passed 2/2 when rerun
+  in isolation, unrelated to this change, not a new regression).
+
+---
+
+## Story 20 (F-021)
+
+As a visitor viewing the Solution Savvy business page
+
+I want to see their real logo instead of the generic placeholder image
+
+So that the listing feels like a real, verified business.
+
+### Source data
+
+- Logo supplied by the project owner: `/Users/ceroshjacob/Downloads/Logo-white-1.png` (600×287,
+  white logo text + red icon mark, transparent background).
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Background treatment (confirmed by project owner via clarifying question):** the source file is
+  white-on-transparent, which would be near-invisible on the two places `images[0]` actually
+  renders — the business page Gallery thumbnail (`bg-muted`, near-white in light mode,
+  `features/business-details/Gallery.tsx`) and the social-share preview image
+  (`app/business/[slug]/page.tsx`'s `openGraph.images`). Project owner chose to composite the logo
+  onto a solid dark background tile (`#171717`) rather than use it as-is or supply an alternate
+  asset.
+- **Canvas/aspect ratio:** built as 1200×675 (16:9) to exactly match the Gallery's `aspect-video`
+  container, so `object-cover` doesn't crop it; logo scaled to ~70% width / ~45% height, centered.
+- **File:** saved as `public/images/businesses/solution-savvy.jpg` (88% quality, ~25KB), replacing
+  the existing convention of one representative image per business (matches
+  `elite-australia-immigration.jpg`, `pankhuris-artistry-avenue.jpg` — both also real logos, no
+  strict existing size convention across the two).
+
+### Change — `data/businesses.json`
+
+`solution-savvy`'s `images` field changes from:
+
+```json
+"images": ["/images/placeholder-business.svg"]
+```
+
+to:
+
+```json
+"images": ["/images/businesses/solution-savvy.jpg"]
+```
+
+Acceptance Criteria
+
+- [x] `public/images/businesses/solution-savvy.jpg` exists, legible logo on a dark background,
+      16:9 aspect ratio.
+- [x] `solution-savvy`'s `images` field in `data/businesses.json` points to the new file.
+- [x] `npm run validate:data` passes.
+- [x] `/business/solution-savvy` Gallery section renders the new image (not the placeholder).
+- [x] Existing Playwright suite still passes (no regressions).
+
+F-021 implemented and verified (2026-07-30):
+
+- `public/images/businesses/solution-savvy.jpg` created (1200×675, white logo + red icon
+  composited onto a `#171717` dark tile, 88% JPEG quality, ~25KB) from the project owner's supplied
+  `Logo-white-1.png`. Image processing done directly (not delegated) given the visual-quality
+  judgment involved.
+- `data/businesses.json` — `solution-savvy.images` updated to point to the new file.
+- `npm run validate:data` — passes.
+- Manually verified via a temporary local dev server: image asset returns 200 and the business
+  page's Gallery section serves it.
+- `npx playwright test` — 280 passed, 16 skipped, 1 failed (`[webkit] typing filters results
+  instantly and shows suggestions`, a pre-existing WebKit search-suite timing flake — passed 2/2
+  in isolation, unrelated to this change). Note: this is the third distinct WebKit search test to
+  flake across three full-suite runs today (F-019, F-020, F-021) — worth a dedicated look
+  separately from this sprint's data-entry work.
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.

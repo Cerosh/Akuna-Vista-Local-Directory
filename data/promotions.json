@@ -34,5 +34,14 @@
     "startDate": "2026-07-19",
     "endDate": "2026-10-19",
     "featured": false
+  },
+  {
+    "id": "02d89015-4bd4-4f75-adbe-794eed31bf9f",
+    "businessId": "17d1ba24-1805-4112-ac1e-27bd391fb2d7",
+    "title": "FREE 1 Month SEO + AEO + GEO - Exclusive for AV Residents only",
+    "description": "Sign up for our 6-month SEO, AEO & GEO package and get your first month FREE. Exclusive to AV residents only. Limited-time offer.",
+    "startDate": "2026-07-30",
+    "endDate": "2026-10-30",
+    "featured": true
   }
 ]
