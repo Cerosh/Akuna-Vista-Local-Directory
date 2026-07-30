@@ -92,6 +92,7 @@ Per Feature, the sprint is successful when:
 | F-020 | Add "FREE 1 Month SEO + AEO + GEO" promotion for Solution Savvy — AV residents only, featured, 2026-07-30 to 2026-10-30 | Medium | Completed |
 | F-021 | Replace Solution Savvy's placeholder image with its real logo, composited onto a dark background tile | Low | Completed |
 | F-022 | Add new "Security & Home Automation" category and new business "Danish" (CCTV, alarms, intercom, home theatre, home automation, 17 Mariner Avenue, Schofields) | Medium | Completed |
+| F-023 | Add new "Builders & Construction" category and new business "Accura Homes" (custom homes, duplexes, knockdown rebuilds, Bella Vista, local connection via Nabthorpe Parade) | Medium | Completed |
 
 Status Values
 
@@ -1808,5 +1809,121 @@ F-022 implemented and verified (2026-07-31):
 - Manually verified via a temporary local dev server: `/category/security-home-automation` and
   `/business/danish-security-home-automation` both return 200.
 - `npx playwright test` — 281 passed, 16 skipped, 0 failed (clean run, no WebKit flake this time).
+
+---
+
+## Story 22 (F-023)
+
+As a visitor planning a custom build, duplex, or knockdown rebuild
+
+I want a builder listed in the directory
+
+So that I can find and contact one with a local connection to the area.
+
+### Source data (as supplied via chat, 2026-07-30, plus the business's own website)
+
+- "Hello do you add builders in the list?" / "Yeah I live on Nabthorpe parade" /
+  "Accurahomes.com.au" / Instagram: https://www.instagram.com/accura_homes
+- Extracted from `accurahomes.com.au`: tagline "Building the Australian Dream, One Brick at a
+  Time"; phone `+61 435 359 431`; email `Kushal.modi@accurahomes.com.au`; address "5.12/5
+  Celebration Drive, Bella Vista NSW 2155"; services: luxurious homes, duplex construction,
+  knockdown rebuild projects, custom design services, commercial properties; "over 10 years
+  delivering high-quality luxury homes across Australia".
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Address (confirmed by project owner via clarifying question):** uses the official registered
+  address from the website (Bella Vista), not the sender's personal Nabthorpe Parade address (no
+  postcode was given for that, and it's a personal not business address) — the Nabthorpe
+  Parade/Akuna Vista local connection is noted in the description text instead, matching the
+  `arihant-party-essentials` precedent for local-connection framing.
+- **Contact details (confirmed by project owner via clarifying question):** uses the website's own
+  phone (`+61 435 359 431`) and email (`Kushal.modi@accurahomes.com.au`), not the sender's chat
+  number (`+61 469 845 790`).
+- **New category (confirmed by project owner):** no existing category covers builders/construction
+  — adding `builders-construction` / "Builders & Construction". Icon `"HardHat"` chosen (a real
+  `lucide-react` export). `displayOrder: 22` (after `security-home-automation` at 21).
+  `featured: false` — same reasoning as prior new-category additions.
+- **`serviceAreas`:** `["Akuna Vista", "Schofields", "Sydney"]` — local area plus the website's
+  broader "across Australia"/Sydney framing, kept in prose in `description` for the full claim.
+- **`socialLinks.instagram`:** the supplied Instagram URL, with the tracking query string
+  (`?igsh=...`) stripped, matching how other entries store clean profile URLs.
+- **`tags`:** includes `"Local"`, for the Nabthorpe Parade/Akuna Vista connection.
+- **`featured: false`, `verified: false`** — not requested as featured; no independent verification
+  performed beyond reading the business's own website.
+- Description/short description authored (not verbatim, though the tagline is quoted) to fit the
+  schema's required `description` field.
+
+### Proposed entry — `data/categories.json`
+
+```json
+{
+  "id": "builders-construction",
+  "slug": "builders-construction",
+  "name": "Builders & Construction",
+  "icon": "HardHat",
+  "description": "Custom home builders, duplex construction, knockdown rebuilds, and commercial construction.",
+  "displayOrder": 22,
+  "featured": false
+}
+```
+
+### Proposed entry — `data/businesses.json`
+
+```json
+{
+  "id": "1bfa7d29-cea6-4904-abcb-c259745f5e51",
+  "slug": "accura-homes",
+  "name": "Accura Homes",
+  "description": "Accura Homes builds luxurious, custom-designed homes across Sydney — duplex construction, knockdown rebuilds, custom design services, and commercial properties — with over 10 years delivering premium craftsmanship and on-time delivery (\"Building the Australian Dream, One Brick at a Time\"). Locally connected, with a team member based on Nabthorpe Parade, Akuna Vista.",
+  "shortDescription": "Custom luxury homes, duplexes, knockdown rebuilds and commercial builds.",
+  "categoryId": "builders-construction",
+  "phone": "+61 435 359 431",
+  "email": "Kushal.modi@accurahomes.com.au",
+  "website": "https://accurahomes.com.au",
+  "address": {
+    "street": "5.12/5 Celebration Drive",
+    "suburb": "Bella Vista",
+    "state": "NSW",
+    "postcode": "2155"
+  },
+  "serviceAreas": ["Akuna Vista", "Schofields", "Sydney"],
+  "socialLinks": {
+    "instagram": "https://www.instagram.com/accura_homes"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Custom Homes", "Duplex Construction", "Knockdown Rebuild", "Local"],
+  "createdAt": "2026-07-31T00:00:00Z",
+  "updatedAt": "2026-07-31T00:00:00Z"
+}
+```
+
+Acceptance Criteria
+
+- [x] New category added to `data/categories.json` with `id`/`slug: "builders-construction"`.
+- [x] New business added to `data/businesses.json` with `categoryId: "builders-construction"`,
+      the contact details and Bella Vista address above.
+- [x] `npm run validate:data` passes — no schema violations, no duplicate `id`/`slug`, `categoryId`
+      resolves to an existing category.
+- [x] `/category/builders-construction` and `/business/accura-homes` render via existing dynamic
+      routes with no code change required.
+- [x] Existing Playwright suite still passes (no regressions).
+
+F-023 implemented and verified (2026-07-31):
+
+- `data/categories.json` / `data/businesses.json` — entries appended exactly as specified above
+  (diffed against the confirmed spec, no deviation).
+- `npm run validate:data` — passes ("All data files ... are valid").
+- Manually verified via a temporary local dev server: `/category/builders-construction` and
+  `/business/accura-homes` both return 200.
+- **Correction Protocol invoked:** `tests/e2e/directory.spec.ts`'s "sorting changes the order of
+  results" test hardcoded `"Allan's TV Wall Mounting"` as the A–Z sort leader. Adding "Accura
+  Homes" made that assertion stale — `"Accura Homes"` now correctly sorts first (`Ac` < `Al`), the
+  app's behaviour was never wrong. Flagged to and confirmed by the project owner before editing
+  test code (outside the data-only Implement delegation); the assertion was updated to expect
+  `"Accura Homes"`.
+- `npx playwright test` — 281 passed, 16 skipped, 0 failed after the test fix.
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.

@@ -656,5 +656,32 @@
     "tags": ["CCTV", "Home Automation", "Local"],
     "createdAt": "2026-07-31T00:00:00Z",
     "updatedAt": "2026-07-31T00:00:00Z"
+  },
+  {
+    "id": "1bfa7d29-cea6-4904-abcb-c259745f5e51",
+    "slug": "accura-homes",
+    "name": "Accura Homes",
+    "description": "Accura Homes builds luxurious, custom-designed homes across Sydney — duplex construction, knockdown rebuilds, custom design services, and commercial properties — with over 10 years delivering premium craftsmanship and on-time delivery (\"Building the Australian Dream, One Brick at a Time\"). Locally connected, with a team member based on Nabthorpe Parade, Akuna Vista.",
+    "shortDescription": "Custom luxury homes, duplexes, knockdown rebuilds and commercial builds.",
+    "categoryId": "builders-construction",
+    "phone": "+61 435 359 431",
+    "email": "Kushal.modi@accurahomes.com.au",
+    "website": "https://accurahomes.com.au",
+    "address": {
+      "street": "5.12/5 Celebration Drive",
+      "suburb": "Bella Vista",
+      "state": "NSW",
+      "postcode": "2155"
+    },
+    "serviceAreas": ["Akuna Vista", "Schofields", "Sydney"],
+    "socialLinks": {
+      "instagram": "https://www.instagram.com/accura_homes"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Custom Homes", "Duplex Construction", "Knockdown Rebuild", "Local"],
+    "createdAt": "2026-07-31T00:00:00Z",
+    "updatedAt": "2026-07-31T00:00:00Z"
   }
 ]

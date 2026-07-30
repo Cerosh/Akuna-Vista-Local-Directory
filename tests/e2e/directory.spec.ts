@@ -36,9 +36,9 @@ test.describe("Business Directory (/businesses)", () => {
 
     await expect(page).toHaveURL(/sort=name/);
     const firstCardHeading = page.locator('[data-slot="card-title"]').first();
-    // "Allan's TV Wall Mounting" sorts first alphabetically among the
-    // current real business dataset.
-    await expect(firstCardHeading).toHaveText("Allan's TV Wall Mounting");
+    // "Accura Homes" sorts first alphabetically among the current real
+    // business dataset (added Sprint 15 F-023).
+    await expect(firstCardHeading).toHaveText("Accura Homes");
   });
 
   test("pagination moves between pages and disables at the edges", async ({ page }) => {

@@ -187,5 +187,14 @@
     "description": "CCTV, alarm systems, intercoms, home theatre, and home automation installation services.",
     "displayOrder": 21,
     "featured": false
+  },
+  {
+    "id": "builders-construction",
+    "slug": "builders-construction",
+    "name": "Builders & Construction",
+    "icon": "HardHat",
+    "description": "Custom home builders, duplex construction, knockdown rebuilds, and commercial construction.",
+    "displayOrder": 22,
+    "featured": false
   }
 ]
