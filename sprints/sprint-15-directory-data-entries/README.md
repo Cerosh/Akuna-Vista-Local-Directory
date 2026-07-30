@@ -93,6 +93,7 @@ Per Feature, the sprint is successful when:
 | F-021 | Replace Solution Savvy's placeholder image with its real logo, composited onto a dark background tile | Low | Completed |
 | F-022 | Add new "Security & Home Automation" category and new business "Danish" (CCTV, alarms, intercom, home theatre, home automation, 17 Mariner Avenue, Schofields) | Medium | Completed |
 | F-023 | Add new "Builders & Construction" category and new business "Accura Homes" (custom homes, duplexes, knockdown rebuilds, Bella Vista, local connection via Nabthorpe Parade) | Medium | Completed |
+| F-024 | Remove "Just Cut Grass" and "Arshdeep Landscaping" (no longer in business) and remove the now-empty "Landscaping & Gardening" category | Medium | Completed |
 
 Status Values
 
@@ -1925,5 +1926,65 @@ F-023 implemented and verified (2026-07-31):
   test code (outside the data-only Implement delegation); the assertion was updated to expect
   `"Accura Homes"`.
 - `npx playwright test` — 281 passed, 16 skipped, 0 failed after the test fix.
+
+---
+
+## Story 23 (F-024)
+
+As a visitor looking for a landscaper
+
+I want the directory to only show businesses that are actually still operating
+
+So that I don't contact a business that's closed.
+
+### Source data (as supplied via chat, 2026-07-31)
+
+- "The one mentioned in the directory is not in the business anymore. so please remove that ad and
+  if its the only one then remove that section as well."
+- Clarifying question revealed there were actually two landscaping listings, not one. Project owner
+  confirmed via clarifying question: **remove both** ("Just Cut Grass" and "Arshdeep Landscaping")
+  and remove the category, since both are defunct.
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Scope expanded from the original message (confirmed by project owner via clarifying
+  question):** the original request named only one defunct listing; once told two existed, the
+  project owner confirmed both should go, not just one.
+- **Referential integrity checked before removal:** no `data/promotions.json` entry references
+  either business's `id` (`4a2fafa2-e1cb-472c-b8bf-42cf603438ab` / `just-cut-grass`,
+  `87c2a3a6-2f97-4347-a512-305a84f85a27` / `arshdeep-landscaping`), so no dangling promotion is
+  left behind. No other business uses `categoryId: "landscaping"`, so removing the category leaves
+  no dangling `categoryId` reference.
+- Category `landscaping` ("Landscaping & Gardening", `data/categories.json`) removed in full, not
+  just hidden — matches "remove that section as well."
+
+### Change — `data/businesses.json`
+
+Remove the two records with `slug: "just-cut-grass"` and `slug: "arshdeep-landscaping"`.
+
+### Change — `data/categories.json`
+
+Remove the record with `id: "landscaping"`.
+
+Acceptance Criteria
+
+- [x] `just-cut-grass` and `arshdeep-landscaping` no longer present in `data/businesses.json`.
+- [x] `landscaping` category no longer present in `data/categories.json`.
+- [x] `npm run validate:data` passes — no dangling `categoryId`/`businessId` references.
+- [x] `/category/landscaping` no longer appears in the category listing (homepage Popular
+      Categories / directory filters); direct navigation to `/category/landscaping` returns a
+      not-found result rather than an empty-but-existing page.
+- [x] Existing Playwright suite still passes (no regressions).
+
+F-024 implemented and verified (2026-07-31):
+
+- `data/businesses.json` — `just-cut-grass` and `arshdeep-landscaping` records removed (diffed to
+  confirm nothing else changed).
+- `data/categories.json` — `landscaping` record removed.
+- `npm run validate:data` — passes, no dangling references (confirmed no promotion referenced
+  either business, and no other business used `categoryId: "landscaping"`, before removal).
+- Manually verified via a temporary local dev server: `/category/landscaping` returns 404;
+  homepage has no "Landscaping" text; `/businesses` shows neither removed business.
+- `npx playwright test` — 281 passed, 16 skipped, 0 failed.
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.

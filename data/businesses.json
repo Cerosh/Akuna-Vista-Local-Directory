@@ -92,24 +92,6 @@
     "priceRange": "$$"
   },
   {
-    "id": "4a2fafa2-e1cb-472c-b8bf-42cf603438ab",
-    "slug": "just-cut-grass",
-    "name": "Just Cut Grass",
-    "description": "Just Cut Grass is a local lawn mowing and garden maintenance service offering lawn mowing, edging, whipper snipping, hedge trimming, general yard tidy-ups and weed spraying. Reliable, affordable and professional — first-time customers receive $10 off their first service.",
-    "shortDescription": "Lawn mowing and garden maintenance — $10 off first service.",
-    "categoryId": "landscaping",
-    "phone": "+61 414 464 785",
-    "socialLinks": {},
-    "serviceAreas": ["Schofields"],
-    "images": ["/images/placeholder-business.svg"],
-    "featured": false,
-    "verified": false,
-    "tags": ["First Service Discount", "Lawn Care"],
-    "createdAt": "2026-07-08T00:00:00Z",
-    "updatedAt": "2026-07-08T00:00:00Z",
-    "priceRange": "$"
-  },
-  {
     "id": "12195580-039d-48e5-bcc7-a0f1a7982257",
     "slug": "smart-brain-electrical-service",
     "name": "Smart Brain Electrical Service",
@@ -126,23 +108,6 @@
     "createdAt": "2026-07-08T00:00:00Z",
     "updatedAt": "2026-07-08T00:00:00Z",
     "priceRange": "$$"
-  },
-  {
-    "id": "87c2a3a6-2f97-4347-a512-305a84f85a27",
-    "slug": "arshdeep-landscaping",
-    "name": "Arshdeep Landscaping",
-    "description": "Arshdeep Landscaping delivers fencing, turf and artificial grass installation, garden beds, mulch, tree and paver work, and retaining walls in timber or rendered block for a range of landscaping and outdoor projects.",
-    "shortDescription": "Fencing, turf, artificial grass and retaining walls.",
-    "categoryId": "landscaping",
-    "phone": "+61 490 011 844",
-    "socialLinks": {},
-    "serviceAreas": ["Schofields"],
-    "images": ["/images/placeholder-business.svg"],
-    "featured": false,
-    "verified": false,
-    "tags": ["Fencing", "Turf & Artificial Grass", "Retaining Walls"],
-    "createdAt": "2026-07-08T00:00:00Z",
-    "updatedAt": "2026-07-08T00:00:00Z"
   },
   {
     "id": "601a2be7-3344-4dab-a1f3-dec1b355a7fd",

@@ -9,15 +9,6 @@
     "featured": false
   },
   {
-    "id": "landscaping",
-    "slug": "landscaping",
-    "name": "Landscaping & Gardening",
-    "icon": "Trees",
-    "description": "Garden design, maintenance and landscaping.",
-    "displayOrder": 2,
-    "featured": true
-  },
-  {
     "id": "fitness-wellness",
     "slug": "fitness-wellness",
     "name": "Fitness & Wellness",
