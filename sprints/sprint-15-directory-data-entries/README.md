@@ -94,6 +94,7 @@ Per Feature, the sprint is successful when:
 | F-022 | Add new "Security & Home Automation" category and new business "Danish" (CCTV, alarms, intercom, home theatre, home automation, 17 Mariner Avenue, Schofields) | Medium | Completed |
 | F-023 | Add new "Builders & Construction" category and new business "Accura Homes" (custom homes, duplexes, knockdown rebuilds, Bella Vista, local connection via Nabthorpe Parade) | Medium | Completed |
 | F-024 | Remove "Just Cut Grass" and "Arshdeep Landscaping" (no longer in business) and remove the now-empty "Landscaping & Gardening" category | Medium | Completed |
+| F-025 | Add new business "iConsult Mortgage Solutions" (mortgage broker, Bhavna Dada, Nirimba Fields) to the existing Finance & Mortgage Broking category | Medium | Completed |
 
 Status Values
 
@@ -1986,5 +1987,97 @@ F-024 implemented and verified (2026-07-31):
 - Manually verified via a temporary local dev server: `/category/landscaping` returns 404;
   homepage has no "Landscaping" text; `/businesses` shows neither removed business.
 - `npx playwright test` — 281 passed, 16 skipped, 0 failed.
+
+---
+
+## Story 24 (F-025)
+
+As a visitor needing a mortgage broker
+
+I want iConsult Mortgage Solutions listed under Finance & Mortgage Broking
+
+So that I can find and contact a local broker.
+
+### Source data (as supplied via chat, 2026-07-31, plus the business's own website)
+
+- Business Name: iConsult Mortgage Solutions Pty Ltd; Contact: Bhavna Dada; Business: Mortgage
+  Broker; Phone: 0421790930; Email: bhavna@iconsultmortgage.com.au; Website:
+  www.iconsultmortgage.com.au
+- Description: "Thinking about buying your first home, refinancing, or investing? Get expert
+  mortgage advice and access to a wide range of lenders. I'm Bhavna, your local Akuna Vista
+  mortgage broker from iConsult Mortgage Solutions. Whether you're purchasing your first home,
+  upgrading, refinancing, or investing, I can help you find a loan that suits your needs. Contact
+  me today for a no-obligation home loan review."
+- Extracted from `iconsultmortgage.com.au`: address "Nirimba Fields, NSW 2763" (suburb-level only,
+  no street); Credit Representative Number 560511 (ABN 16678658467), authorised under Australian
+  Credit Licence Number 384704; services: residential, commercial, SMSF, asset finance, low
+  doc/alt doc, and personal loans; generic (non-business-specific) social icon links present, not
+  used.
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Existing category, no new category needed:** `finance-mortgage-broking` already exists
+  (added in F-002).
+- **No structured `address`:** the website gives only "Nirimba Fields, NSW 2763", no street —
+  matches the existing precedent (`arihant-party-essentials`, the JP entries) of omitting the
+  `address` object when there's no full street-level address, using `serviceAreas` instead. Note:
+  2763 differs from this directory's usual Nirimba Fields/Schofields postcode (2762) elsewhere, but
+  since no structured address is stored, this doesn't surface as data.
+- **`name`:** "iConsult Mortgage Solutions" (dropped "Pty Ltd"), matching the
+  `brar-roofing-solution` precedent of keeping the legal suffix out of `name` while citing
+  ABN/licence numbers in `description`.
+- **Social links omitted:** the website's social icons resolved as generic/template links, not
+  confirmed to be this business's actual profiles — omitted rather than guessed.
+- **Phone kept as supplied** (`0421790930`, no spacing/prefix added) — matches the established
+  precedent of not reformatting phone numbers from how they were given.
+- **`featured: false`, `verified: false`** — not requested as featured; no independent
+  verification beyond reading the business's own website.
+- Description/short description authored (not verbatim, though the supplied bio is quoted) to fit
+  the schema's required `description` field and include the ACL/Credit Representative numbers,
+  matching the licence-number convention used for other regulated trades in this directory.
+
+### Proposed entry — `data/businesses.json`
+
+```json
+{
+  "id": "932aac42-5f1a-437e-898f-db6d4967668f",
+  "slug": "iconsult-mortgage-solutions",
+  "name": "iConsult Mortgage Solutions",
+  "description": "I'm Bhavna, your local Akuna Vista mortgage broker from iConsult Mortgage Solutions (Credit Representative Number 560511, ABN 16 678 658 467, authorised under Australian Credit Licence Number 384704). Whether you're purchasing your first home, upgrading, refinancing, or investing, I can help you find a loan from a wide range of lenders — residential, commercial, SMSF, asset finance, low doc/alt doc, and personal loans. Contact me today for a no-obligation home loan review.",
+  "shortDescription": "Local Akuna Vista mortgage broker — home loans, refinancing, SMSF and more.",
+  "categoryId": "finance-mortgage-broking",
+  "phone": "0421790930",
+  "email": "bhavna@iconsultmortgage.com.au",
+  "website": "https://www.iconsultmortgage.com.au",
+  "serviceAreas": ["Nirimba Fields", "Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Mortgage Broker", "Home Loans", "Local"],
+  "createdAt": "2026-07-31T00:00:00Z",
+  "updatedAt": "2026-07-31T00:00:00Z"
+}
+```
+
+Acceptance Criteria
+
+- [x] New business added to `data/businesses.json` with `categoryId: "finance-mortgage-broking"`
+      and the contact details above.
+- [x] `npm run validate:data` passes — no schema violations, no duplicate `id`/`slug`, `categoryId`
+      resolves to an existing category.
+- [x] `/business/iconsult-mortgage-solutions` renders via the existing dynamic route with no code
+      change required, and appears on `/category/finance-mortgage-broking`.
+- [x] Existing Playwright suite still passes (no regressions).
+
+F-025 implemented and verified (2026-07-31):
+
+- `data/businesses.json` — entry appended exactly as specified above (diffed against the confirmed
+  spec, no deviation).
+- `npm run validate:data` — passes ("All data files ... are valid").
+- Manually verified via a temporary local dev server: `/business/iconsult-mortgage-solutions`
+  returns 200; `/category/finance-mortgage-broking` lists "iConsult Mortgage Solutions".
+- `npx playwright test` — 280 passed, 16 skipped, 1 failed (`[webkit] selecting a suggestion via
+  keyboard`, the same recurring WebKit search-suite timing flake — passed 2/2 in isolation,
+  unrelated to this change).
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.
