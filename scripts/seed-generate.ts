@@ -80,7 +80,6 @@ export function generateCategories(count: number) {
     icon: seed.icon,
     description: seed.description,
     displayOrder: index + 1,
-    featured: index < 4,
   }));
 }
 

@@ -97,7 +97,6 @@ export const categorySchema = z.strictObject({
   icon: z.string().optional(),
   description: z.string().optional(),
   displayOrder: z.number().optional(),
-  featured: z.boolean().optional(),
 });
 
 export const suburbSchema = z.strictObject({

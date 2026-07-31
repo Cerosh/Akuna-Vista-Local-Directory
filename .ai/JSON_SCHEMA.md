@@ -155,11 +155,15 @@ categories.json
     "name": "Plumbing",
     "icon": "Wrench",
     "description": "Plumbers and plumbing services.",
-    "displayOrder": 1,
-    "featured": true
+    "displayOrder": 1
   }
 ]
 ```
+
+`featured` was removed in schema `1.6.0` (Sprint 16 F-018). The homepage's "Popular categories"
+section now shows every category in a horizontal scroll carousel instead of a curated subset, so
+the flag had no remaining consumer — `Category.featured` is retired everywhere `Business`,
+`Event`, `Promotion`, and `Announcement`'s own separate `featured` flags are unaffected.
 
 ---
 
@@ -552,6 +556,14 @@ supplied at migration time (`scripts/migrate-add-announcement-source-url.ts`).
 other than the business's own domain — an enrolment form, booking page,
 etc. Not backfilled onto existing businesses
 (`scripts/migrate-add-business-website-label.ts`).
+
+`1.6.0` (Sprint 16 F-018): removed `Category.featured`. The homepage's "Popular categories"
+section switched from a curated `featured: true` subset (only 3 of 21 categories) to a horizontal
+scroll carousel showing every category, so the flag lost its only consumer
+(`categoryRepository.getFeatured()` and the field itself were deleted, not just left unused).
+`Business.featured`, `Event.featured`, `Promotion.featured`, and `Announcement.featured` are
+separate flags on separate schemas and are unaffected — a removal, not a project-wide "featured"
+deprecation.
 
 ---
 

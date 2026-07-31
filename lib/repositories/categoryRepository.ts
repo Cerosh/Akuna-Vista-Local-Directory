@@ -4,7 +4,6 @@ import categoriesData from "@/data/categories.json";
 export interface CategoryRepository {
   getAll(): Promise<Category[]>;
   getBySlug(slug: string): Promise<Category | null>;
-  getFeatured(): Promise<Category[]>;
 }
 
 /**
@@ -28,11 +27,6 @@ export class JSONCategoryRepository implements CategoryRepository {
 
   async getBySlug(slug: string): Promise<Category | null> {
     return this.categories.find((category) => category.slug === slug) ?? null;
-  }
-
-  async getFeatured(): Promise<Category[]> {
-    const all = await this.getAll();
-    return all.filter((category) => category.featured);
   }
 }
 

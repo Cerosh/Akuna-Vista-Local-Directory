@@ -1,13 +1,16 @@
 import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
-import { CategoryCard } from "@/components/cards/CategoryCard";
 import { categoryRepository } from "@/lib/repositories/categoryRepository";
+import { CategoryCarousel } from "./CategoryCarousel";
 
 export async function PopularCategories() {
-  const categories = await categoryRepository.getFeatured();
+  // Sprint 16 F-018: shows every category (previously only the 3 that
+  // happened to carry a now-removed `featured` flag) in a horizontal
+  // scroll-snap carousel — see CategoryCarousel.tsx.
+  const categories = await categoryRepository.getAll();
 
   // A marketing homepage should never show an "empty state" message —
-  // if nothing is featured yet, the section simply doesn't render.
+  // if there are no categories at all, the section simply doesn't render.
   if (categories.length === 0) {
     return null;
   }
@@ -21,11 +24,7 @@ export async function PopularCategories() {
           </h2>
           <p className="text-muted-foreground">Browse by the services residents ask about most.</p>
         </div>
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
-          {categories.map((category) => (
-            <CategoryCard key={category.id} category={category} />
-          ))}
-        </div>
+        <CategoryCarousel categories={categories} />
       </Container>
     </Section>
   );

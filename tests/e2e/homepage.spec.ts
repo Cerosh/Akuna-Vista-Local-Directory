@@ -48,6 +48,57 @@ test.describe("Homepage", () => {
     await expect(home.popularCategoriesHeading).toBeInViewport();
   });
 
+  test("Popular categories shows every category (not just a curated few), scrollable via arrow buttons", async ({
+    page,
+  }) => {
+    // Sprint 16 F-018: `Category.featured` was removed — the section now
+    // shows every category via CategoryCarousel, not a fixed subset. Reads
+    // the real count rather than hardcoding it (it grows over time, per
+    // Sprint 15's ongoing data entries — same lesson as Pagination's test).
+    const home = new HomePage(page);
+    await home.goto();
+
+    // .count() doesn't auto-wait like expect() does — wait for the list to
+    // actually be rendered first, so this isn't racy under parallel load.
+    await expect(home.categoryItems.first()).toBeAttached();
+    const categoryCount = await home.categoryItems.count();
+    // The old `featured` mechanism only ever surfaced 3 — asserting well
+    // above that proves every category is present, without hardcoding the
+    // exact, still-growing total.
+    expect(categoryCount).toBeGreaterThan(10);
+
+    await expect(home.categoriesScrollLeftButton).toBeDisabled();
+    await expect(home.categoriesScrollRightButton).toBeEnabled();
+
+    // Click through to the end (bounded so a real bug can't hang the test;
+    // a short per-click timeout plus catch-and-break, rather than
+    // pre-checking isDisabled(), since the button can become disabled
+    // between the check and the click).
+    for (let i = 0; i < categoryCount; i++) {
+      try {
+        await home.categoriesScrollRightButton.click({ timeout: 2000 });
+      } catch {
+        break;
+      }
+    }
+    await expect(home.categoriesScrollRightButton).toBeDisabled();
+    await expect(home.categoriesScrollLeftButton).toBeEnabled();
+
+    // The very last category card should now actually be in view.
+    await expect(home.categoryItems.last()).toBeInViewport();
+
+    // Click back to the start.
+    for (let i = 0; i < categoryCount; i++) {
+      try {
+        await home.categoriesScrollLeftButton.click({ timeout: 2000 });
+      } catch {
+        break;
+      }
+    }
+    await expect(home.categoriesScrollLeftButton).toBeDisabled();
+    await expect(home.categoryItems.first()).toBeInViewport();
+  });
+
   test("a featured business card links to a real, working detail page", async ({ page }) => {
     const home = new HomePage(page);
     await home.goto();

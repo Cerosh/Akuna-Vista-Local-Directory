@@ -5,5 +5,4 @@ export interface Category {
   icon?: string;
   description?: string;
   displayOrder?: number;
-  featured?: boolean;
 }

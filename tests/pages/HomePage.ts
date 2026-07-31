@@ -13,6 +13,10 @@ export class HomePage {
   readonly searchInput: Locator;
   readonly transitWidgetHeading: Locator;
   readonly popularCategoriesHeading: Locator;
+  readonly categoryList: Locator;
+  readonly categoryItems: Locator;
+  readonly categoriesScrollLeftButton: Locator;
+  readonly categoriesScrollRightButton: Locator;
   readonly featuredBusinessesHeading: Locator;
   readonly communityStatisticsHeading: Locator;
   readonly whyChooseLocalHeading: Locator;
@@ -34,6 +38,12 @@ export class HomePage {
     // is a text locator, not getByRole("heading").
     this.transitWidgetHeading = page.getByText("Getting around", { exact: true });
     this.popularCategoriesHeading = page.getByRole("heading", { name: "Popular categories" });
+    this.categoryList = page.getByRole("list", { name: "Categories" });
+    this.categoryItems = this.categoryList.getByRole("listitem");
+    this.categoriesScrollLeftButton = page.getByRole("button", { name: "Scroll categories left" });
+    this.categoriesScrollRightButton = page.getByRole("button", {
+      name: "Scroll categories right",
+    });
     this.featuredBusinessesHeading = page.getByRole("heading", { name: "Featured businesses" });
     this.communityStatisticsHeading = page.getByRole("heading", { name: "A growing community" });
     this.whyChooseLocalHeading = page.getByRole("heading", { name: "Why choose local" });

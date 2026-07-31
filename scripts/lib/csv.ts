@@ -63,7 +63,6 @@ export const FIELD_KINDS_BY_FILE: Record<ArrayFileKey, FieldKindMap> = {
     icon: "string",
     description: "string",
     displayOrder: "number",
-    featured: "boolean",
   },
   suburbs: {
     id: "string",

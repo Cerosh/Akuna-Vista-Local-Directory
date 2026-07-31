@@ -95,6 +95,7 @@ Per Feature, the sprint is successful when:
 | F-015 | Investigate nonce-based CSP for `script-src` (remove the `'unsafe-inline'` exception) if a future Next.js/Turbopack release fixes automatic nonce application | Low | Not Started |
 | F-016 | Real Contact submission form (currently a `mailto:` link — no backend/email infrastructure exists per ADR-002) | Low | Not Started — not scheduled, future candidate only |
 | F-017 | `.ai/CODING_STANDARDS.md` "Scripts" conventions section (considered in Sprint 8, judged not yet necessary) | Low | Not Started — revisit only if a future script's conventions become ambiguous |
+| F-018 | Replace homepage "Popular categories" curated-featured grid with an accessible horizontal scroll-snap carousel showing all categories; remove `Category.featured` entirely (kept only on `Promotion`) | Medium | Completed |
 
 Status Values
 
@@ -620,6 +621,177 @@ this same test file until retries exhausted — weakening the signal `.husky/pre
 
 ---
 
+## Story 7 (F-018)
+
+As a visitor browsing the homepage
+
+I want to see all of the directory's categories, not just a curated few
+
+So that I can find services I need without already knowing which category they're filed under —
+raised directly by the project owner 2026-07-31 ("i am looking for a professional way where people
+are able to see the different types of categories as its finding difficult to see the categories").
+
+### Root cause (investigated 2026-07-31)
+
+`features/homepage/PopularCategories.tsx` calls `categoryRepository.getFeatured()`, which filters
+`data/categories.json` on `Category.featured === true`. Of the directory's 21 categories, only 3
+currently carry that flag (`Tutoring & Education`, `Driving Instructors`, `JP Services`) — the flag
+was set once, early, and never revisited as Sprint 15 alone added 6 new categories. The remaining
+18 categories are structurally unreachable from the homepage. Layout compounds this: even the 3
+shown render in a static `grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4` with no way to reveal
+more without leaving the section.
+
+Checked for hidden coupling before proposing removal: `lib/services/featuredContentService.ts`
+(the Sprint 6 cross-content "Featured Content" spotlight) aggregates only `Event`, `Promotion`, and
+`Announcement` — `Category` was never part of it, so removing `Category.featured` doesn't touch
+that mechanism. `Promotion.featured` is a separate schema/purpose and stays untouched.
+`Business.featured` (card badge + homepage "Featured Businesses" section) and
+`Event`/`Announcement.featured` are also untouched — out of scope, not requested.
+
+### Proposed approach
+
+**1. Remove `Category.featured` entirely** (project owner's explicit decision, 2026-07-31: the
+flag stops being a useful homepage curation mechanism once there are 21 categories, and its only
+remaining consumer is the section being redesigned here):
+
+- `types/category.ts` — drop the `featured?: boolean` field.
+- `scripts/lib/validation.ts` — drop `featured: z.boolean().optional()` from `categorySchema`.
+- `data/categories.json` — remove the `"featured"` key from all 21 records.
+- `lib/repositories/categoryRepository.ts` — delete `getFeatured()` from the `CategoryRepository`
+  interface and `JSONCategoryRepository`; `getAll()` (already exists, sorted by `displayOrder`,
+  unfiltered) becomes the only read path.
+- `.ai/JSON_SCHEMA.md` — remove `featured` from the Category schema block and Validation Rules;
+  document the removal in the Versioning section (see Assumption below on the version bump).
+
+**2. `PopularCategories.tsx` switches to `getAll()`** and renders every category, sorted by
+`displayOrder` (already the existing sort key — no new ordering concept needed).
+
+**3. Replace the static grid with a horizontal scroll-snap carousel** — a new Client Component
+(proposed: `features/homepage/CategoryCarousel.tsx`, scoped to this feature only, not a shared
+`components/common/` primitive, since there's no second use case yet — per this project's
+progressive-complexity principle):
+
+- The scrollable row: `overflow-x-auto` with CSS `scroll-snap-type: x mandatory`; each
+  `CategoryCard` wrapped in a `scroll-snap-align: start` element. This is real browser scrolling
+  (not a JS-simulated one), so trackpad, touchscreen, and click-drag all work natively.
+- Card sizing via `min-width` (proposed starting point: ~160px mobile / ~200px desktop, 16px gap —
+  adjustable during visual review, not a hard requirement), so however many fit responsively show —
+  no hardcoded "5 at a time." On narrow viewports the last visible card is deliberately cut off at
+  the edge as a scroll affordance.
+- Two real `<button>` arrow controls (not `<div>`s), each calling
+  `container.scrollBy({ left: ±delta, behavior: "smooth" })` via a ref. Each has an `aria-label`
+  ("Scroll categories left"/"right") and disables + visually dims when already at that end (tracked
+  via a scroll listener comparing `scrollLeft` against `0` / `scrollWidth - clientWidth`).
+- The scroll container itself gets `tabIndex={0}` so it's keyboard-focusable and native arrow-key
+  scrolling works in addition to the buttons.
+- Optional: a subtle edge fade/gradient mask hinting there's more content, matching the
+  Airbnb/Linear-style reference the project owner's own design philosophy already cites
+  (`.ai/CLAUDE.md`'s Design Philosophy section).
+- Explicitly rejected: hover-triggered auto-scroll (the project owner's original suggestion) — no
+  touch-device equivalent, not keyboard-accessible, and prone to feeling accidental rather than
+  deliberate. Flagged and discussed with the project owner before writing this spec.
+
+### Assumptions (confirm before implementing)
+
+- **Schema version bump:** `.ai/JSON_SCHEMA.md`'s Versioning section has bumped `schemaVersion` for
+  every prior schema change (1.2.0 through 1.5.0), including additive ones. Removing a field is
+  itself a schema change — proposed as `1.6.0`, documented with the same
+  before/after-and-why format as the existing entries. Flag if the project owner wants this treated
+  differently since it's a removal, not an addition.
+- **Component scope:** `CategoryCarousel` is proposed as `features/homepage`-local, not a shared
+  primitive, since nothing else in the codebase currently needs horizontal scroll-snap (confirmed —
+  no existing carousel pattern found anywhere in `components/` or `features/`). If a second use case
+  shows up later, extracting a shared version then is cheap; building one now would be premature.
+- **Exact card min-width/gap values** are a starting proposal, not a locked spec — expected to be
+  tuned during implementation against the real `CategoryCard` component and real category names
+  (some, like "TV & Home Entertainment Installation," are long).
+
+Acceptance Criteria
+
+- [x] `Category.featured` removed from `types/category.ts`, `scripts/lib/validation.ts`'s
+      `categorySchema`, and every one of the 21 records in `data/categories.json` — confirmed via
+      `npm run validate:data` passing with the field fully absent (a `strictObject` schema, so a
+      leftover `featured` key on any record would fail validation, not silently pass).
+- [x] `CategoryRepository.getFeatured()` deleted from the interface and implementation; confirmed
+      no other caller referenced it before deletion (only `PopularCategories.tsx` did, per the
+      2026-07-31 audit above).
+- [x] `PopularCategories.tsx` renders all 21 categories (via `getAll()`), sorted by `displayOrder`,
+      inside the new carousel.
+- [x] Horizontal scroll works via native trackpad/touch/drag (scroll-snap), settling cleanly on a
+      card boundary rather than a mid-card position.
+- [x] Left/right arrow buttons are real, keyboard-focusable `<button>` elements with distinct
+      `aria-label`s, and each disables (visually + `aria-disabled`) at its respective end.
+- [x] Verified visually at mobile (375px), tablet (768px), and desktop (1280px) widths via
+      Playwright screenshots — narrower viewports show a partial "peek" of the next card as a
+      scroll affordance, not a hard cutoff at exactly the container edge.
+- [x] `CategoryCard`'s own visual design is unchanged — only the container/scroll mechanics around
+      it change.
+- [x] `.ai/JSON_SCHEMA.md` updated: `featured` removed from the Category schema block and
+      Validation Rules, `schemaVersion` bumped to `1.6.0`, documented in Versioning.
+- [x] Existing Playwright suite passes; new coverage added confirming all 21 categories are present
+      (not just 3) and that the arrow buttons scroll and correctly disable at each end.
+
+F-018 implemented and verified (2026-07-31):
+
+**Removal** — `Category.featured` dropped from `types/category.ts`, `scripts/lib/validation.ts`'s
+`categorySchema`, `scripts/lib/csv.ts`'s `categories` field map, `scripts/seed-generate.ts`'s
+`generateCategories`, and all 21 records in `data/categories.json` (stripped via a verified
+byte-exact `json.dumps` round-trip, not hand-edited). `categoryRepository.getFeatured()` deleted
+from the interface and implementation; its two unit tests removed
+(`categoryRepository.test.ts`). `scripts/admin.test.ts`'s `toggleField` "flips a boolean field"
+test — which exercised `categories.featured` — was rewritten against `businesses.featured` instead,
+since categories no longer have any boolean field to toggle. `.ai/JSON_SCHEMA.md` and
+`data/metadata.json` bumped to schema `1.6.0`.
+
+**New component** — `features/homepage/CategoryCarousel.tsx` (Client Component): scroll-snap row
+(`overflow-x-auto`, `snap-x snap-mandatory`) plus two real `<Button>` arrow controls.
+`PopularCategories.tsx` switched from `getFeatured()` to `getAll()` and renders the carousel
+instead of the old static grid. Added a `scrollbar-hide` Tailwind `@utility` to `app/globals.css`.
+
+**Two real bugs found and fixed during implementation (not just declared done from the plan):**
+
+1. **Chrome silently drops `behavior: "smooth"` programmatic scrolls on `scroll-snap-type:
+   mandatory` containers once the user has made any real scroll gesture on it.** Reproduced
+   directly: after one real scroll, every subsequent `scrollTo`, `scrollBy`, and `scrollIntoView`
+   call with `{behavior: "smooth"}` silently no-opped — confirmed via direct JS evaluation in a
+   live browser, not assumed. Temporarily disabling `scroll-snap-type` during the call didn't help
+   either. Fixed by switching the button-triggered jump to instant scrolling
+   (`element.scrollIntoView({inline: "start", block: "nearest"})`, no `behavior` option); native
+   trackpad/touch/drag scrolling is unaffected and stays smooth via the browser's own momentum —
+   only the button click's jump is instant. Verified with real clicks (including rapid repeated
+   clicks) reaching both ends reliably afterward.
+2. **A single mount-time `updateEdges()` measurement could permanently disable the right
+   button before any real scrolling happened.** If `scrollWidth` hadn't fully settled at the exact
+   moment the initial `useEffect` ran, `atEnd` could wrongly compute `true`; since a disabled
+   native `<button>` can't dispatch the `scroll` event `updateEdges` otherwise relies on to
+   re-check itself, this was a permanent stuck state, not a transient one. Caught via a genuinely
+   failing Playwright test (not assumed) — the failure snapshot showed "Electrical" still as the
+   first item while the right button was already `[disabled]`. Fixed with a `ResizeObserver` on
+   the scroll container so edges re-measure on any real size change, not just once at mount.
+
+**Verification:**
+
+- `npm run validate:data`, `npm run typecheck`, `npm run lint` — all pass.
+- `npx vitest run` — 212/215 pass; the 3 failures are pre-existing and unrelated (confirmed by
+  reproducing identically with this Feature's changes `git stash`-ed out) — `promotionRepository
+  .test.ts`/`announcementRepository.test.ts` date-mocking tests, flagged separately below, not
+  part of this Feature.
+- `npx playwright test` — 284 passed, 16 skipped, 0 failed, including the new
+  `tests/e2e/homepage.spec.ts` "Popular categories shows every category..." test (stable across
+  9 repeated runs, 3 browsers × 3 repeats).
+- Manually verified via a temporary local dev server and real browser interaction (not just
+  automated assertions): clicked through the full 21-category range in both directions, confirmed
+  correct disable/enable at both ends, confirmed native trackpad/wheel scrolling, confirmed
+  `/category/*` links still resolve correctly from carousel cards.
+- Visually verified at mobile (375px), tablet (768px), and desktop (1280px) via real Playwright
+  screenshots — consistent card styling, correct arrow states, proper edge-peek affordance.
+
+**Flagged, not part of this Feature:** the pre-existing `promotionRepository.test.ts`/
+`announcementRepository.test.ts` date-mocking failures noted above are a separate, real issue
+worth a dedicated look — not touched here since they're unrelated to categories.
+
+---
+
 # Consolidated Backlog Items (F-007–F-017)
 
 Added 2026-07-17 at the project owner's explicit request: **every genuinely-still-open item found
@@ -742,6 +914,20 @@ application code changed. Re-verified: the same 3-browser concurrent-load scenar
 reproduced the failure now passes 3/3 full runs (81/81 individual tests), and the complete suite
 (`npx playwright test`) passes clean at 281 passed / 16 skipped / 0 failed against a production
 build (`npm run build && npm run start`).
+
+F-018 is also implemented and verified (2026-07-31) — the homepage's "Popular categories" section
+now shows all 21 categories in an accessible scroll-snap carousel instead of the old 3-category
+`featured` grid, and `Category.featured` was removed project-wide (see its Acceptance Criteria
+above for the full change list). Two real bugs were found and fixed along the way, not just
+declared done from the original plan: a Chrome quirk that silently drops `behavior: "smooth"`
+programmatic scrolls on snap containers after any real user gesture (fixed by using instant
+`scrollIntoView` for button clicks; native scrolling stays smooth), and a mount-time measurement
+race that could permanently disable the right arrow before any scrolling happened (fixed with a
+`ResizeObserver`, caught by a genuinely failing Playwright test rather than assumed working).
+`npm run typecheck`, `npm run lint`, and `npx playwright test` (284 passed / 16 skipped / 0 failed)
+all pass; `npx vitest run` is 212/215 with the 3 failures pre-existing and unrelated (reproduces
+identically with this Feature's changes stashed out) — flagged as a separate, real issue still
+worth a dedicated look, not fixed here.
 
 Everything else — **F-001, F-002, F-005, and F-007 through F-017 — remains captured but not
 implemented.** F-007–F-017 were consolidated here 2026-07-17 from `.ai/TODO.md`'s Backlog section

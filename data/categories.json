@@ -5,8 +5,7 @@
     "name": "Electrical",
     "icon": "Zap",
     "description": "Licensed electricians for repairs and installations.",
-    "displayOrder": 1,
-    "featured": false
+    "displayOrder": 1
   },
   {
     "id": "fitness-wellness",
@@ -14,8 +13,7 @@
     "name": "Fitness & Wellness",
     "icon": "Dumbbell",
     "description": "Personal trainers, yoga and wellness services.",
-    "displayOrder": 3,
-    "featured": false
+    "displayOrder": 3
   },
   {
     "id": "roofing",
@@ -23,8 +21,7 @@
     "name": "Roofing",
     "icon": "Home",
     "description": "Roof repairs, replacements and maintenance.",
-    "displayOrder": 4,
-    "featured": false
+    "displayOrder": 4
   },
   {
     "id": "hairdressers-barbers",
@@ -32,8 +29,7 @@
     "name": "Hairdressers & Barbers",
     "icon": "Scissors",
     "description": "Hairdressing and barbering services.",
-    "displayOrder": 5,
-    "featured": false
+    "displayOrder": 5
   },
   {
     "id": "tutoring-education",
@@ -41,8 +37,7 @@
     "name": "Tutoring & Education",
     "icon": "GraduationCap",
     "description": "Tutoring, exam preparation and education services.",
-    "displayOrder": 6,
-    "featured": true
+    "displayOrder": 6
   },
   {
     "id": "tv-installation",
@@ -50,8 +45,7 @@
     "name": "TV & Home Entertainment Installation",
     "icon": "Tv",
     "description": "TV wall mounting and home entertainment installation.",
-    "displayOrder": 7,
-    "featured": false
+    "displayOrder": 7
   },
   {
     "id": "taxi-transport",
@@ -59,8 +53,7 @@
     "name": "Taxi & Transport",
     "icon": "CarTaxiFront",
     "description": "Taxi, airport and private transport services.",
-    "displayOrder": 8,
-    "featured": false
+    "displayOrder": 8
   },
   {
     "id": "furniture-homewares",
@@ -68,8 +61,7 @@
     "name": "Furniture & Homewares",
     "icon": "Sofa",
     "description": "Furniture, decor and homewares retailers.",
-    "displayOrder": 9,
-    "featured": false
+    "displayOrder": 9
   },
   {
     "id": "real-estate",
@@ -77,8 +69,7 @@
     "name": "Real Estate",
     "icon": "Building2",
     "description": "Real estate agents and property investment services.",
-    "displayOrder": 10,
-    "featured": false
+    "displayOrder": 10
   },
   {
     "id": "driving-instructors",
@@ -86,8 +77,7 @@
     "name": "Driving Instructors",
     "icon": "Car",
     "description": "Driving instructors and driving schools.",
-    "displayOrder": 11,
-    "featured": true
+    "displayOrder": 11
   },
   {
     "id": "jp-services",
@@ -95,8 +85,7 @@
     "name": "JP Services",
     "icon": "Stamp",
     "description": "Justice of the Peace services — document witnessing, statutory declarations and certified copies.",
-    "displayOrder": 12,
-    "featured": true
+    "displayOrder": 12
   },
   {
     "id": "finance-mortgage-broking",
@@ -104,8 +93,7 @@
     "name": "Finance & Mortgage Broking",
     "icon": "Landmark",
     "description": "Mortgage brokers and finance services helping with home loans, refinancing, and lending advice.",
-    "displayOrder": 13,
-    "featured": false
+    "displayOrder": 13
   },
   {
     "id": "arts-performing-arts",
@@ -113,8 +101,7 @@
     "name": "Arts & Performing Arts",
     "icon": "Drama",
     "description": "Dance, music, and performing arts schools and instruction.",
-    "displayOrder": 14,
-    "featured": false
+    "displayOrder": 14
   },
   {
     "id": "accounting-tax",
@@ -122,8 +109,7 @@
     "name": "Accounting & Tax",
     "icon": "Calculator",
     "description": "Accounting, taxation, and SMSF specialists for individuals and businesses.",
-    "displayOrder": 15,
-    "featured": false
+    "displayOrder": 15
   },
   {
     "id": "event-party-hire",
@@ -131,8 +117,7 @@
     "name": "Event & Party Hire",
     "icon": "PartyPopper",
     "description": "Party and event equipment hire — gazebos, chairs, tables, and lighting.",
-    "displayOrder": 16,
-    "featured": false
+    "displayOrder": 16
   },
   {
     "id": "automotive-detailing",
@@ -140,8 +125,7 @@
     "name": "Automotive & Detailing",
     "icon": "Car",
     "description": "Car detailing, cleaning, and other automotive services.",
-    "displayOrder": 17,
-    "featured": false
+    "displayOrder": 17
   },
   {
     "id": "arts-crafts",
@@ -149,8 +133,7 @@
     "name": "Arts & Crafts",
     "icon": "Palette",
     "description": "Handmade art, resin art, home décor, and personalized gifts from local makers.",
-    "displayOrder": 18,
-    "featured": false
+    "displayOrder": 18
   },
   {
     "id": "migration-visa-services",
@@ -158,8 +141,7 @@
     "name": "Migration & Visa Services",
     "icon": "PlaneTakeoff",
     "description": "Registered migration agents helping with visas, permanent residency, and immigration advice.",
-    "displayOrder": 19,
-    "featured": false
+    "displayOrder": 19
   },
   {
     "id": "digital-marketing",
@@ -167,8 +149,7 @@
     "name": "Digital Marketing",
     "icon": "Megaphone",
     "description": "SEO, website development, digital advertising, and social media marketing services.",
-    "displayOrder": 20,
-    "featured": false
+    "displayOrder": 20
   },
   {
     "id": "security-home-automation",
@@ -176,8 +157,7 @@
     "name": "Security & Home Automation",
     "icon": "ShieldCheck",
     "description": "CCTV, alarm systems, intercoms, home theatre, and home automation installation services.",
-    "displayOrder": 21,
-    "featured": false
+    "displayOrder": 21
   },
   {
     "id": "builders-construction",
@@ -185,7 +165,6 @@
     "name": "Builders & Construction",
     "icon": "HardHat",
     "description": "Custom home builders, duplex construction, knockdown rebuilds, and commercial construction.",
-    "displayOrder": 22,
-    "featured": false
+    "displayOrder": 22
   }
 ]

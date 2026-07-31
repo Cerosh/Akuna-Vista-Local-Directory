@@ -5,7 +5,21 @@ import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { addRecord, toggleField, updateRecord } from "./admin";
 
 function makeCategory(overrides: Partial<Record<string, unknown>> = {}) {
-  return { id: "plumbing", slug: "plumbing", name: "Plumbing", featured: false, ...overrides };
+  return { id: "plumbing", slug: "plumbing", name: "Plumbing", ...overrides };
+}
+
+function makeBusiness(overrides: Partial<Record<string, unknown>> = {}) {
+  return {
+    id: "b3b0f6d0-6b1a-4e3e-9c2a-6a7a2f4a1a10",
+    slug: "example-business",
+    name: "Example Business",
+    description: "An example business.",
+    categoryId: "plumbing",
+    featured: false,
+    createdAt: "2026-07-06T00:00:00Z",
+    updatedAt: "2026-07-06T00:00:00Z",
+    ...overrides,
+  };
 }
 
 /** Uses a throwaway temp directory — never the real data/ directory. */
@@ -23,6 +37,10 @@ describe("admin data scripts", () => {
 
   function readCategories(): Record<string, unknown>[] {
     return JSON.parse(readFileSync(join(dataDir, "categories.json"), "utf-8"));
+  }
+
+  function readBusinesses(): Record<string, unknown>[] {
+    return JSON.parse(readFileSync(join(dataDir, "businesses.json"), "utf-8"));
   }
 
   describe("addRecord", () => {
@@ -94,13 +112,28 @@ describe("admin data scripts", () => {
 
   describe("toggleField", () => {
     it("flips a boolean field", () => {
-      const result = toggleField(dataDir, "categories", { id: "plumbing" }, "featured");
+      // Categories no longer have a boolean field (Sprint 16 F-018 removed
+      // `featured`) — uses businesses (`featured`) to exercise the generic
+      // toggle behaviour instead.
+      writeFileSync(join(dataDir, "businesses.json"), JSON.stringify([makeBusiness()]));
+
+      const result = toggleField(
+        dataDir,
+        "businesses",
+        { id: "b3b0f6d0-6b1a-4e3e-9c2a-6a7a2f4a1a10" },
+        "featured",
+      );
 
       expect(result.errors).toEqual([]);
-      expect(readCategories()[0].featured).toBe(true);
+      expect(readBusinesses()[0].featured).toBe(true);
 
-      toggleField(dataDir, "categories", { id: "plumbing" }, "featured");
-      expect(readCategories()[0].featured).toBe(false);
+      toggleField(
+        dataDir,
+        "businesses",
+        { id: "b3b0f6d0-6b1a-4e3e-9c2a-6a7a2f4a1a10" },
+        "featured",
+      );
+      expect(readBusinesses()[0].featured).toBe(false);
     });
 
     it("errors when the field isn't a boolean", () => {
