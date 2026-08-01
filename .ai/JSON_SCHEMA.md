@@ -245,6 +245,10 @@ promotions.json
 ]
 ```
 
+`title` is rendered `line-clamp-1` in `PromotionCard.tsx` (Sprint 16 F-020) — keep it to roughly 40
+characters or fewer so it reads as one line on a `lg:grid-cols-3` homepage card. Longer titles still
+work (the full text is in a `title=` hover tooltip and in `description`) but will visually truncate.
+
 ---
 
 # Announcement Schema

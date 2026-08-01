@@ -32,7 +32,9 @@ export function PromotionCard({ promotion, businessName, businessSlug }: Promoti
         <div className="flex items-start justify-between gap-2">
           <div className="flex flex-col gap-1">
             <span className="text-muted-foreground text-xs font-medium">{businessName}</span>
-            <CardTitle className="text-base">{promotion.title}</CardTitle>
+            <CardTitle className="line-clamp-1 text-base" title={promotion.title}>
+              {promotion.title}
+            </CardTitle>
           </div>
           {promotion.featured ? <Badge>Featured</Badge> : null}
         </div>

@@ -96,6 +96,8 @@ Per Feature, the sprint is successful when:
 | F-016 | Real Contact submission form (currently a `mailto:` link — no backend/email infrastructure exists per ADR-002) | Low | Not Started — not scheduled, future candidate only |
 | F-017 | `.ai/CODING_STANDARDS.md` "Scripts" conventions section (considered in Sprint 8, judged not yet necessary) | Low | Not Started — revisit only if a future script's conventions become ambiguous |
 | F-018 | Replace homepage "Popular categories" curated-featured grid with an accessible horizontal scroll-snap carousel showing all categories; remove `Category.featured` entirely (kept only on `Promotion`) | Medium | Completed |
+| F-019 | Code-review follow-up on F-018's `CategoryCarousel`: fix keyboard focus loss on the disabled arrow buttons, a fragile `offsetLeft`/`scrollLeft` coordinate assumption in the scroll-to-card logic, a `ResizeObserver` blind spot, and an initial-render disabled-state flash | Medium | Completed |
+| F-020 | `PromotionCard`'s title has no line-clamp, so titles of varying length wrap to a different number of lines per card — combined with the CSS grid's per-row height stretch, this makes promotion cards (and the "View business" button position) inconsistent in size across the "Akuna Vista residents-only promotions" section | Medium | Completed |
 
 Status Values
 
@@ -792,6 +794,133 @@ worth a dedicated look — not touched here since they're unrelated to categorie
 
 ---
 
+## Story 8 (F-019)
+
+As the project owner
+
+I want F-018's `CategoryCarousel` reviewed for correctness before it's considered final
+
+So that real bugs surfaced by a code review are fixed with the same rigor as the original Feature,
+not left as known issues — raised via a `/code-review`-style pass requested directly in-session
+2026-08-01, immediately after F-018 shipped.
+
+### Findings (all in `features/homepage/CategoryCarousel.tsx`)
+
+1. **Keyboard focus loss on the arrow buttons.** Both arrows used the native `disabled` attribute.
+   A native `disabled` element is dropped from the tab order and blurred by the browser the moment
+   it becomes disabled — so a keyboard user Tab-ing to, say, the right arrow and activating it
+   repeatedly would have focus silently ejected from the carousel (usually to `<body>`) the instant
+   they reached the last category, breaking the WCAG "Focus order" requirement `.ai/CLAUDE.md`'s
+   Accessibility section calls out. Not caught by the existing Playwright test, which only uses
+   `.click()`, never keyboard Tab navigation.
+2. **Fragile `offsetLeft`/`scrollLeft` coordinate coupling.** `scroll()`'s card-targeting logic
+   compared `item.offsetLeft` directly against `el.scrollLeft`. `offsetLeft` is measured relative to
+   the nearest *positioned* ancestor — since the scroll row itself had no `position` class, that was
+   the outer `relative` wrapper two levels up, not the scroll row. The two coordinate frames only
+   lined up because the wrapper had zero padding/border and the scroll row was its only in-flow
+   child — a later padding/margin change anywhere in that chain would have silently sent the arrow
+   buttons to the wrong card with no error.
+3. **`ResizeObserver` blind spot.** The observer watched only the scroll container `el`'s own box.
+   `ResizeObserver`'s default box tracks the *target's own* content-box size, not a descendant
+   changing width/height without changing `el`'s own box — exactly the "content still settling"
+   scenario the surrounding comment described trying to fix.
+4. **Initial-render disabled-state flash.** `atEnd` defaulted to `false` before the first real
+   measurement ran, so the right arrow briefly rendered enabled/clickable even in a hypothetical
+   state where all categories already fit without scrolling.
+
+### Fixes
+
+1. Both `<Button>`s now pass `disabled={atStart|atEnd}` **and** `focusableWhenDisabled` — a prop
+   the underlying `@base-ui/react/button` primitive already provides for exactly this pattern: it
+   renders `aria-disabled`/`data-disabled` instead of the native `disabled` attribute, keeps the
+   button focusable/tabbable, and its own `onClick`/`onKeyDown` handlers already no-op when
+   `disabled` is true — no custom guard code needed. Dimmed styling moved from the (no longer
+   present) `disabled:` Tailwind variant to `aria-disabled:opacity-50 aria-disabled:pointer-events-none`,
+   matching the `aria-invalid:` pattern already used elsewhere in `buttonVariants`.
+2. Added `relative` to the scroll row's own className, making it the explicit `offsetParent` for its
+   children — `item.offsetLeft` and `el.scrollLeft` now share a coordinate frame by construction,
+   not by an incidental layout coincidence.
+3. The `ResizeObserver` now also observes `el.lastElementChild` in addition to `el` itself, so a
+   content-driven `scrollWidth` change that doesn't resize the container's own box still triggers a
+   re-measure.
+4. `atEnd`'s initial `useState` value changed from `false` to `true` — fails toward "nothing to
+   scroll to" rather than a momentarily-clickable-but-broken affordance.
+
+Acceptance Criteria
+
+- [x] Arrow buttons remain keyboard-focusable at both scroll boundaries (verified via source
+      inspection of `@base-ui/react/button`'s `useFocusableWhenDisabled`: `aria-disabled` is set,
+      the native `disabled` attribute is not, and `onClick`/`onKeyDown` both check `disabled` and
+      no-op — confirmed by reading the library source directly, not assumed from the prop name).
+- [x] `scroll()`'s card-targeting math no longer depends on incidental zero-offset layout between
+      the scroll row and its positioned ancestor.
+- [x] `ResizeObserver` re-measures on a content-only size change, not just a container-box change.
+- [x] No incorrect disabled-state flash on mount.
+- [x] `npm run typecheck` — passes (confirms `focusableWhenDisabled` is a valid, typed prop).
+- [x] `npx eslint features/homepage/CategoryCarousel.tsx` — clean.
+- [x] `npx vitest run` — 212/215 pass; same 3 pre-existing, unrelated `promotionRepository`/
+      `announcementRepository` date-mocking failures as F-018, untouched by this change.
+- [x] `npx playwright test -g "Popular categories"` — 9/9 pass across chromium, firefox, and
+      webkit, including the click-through-to-both-ends assertions on `toBeDisabled()`/
+      `toBeEnabled()` — confirming Playwright correctly reads the new `aria-disabled`-based state
+      and that arrow navigation still lands on the right cards after the `relative` positioning
+      change.
+
+F-019 implemented and verified (2026-08-01). Only `features/homepage/CategoryCarousel.tsx` changed
+— no other files touched.
+
+---
+
+## Story 9 (F-020)
+
+As the project owner
+
+I want every promotion card in the "Akuna Vista residents-only promotions" section to render the
+same size regardless of its title's length
+
+So that the section looks consistent instead of some cards appearing taller than others with the
+"View business" button landing in a different spot per card — raised directly 2026-08-01 ("the
+heading number of lines is not capped and hence its going to one line for some and two lines for
+some and because of that the view business section size is different for different promotions").
+
+### Root cause (investigated 2026-08-01)
+
+`components/cards/PromotionCard.tsx`'s `CardTitle` rendered `promotion.title` with no line-clamp
+(`CardDescription` two lines below it already had `line-clamp-2`). Real title lengths in
+`data/promotions.json` range from 16 characters ("Free Demo Lesson") to 77 characters ("Mention
+AV10 to receive 10% off Paint Protection Packages — AV Residents Only") — at `lg:grid-cols-3` card
+width the longer titles wrap to 2–3 lines while short ones fit on one. `Card`
+(`components/ui/card.tsx`) is a `flex flex-col`, and CSS Grid's default `align-items: stretch`
+equalizes card height only *within the same row* — so a row containing a long title stretches every
+card in that row taller, while a row of short titles stays compact, producing exactly the
+inconsistent-size symptom reported.
+
+### Fix
+
+- `components/cards/PromotionCard.tsx`: `CardTitle` now has `line-clamp-1` (fixing header height
+  regardless of title length) plus a native `title={promotion.title}` attribute, so the full text
+  is still available as a hover/focus tooltip when truncated — mitigating the trade-off that the
+  77-character title now truncates hard in the visible line.
+- `.ai/JSON_SCHEMA.md`'s Promotion Schema section: added a note recommending `title` stay to
+  roughly 40 characters or fewer, since it now renders `line-clamp-1` in the homepage card.
+- Claude Code project memory: added a note (and `MEMORY.md` index entry) so this constraint
+  surfaces automatically in future sessions doing promotion data entry, not only when a contributor
+  happens to check `.ai/JSON_SCHEMA.md`.
+
+Acceptance Criteria
+
+- [x] `PromotionCard`'s title renders on exactly one line regardless of length, with the full title
+      available via a `title=` tooltip.
+- [x] `.ai/JSON_SCHEMA.md`'s Promotion Schema documents the practical length recommendation this
+      creates for future data entry.
+- [x] The same guidance is captured in Claude Code's project memory so it surfaces in future
+      sessions without requiring a contributor to already know to check the schema doc.
+- [x] `npm run typecheck`, `npx eslint components/cards/PromotionCard.tsx` — pass/clean.
+
+F-020 implemented and verified (2026-08-01).
+
+---
+
 # Consolidated Backlog Items (F-007–F-017)
 
 Added 2026-07-17 at the project owner's explicit request: **every genuinely-still-open item found
@@ -928,6 +1057,25 @@ race that could permanently disable the right arrow before any scrolling happene
 all pass; `npx vitest run` is 212/215 with the 3 failures pre-existing and unrelated (reproduces
 identically with this Feature's changes stashed out) — flagged as a separate, real issue still
 worth a dedicated look, not fixed here.
+
+F-019 is also implemented and verified (2026-08-01) — a code-review follow-up on F-018's
+`CategoryCarousel` that fixed 4 real issues: keyboard focus loss on the arrow buttons at either
+scroll boundary (native `disabled` blurs a focused element; switched to Base UI's
+`focusableWhenDisabled` + `aria-disabled` so the button stays tabbable), a fragile `offsetLeft`/
+`scrollLeft` coordinate assumption in the scroll-to-card logic (fixed by making the scroll row its
+own `offsetParent` via `relative`), a `ResizeObserver` blind spot to content-only size changes
+(fixed by also observing the last card), and an initial-render disabled-state flash (`atEnd`
+defaults to `true` now). `npm run typecheck`, `eslint`, `npx vitest run` (same 212/215, 3
+pre-existing unrelated failures), and `npx playwright test -g "Popular categories"` (9/9 across 3
+browsers) all pass. Only `CategoryCarousel.tsx` changed.
+
+F-020 is also implemented and verified (2026-08-01) — `PromotionCard`'s title had no line-clamp,
+so titles of varying length (16–77 characters in real data) wrapped to a different number of
+lines per card, and CSS Grid's per-row height stretch turned that into inconsistently-sized
+promotion cards. Fixed with `line-clamp-1` plus a `title=` tooltip for the full text on truncation;
+`.ai/JSON_SCHEMA.md`'s Promotion Schema section and Claude Code's project memory were both updated
+with a ~40-character guideline for future `title` data entry, per the project owner's explicit
+request to prevent this recurring. `npm run typecheck` and `eslint` pass.
 
 Everything else — **F-001, F-002, F-005, and F-007 through F-017 — remains captured but not
 implemented.** F-007–F-017 were consolidated here 2026-07-17 from `.ai/TODO.md`'s Backlog section
