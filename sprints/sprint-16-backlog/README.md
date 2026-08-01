@@ -78,23 +78,23 @@ Per Feature, the sprint is successful when:
 
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
-| F-001 | Clamp `BusinessCard`'s heading to a single line with ellipsis truncation | Medium | Not Started |
-| F-002 | Gate production deploys behind CI passing (CI-gated CD) | Medium | Not Started |
+| F-001 | Clamp `BusinessCard`'s heading to a single line with ellipsis truncation | Medium | Completed |
+| F-002 | Gate production deploys behind CI passing (CI-gated CD) | Medium | Blocked — code/config implemented, awaiting project owner's Vercel secrets + live push verification |
 | F-003 | Fix root cause of `search.spec.ts` WebKit flakes: a Next.js hydration race where `.fill()` right after `goto()` can run before React's `onChange` listener attaches, so `query` state silently stays empty | Low | Completed |
 | F-004 | Fix stale sprint/top-level documentation status claims found in the 2026-07-17 doc audit | Medium | Completed |
-| F-005 | `.ai/ARCHITECTURE.md`'s "Monitoring" section lists Vercel Analytics under "Future" though it's live in production | Low | Not Started |
+| F-005 | `.ai/ARCHITECTURE.md`'s "Monitoring" section lists Vercel Analytics under "Future" though it's live in production | Low | Completed |
 | F-006 | Doc-staleness guardrails: automated checks in pre-commit/commit-msg + CI to prevent the 2026-07-17 doc-staleness pattern from recurring | Medium | Completed |
 | F-007 | Error monitoring (Sentry): install, set `SENTRY_DSN`, verify a real production error reaches the dashboard | High | Not Started |
 | F-008 | Add the 2 held-out real events (Blacktown Mayoral Fun Run, Blacktown Food Market) once updated 2026/2027 dates are supplied | Medium | Blocked — awaiting project owner input |
 | F-009 | Business data completeness pass (email/address/opening-hours/verification) across existing listings | Medium | Blocked — awaiting project owner input |
-| F-010 | Run an actual Google Rich Results Test against a live business page (never performed — needed a public URL, now available) | Medium | Not Started |
+| F-010 | Run an actual Google Rich Results Test against a live business page (never performed — needed a public URL, now available) | Medium | Completed |
 | F-011 | Manual screen-reader (VoiceOver/NVDA) accessibility spot-check across all routes | Medium | Blocked — no assistive technology available in this development environment |
-| F-012 | Re-measure mobile LCP against current production (last measured Sprint 7, at/above the 2.5s target; site has changed substantially since — Sprint 9 CDN infra, Sprint 11 transit widget, Sprint 13 weather widget, Sprint 14 polish) | Medium | Not Started |
-| F-013 | Wire Lighthouse into the CI pipeline (`lighthouse` package already installed, never wired into `ci.yml`) | Low | Not Started |
+| F-012 | Re-measure mobile LCP against current production (last measured Sprint 7, at/above the 2.5s target; site has changed substantially since — Sprint 9 CDN infra, Sprint 11 transit widget, Sprint 13 weather widget, Sprint 14 polish) | Medium | Completed |
+| F-013 | Wire Lighthouse into the CI pipeline (`lighthouse` package already installed, never wired into `ci.yml`) | Low | Blocked — implemented, awaiting a real CI run to verify |
 | F-014 | Privacy Policy / Terms of Service legal review | Low | Blocked — needs the project owner's own external legal review, not code |
 | F-015 | Investigate nonce-based CSP for `script-src` (remove the `'unsafe-inline'` exception) if a future Next.js/Turbopack release fixes automatic nonce application | Low | Not Started |
-| F-016 | Real Contact submission form (currently a `mailto:` link — no backend/email infrastructure exists per ADR-002) | Low | Not Started — not scheduled, future candidate only |
-| F-017 | `.ai/CODING_STANDARDS.md` "Scripts" conventions section (considered in Sprint 8, judged not yet necessary) | Low | Not Started — revisit only if a future script's conventions become ambiguous |
+| F-016 | Real Contact submission form (currently a `mailto:` link — no backend/email infrastructure exists per ADR-002) | Low | Not Started — spec drafted (ADR-015 + AC below), awaiting project owner confirmation before Implement |
+| F-017 | `.ai/CODING_STANDARDS.md` "Scripts" conventions section (considered in Sprint 8, judged not yet necessary) | Low | Completed |
 | F-018 | Replace homepage "Popular categories" curated-featured grid with an accessible horizontal scroll-snap carousel showing all categories; remove `Category.featured` entirely (kept only on `Promotion`) | Medium | Completed |
 | F-019 | Code-review follow-up on F-018's `CategoryCarousel`: fix keyboard focus loss on the disabled arrow buttons, a fragile `offsetLeft`/`scrollLeft` coordinate assumption in the scroll-to-card logic, a `ResizeObserver` blind spot, and an initial-render disabled-state flash | Medium | Completed |
 | F-020 | `PromotionCard`'s title has no line-clamp, so titles of varying length wrap to a different number of lines per card — combined with the CSS grid's per-row height stretch, this makes promotion cards (and the "View business" button position) inconsistent in size across the "Akuna Vista residents-only promotions" section | Medium | Completed |
@@ -103,6 +103,7 @@ Per Feature, the sprint is successful when:
 | F-023 | `/code-review` on F-021/F-022: `validateFeaturedBusinessCap` wasn't reachable from `scripts/admin.ts`'s own write path (only from `npm run validate:data`), the 6-business cap was duplicated as two independent constants, and `line-clamp-2` alone doesn't fully equalize card heights | Medium | Completed |
 | F-024 | Fix `tests/e2e/search.spec.ts`'s "a suburb chip with zero real businesses does not render" test — it asserted Tallawong specifically, which stopped being true once sprint-15's F-033 added a real Tallawong business | Low | Completed |
 | F-025 | `CommunityStatistics.tsx`'s "Businesses listed" and "Categories covered" homepage stats read static, now-stale fields from `data/metadata.json` (19 / 12) instead of the real current counts — make those two compute live from the business/category repositories; leave "Community members" as the manually-set `metadata.communityMembers` value, per the project owner's explicit direction | Medium | Completed |
+| F-026 | `/code-review` on F-025: fix a test comment in `search.spec.ts` that cites a nonexistent `Suburb.displayOrder` field, and wrap `categoryRepository`'s exported singleton `getAll()` in `React.cache()` since F-025 made it the 3rd per-render call on the homepage | Low | Completed |
 
 Status Values
 
@@ -142,17 +143,70 @@ overflow) instead.
 
 Acceptance Criteria
 
-- [ ] `BusinessCard`'s `CardTitle` (`components/cards/BusinessCard.tsx:33`) gains `line-clamp-1`
+- [x] `BusinessCard`'s `CardTitle` (`components/cards/BusinessCard.tsx:33`) gains `line-clamp-1`
       (or equivalent single-line ellipsis truncation), so the heading never wraps past one line
       regardless of `business.name` length.
-- [ ] Verified visually against the longest current names ("JP – Ethiquity Mortgage Services",
+- [x] Verified visually against the longest current names ("JP – Ethiquity Mortgage Services",
       "Praful Saparia (NSW JP)") in `FeaturedBusinesses`, `BusinessDirectory`, and a category page
       grid, at mobile and desktop widths.
-- [ ] Truncated names remain understandable (ellipsis doesn't cut off the distinguishing part of
+- [x] Truncated names remain understandable (ellipsis doesn't cut off the distinguishing part of
       the name for any current business) — flag any name that truncates badly for a
       rename/shorten decision instead of forcing the CSS fix to cover it.
-- [ ] No regression to card height/rhythm established in Sprint 14 (F-004).
-- [ ] Existing Playwright suite still passes.
+- [x] No regression to card height/rhythm established in Sprint 14 (F-004).
+- [x] Existing Playwright suite still passes.
+
+**Resolved as a duplicate of F-021, not new work.** This Feature's request ("clamp `BusinessCard`'s
+heading to one line") is the exact same fix F-021 delivered 2026-08-01 (`line-clamp-1` + `title=`
+tooltip on `CardTitle`, `components/cards/BusinessCard.tsx:35`, committed in `6ec6ec2`, already on
+`origin/main`) — F-021 was scoped as "the same card-sizing standard applied everywhere," which
+included this exact line. This Feature's table row was simply never updated to reflect that when
+F-021 shipped — the same doc-staleness pattern F-004/F-006 exist to catch, caught again here
+2026-08-02. Re-verified directly: `/businesses?category=jp-services` on production renders "JP –
+Ethiquity Mortgage…" truncated to one line with an ellipsis; `line-clamp` is a CSS overflow rule
+independent of viewport width, so the same truncation holds at every width. No code change needed.
+
+F-001 confirmed already implemented and verified (2026-08-02).
+
+---
+
+## Story 16 (F-016) — DRAFT, awaiting Confirm
+
+As the project owner
+
+I want a real Contact form instead of a `mailto:` link
+
+So that visitors can send a message without their device needing a configured mail client — raised
+originally in Sprint 8b, carried forward as "not scheduled" for 3+ sprints, and picked up now at the
+project owner's explicit request to "scope it properly first" (this Feature was answered
+"Scope it properly first" rather than "implement now" when asked, precisely because it requires
+amending ADR-002 and choosing an email provider — bigger than this sprint's other backlog items).
+
+### Full detail
+
+See `.ai/DECISIONS.md` ADR-015 (Proposed) for the architectural decision, alternatives considered,
+and consequences. Summary: a Server Action submits the form to **Resend** (Vercel Marketplace's
+only/top result for the `messaging` category, confirmed via `npx vercel integration discover
+--category messaging` — not chosen from memory), sending an email to the project owner; no
+database, no submission history, `mailto:` link likely retained as a fallback.
+
+Acceptance Criteria (draft — **not yet confirmed by the project owner**)
+
+- [ ] ADR-015 confirmed Accepted (or revised) by the project owner before any code is written.
+- [ ] `vercel integration add resend --yes` run (requires the project owner's Vercel account —
+      this is an "Explicit permission required" / account-changing action, not something to do
+      unilaterally) and `RESEND_API_KEY` provisioned as a real env var, never hand-created.
+- [ ] `app/contact/page.tsx` gains a real form (name, email, message — exact fields TBD at Confirm)
+      wired to a Server Action that calls Resend server-side only.
+- [ ] Successful submission shows the visitor clear confirmation; failure shows a clear error and
+      the existing `mailto:` link as a fallback, so a provider outage never fully blocks contact.
+- [ ] No submission is persisted anywhere (no new database/collection) — out of scope per ADR-015.
+- [ ] `.ai/ARCHITECTURE.md`/`.ai/SECURITY.md` updated once Accepted, documenting the new integration
+      and secret per the same bar set for `TRANSPORT_NSW_API_KEY`/ADR-014.
+- [ ] `npm run typecheck`, `eslint`, existing Playwright suite still pass; new coverage for the
+      contact form itself (happy path + provider-failure fallback).
+
+**Status: Capture complete, Confirm pending.** Per this project's Spec-Driven Development process,
+no code is written until the project owner confirms this ADR and these Acceptance Criteria.
 
 ---
 
@@ -213,18 +267,41 @@ on Vercel's independent Git-integration auto-deploy:
 
 Acceptance Criteria
 
-- [ ] `ci.yml` gains a `deploy` job that only runs on push to `main`, with `needs: [checks, e2e]`.
+- [x] `ci.yml` gains a `deploy` job that only runs on push to `main`, with `needs: [checks, e2e]`.
 - [ ] A `VERCEL_TOKEN` (and any other required `VERCEL_ORG_ID`/`VERCEL_PROJECT_ID`) secret is added
       to GitHub, with explicit project-owner confirmation before being written (per the
-      `TRANSPORT_NSW_API_KEY` precedent).
-- [ ] Vercel's automatic Git-integration deploy for the production branch is disabled, confirmed by
-      checking that a push with intentionally broken CI (e.g. a failing test) does **not** produce a
-      new Production deployment on Vercel.
-- [ ] A push with passing CI still results in a new Production deployment, end to end, verified live
-      (matching the manual verification pattern used throughout this project — check the deployed
-      URL actually reflects the new commit).
-- [ ] `.ai/DEPLOYMENT.md` updated to describe the new CI-gated deploy flow, since it currently
-      documents the old (ungated) behaviour.
+      `TRANSPORT_NSW_API_KEY` precedent). **Blocked on the project owner** — these are credentials
+      only they can generate/authorize; not something to enter on their behalf. See below.
+- [x] Vercel's automatic Git-integration deploy for the production branch is disabled — done via
+      `vercel.json`'s `git.deploymentEnabled.main: false` (Vercel's documented mechanism for
+      disabling Git-triggered deploys on specific branches while CLI/CI-triggered `vercel deploy`
+      still works), rather than a dashboard click, so it's a reviewable, reversible code change
+      instead of an unrecorded account setting.
+- [ ] A push with passing CI still results in a new Production deployment, end to end, verified
+      live. **Not yet verified** — requires the `VERCEL_TOKEN`/`VERCEL_ORG_ID`/`VERCEL_PROJECT_ID`
+      secrets to exist first, then an actual push to `main` to observe. Pushing to `main` is a
+      visible, shared-state action — needs the project owner's go-ahead in the same turn it happens,
+      not assumed from this Feature's original go-ahead to implement the code.
+- [x] `.ai/DEPLOYMENT.md` updated to describe the new CI-gated deploy flow, since it previously
+      documented the old (ungated) behaviour.
+
+**Setup needed from the project owner before this is live** (none of these are things an assistant
+should do on someone's behalf — generating/authorizing credentials is the account owner's action):
+
+1. Generate a Vercel token: Vercel dashboard → Account Settings → Tokens → Create, scoped to this
+   project if possible.
+2. In this GitHub repo's settings → Secrets and variables → Actions, add three repository secrets:
+   `VERCEL_TOKEN` (the token from step 1), `VERCEL_ORG_ID` (`team_CIk5re8pCknWV2asSxwHBCv3`),
+   `VERCEL_PROJECT_ID` (`prj_Jtimj5DeyPP13ycH13G2BU6nFiFh`) — the latter two are this project's own
+   identifiers (from `.vercel/project.json`, gitignored), not secret credentials, but stored as
+   Action secrets to match Vercel's own documented GitHub Actions pattern.
+3. Push this Feature's changes to `main` and confirm the `deploy` job runs and succeeds; then
+   (separately, deliberately) push a commit that fails CI and confirm no new Production deployment
+   appears on Vercel.
+
+Code/config is implemented and ready; **F-002 stays open until the project owner completes the
+steps above and a live push confirms the gate actually works**, per this project's "verify by
+running, not by writing" standard.
 
 ---
 
@@ -398,11 +475,17 @@ since Sprint 9 (`app/layout.tsx` imports `@vercel/analytics/next`, gated on `pro
 
 Acceptance Criteria
 
-- [ ] `.ai/ARCHITECTURE.md`'s "Monitoring" section splits "Future" into what's actually current
+- [x] `.ai/ARCHITECTURE.md`'s "Monitoring" section splits "Future" into what's actually current
       (Vercel Analytics) versus still future (Sentry, Google Analytics, Microsoft Clarity — Sentry
       confirmed still deferred per Sprint 9's F-001 and `.ai/DEPLOYMENT.md`'s `SENTRY_DSN (Future)`).
-- [ ] No other "(Future)" labels elsewhere in `.ai/` are touched by this Feature — scoped to this one
+- [x] No other "(Future)" labels elsewhere in `.ai/` are touched by this Feature — scoped to this one
       section only; a broader sweep is a separate Feature if warranted.
+
+Confirmed `app/layout.tsx` imports `@vercel/analytics/next` (gated on `process.env.VERCEL`) — Vercel
+Analytics is genuinely live. Split the section into "Current" (Vercel Analytics) and "Future"
+(Sentry, Google Analytics, Microsoft Clarity); no other file touched.
+
+F-005 implemented and verified (2026-08-02).
 
 ---
 
@@ -1199,6 +1282,56 @@ F-025 implemented and verified (2026-08-01).
 
 ---
 
+## Story 15 (F-026)
+
+As the project owner
+
+I want the 2 confirmed findings from F-025's `/code-review` fixed
+
+So that the misleading comment doesn't confuse a future reader and the homepage doesn't do
+redundant work on every request — the review's 3rd finding (Promise.all pairing duplicated across
+4 files) is a maintainability-only flag, not fixed here since it wasn't part of what the project
+owner asked to fix ("fix the recommended").
+
+### Fixes
+
+1. **`tests/e2e/search.spec.ts`'s comment claimed Box Hill was picked as the suburb with "the
+   next-lowest displayOrder."** `Suburb` has no `displayOrder` field — that's Category-only.
+   Corrected the comment to state the true reasoning: Box Hill and Kellyville were the only two
+   zero-business suburbs found, and Box Hill was picked because it comes first in
+   `data/suburbs.json`.
+2. **`categoryRepository.getAll()` was called a 3rd time per homepage render** (already called by
+   `PopularCategories.tsx` and `FeaturedBusinesses.tsx`), each call re-allocating and re-sorting the
+   full array. Wrapped the *exported singleton's* `getAll()` in `React.cache()`
+   (`lib/repositories/categoryRepository.ts`) so the 3 calls collapse to 1 per request. Deliberately
+   left `JSONCategoryRepository` itself untouched — `categoryRepository.test.ts` constructs it
+   directly with injected fixtures, so wrapping only the singleton export means those tests are
+   unaffected by the caching change.
+
+Acceptance Criteria
+
+- [x] The suburb-chip test's comment no longer references a nonexistent `Suburb.displayOrder`
+      field, and accurately explains why Box Hill was chosen.
+- [x] `categoryRepository`'s exported singleton dedupes `getAll()` calls within a single request via
+      `React.cache()`; `JSONCategoryRepository` construction/behavior is otherwise unchanged
+      (`categoryRepository.test.ts` untouched, imports the class directly).
+- [x] `npm run typecheck`, `npx eslint .` — pass/clean.
+- [x] `npx vitest run` — 214 passed, 5 failed; none touch `categoryRepository` or anything changed
+      here. All 5 are pre-existing date-boundary fixture fragility in `eventRepository`/
+      `promotionRepository`/`announcementRepository` (hardcoded fixture dates like
+      `endDate: "2026-08-01..."` relative to real `Date.now()`) — grew from the previously
+      documented 3 to 5 because the real calendar date rolled from 2026-08-01 to 2026-08-02 between
+      F-023 and this Feature, flipping more fixture dates from "future" to "past". Confirmed
+      unrelated by inspecting the failing files directly; none import or exercise
+      `categoryRepository`.
+- [x] `npx playwright test` (full suite) — 284 passed, 16 skipped, 0 failed.
+- [x] Manual check: homepage stats still render correctly (51 / 25 / 800+) with the cached
+      repository.
+
+F-026 implemented and verified (2026-08-02).
+
+---
+
 # Consolidated Backlog Items (F-007–F-017)
 
 Added 2026-07-17 at the project owner's explicit request: **every genuinely-still-open item found
@@ -1220,16 +1353,18 @@ source link for full detail before implementing any of these.
 - **F-010 (Rich Results Test)** — source: `sprints/sprint-04-business-details/retrospective.md` and
   `sprints/sprint-07-quality/review.md` Carry Forward. Unlike F-008/009, this one is **not** blocked
   on anything external — the site has been publicly reachable since Sprint 9 (2026-07-09); this is
-  simply a task nobody has picked up yet.
+  simply a task nobody has picked up yet. **Run 2026-08-02** — see Next Steps below.
 - **F-011 (screen-reader spot-check)** — source: `sprints/sprint-07-quality/retrospective.md` Carry
   Forward. Blocked on assistive-technology access in whatever environment eventually does this work
   (not available in this one).
 - **F-012 (mobile LCP re-measurement)** — source: `sprints/sprint-07-quality/retrospective.md` Carry
   Forward. Not blocked — a fresh Lighthouse run against the live production URL would resolve
-  whether this is still an issue after four more sprints of homepage changes.
+  whether this is still an issue after four more sprints of homepage changes. **Re-measured
+  2026-08-02** — see Next Steps below.
 - **F-013 (Lighthouse CI wiring)** — source: `sprints/sprint-07-quality/retrospective.md` Carry
   Forward ("reasonable Sprint 9 candidate" — verified 2026-07-17 this was never actually done;
-  `lighthouse` is in `package.json` but absent from `.github/workflows/ci.yml`).
+  `lighthouse` is in `package.json` but absent from `.github/workflows/ci.yml`). **Implemented
+  2026-08-02, not yet verified** — see Next Steps below.
 - **F-014 (Privacy/Terms legal review)** — source: `sprints/sprint-08b-community-pages/retrospective.md`
   Carry Forward. Not an engineering task at all — needs the project owner's own legal judgement.
 - **F-015 (nonce-based CSP)** — source: `sprints/sprint-09-production/retrospective.md` Carry
@@ -1237,8 +1372,11 @@ source link for full detail before implementing any of these.
   hardening improvement, not a known vulnerability.
 - **F-016 (real Contact form)** — source: `sprints/sprint-08b-community-pages/retrospective.md`
   Carry Forward. Explicitly "not scheduled" at the time — kept here for visibility, not urgency.
+  **Spec drafted 2026-08-02 (Capture step only — Confirm still needed)**, see below and
+  `.ai/DECISIONS.md` ADR-015.
 - **F-017 (CODING_STANDARDS.md Scripts section)** — source: `sprints/sprint-08-admin/retrospective.md`
-  Carry Forward. Purely a documentation nice-to-have, judged unnecessary when raised.
+  Carry Forward. Purely a documentation nice-to-have, judged unnecessary when raised. **Completed
+  2026-08-02** — see Next Steps below.
 
 **Two items were found already resolved during this consolidation pass and closed out at the
 source rather than carried forward here**: Sprint 08's "seed generator not run at production scale"
@@ -1390,11 +1528,97 @@ visual clamp, and a real fix (tap-to-reveal) is a UX feature addition warranting
 a mechanical fix. `npm run typecheck`, `eslint`, `npx vitest run` (219 tests, same 3 pre-existing
 unrelated failures), and `npx playwright test` against homepage/directory/search (25/25) all pass.
 
-Everything else — **F-001, F-002, F-005, and F-007 through F-017 — remains captured but not
-implemented.** F-007–F-017 were consolidated here 2026-07-17 from `.ai/TODO.md`'s Backlog section
-and every individual sprint's `retrospective.md` Carry Forward table, at the project owner's
-explicit request, specifically so this one file is sufficient for planning what's left rather than
-needing to check 8+ scattered files. Pick any item up: confirm the Acceptance Criteria (per
-Spec-Driven Development Step 2), implement, then verify and check off. Note that with F-006 now
-live, picking up any of these will itself be checked by the new guardrails (e.g. touching
+F-001 was found already implemented and verified (2026-08-02) — this Feature's request (clamp
+`BusinessCard`'s heading to one line) turned out to be the exact same fix F-021 shipped 2026-08-01
+as part of its "same standard everywhere" survey; this row's status simply hadn't been updated to
+reflect that. Re-verified directly against production (`/businesses?category=jp-services` renders
+"JP – Ethiquity Mortgage…" truncated with an ellipsis). No code change — a stale-status correction,
+the same pattern F-004/F-006 exist to catch.
+
+F-005 is also implemented and verified (2026-08-02) — `.ai/ARCHITECTURE.md`'s "Monitoring" section
+had Vercel Analytics lumped under "Future" alongside Sentry/Google Analytics/Microsoft Clarity,
+though `app/layout.tsx` has imported `@vercel/analytics/next` (gated on `process.env.VERCEL`) since
+Sprint 9. Split into "Current" (Vercel Analytics) and "Future" (the other three); no other file
+touched.
+
+F-017 is also implemented and verified (2026-08-02) — `.ai/CODING_STANDARDS.md` had no "Scripts"
+section. Added one documenting the conventions already followed by all 19 files under `scripts/`:
+kebab-case CLI entrypoints run via `tsx`, shared helpers camelCase in `scripts/lib/`, every
+entrypoint registered as an npm script rather than invoked directly, `isMainModule()` guarding
+`main()` on any entrypoint with a co-located test, and tests co-located as `<name>.test.ts` rather
+than in a separate folder — derived from the actual `scripts/` folder, not invented.
+
+F-013 is implemented but not yet verified (2026-08-02) — added a report-only Lighthouse step to the
+`checks` job in `.github/workflows/ci.yml`: builds, starts the production server, polls it with
+`curl` until ready, runs `npx lighthouse` against `localhost:3000`, prints each category's score to
+the job log, and uploads the full JSON report as a build artifact. `continue-on-error: true` at the
+step level, deliberately non-blocking per the project owner's explicit choice — no historical score
+baseline exists yet to set a meaningful pass/fail threshold against. YAML validated well-formed
+(`python3 -c "import yaml; yaml.safe_load(...)"`), but **not run end-to-end** — local verification
+was attempted (found the repo's local `.next` build stale/broken, unrelated to this change) and the
+project owner chose to skip local verification and let the first real GitHub Actions run be the
+actual test instead. Stays open until a real push produces a `checks` job run with visible
+Lighthouse scores in the log and a downloadable report artifact.
+
+**Manual review (2026-08-02) found 2 real gaps, both fixed**: (1) the step's dependency on
+`ubuntu-latest` shipping a preinstalled Chrome was untested and unverified — flagged as an
+unresolved risk (`continue-on-error` would hide a persistent failure, not fix it) since confirming
+it needs an actual CI run; (2) a silent `continue-on-error` failure had no visible signal anywhere
+— fixed by giving the step `id: lighthouse` and adding a "Flag failed Lighthouse run" step
+(`if: steps.lighthouse.outcome == 'failure'`) that emits a `::warning::` annotation, so a broken
+report-only check now shows up in the Actions UI instead of just silently producing nothing run
+after run.
+
+F-002 is implemented but not yet verified (2026-08-02) — added a `deploy` job to `ci.yml`
+(`needs: [checks, e2e]`, runs only on `push` to `main`) that deploys via `vercel pull` / `vercel
+build --prod` / `vercel deploy --prebuilt --prod`, and added `vercel.json` with
+`git.deploymentEnabled.main: false` (Vercel's documented mechanism, confirmed against current docs,
+for disabling Git-triggered auto-deploys on a specific branch while CLI/CI-triggered deploys still
+work — chosen over a dashboard setting so it's a reviewable, reversible code change).
+`.ai/DEPLOYMENT.md`'s "Continuous Deployment" section updated to describe the new flow. **Blocked
+on the project owner**: the `deploy` job needs `VERCEL_TOKEN`/`VERCEL_ORG_ID`/`VERCEL_PROJECT_ID`
+as GitHub Actions secrets, which requires generating a Vercel token — a credential-issuing action
+only the account owner should do, not something to hand to an assistant. See this Feature's
+Acceptance Criteria above for the exact setup steps and the two already-known (non-secret) ID
+values. Once secrets exist, a real push to `main` needs to happen to confirm the gate actually
+blocks a red build and allows a green one — that push is a separate, visible action needing its own
+go-ahead at the time, not assumed from the go-ahead to write this code.
+
+**Manual review (2026-08-02) found 1 real gap, fixed**: all three `npx vercel` invocations in the
+`deploy` job were unpinned, so a future Vercel CLI release could silently change deploy behavior
+between one production deploy and the next with no corresponding repo change. Pinned to
+`npx vercel@58` (the current major, confirmed via `npm view vercel version` → 58.4.4) across all
+three steps — a deliberate major-version bump now requires its own commit rather than happening
+invisibly.
+
+F-010 is implemented and verified (2026-08-02) — ran Google's Rich Results Test against
+`https://akuna-vista-local-directory.vercel.app/business/brar-roofing-solution` (chosen as a
+business without the optional `address`/`priceRange` fields populated, to see the worst case, not
+the best). Result: **2 valid items detected** (`LocalBusiness` and `Organization`), both eligible
+for rich results; 2 non-critical notices flagging `priceRange` and `address` as missing, both
+correctly marked "(optional)" by Google — this business's own data genuinely doesn't have those
+fields set (consistent with F-021's finding that only 6/34 businesses have `address.suburb`), not
+a structured-data template bug. No code change needed; conclusion is the JSON-LD template itself
+is valid.
+
+F-012 is implemented and verified (2026-08-02) — ran `npx lighthouse` (mobile form factor/screen
+emulation) against `https://akuna-vista-local-directory.vercel.app` (homepage). Result: **LCP 2.58s
+(2575ms)**, performance score 94/100, CLS 0.013, TBT 30ms, FCP 2.3s. This is essentially at the
+2.5s target — technically ~75ms over, materially unchanged from the Sprint 7 baseline ("at/above
+the 2.5s target") despite four more sprints of homepage additions (transit widget, weather widget,
+card-sizing polish). Caveat: measured from this environment's network path to Vercel's edge, not a
+controlled lab environment identical to Google's own Lighthouse CI infrastructure, so treat as a
+real-world approximation, not a lab-precise number. Not re-optimized as part of this Feature — it
+was scoped as "re-measure," not "fix"; a ~75ms overage this close to target likely doesn't warrant
+new engineering work, but is flagged here rather than silently left for a future session to
+rediscover.
+
+Everything else — **F-007, F-009, F-011, F-014, F-015, and F-016 — remains captured but not
+implemented.**
+F-007–F-017 were consolidated here 2026-07-17 from `.ai/TODO.md`'s Backlog section and every
+individual sprint's `retrospective.md` Carry Forward table, at the project owner's explicit
+request, specifically so this one file is sufficient for planning what's left rather than needing
+to check 8+ scattered files. Pick any item up: confirm the Acceptance Criteria (per Spec-Driven
+Development Step 2), implement, then verify and check off. Note that with F-006 now live, picking
+up any of these will itself be checked by the new guardrails (e.g. touching
 `sprints/sprint-16-backlog/` in the same commit that implements one of them).

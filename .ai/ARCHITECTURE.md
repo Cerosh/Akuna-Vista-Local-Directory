@@ -138,11 +138,13 @@ Cloudflare R2
 
 ## Monitoring
 
+Current
+
+Vercel Analytics
+
 Future
 
 Sentry
-
-Vercel Analytics
 
 Google Analytics
 

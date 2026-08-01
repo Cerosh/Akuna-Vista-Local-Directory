@@ -1,3 +1,4 @@
+import { cache } from "react";
 import type { Category } from "@/types/category";
 import categoriesData from "@/data/categories.json";
 
@@ -30,4 +31,17 @@ export class JSONCategoryRepository implements CategoryRepository {
   }
 }
 
-export const categoryRepository: CategoryRepository = new JSONCategoryRepository();
+const jsonCategoryRepository = new JSONCategoryRepository();
+
+/**
+ * `getAll()` re-allocates and re-sorts the full array on every call, and is
+ * called multiple times per homepage render (PopularCategories,
+ * FeaturedBusinesses, CommunityStatistics) — cached per-request with
+ * React's `cache()` so those calls collapse to one. Only the exported
+ * singleton is wrapped; `JSONCategoryRepository` itself (used directly by
+ * categoryRepository.test.ts with injected fixtures) is untouched.
+ */
+export const categoryRepository: CategoryRepository = {
+  getAll: cache(() => jsonCategoryRepository.getAll()),
+  getBySlug: (slug: string) => jsonCategoryRepository.getBySlug(slug),
+};

@@ -597,6 +597,37 @@ UI remains unchanged.
 
 ---
 
+Scripts
+
+CLI entrypoints live directly in `scripts/`, kebab-case, run via `tsx`.
+
+Example
+
+scripts/validate-data.ts
+
+scripts/migrate-add-price-range.ts
+
+Shared helpers used by more than one script live in `scripts/lib/`, camelCase — never duplicated
+per-script.
+
+Example
+
+scripts/lib/validation.ts
+
+scripts/lib/fileIO.ts
+
+Every entrypoint starts with `#!/usr/bin/env tsx`. Any entrypoint with a co-located test (below)
+guards its `main()` call with `isMainModule(import.meta.url)` (`scripts/lib/isMainModule.ts`), so
+importing the module from its own test never executes it as a side effect.
+
+Register every entrypoint as an npm script (`package.json`) rather than invoking `tsx` directly, so
+usage stays discoverable via `npm run`.
+
+Co-locate each script's test as `<script-name>.test.ts` next to it, not in a separate `__tests__`
+folder.
+
+---
+
 Testing Philosophy
 
 Write code that is easy to test.

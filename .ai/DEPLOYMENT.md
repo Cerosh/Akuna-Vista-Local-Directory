@@ -228,7 +228,13 @@ and how to bypass one with a disclosed `Docs-Deferred:` trailer when genuinely n
 
 Current
 
-Automatic deployment from the `main` branch.
+CI-gated deployment from the `main` branch (Sprint 16, F-002). Vercel's own Git integration no
+longer auto-deploys `main` (`vercel.json`'s `git.deploymentEnabled.main` is `false`); the `deploy`
+job in `.github/workflows/ci.yml` runs `vercel deploy --prebuilt --prod` only after both the
+`checks` and `e2e` jobs pass, using a `VERCEL_TOKEN` secret (plus `VERCEL_ORG_ID`/
+`VERCEL_PROJECT_ID`) scoped to this repo. A red build or failing test suite can no longer reach
+production. Preview deployments (PRs, non-`main` branches) are unaffected and still deploy
+automatically via Vercel's Git integration.
 
 Future
 

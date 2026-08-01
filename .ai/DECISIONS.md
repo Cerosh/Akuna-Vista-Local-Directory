@@ -915,6 +915,114 @@ integrations exist at that point.
 
 ---
 
+# ADR-015 (Proposed — awaiting project owner confirmation, drafted 2026-08-02)
+
+## Title
+
+Add a real Contact form backed by a transactional email provider.
+
+Status
+
+Proposed — not yet Accepted. Drafted for Sprint 16 F-016 at the project owner's request to "scope
+it properly first" rather than build directly; requires explicit confirmation of this ADR and
+F-016's Acceptance Criteria (sprint-16-backlog/README.md) before any code is written, per this
+project's Spec-Driven Development process.
+
+Date
+
+2026-08-02
+
+---
+
+### Context
+
+ADR-002 established static JSON as the sole data source because "the MVP requires no authentication
+or administration," with the explicit consequence "no dynamic editing is available" — a decision
+scoped to *directory content* (businesses, categories, events), not site-visitor-submitted forms.
+`app/contact/page.tsx` currently renders a `mailto:` link rather than a real submission form,
+because no backend/email-sending infrastructure exists per that same ADR's spirit — Sprint 16's
+backlog (F-016) has carried this forward since Sprint 8b as "not scheduled," kept for visibility
+only. The project owner has now asked to scope this properly rather than leave it indefinitely
+deferred.
+
+This does **not** require reversing ADR-002's core decision (JSON stays the data source for
+directory content) — it's a narrower, additive capability in the same spirit as ADR-014's
+read-only external API integrations: a single-purpose, server-side integration for one concrete
+feature, not a general backend.
+
+---
+
+### Decision (proposed)
+
+Add a real Contact form that submits via a Next.js Server Action (or Route Handler) to a
+transactional email provider — **Resend**, via the Vercel Marketplace's native integration
+(`resend/resend-email`, confirmed as the only/top result for the `messaging` category via
+`npx vercel integration discover --category messaging`, run 2026-08-02 — not chosen from memory,
+per this project's own precedent of avoiding hand-wired provider SDKs). No submissions are
+persisted anywhere (no database) — a submission either sends an email to the project owner's inbox
+successfully, or the visitor sees an error and can fall back to the existing `mailto:` link. This
+keeps the change additive and narrow: no user accounts, no admin review queue, no new data store.
+
+Provisioning would follow the Marketplace flow: `vercel link` (already linked), `vercel integration
+add resend --yes`, then build the form against the real `RESEND_API_KEY` env var the integration
+provisions automatically — never a hand-installed `resend` SDK wired from memory with a manually
+created API key.
+
+---
+
+### Alternatives Considered
+
+- **Keep the `mailto:` link, do nothing** — rejected as the status quo, not a decision; kept the
+  backlog item open for 3+ sprints as "not scheduled," which is why the project owner asked to
+  scope it now instead of continuing to defer indefinitely.
+- **A different provider hand-picked from general knowledge (e.g. SendGrid, Postmark)** — rejected;
+  this project's established pattern (ADR-014, and the marketplace-integration process generally)
+  is to provision through Vercel's own Marketplace discovery rather than pick a provider from
+  memory. `discover --category messaging` returned Resend as the only/top result, so that's the
+  recommendation, not a preference asserted without evidence.
+- **Persist submissions to a new database table/collection** — rejected as scope creep beyond what
+  was asked; the project owner's own framing ("real Contact submission form") is about the
+  visitor-facing submission working, not building a review/inbox UI. Revisit as a separate Feature
+  if a submission-history requirement is raised later.
+- **Build a hand-wired SMTP integration (e.g. via `nodemailer` against a personal Gmail/SMTP
+  account)** — rejected; unmanaged credentials, no delivery monitoring, and exactly the kind of
+  "mock instead of a real integration" pattern this project's own tooling conventions steer away
+  from.
+
+---
+
+### Rationale
+
+Narrow and additive, not a reversal of ADR-002's core JSON-content decision. Follows this project's
+existing precedent for external integrations (ADR-014: server-side-only credentials, one concrete
+feature at a time, no premature abstraction) and its Marketplace-first provisioning convention
+(discover the real integration, don't hand-wire a provider SDK from memory).
+
+---
+
+### Consequences
+
+- A new `RESEND_API_KEY` (or provider-issued equivalent) environment variable, server-side only,
+  provisioned via `vercel integration add` rather than manually created and pasted — following the
+  same secret-handling bar `.ai/SECURITY.md` already sets for `TRANSPORT_NSW_API_KEY`.
+- `app/contact/page.tsx` gains a real form + Server Action; the existing `mailto:` link likely stays
+  as a fallback shown alongside or on submission failure — exact UX to be nailed down in F-016's
+  Acceptance Criteria, not this ADR.
+- `.ai/ARCHITECTURE.md` and `.ai/SECURITY.md` need updates once Accepted, describing this as this
+  project's second server-side external integration (after ADR-014's carpark/weather/transit APIs)
+  and documenting the new secret per `.ai/SECURITY.md`'s Third-Party Services section.
+- No change to the JSON Repository Pattern or any existing data file.
+
+---
+
+### Future Review
+
+Revisit if a submission-history / admin-review requirement is ever raised — that would be a new,
+separate ADR (likely reopening the "no database" constraint more broadly), not an extension of this
+one.
+
+---
+
 # Open Decisions
 
 The following topics remain undecided and should not be implemented without discussion.

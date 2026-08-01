@@ -72,6 +72,42 @@ jobs:
       - name: Build
         run: npm run build
 
+      - name: Lighthouse (report-only, Sprint 16 F-013)
+        id: lighthouse
+        # Reports scores without blocking CI — no historical baseline exists yet to set
+        # meaningful pass/fail thresholds against (see sprint-16-backlog/README.md F-013).
+        continue-on-error: true
+        run: |
+          npm run start &
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:3000 > /dev/null && break
+            sleep 1
+          done
+          npx lighthouse http://localhost:3000 \
+            --output=json --output-path=./lighthouse-report.json \
+            --chrome-flags="--headless --no-sandbox" --quiet
+          node -e "
+            const r = require('./lighthouse-report.json');
+            for (const c of Object.values(r.categories)) {
+              console.log(c.title + ': ' + Math.round(c.score * 100));
+            }
+          "
+
+      - name: Flag failed Lighthouse run
+        # continue-on-error above hides a Lighthouse failure from the job's pass/fail
+        # status (by design, so it never blocks CI) — this makes that failure visible
+        # instead of silently producing no report run after run.
+        if: steps.lighthouse.outcome == 'failure'
+        run: echo "::warning::Lighthouse (F-013) failed this run — no report generated. Check the step log above."
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: lighthouse-report.json
+          retention-days: 7
+
   e2e:
     # Chromium + Firefox only. WebKit is deliberately excluded here — its
     # Linux/CI build has repeatedly shown debounced-UI timing flakes on this
@@ -113,3 +149,36 @@ jobs:
           name: playwright-report-shard-${{ matrix.shard }}
           path: playwright-report/
           retention-days: 7
+
+  deploy:
+    # Gates production on `checks` + `e2e` passing (Sprint 16 F-002). Vercel's own Git
+    # integration no longer auto-deploys `main` (vercel.json's git.deploymentEnabled.main
+    # is false) — this job is the only path to a production deployment.
+    name: Deploy to Production
+    needs: [checks, e2e]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Pull Vercel environment
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        # Pinned to a major version (not a bare `vercel`) so a future CLI release can't
+        # silently change deploy behavior between one production deploy and the next —
+        # bump this deliberately, in its own commit, when ready to adopt a new major.
+        run: npx vercel@58 pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build for production
+        run: npx vercel@58 build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy prebuilt artifact
+        run: npx vercel@58 deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}

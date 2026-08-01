@@ -100,10 +100,12 @@ test.describe("Search (/search)", () => {
     // categories.json/suburbs.json entry. Originally asserted against
     // Tallawong, but sprint-15 F-033 gave a real business (KS Webwear)
     // serviceAreas: ["Tallawong"], so that stopped being a zero-business
-    // example — swapped to Box Hill (sprint-16 F-024), the suburb with
-    // the next-lowest displayOrder that still has zero matching
-    // businesses as of 2026-08-01 (checked against every business's
-    // address.suburb and serviceAreas). The category half of this
+    // example — swapped to Box Hill (sprint-16 F-024). Suburb has no
+    // displayOrder field (that's Category-only); Box Hill and Kellyville
+    // were the only two suburbs left with zero matching businesses as of
+    // 2026-08-01 (checked against every business's address.suburb and
+    // serviceAreas), and Box Hill was picked as it comes first in
+    // data/suburbs.json. The category half of this
     // ("Plumbing" and 5 other zero-business categories) no longer has a
     // real-data example to test against — the project owner had those
     // categories deleted outright (2026-07-14) rather than kept empty, so
