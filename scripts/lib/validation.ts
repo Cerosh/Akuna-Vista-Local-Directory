@@ -1,6 +1,7 @@
 import { join } from "node:path";
 import { z } from "zod";
 import { readJsonFile } from "./fileIO";
+import { MAX_FEATURED_BUSINESSES } from "../../lib/constants/business";
 
 /**
  * Single validation library for every `data/*.json` file, per
@@ -362,7 +363,42 @@ export function validateAllData(dataDir: string): ValidationError[] {
     }),
   );
 
+  errors.push(...validateFeaturedBusinessCap(arrayData.businesses ?? []));
+
   return errors;
+}
+
+/**
+ * Sprint 16 F-022: the homepage's "Featured businesses" section
+ * (`features/homepage/FeaturedBusinesses.tsx`) displays at most
+ * `MAX_FEATURED_BUSINESSES` (`lib/constants/business.ts` — the single
+ * source of truth both this check and that component read from) regardless
+ * of how many records are marked `featured` — but silently hiding a
+ * business the project owner explicitly featured is worse than telling them
+ * at commit time. Enforced here rather than in `businessSchema` because a
+ * single record can't know how many *other* records are also featured —
+ * this is a cross-record, whole-file check, same category as
+ * `validateReferentialIntegrity`.
+ */
+export function validateFeaturedBusinessCap(businesses: unknown[]): ValidationError[] {
+  const featured = businesses.filter(
+    (record): record is Record<string, unknown> =>
+      Boolean(record) &&
+      typeof record === "object" &&
+      (record as Record<string, unknown>).featured === true,
+  );
+  if (featured.length <= MAX_FEATURED_BUSINESSES) return [];
+
+  const names = featured.map((record) => recordIdentifier(record) ?? "(unknown)").join(", ");
+  return [
+    {
+      file: "businesses",
+      message:
+        `${featured.length} businesses have "featured": true, but only ${MAX_FEATURED_BUSINESSES} ` +
+        `are shown on the homepage (features/homepage/FeaturedBusinesses.tsx). Un-feature one ` +
+        `before adding another. Currently featured: ${names}`,
+    },
+  ];
 }
 
 export function formatValidationError(error: ValidationError): string {

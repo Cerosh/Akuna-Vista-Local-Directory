@@ -7,6 +7,7 @@ import {
   promotionSchema,
   validateArrayRecords,
   validateAllData,
+  validateFeaturedBusinessCap,
   validateReferentialIntegrity,
 } from "./validation";
 
@@ -225,5 +226,37 @@ describe("validateReferentialIntegrity", () => {
       ],
     });
     expect(errors).toEqual([]);
+  });
+});
+
+describe("validateFeaturedBusinessCap", () => {
+  it("passes at exactly 6 featured businesses", () => {
+    const businesses = Array.from({ length: 6 }, (_, i) =>
+      makeBusiness({ id: `${i}`, slug: `business-${i}`, featured: true }),
+    );
+    expect(validateFeaturedBusinessCap(businesses)).toEqual([]);
+  });
+
+  it("flags more than 6 featured businesses, naming every one over the cap", () => {
+    // `recordIdentifier` (used to build the message) prefers `id` over
+    // `slug` — give each a distinct, readable `id` so the assertion below
+    // is checking the same value the message actually lists.
+    const businesses = Array.from({ length: 7 }, (_, i) =>
+      makeBusiness({ id: `business-${i}`, slug: `business-${i}`, featured: true }),
+    );
+    const errors = validateFeaturedBusinessCap(businesses);
+    expect(errors).toHaveLength(1);
+    expect(errors[0].message).toContain("7 businesses");
+    expect(errors[0].message).toContain("business-6");
+  });
+
+  it("ignores non-featured businesses when counting", () => {
+    const businesses = [
+      ...Array.from({ length: 6 }, (_, i) =>
+        makeBusiness({ id: `${i}`, slug: `featured-${i}`, featured: true }),
+      ),
+      makeBusiness({ id: "not-featured", slug: "not-featured", featured: false }),
+    ];
+    expect(validateFeaturedBusinessCap(businesses)).toEqual([]);
   });
 });

@@ -32,7 +32,9 @@ export function BusinessCard({ business, categoryName }: BusinessCardProps) {
             {categoryName ? (
               <span className="text-muted-foreground text-xs font-medium">{categoryName}</span>
             ) : null}
-            <CardTitle className="text-base">{business.name}</CardTitle>
+            <CardTitle className="line-clamp-1 text-base" title={business.name}>
+              {business.name}
+            </CardTitle>
           </div>
           <div className="flex shrink-0 gap-1">
             {business.featured ? <Badge>Featured</Badge> : null}
@@ -44,7 +46,12 @@ export function BusinessCard({ business, categoryName }: BusinessCardProps) {
       </CardHeader>
 
       <CardContent className="flex flex-col gap-3">
-        <CardDescription>{business.shortDescription ?? business.description}</CardDescription>
+        {/* min-h-10 (≈2 lines at text-sm) reserves space for the clamp's
+            max, not just its cap — see PromotionCard.tsx for why (code-review
+            finding, Sprint 16 F-023). */}
+        <CardDescription className="line-clamp-2 min-h-10">
+          {business.shortDescription ?? business.description}
+        </CardDescription>
         {business.address?.suburb ? (
           <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
             <MapPin className="size-3.5" aria-hidden="true" />

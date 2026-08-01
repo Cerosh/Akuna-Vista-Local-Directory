@@ -98,6 +98,9 @@ Per Feature, the sprint is successful when:
 | F-018 | Replace homepage "Popular categories" curated-featured grid with an accessible horizontal scroll-snap carousel showing all categories; remove `Category.featured` entirely (kept only on `Promotion`) | Medium | Completed |
 | F-019 | Code-review follow-up on F-018's `CategoryCarousel`: fix keyboard focus loss on the disabled arrow buttons, a fragile `offsetLeft`/`scrollLeft` coordinate assumption in the scroll-to-card logic, a `ResizeObserver` blind spot, and an initial-render disabled-state flash | Medium | Completed |
 | F-020 | `PromotionCard`'s title has no line-clamp, so titles of varying length wrap to a different number of lines per card — combined with the CSS grid's per-row height stretch, this makes promotion cards (and the "View business" button position) inconsistent in size across the "Akuna Vista residents-only promotions" section | Medium | Completed |
+| F-021 | Extend F-020's line-clamp standard (title `line-clamp-1`, description `line-clamp-2`) to every other grid-rendered card with the same title+description shape — `BusinessCard` (reported: "View details" button misaligned across cards), `EventCard`, `FeaturedContentCard` — for consistent card sizing everywhere the pattern applies | Medium | Completed |
+| F-022 | Cap the homepage "Featured businesses" section to 6 (was showing all 9 businesses marked `featured`, unlimited); un-feature the 3 businesses beyond the cap in the data; add a hard `npm run validate:data` rule so a 7th featured business fails validation instead of silently exceeding the display cap | Medium | Completed |
+| F-023 | `/code-review` on F-021/F-022: `validateFeaturedBusinessCap` wasn't reachable from `scripts/admin.ts`'s own write path (only from `npm run validate:data`), the 6-business cap was duplicated as two independent constants, and `line-clamp-2` alone doesn't fully equalize card heights | Medium | Completed |
 
 Status Values
 
@@ -921,6 +924,185 @@ F-020 implemented and verified (2026-08-01).
 
 ---
 
+## Story 10 (F-021)
+
+As the project owner
+
+I want F-020's card-sizing fix applied everywhere the same shape occurs, not just `PromotionCard`
+
+So that every grid of cards across the site looks consistent, not just the one section that
+happened to get reported first — raised directly 2026-08-01 ("can we do something to make view
+details button all aligned?" for `BusinessCard`, then "rather than fixing card in this scenario can
+you please ensure this card fix across everywhere follows the same standard").
+
+### Survey (every component in `components/cards/`)
+
+| Component | In a grid? | Needed the fix? |
+|---|---|---|
+| `BusinessCard.tsx` | Yes — `FeaturedBusinesses`, `BusinessDirectory`, `SearchExperience` | Yes — original report (footer button misaligned) |
+| `EventCard.tsx` | Yes — `CommunityEvents` | Yes — same variable-height symptom, no footer button but still inconsistent card sizes |
+| `FeaturedContentCard.tsx` | Yes — `FeaturedContent` (Sprint 6 cross-content spotlight) | Yes — same as `EventCard` |
+| `PromotionCard.tsx` | Yes — `Promotions` | Already fixed in F-020 — the reference standard |
+| `AnnouncementCard.tsx` | **No** — `Announcements.tsx` renders a stacked single-column list, not a grid | No — no sibling row to misalign against |
+| `CategoryCard.tsx` | Yes (carousel) but no `CardTitle`/`CardDescription` pair, just a short centered name | No — different shape, already handled by F-018/F-019 |
+| `StatisticCard.tsx` | Yes but no title/description text at all | No — not applicable |
+
+Considered baking the clamp into the shared `CardTitle`/`CardDescription` primitives
+(`components/ui/card.tsx`) instead of repeating it per card component — rejected, since those
+primitives are also used in non-grid, single-item contexts (business/event detail pages) where
+truncating would be wrong. The clamp stays at each grid-card call site, matching F-020's precedent.
+
+`BusinessCard` also has a conditionally-rendered address row (`business.address?.suburb`, present
+on only 6 of 34 businesses) that the line-clamp can't fix, since there's nothing to truncate — the
+row is either present or fully absent. Explicitly decided to leave this as-is: it's a much smaller,
+rarer contributor (6/34 records) than the title/description variance that was the main problem, and
+reserving empty space for a "location" line on a card with no location would look like a rendering
+glitch.
+
+### Fix
+
+`CardTitle` → `line-clamp-1` + a native `title=` tooltip for the full text, `CardDescription` →
+`line-clamp-2`, applied identically to `BusinessCard.tsx`, `EventCard.tsx`, and
+`FeaturedContentCard.tsx`.
+
+Acceptance Criteria
+
+- [x] `BusinessCard`, `EventCard`, `FeaturedContentCard` all render a fixed-height header/
+      description block regardless of content length, matching `PromotionCard`'s existing pattern.
+- [x] `AnnouncementCard`, `CategoryCard`, `StatisticCard` deliberately left unchanged, with the
+      reasoning captured above.
+- [x] `npm run typecheck` — passes.
+- [x] `npx eslint` on all three changed card components — clean.
+- [x] `npx playwright test tests/e2e/homepage.spec.ts tests/e2e/directory.spec.ts
+      tests/e2e/search.spec.ts` (chromium) — 24/25 pass; the 1 failure is the pre-existing NSW
+      Transport API 429 rate-limit flake in the Transit widget test, unrelated to card changes.
+
+F-021 implemented and verified (2026-08-01).
+
+---
+
+## Story 11 (F-022)
+
+As the project owner
+
+I want the "Featured businesses" section capped at 6, and to be pushed back on adding a 7th until
+one is removed
+
+So that the section doesn't grow unbounded as more businesses get marked featured over time —
+raised directly 2026-08-01 ("can you please ensure the featured business is only 6 numbers max in
+the Featured businesses section... in future ensure there is only 6 in feature if i come add a new
+one always push back saying only 6 is allowed until you remove one we cant add another").
+
+### Root cause
+
+`businessRepository.getFeatured()` returned every business with `featured: true` — 9 of 34 at the
+time of the report — straight into `FeaturedBusinesses.tsx`'s grid, with no cap anywhere in the
+chain.
+
+### Fix
+
+- `data/businesses.json`: un-featured the 3 businesses beyond the first 6 in file order (project
+  owner's explicit decision — "pick the first 6 in file order and remove everything"): Praful
+  Saparia (NSW JP), Anjul (JP), Ethiquity Mortgage Services.
+- `features/homepage/FeaturedBusinesses.tsx`: added `FEATURED_BUSINESSES_LIMIT = 6` and slices to
+  it — a defensive display-layer cap, kept separate from `businessRepository.getFeatured()` itself
+  since that method is also used by `CommunitySpotlight.tsx` (which only ever takes `[0]`, so
+  changing the repository's own contract would have a wider blast radius than this Feature needs).
+- `scripts/lib/validation.ts`: new `validateFeaturedBusinessCap()`, wired into `validateAllData()`
+  alongside `validateReferentialIntegrity()` — a genuine hard-fail rule (not just a conversational
+  reminder) so `npm run validate:data` — and therefore Husky pre-commit and CI per F-006's
+  guardrails — rejects a 7th `featured: true` business regardless of who or what edits the data
+  (by hand, `scripts/admin.ts`, or a future session that's never seen this conversation). Deliberately
+  not part of `businessSchema` since a single record can't know how many *other* records are also
+  featured — this is a cross-record, whole-file check, the same category as
+  `validateReferentialIntegrity`.
+- Claude Code project memory: added a note (and `MEMORY.md` index entry) as the conversational-level
+  companion to the hard validation rule.
+
+Acceptance Criteria
+
+- [x] "Featured businesses" shows at most 6 businesses.
+- [x] `data/businesses.json` has exactly 6 `featured: true` businesses.
+- [x] `npm run validate:data` fails with a clear message (which businesses are over the cap) if a
+      7th business is ever marked `featured`.
+- [x] `npm run typecheck`, `npx eslint` — pass/clean.
+- [x] `npx vitest run scripts/lib/validation.test.ts lib/repositories/businessRepository.test.ts` —
+      new `validateFeaturedBusinessCap` tests (passes at exactly 6, flags 7+, ignores non-featured
+      records) all pass, plus the full suite still shows only the 3 pre-existing, unrelated
+      `promotionRepository`/`announcementRepository` date-mocking failures.
+- [x] Claude Code memory captures the "push back on a 7th" instruction for future sessions.
+
+F-022 implemented and verified (2026-08-01).
+
+---
+
+## Story 12 (F-023)
+
+As the project owner
+
+I want F-021/F-022 reviewed for correctness before they're considered final, and the findings fixed
+
+So that real bugs surfaced by a code review are fixed with the same rigor as the original work —
+raised via `/code-review` requested directly in-session 2026-08-01, then "please go ahead and make
+all the recommended fixes."
+
+### Findings and fixes
+
+1. **`validateFeaturedBusinessCap` wasn't reachable from `scripts/admin.ts`'s own write path.**
+   It was wired only into `validateAllData()` (`npm run validate:data` / Husky pre-commit / CI), not
+   into `validateArrayRecords()`, which is what `addRecord`/`updateRecord`/`toggleField` actually
+   call — so `npm run admin:data -- toggle --file businesses --field featured`, the exact tool built
+   for this, could silently write a 7th featured business and report success, only caught later at
+   the next `npm run validate:data` or `git commit`. Fixed with a new `validateWrite()` helper in
+   `scripts/admin.ts` that runs `validateArrayRecords` plus a per-file `CROSS_RECORD_CHECKS` map
+   (currently just `businesses: validateFeaturedBusinessCap`), reused by all three write functions —
+   a check added to that map now applies everywhere automatically, rather than needing to be wired
+   into 3 call sites individually or only into `validateAllData()`. Regression test added
+   (`scripts/admin.test.ts`, "rejects toggling a 7th business featured, writing nothing").
+2. **The 6-business cap was duplicated as two independent constants** —
+   `MAX_FEATURED_BUSINESSES` in `scripts/lib/validation.ts` and `FEATURED_BUSINESSES_LIMIT` in
+   `features/homepage/FeaturedBusinesses.tsx` — with nothing keeping them in sync if the cap ever
+   changes. Direct violation of `.ai/CLAUDE.md`'s "Don't Repeat Yourself" rule. Fixed by extracting
+   a single `MAX_FEATURED_BUSINESSES` constant into new `lib/constants/business.ts`, imported by
+   both — `scripts/**` never imports from `@/` and app code never imports from `scripts/**`, so
+   `lib/` (not `scripts/lib/`) is the one location both sides can reach.
+3. **`line-clamp-2` alone doesn't fully equalize card heights.** It caps the *maximum* at 2 lines
+   but doesn't force a *minimum* — a 1-line-rendering description still leaves its card one line
+   shorter than a sibling whose description wraps to the full 2 lines, a smaller version of the
+   original F-020/F-021 bug. Fixed by adding `min-h-10` (≈2 lines at `text-sm`) alongside
+   `line-clamp-2` on `CardDescription` in `PromotionCard.tsx`, `BusinessCard.tsx`, `EventCard.tsx`,
+   and `FeaturedContentCard.tsx` — reserving the clamp's max as fixed space, not just capping it.
+4. **`title=` tooltip is not a reliable affordance for touch/mobile-only users** (no hover) once a
+   title truncates. Considered and deliberately left as-is: the full text is already in the DOM/
+   accessibility tree regardless of the visual `line-clamp` (screen readers read the complete text,
+   unaffected), so the real gap is narrower than initially flagged — sighted, touch-only users lose
+   the tail of a truncated title with no way to reveal it. This is the same trade-off already
+   reviewed and accepted for `PromotionCard` in F-020, now just extended to 3 more components by
+   F-021; fixing it properly (e.g. tap-to-reveal) is a real UX feature addition, not a mechanical
+   fix, so it's flagged here rather than designed and shipped without its own spec.
+
+Acceptance Criteria
+
+- [x] `scripts/admin.ts`'s `toggleField`/`updateRecord`/`addRecord` all reject a write that would
+      exceed `MAX_FEATURED_BUSINESSES`, not just `npm run validate:data`.
+- [x] `MAX_FEATURED_BUSINESSES` has exactly one definition (`lib/constants/business.ts`), imported
+      by both `scripts/lib/validation.ts` and `features/homepage/FeaturedBusinesses.tsx`.
+- [x] Every `CardDescription` using `line-clamp-2` (`PromotionCard`, `BusinessCard`, `EventCard`,
+      `FeaturedContentCard`) also reserves `min-h-10` so short descriptions don't leave their card
+      shorter than a sibling's.
+- [x] Finding 4 (title tooltip touch accessibility) explicitly triaged and left unfixed, with
+      reasoning, rather than silently dropped or redesigned without a spec.
+- [x] `npm run typecheck`, `npx eslint .` (whole repo) — pass/clean.
+- [x] `npx vitest run` — 219 tests, 216 pass; same 3 pre-existing, unrelated
+      `promotionRepository`/`announcementRepository` date-mocking failures as every prior Feature
+      this sprint.
+- [x] `npx playwright test tests/e2e/homepage.spec.ts tests/e2e/directory.spec.ts
+      tests/e2e/search.spec.ts` (chromium) — 25/25 pass.
+
+F-023 implemented and verified (2026-08-01).
+
+---
+
 # Consolidated Backlog Items (F-007–F-017)
 
 Added 2026-07-17 at the project owner's explicit request: **every genuinely-still-open item found
@@ -1076,6 +1258,41 @@ promotion cards. Fixed with `line-clamp-1` plus a `title=` tooltip for the full 
 `.ai/JSON_SCHEMA.md`'s Promotion Schema section and Claude Code's project memory were both updated
 with a ~40-character guideline for future `title` data entry, per the project owner's explicit
 request to prevent this recurring. `npm run typecheck` and `eslint` pass.
+
+F-021 is also implemented and verified (2026-08-01) — extended F-020's `line-clamp-1`/
+`line-clamp-2` standard to every other grid-rendered card with the same title+description shape:
+`BusinessCard` (the original report — its "View details" button landed in a different spot per
+card), `EventCard`, and `FeaturedContentCard`. A full survey of `components/cards/` confirmed
+`AnnouncementCard` (stacked list, not a grid), `CategoryCard`, and `StatisticCard` (neither has this
+field shape) correctly don't need it — see its Acceptance Criteria above for the reasoning.
+`BusinessCard`'s conditionally-rendered address row (6/34 businesses) was deliberately left as a
+minor, accepted residual difference rather than reserving space for it. `npm run typecheck`,
+`eslint`, and `npx playwright test` against homepage/directory/search (24/25, 1 pre-existing
+unrelated Transit-widget API flake) all pass.
+
+F-022 is also implemented and verified (2026-08-01) — the homepage's "Featured businesses" section
+had no cap and was showing all 9 businesses marked `featured`. Capped display to 6 in
+`FeaturedBusinesses.tsx`, un-featured the 3 businesses beyond the first 6 in file order in the data
+itself (project owner's explicit choice), and — per the project owner's explicit request to be
+pushed back on rather than relying on conversational memory alone — added a real, hard-fail
+`validateFeaturedBusinessCap()` rule to `scripts/lib/validation.ts`'s `validateAllData()`, so
+`npm run validate:data` (and Husky pre-commit/CI per F-006) rejects a 7th featured business outright.
+New unit tests cover the exactly-6/over-6/ignores-non-featured cases. Claude Code project memory
+also captures the constraint. `npm run typecheck`, `eslint`, and the full `npx vitest run` (218
+tests, same 3 pre-existing unrelated failures) all pass.
+
+F-023 is also implemented and verified (2026-08-01) — a `/code-review` follow-up on F-021/F-022
+that fixed 3 real issues and explicitly triaged a 4th: `validateFeaturedBusinessCap` wasn't
+reachable from `scripts/admin.ts`'s own write path (fixed with a shared `validateWrite()` helper +
+`CROSS_RECORD_CHECKS` map, plus a regression test), the 6-business cap was duplicated as two
+independent constants in two files (fixed with a single `lib/constants/business.ts`, violating
+`.ai/CLAUDE.md`'s DRY rule otherwise), and `line-clamp-2` alone doesn't force a minimum height so
+short descriptions still left cards slightly uneven (fixed with `min-h-10` alongside `line-clamp-2`
+on all 4 card components). The `title=` tooltip's touch-accessibility gap was considered and
+deliberately left as-is — full text is already in the DOM for assistive tech regardless of the
+visual clamp, and a real fix (tap-to-reveal) is a UX feature addition warranting its own spec, not
+a mechanical fix. `npm run typecheck`, `eslint`, `npx vitest run` (219 tests, same 3 pre-existing
+unrelated failures), and `npx playwright test` against homepage/directory/search (25/25) all pass.
 
 Everything else — **F-001, F-002, F-005, and F-007 through F-017 — remains captured but not
 implemented.** F-007–F-017 were consolidated here 2026-07-17 from `.ai/TODO.md`'s Backlog section

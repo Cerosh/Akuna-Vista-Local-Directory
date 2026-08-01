@@ -7,7 +7,9 @@ import {
   ARRAY_FILES,
   formatValidationError,
   validateArrayRecords,
+  validateFeaturedBusinessCap,
   type ArrayFileKey,
+  type ValidationError,
 } from "./lib/validation";
 
 export interface AdminResult {
@@ -17,6 +19,33 @@ export interface AdminResult {
 interface Identifier {
   id?: string;
   slug?: string;
+}
+
+/**
+ * Cross-record checks beyond validateArrayRecords' per-record schema
+ * validation — the single-file-scoped counterpart to validateAllData()'s
+ * validateReferentialIntegrity/validateFeaturedBusinessCap calls. Every
+ * write path below (add/update/toggle) runs through validateWrite() so a
+ * check added here applies to all three automatically, rather than a future
+ * check only being wired into npm run validate:data and silently not
+ * catching what scripts/admin.ts itself writes (code-review finding,
+ * Sprint 16 F-023 — validateFeaturedBusinessCap originally had exactly this
+ * gap: `npm run admin:data -- toggle --file businesses --field featured`
+ * could write a 7th featured business with no error, only caught later at
+ * the next `npm run validate:data` or `git commit`).
+ */
+const CROSS_RECORD_CHECKS: Partial<
+  Record<ArrayFileKey, (records: Record<string, unknown>[]) => ValidationError[]>
+> = {
+  businesses: validateFeaturedBusinessCap,
+};
+
+function validateWrite(fileKey: ArrayFileKey, updated: Record<string, unknown>[]): string[] {
+  const errors = [
+    ...validateArrayRecords(fileKey, updated),
+    ...(CROSS_RECORD_CHECKS[fileKey]?.(updated) ?? []),
+  ];
+  return errors.map(formatValidationError);
 }
 
 function loadRecords(dataDir: string, fileKey: ArrayFileKey): Record<string, unknown>[] {
@@ -49,7 +78,7 @@ export function addRecord(
 ): AdminResult {
   const records = loadRecords(dataDir, fileKey);
   const updated = [...records, data];
-  const errors = validateArrayRecords(fileKey, updated).map(formatValidationError);
+  const errors = validateWrite(fileKey, updated);
   if (errors.length > 0) return { errors };
 
   saveRecords(dataDir, fileKey, updated);
@@ -71,7 +100,7 @@ export function updateRecord(
 
   const updated = [...records];
   updated[index] = { ...updated[index], ...patch };
-  const errors = validateArrayRecords(fileKey, updated).map(formatValidationError);
+  const errors = validateWrite(fileKey, updated);
   if (errors.length > 0) return { errors };
 
   saveRecords(dataDir, fileKey, updated);
@@ -98,7 +127,7 @@ export function toggleField(
 
   const updated = [...records];
   updated[index] = { ...updated[index], [field]: !current };
-  const errors = validateArrayRecords(fileKey, updated).map(formatValidationError);
+  const errors = validateWrite(fileKey, updated);
   if (errors.length > 0) return { errors };
 
   saveRecords(dataDir, fileKey, updated);

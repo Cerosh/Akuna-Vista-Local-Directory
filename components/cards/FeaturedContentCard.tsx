@@ -35,7 +35,9 @@ export function FeaturedContentCard({ item }: FeaturedContentCardProps) {
     <Card className="h-full">
       <CardHeader>
         <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-base">{item.title}</CardTitle>
+          <CardTitle className="line-clamp-1 text-base" title={item.title}>
+            {item.title}
+          </CardTitle>
           <Badge>
             <Icon aria-hidden="true" />
             {TYPE_LABEL[item.type]}
@@ -43,7 +45,10 @@ export function FeaturedContentCard({ item }: FeaturedContentCardProps) {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <CardDescription>{item.description}</CardDescription>
+        {/* min-h-10 (≈2 lines at text-sm) reserves space for the clamp's
+            max, not just its cap — see PromotionCard.tsx for why (code-review
+            finding, Sprint 16 F-023). */}
+        <CardDescription className="line-clamp-2 min-h-10">{item.description}</CardDescription>
         <span className="text-muted-foreground text-xs">{item.meta}</span>
       </CardContent>
     </Card>

@@ -41,7 +41,13 @@ export function PromotionCard({ promotion, businessName, businessSlug }: Promoti
       </CardHeader>
 
       <CardContent className="flex flex-col gap-3">
-        <CardDescription className="line-clamp-2">{promotion.description}</CardDescription>
+        {/* min-h-10 (≈2 lines at text-sm) reserves space for the clamp's
+            max, not just its cap — otherwise a short description renders
+            one line shorter than a sibling card whose description actually
+            wraps to 2 lines, reintroducing a smaller version of the same
+            per-row grid-stretch inconsistency this line-clamp exists to fix
+            (code-review finding, Sprint 16 F-023). */}
+        <CardDescription className="line-clamp-2 min-h-10">{promotion.description}</CardDescription>
         <div className="text-muted-foreground flex items-center gap-1.5 text-xs">
           <Tag className="size-3.5" aria-hidden="true" />
           <span>Valid {formatDateRange(promotion.startDate, promotion.endDate)}</span>

@@ -1,6 +1,7 @@
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { randomUUID } from "node:crypto";
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import { addRecord, toggleField, updateRecord } from "./admin";
 
@@ -141,6 +142,27 @@ describe("admin data scripts", () => {
 
       expect(result.errors.length).toBeGreaterThan(0);
       expect(readCategories()[0].name).toBe("Plumbing");
+    });
+
+    // Code-review finding, Sprint 16 F-023: validateFeaturedBusinessCap was
+    // originally wired only into validateAllData (npm run validate:data),
+    // not into scripts/admin.ts's own validateArrayRecords-based write path
+    // — so this exact command could silently write a 7th featured business
+    // with no error, only caught later at the next `npm run validate:data`
+    // or `git commit`. Regression test for the fix (validateWrite() in
+    // admin.ts now also runs the per-file cross-record check).
+    it("rejects toggling a 7th business featured, writing nothing", () => {
+      const sixFeatured = Array.from({ length: 6 }, (_, i) =>
+        makeBusiness({ id: randomUUID(), slug: `featured-${i}`, featured: true }),
+      );
+      const seventh = makeBusiness({ id: randomUUID(), slug: "seventh", featured: false });
+      writeFileSync(join(dataDir, "businesses.json"), JSON.stringify([...sixFeatured, seventh]));
+
+      const result = toggleField(dataDir, "businesses", { slug: "seventh" }, "featured");
+
+      expect(result.errors.length).toBeGreaterThan(0);
+      expect(result.errors[0]).toContain("7 businesses");
+      expect(readBusinesses().find((b) => b.slug === "seventh")?.featured).toBe(false);
     });
   });
 });

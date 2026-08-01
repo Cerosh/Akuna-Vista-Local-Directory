@@ -31,13 +31,18 @@ export function EventCard({ event }: EventCardProps) {
       ) : null}
       <CardHeader>
         <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-base">{event.title}</CardTitle>
+          <CardTitle className="line-clamp-1 text-base" title={event.title}>
+            {event.title}
+          </CardTitle>
           {event.featured ? <Badge>Featured</Badge> : null}
         </div>
       </CardHeader>
 
       <CardContent className="flex flex-col gap-3">
-        <CardDescription>{event.description}</CardDescription>
+        {/* min-h-10 (≈2 lines at text-sm) reserves space for the clamp's
+            max, not just its cap — see PromotionCard.tsx for why (code-review
+            finding, Sprint 16 F-023). */}
+        <CardDescription className="line-clamp-2 min-h-10">{event.description}</CardDescription>
         <div className="text-muted-foreground flex flex-col gap-1.5 text-xs">
           <div className="flex items-center gap-1.5">
             <Calendar className="size-3.5" aria-hidden="true" />

@@ -3,12 +3,17 @@ import { Section } from "@/components/common/Section";
 import { BusinessCard } from "@/components/cards/BusinessCard";
 import { businessRepository } from "@/lib/repositories/businessRepository";
 import { categoryRepository } from "@/lib/repositories/categoryRepository";
+import { MAX_FEATURED_BUSINESSES } from "@/lib/constants/business";
 
 export async function FeaturedBusinesses() {
-  const [businesses, categories] = await Promise.all([
+  const [allFeatured, categories] = await Promise.all([
     businessRepository.getFeatured(),
     categoryRepository.getAll(),
   ]);
+  // A defensive display-layer cap, not the source of truth — data/businesses.json
+  // itself is validated (scripts/lib/validation.ts's validateFeaturedBusinessCap,
+  // reading the same MAX_FEATURED_BUSINESSES) to never exceed this count.
+  const businesses = allFeatured.slice(0, MAX_FEATURED_BUSINESSES);
 
   // Same reasoning as PopularCategories — omit rather than show an empty state.
   if (businesses.length === 0) {
