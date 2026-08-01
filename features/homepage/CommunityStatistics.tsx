@@ -2,17 +2,23 @@ import { Building2, Tag, Users } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
 import { StatisticCard } from "@/components/cards/StatisticCard";
+import { businessRepository } from "@/lib/repositories/businessRepository";
+import { categoryRepository } from "@/lib/repositories/categoryRepository";
 import { metadataRepository } from "@/lib/repositories/metadataRepository";
 
 export async function CommunityStatistics() {
-  const metadata = await metadataRepository.get();
+  const [metadata, businesses, categories] = await Promise.all([
+    metadataRepository.get(),
+    businessRepository.getAll(),
+    categoryRepository.getAll(),
+  ]);
 
   const stats = [
     metadata.communityMembers
       ? { icon: Users, value: `${metadata.communityMembers}+`, label: "Community members" }
       : null,
-    { icon: Building2, value: `${metadata.totalBusinesses}`, label: "Businesses listed" },
-    { icon: Tag, value: `${metadata.totalCategories}`, label: "Categories covered" },
+    { icon: Building2, value: `${businesses.length}`, label: "Businesses listed" },
+    { icon: Tag, value: `${categories.length}`, label: "Categories covered" },
   ].filter((stat): stat is NonNullable<typeof stat> => stat !== null);
 
   if (stats.length === 0) {

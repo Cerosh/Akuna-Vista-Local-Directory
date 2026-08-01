@@ -101,6 +101,8 @@ Per Feature, the sprint is successful when:
 | F-021 | Extend F-020's line-clamp standard (title `line-clamp-1`, description `line-clamp-2`) to every other grid-rendered card with the same title+description shape — `BusinessCard` (reported: "View details" button misaligned across cards), `EventCard`, `FeaturedContentCard` — for consistent card sizing everywhere the pattern applies | Medium | Completed |
 | F-022 | Cap the homepage "Featured businesses" section to 6 (was showing all 9 businesses marked `featured`, unlimited); un-feature the 3 businesses beyond the cap in the data; add a hard `npm run validate:data` rule so a 7th featured business fails validation instead of silently exceeding the display cap | Medium | Completed |
 | F-023 | `/code-review` on F-021/F-022: `validateFeaturedBusinessCap` wasn't reachable from `scripts/admin.ts`'s own write path (only from `npm run validate:data`), the 6-business cap was duplicated as two independent constants, and `line-clamp-2` alone doesn't fully equalize card heights | Medium | Completed |
+| F-024 | Fix `tests/e2e/search.spec.ts`'s "a suburb chip with zero real businesses does not render" test — it asserted Tallawong specifically, which stopped being true once sprint-15's F-033 added a real Tallawong business | Low | Completed |
+| F-025 | `CommunityStatistics.tsx`'s "Businesses listed" and "Categories covered" homepage stats read static, now-stale fields from `data/metadata.json` (19 / 12) instead of the real current counts — make those two compute live from the business/category repositories; leave "Community members" as the manually-set `metadata.communityMembers` value, per the project owner's explicit direction | Medium | Completed |
 
 Status Values
 
@@ -1100,6 +1102,100 @@ Acceptance Criteria
       tests/e2e/search.spec.ts` (chromium) — 25/25 pass.
 
 F-023 implemented and verified (2026-08-01).
+
+---
+
+## Story 13 (F-024)
+
+As the project owner
+
+I want `tests/e2e/search.spec.ts`'s suburb-chip test to assert against a suburb that's actually
+still empty
+
+So that the test suite reflects real data instead of an assumption that went stale the moment a
+real business started serving that suburb — surfaced when running the full suite after sprint-15's
+F-033 (Tallawong: KS Webwear).
+
+### Root cause (investigated 2026-08-01)
+
+"a suburb chip with zero real businesses does not render" (`tests/e2e/search.spec.ts:98`) hardcodes
+Tallawong as its zero-business example, with a comment explaining why: chips are computed from real
+content, and Tallawong had no matching business at the time the test was written (Sprint 09b
+F-001). Sprint 15's F-033 gave KS Webwear `serviceAreas: ["Tallawong"]`, so the suburb chip now
+legitimately renders — the test failure (`[chromium]` and `[webkit]`, both deterministic, not the
+usual single-browser timing flake) is correctly catching that its fixture assumption is outdated,
+not a real regression in the chip-filtering logic itself.
+
+Checked `data/suburbs.json` against every business's `address.suburb` and `serviceAreas` — Box Hill
+and Kellyville are the only two suburbs left with zero matching businesses.
+
+### Fix
+
+- `tests/e2e/search.spec.ts`: swap the test's suburb from `"Tallawong"` to `"Box Hill"`, and update
+  the explanatory comment to match (why the zero-business example changed, not just what it is).
+
+Acceptance Criteria
+
+- [x] The suburb-chip test asserts against Box Hill, not Tallawong.
+- [x] The test's comment explains why Box Hill replaced Tallawong as the zero-business example.
+- [x] `npx playwright test tests/e2e/search.spec.ts` — passes on all projects.
+
+F-024 implemented and verified (2026-08-01).
+
+---
+
+## Story 14 (F-025)
+
+As the project owner
+
+I want the homepage's "Businesses listed" and "Categories covered" stats to reflect the real
+current counts
+
+So that they don't silently go stale every time a business or category is added or removed —
+raised directly 2026-08-01 ("Businesses listed and Categories covered numbers are also hardcoded
+along with the Community members which i am okay to be hardcoded but i would want the other two to
+change based on the number of real business and category").
+
+### Root cause (investigated 2026-08-01)
+
+`features/homepage/CommunityStatistics.tsx` reads all three stats from `metadataRepository.get()`,
+which is just `data/metadata.json` returned verbatim (`JSONMetadataRepository` in
+`lib/repositories/metadataRepository.ts` — no computation, a static read). `totalBusinesses: 19` and
+`totalCategories: 12` were accurate on 2026-07-15 (`metadata.json`'s `lastUpdated`) but the
+directory now has far more of both after sprint-15's data-entry Features — nothing recomputes these
+fields when `businesses.json`/`categories.json` change, and `npm run validate:data`
+(`scripts/lib/validation.ts`) only checks they're non-negative integers, not that they match reality.
+`communityMembers` (800) has no equivalent real-data source — it's a manual resident-count figure,
+correctly left as project-owner-maintained per this Feature's explicit direction.
+
+### Fix
+
+- `features/homepage/CommunityStatistics.tsx`: replace `metadata.totalBusinesses` and
+  `metadata.totalCategories` with live counts — `(await businessRepository.getAll()).length` and
+  `(await categoryRepository.getAll()).length` — imported from `lib/repositories/businessRepository`
+  and `lib/repositories/categoryRepository` (both already used elsewhere in the codebase, no new
+  repository methods needed). `metadata.communityMembers` is unchanged.
+- `data/metadata.json`'s `totalBusinesses`/`totalCategories` fields and their `Metadata` type entries
+  are left in place (not removed) — they're now unused by this component, but removing the schema
+  fields is a separate, broader decision than what this Feature asked for; flagging here so it's not
+  quietly forgotten.
+
+Acceptance Criteria
+
+- [x] "Businesses listed" on the homepage equals `data/businesses.json`'s array length exactly
+      (verified live: 51).
+- [x] "Categories covered" on the homepage equals `data/categories.json`'s array length exactly
+      (verified live: 25).
+- [x] "Community members" is unchanged — still reads `metadata.communityMembers` (verified: 800+).
+- [x] Adding or removing a business/category and re-rendering the homepage changes the displayed
+      count accordingly — implied by reading `.length` from the repositories' live `getAll()` results
+      each request rather than a cached/static field; no caching layer sits in front of it.
+- [x] `npm run typecheck`, `npx eslint features/homepage/CommunityStatistics.tsx` — pass/clean.
+- [x] Existing Playwright suite still passes (284 passed, 16 skipped, 0 failed — no regressions).
+      `npx vitest run` — 216 passed, 3 failed, the same pre-existing unrelated
+      `promotionRepository`/`announcementRepository` date-mocking failures documented in F-023.
+
+F-025 implemented and verified (2026-08-01).
 
 ---
 

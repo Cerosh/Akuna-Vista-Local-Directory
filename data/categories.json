@@ -166,5 +166,37 @@
     "icon": "HardHat",
     "description": "Custom home builders, duplex construction, knockdown rebuilds, and commercial construction.",
     "displayOrder": 22
+  },
+  {
+    "id": "food-catering",
+    "slug": "food-catering",
+    "name": "Food & Catering",
+    "icon": "UtensilsCrossed",
+    "description": "Home cooks, caterers, and local eateries serving the Akuna Vista community.",
+    "displayOrder": 23
+  },
+  {
+    "id": "landscaping",
+    "slug": "landscaping",
+    "name": "Landscaping & Gardening",
+    "icon": "Trees",
+    "description": "Landscapers and gardeners for the Akuna Vista community.",
+    "displayOrder": 24
+  },
+  {
+    "id": "tailoring-alterations",
+    "slug": "tailoring-alterations",
+    "name": "Tailoring & Alterations",
+    "icon": "Shirt",
+    "description": "Tailoring, alterations, and custom apparel for the Akuna Vista community.",
+    "displayOrder": 25
+  },
+  {
+    "id": "florists-flower-delivery",
+    "slug": "florists-flower-delivery",
+    "name": "Florists & Flower Delivery",
+    "icon": "Flower2",
+    "description": "Florists and flower delivery for weddings, poojas, and celebrations in the Akuna Vista community.",
+    "displayOrder": 26
   }
 ]

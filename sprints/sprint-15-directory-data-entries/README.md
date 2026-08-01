@@ -96,6 +96,14 @@ Per Feature, the sprint is successful when:
 | F-024 | Remove "Just Cut Grass" and "Arshdeep Landscaping" (no longer in business) and remove the now-empty "Landscaping & Gardening" category | Medium | Completed |
 | F-025 | Add new business "iConsult Mortgage Solutions" (mortgage broker, Bhavna Dada, Nirimba Fields) to the existing Finance & Mortgage Broking category | Medium | Completed |
 | F-026 | Remove the ACL/Credit Representative parenthetical from iConsult Mortgage Solutions' description, per Bhavna's request | Low | Completed |
+| F-027 | Add new business "Sydpro Electrical" (solar/battery/EV charger installer, Jomon Joseph) to the existing Electrical category | Medium | Completed |
+| F-028 | Add new business "Best and Less Arvil" (blinds/curtains supply & install) to the existing Furniture & Homewares category | Low | Completed |
+| F-029 | Add new "Food & Catering" category and 6 businesses advertised in the Akuna Vista WhatsApp group (Shobhit's Fresh Malai Paneer, Arpita's Homemade Snacks, Krishna Barot's Methi Thepla, Priyanka's Idly & Dosa Batter, Pooja Mehta's Mumbai Vada Pav, Surti House) | Medium | Completed |
+| F-030 | Add new business "Tutehub Schofields" to the existing Tutoring & Education category | Low | Completed |
+| F-031 | Add new business "HA Sydney Airport & Cruise Terminal Transfers" to the existing Taxi & Transport category | Low | Completed |
+| F-032 | Re-add the "Landscaping & Gardening" category (removed in F-024) with 5 businesses recommended in the WhatsApp thread that prompted F-024's removal | Medium | Completed |
+| F-033 | Add new "Tailoring & Alterations" category and new business "KS Webwear" (Sindhu Telugubadi, blouse pieces, resizing, saree fall stitching, custom printed t-shirts, Tallawong) | Medium | Completed |
+| F-034 | Add new "Florists & Flower Delivery" category and new business "Uma Garlands" (fresh flower garlands & floral jewellery, Nirimba Fields) | Medium | Completed |
 
 Status Values
 
@@ -2131,3 +2139,719 @@ F-026 implemented and verified (2026-07-31):
 - `npx playwright test` — 281 passed, 16 skipped, 0 failed.
 
 Still open for future data-entry Features in this ongoing sprint (F-012...) as more listings arrive.
+
+---
+
+## Story 26 (F-027)
+
+As a visitor needing an electrician for solar, battery, or EV charger work
+
+I want to find Sydpro Electrical in the directory
+
+So that I have a specialist option alongside the existing Smart Brain Electrical Service listing.
+
+### Source data (found via `scan-whatsapp-leads` skill scan of MAQ - Malayalee Association of
+Quakers Hill, 2026-07-28, then cross-checked and confirmed with the project owner)
+
+- Sponsor announcement posted by Sibin Jacob: "Bronze Sponsor Spotlight — a heartfelt thank you to
+  Sydpro Electricals for joining us as a Bronze Sponsor for Bendigo Bank MAQ Ponnonam 2026! Why
+  Sydpro Solar Solutions? 10+ Years of Industry Experience, 2,000+ Residential & Commercial
+  Installations, Premium Solar & Battery Storage Solutions, SAA Accredited & Level 2 ASP Licensed,
+  Trusted by customers across New South Wales. Contact: Jomon Joseph – 0499 656 366,
+  www.sydproelectrical.com.au"
+- Resident testimonial in the same thread (5 reactions): "Five-star service! I used his services
+  for installing a solar battery as well as a few other electrical jobs. He was professional,
+  friendly, and a pleasure to deal with throughout the entire process. I highly recommend him to
+  anyone looking for reliable and high-quality electrical work."
+
+### Clarification (confirmed via clarifying question this round)
+
+- No street address was supplied — the business describes itself as serving "customers across New
+  South Wales" rather than one suburb. Project owner confirmed to match that framing rather than
+  infer a specific service suburb: `serviceAreas` is left unset (precedent: FitBeatz Dance Fitness
+  is the one existing business with no `serviceAreas`), and the broader-NSW framing is carried in
+  the description text instead.
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "bae676f7-be9a-48c0-a080-0e9eac1e021e",
+  "slug": "sydpro-electrical",
+  "name": "Sydpro Electrical",
+  "description": "Sydpro Electrical, led by Jomon Joseph, specialises in solar and battery storage solutions and EV charger installation, with in-house electricians (no subcontractors), SAA accreditation and Level 2 ASP licensing. 10+ years of industry experience and 2,000+ residential and commercial installations, trusted by customers across New South Wales.",
+  "shortDescription": "Solar, battery storage & EV charger installation across NSW.",
+  "categoryId": "electrical",
+  "phone": "0499 656 366",
+  "website": "https://www.sydproelectrical.com.au",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Electrical", "Solar", "Battery Storage", "EV Chargers", "Licensed Electrician"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01T00:00:00Z"
+}
+```
+
+- Existing `electrical` category reused — no new category needed.
+- No email supplied — left unset, same gap pattern as prior Stories.
+
+### Acceptance Criteria
+
+- [x] Sydpro Electrical added to `data/businesses.json` under `electrical`, with the confirmed
+      phone, website, and description above (no `serviceAreas` field).
+- [x] `npm run validate:data` passes.
+- [x] `/business/sydpro-electrical` renders correctly.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 27 (F-028)
+
+As a visitor needing blinds or curtains supplied and installed
+
+I want to find Best and Less Arvil in the directory
+
+So that I have a local option in Furniture & Homewares alongside The Trendz.
+
+### Source data (found via `scan-whatsapp-leads` skill scan of MAQ - Malayalee Association of
+Quakers Hill, 2026-07-31, then cross-checked and confirmed with the project owner)
+
+- Laiju asked the group: "Any recommendations for a reasonably priced blinds company that supplies
+  and installs blinds?"
+- Manu replied with a WhatsApp contact card named "Best and Less Arvil" (mobile +61 401 337 700,
+  confirmed by opening the contact card) plus: "Used them 4 years ago for sheer curtains and
+  blinds. The service was good. Pricing was better when compared with others."
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **This is a thin spec, captured as-is at the project owner's explicit direction.** Beyond the
+  name, phone number, and one four-year-old testimonial, nothing else is known: no website, no
+  service area, no confirmation of whether "Best and Less Arvil" is the registered business name
+  or a shop/person name as saved by a group member. No email supplied — left unset.
+- `description`/`shortDescription` below are written directly from the testimonial text and carry
+  no claims beyond what Manu said.
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "197865c4-0861-4a62-bf99-9478019b3fcf",
+  "slug": "best-and-less-arvil",
+  "name": "Best and Less Arvil",
+  "description": "Best and Less Arvil supplies and installs blinds and sheer curtains. Recommended by a local resident who used their service, noting good quality and pricing better than other quotes compared.",
+  "shortDescription": "Blinds & sheer curtains — supply and install.",
+  "categoryId": "furniture-homewares",
+  "phone": "+61 401 337 700",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Blinds", "Curtains", "Home Furnishings"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01T00:00:00Z"
+}
+```
+
+- Existing `furniture-homewares` category reused — no new category needed.
+
+### Acceptance Criteria
+
+- [x] Best and Less Arvil added to `data/businesses.json` under `furniture-homewares`, with the
+      confirmed phone number above.
+- [x] `npm run validate:data` passes.
+- [x] `/business/best-and-less-arvil` renders correctly.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 28 (F-029)
+
+As a visitor looking for home-cooked food, catering, or a local eatery
+
+I want a Food & Catering category in the directory
+
+So that I can find the home businesses and restaurants residents have been recommending in the
+group, which currently have nowhere to live in the directory's category list.
+
+### Source data (found via `scan-whatsapp-leads` skill scan of Akuna Vista Owners & Residents,
+2026-07-17 to 2026-08-01, restricted per the project owner's direction to businesses that
+advertised themselves in the group — not third-party recommendations given in reply to a request)
+
+- **Shobhit** (+61 403 332 713) — recurring ad: "Super Delicious Fresh Malai Paneer, Made From
+  Fresh Milk — Super Soft, 100% Vegetarian, No preservatives. Order Now | WhatsApp or SMS." Weekend
+  orders, seen posted 2026-07-18 and 2026-08-01.
+- **Arpita** (+61 434 397 985 / 0434 397 985) — two ads from the same seller: "Homemade Chutney
+  Powders Now Available!" (varieties and prices listed, pickup from Schofields) on 2026-07-26, and
+  "Freshlymade Kesar Ilaichi Badam Pista Shrikhand 500gm for $18" (re-forwarded by Deepak Barot on
+  2026-08-01, original post by Arpita).
+- **Krishna Barot** (+61 439 713 183) — recurring ad: "Freshly made Methi Thepla medium spicy" (7
+  for $10.50, later 10 for $15), pickup by arrangement.
+- **Priyanka** (+61 433 938 193) — ad: "Freshly fermented Idly and Dosa batter is available for
+  pick up... Batter will stay fresh for 4-5 days... text me for pickup," posted from 35 Mariner
+  Avenue.
+- **Pooja Mehta** (0449055225) — ad forwarded by Jimmy: "Taking Pre Orders for Fresh home made
+  Mumbai Vada Pav. Taking party orders as well," pickup 8 Corsair Street, Schofields.
+- **Surti House** (+61 435 101 696) — ad: "This Weekend Special: Dal Pakwan," address 1082 Windsor
+  Rd, Vineyard NSW 2765.
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Mariner Avenue and Corsair Street are assumed to be in Schofields** — not stated explicitly in
+  Priyanka's or Pooja Mehta's ads, but consistent with other confirmed Schofields streets already
+  in this directory (Danish's business is "17 Mariner Avenue, Schofields," F-022). Flagging in case
+  this assumption is wrong.
+- No `address` object is used for Shobhit, Arpita, Krishna Barot, or Priyanka/Pooja Mehta — street
+  detail is carried in the description text and `serviceAreas` instead, since a full
+  street/suburb/postcode wasn't confirmed for all of them (Priyanka and Pooja Mehta's postcodes are
+  unknown). Surti House's ad included a full address with postcode, so it gets a structured
+  `address` object.
+- No websites, emails, or opening hours were supplied for any of these — all left unset.
+- At the project owner's explicit direction, none of these get a promotion or `featured: true` —
+  plain category listings only.
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "food-catering",
+  "slug": "food-catering",
+  "name": "Food & Catering",
+  "icon": "UtensilsCrossed",
+  "description": "Home cooks, caterers, and local eateries serving the Akuna Vista community.",
+  "displayOrder": 23
+}
+```
+
+### Change — `data/businesses.json` (6 new entries, all `categoryId: "food-catering"`)
+
+```json
+[
+  {
+    "id": "21b4905e-660a-4868-a2dc-01c94c1e1e8c",
+    "slug": "shobhits-fresh-malai-paneer",
+    "name": "Shobhit's Fresh Malai Paneer",
+    "description": "Fresh malai paneer made from fresh milk — super soft, 100% vegetarian, no preservatives. Weekend orders taken via WhatsApp or SMS.",
+    "shortDescription": "Fresh homemade malai paneer, weekend orders.",
+    "categoryId": "food-catering",
+    "phone": "+61 403 332 713",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Home Food", "Paneer", "Weekend Orders"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "05330a67-9dd4-4142-802c-789661a28ce1",
+    "slug": "arpitas-homemade-snacks",
+    "name": "Arpita's Homemade Snacks",
+    "description": "Home-based Indian snacks and sweets, including homemade chutney powders and Kesar Ilaichi Badam Pista Shrikhand. Pickup from Schofields.",
+    "shortDescription": "Homemade chutney powders & Indian sweets, Schofields pickup.",
+    "categoryId": "food-catering",
+    "phone": "+61 434 397 985",
+    "serviceAreas": ["Schofields"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Home Food", "Snacks", "Sweets"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "a81aa04a-bc86-4299-b96a-bf7dbd96ce2d",
+    "slug": "krishna-barots-methi-thepla",
+    "name": "Krishna Barot's Methi Thepla",
+    "description": "Freshly made methi thepla, medium spicy, made to order. Message to arrange pickup.",
+    "shortDescription": "Fresh homemade methi thepla, made to order.",
+    "categoryId": "food-catering",
+    "phone": "+61 439 713 183",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Home Food", "Gujarati", "Thepla"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "4d9c7ebd-b3fe-474b-ba1a-f4a64fbe8158",
+    "slug": "priyankas-idly-dosa-batter",
+    "name": "Priyanka's Idly & Dosa Batter",
+    "description": "Freshly fermented idly and dosa batter, made from 35 Mariner Avenue, Schofields. Stays fresh for 4-5 days — text to arrange pickup.",
+    "shortDescription": "Fresh idly & dosa batter, Schofields pickup.",
+    "categoryId": "food-catering",
+    "phone": "+61 433 938 193",
+    "serviceAreas": ["Schofields"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Home Food", "South Indian", "Batter"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "17e4334d-2489-4e1d-b7fd-88bf3f5f9610",
+    "slug": "pooja-mehtas-mumbai-vada-pav",
+    "name": "Pooja Mehta's Mumbai Vada Pav",
+    "description": "Fresh homemade Mumbai vada pav, pre-orders and party orders taken. Pickup from 8 Corsair Street, Schofields.",
+    "shortDescription": "Homemade Mumbai vada pav, pre-orders & party orders.",
+    "categoryId": "food-catering",
+    "phone": "0449055225",
+    "serviceAreas": ["Schofields"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Home Food", "Street Food", "Party Orders"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "9ed0ac8c-e92a-4b75-9722-562a807da4fc",
+    "slug": "surti-house",
+    "name": "Surti House",
+    "description": "Local eatery known for weekend specials such as dal pakwan. Based in Vineyard, near Akuna Vista.",
+    "shortDescription": "Local eatery, weekend food specials.",
+    "categoryId": "food-catering",
+    "phone": "+61 435 101 696",
+    "address": {
+      "street": "1082 Windsor Rd",
+      "suburb": "Vineyard",
+      "state": "NSW",
+      "postcode": "2765"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Restaurant", "Gujarati", "Weekend Specials"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  }
+]
+```
+
+### Acceptance Criteria
+
+- [x] New `food-catering` category added to `data/categories.json` with `displayOrder: 23`.
+- [x] All 6 businesses above added to `data/businesses.json` under `food-catering`, none featured,
+      none with a promotion.
+- [x] `npm run validate:data` passes.
+- [x] `/category/food-catering` lists all 6 businesses; each `/business/<slug>` renders correctly.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 29 (F-030)
+
+As a visitor looking for tutoring in Schofields
+
+I want to find Tutehub Schofields in the directory
+
+So that I have a second tutoring option alongside Nirimba Tuition, Educally, and Private
+Mathematics & English Tutoring.
+
+### Source data (found via `scan-whatsapp-leads` skill scan of Akuna Vista Owners & Residents,
+2026-07-23, then cross-checked against the existing directory)
+
+- Ad posted by Tutehub Schofields: "TUTEHUB Tutoring classes for Year 2 to 11 based in Schofields
+  ... PM for a free trial today. Limited spots available." Phone +61 470 334 431.
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "0e68427e-e03c-49b0-8917-1b20c1f5cd37",
+  "slug": "tutehub-schofields",
+  "name": "Tutehub Schofields",
+  "description": "Tutoring classes for Year 2 to Year 11, based in Schofields. Free trial available for new students — limited spots.",
+  "shortDescription": "Tutoring for Year 2-11, Schofields. Free trial available.",
+  "categoryId": "tutoring-education",
+  "phone": "+61 470 334 431",
+  "serviceAreas": ["Schofields"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Tutoring", "Year 2-11", "Free Trial"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01T00:00:00Z"
+}
+```
+
+- Existing `tutoring-education` category reused — no new category needed.
+
+### Acceptance Criteria
+
+- [x] Tutehub Schofields added to `data/businesses.json` under `tutoring-education`.
+- [x] `npm run validate:data` passes.
+- [x] `/business/tutehub-schofields` renders correctly.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 30 (F-031)
+
+As a visitor needing an airport or cruise-terminal transfer
+
+I want to find HA Sydney Airport & Cruise Terminal Transfers in the directory
+
+So that I have a transport option alongside the existing Windsor Marsden Park Richmond Taxi
+listing.
+
+### Source data (found via `scan-whatsapp-leads` skill scan of Akuna Vista Owners & Residents,
+2026-07-18 and 2026-07-31, then cross-checked against the existing directory)
+
+- Recurring ad: "Exclusive Community Offer for Akuna Vista, Altrove, Oaklands Estate & Colebee
+  Residents. Private Sydney Airport & Cruise Terminal Transfers. 8-Seater Kia Carnival —
+  Comfortable & Spacious." Pricing sheet posted separately (sedan and SUV fares to/from Schofields,
+  inclusive of tolls). WhatsApp business number: 0494 188 099.
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- This ad was repeatedly removed by the admin team for being posted outside the group's advertising
+  window (8-9am / 6-7pm) — that's a chat-moderation detail, not a reflection on the business
+  itself, so it's still captured here as a legitimate ad.
+- No named individual owner was given — the business communicates under the "HA Sydney Airport &
+  Cruise Terminal Transfers" name only.
+- No street address supplied (a transfer service, not a shopfront) — `serviceAreas` used instead.
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "11772a28-4ec5-445a-bd7d-46e9ffc2f04f",
+  "slug": "ha-sydney-airport-cruise-terminal-transfers",
+  "name": "HA Sydney Airport & Cruise Terminal Transfers",
+  "description": "Private Sydney Airport & Cruise Terminal transfers in a comfortable 8-seater Kia Carnival, with an exclusive offer for Akuna Vista, Altrove, Oaklands Estate & Colebee residents.",
+  "shortDescription": "Private airport & cruise terminal transfers, 8-seater Kia Carnival.",
+  "categoryId": "taxi-transport",
+  "phone": "0494 188 099",
+  "serviceAreas": ["Akuna Vista", "Altrove", "Oaklands Estate", "Colebee", "Schofields"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Airport Transfers", "Cruise Terminal Transfers", "8-Seater"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01T00:00:00Z"
+}
+```
+
+- Existing `taxi-transport` category reused — no new category needed.
+
+### Acceptance Criteria
+
+- [x] HA Sydney Airport & Cruise Terminal Transfers added to `data/businesses.json` under
+      `taxi-transport`.
+- [x] `npm run validate:data` passes.
+- [x] `/business/ha-sydney-airport-cruise-terminal-transfers` renders correctly.
+- [x] Existing Playwright suite still passes.
+
+---
+
+## Story 31 (F-032)
+
+As a visitor looking for a landscaper
+
+I want the Landscaping & Gardening category back, with options that are still in business
+
+So that I have somewhere to find a landscaper again after F-024 removed the category (both prior
+listings, Just Cut Grass and Arshdeep Landscaping, had gone out of business).
+
+### Source data (found via `scan-whatsapp-leads` skill scan of Akuna Vista Owners & Residents,
+2026-07-30, then cross-checked and confirmed with the project owner)
+
+This is the same thread that prompted F-024: Abin (19 Scout St) posted "Good morning, I am seeking
+recommendations for a reputable and cost effective landscaping professional. The one mentioned in
+the directory is not in the business anymore," and five residents replied with names over the next
+two hours. Phone numbers for four of the five were pulled by opening their WhatsApp contact cards
+directly (the fifth, JCR, was given as plain text).
+
+- **Tushar** (+61 498 341 289) shared contact "Gorak (Arav Dad)" — +61 422 247 883 — "He is a very
+  good landscaper."
+- **Admin ꗪσꝓΐ⍳** (+61 434 413 027) shared a verified WhatsApp Business contact, "Aman - Guru
+  Landscaping" — +61 452 300 143.
+- **Bhav** (+61 470 209 086) shared contact "Navdeep DHILLON Landscaper" — +61 458 426 181.
+  **Sachin** (+61 415 578 793) corroborated in the same thread: "+1 for Navdeep, he is very
+  efficient, cost effective and perfect with his work."
+- **Ram** (+61 469 717 074) shared contact "Manpreet Decking And landscaping" — +61 493 647 839.
+- **Harpreet Kaur** (+61 425 551 811) replied in text: "jcr landscaping and construction -
+  +61 452 443 844 @Abin 19 Scout St take quote from multiple and than compare quality and price
+  both i prefer JCR."
+
+Abin closed the thread with "Thanks all for the prompt responses...will reachout to the contacts
+provided," without naming a single winner in the scanned window.
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **All 5 are added as separate listings, at the project owner's explicit direction** ("add all 5
+  candidates") — not just the best-corroborated one. Residents can compare, matching the existing
+  multi-listing pattern already used for JP Services, Driving Instructors, and Finance & Mortgage
+  Broking.
+- Category is re-created with the same `id`/`slug` (`landscaping`) and `name` ("Landscaping &
+  Gardening") it had before F-024 removed it, so the old `/category/landscaping` URL Cerosh has
+  already shared publicly (in the 20-categories milestone post) works again. `displayOrder` set to
+  24 (appended after the current highest, `food-catering` at 23) rather than restored to its old
+  position.
+- No websites, emails, or addresses were supplied for any of the five — all left unset. No
+  promotion or `featured: true` for any of them, per the project owner's direction for this batch.
+- Corroboration varies by candidate — Navdeep Dhillon has two independent mentions, the other four
+  have one each — and that's reflected honestly in each `description` below rather than presented
+  as equal.
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "landscaping",
+  "slug": "landscaping",
+  "name": "Landscaping & Gardening",
+  "icon": "Trees",
+  "description": "Landscapers and gardeners for the Akuna Vista community.",
+  "displayOrder": 24
+}
+```
+
+### Change — `data/businesses.json` (5 new entries, all `categoryId: "landscaping"`)
+
+```json
+[
+  {
+    "id": "650352f0-ff6b-43b9-a5d7-ab872947b908",
+    "slug": "navdeep-dhillon-landscaper",
+    "name": "Navdeep Dhillon Landscaper",
+    "description": "Recommended twice independently by residents in the community group — described as very efficient, cost effective and perfect with his work.",
+    "shortDescription": "Landscaper, recommended twice by residents.",
+    "categoryId": "landscaping",
+    "phone": "+61 458 426 181",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Landscaping", "Gardening"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "d25b1c36-6caf-45c0-b15c-e5c2a70804eb",
+    "slug": "jcr-landscaping-and-construction",
+    "name": "JCR Landscaping and Construction",
+    "description": "Landscaping and construction, recommended by a resident in the community group with the suggestion to compare quotes from multiple providers.",
+    "shortDescription": "Landscaping & construction.",
+    "categoryId": "landscaping",
+    "phone": "+61 452 443 844",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Landscaping", "Construction"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "cb2bb132-9e5a-472b-a762-8d977b21e59f",
+    "slug": "manpreet-decking-and-landscaping",
+    "name": "Manpreet Decking And Landscaping",
+    "description": "Decking and landscaping, recommended by a resident in the community group.",
+    "shortDescription": "Decking & landscaping.",
+    "categoryId": "landscaping",
+    "phone": "+61 493 647 839",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Landscaping", "Decking"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "7c4fbfa5-d5e2-477c-a944-843e1a3b260f",
+    "slug": "aman-guru-landscaping",
+    "name": "Aman - Guru Landscaping",
+    "description": "Landscaping business (verified WhatsApp Business account), recommended by an admin in the community group.",
+    "shortDescription": "Landscaping.",
+    "categoryId": "landscaping",
+    "phone": "+61 452 300 143",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Landscaping"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "47d49011-c89b-4b99-9af8-e55a48368802",
+    "slug": "gorak-landscaper",
+    "name": "Gorak (Arav Dad)",
+    "description": "Landscaper, recommended by a resident in the community group as \"a very good landscaper.\"",
+    "shortDescription": "Landscaper, recommended by a resident.",
+    "categoryId": "landscaping",
+    "phone": "+61 422 247 883",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Landscaping"],
+    "createdAt": "2026-08-01T00:00:00Z",
+    "updatedAt": "2026-08-01T00:00:00Z"
+  }
+]
+```
+
+### Acceptance Criteria
+
+- [x] `landscaping` category re-added to `data/categories.json` with `displayOrder: 24`.
+- [x] All 5 businesses above added to `data/businesses.json` under `landscaping`, none featured,
+      none with a promotion.
+- [x] `npm run validate:data` passes.
+- [x] `/category/landscaping` lists all 5 businesses; each `/business/<slug>` renders correctly.
+- [x] Existing Playwright suite still passes (283 passed, 16 skipped, 1 failed — [webkit] search.spec.ts:44 "typing filters results instantly and shows suggestions", the same recurring WebKit search-suite timing flake seen in prior Stories; re-run in isolation 3x, passed 3/3, unrelated to this change).
+
+---
+
+## Story 32 (F-033)
+
+As a visitor needing blouse resizing, saree fall stitching, or custom printed apparel
+
+I want to find KS Webwear in the directory
+
+So that I have a local tailoring option — this directory didn't have a category for this kind of
+business until now.
+
+### Source data (found via `scan-whatsapp-leads` skill scan of Akuna Vista Owners & Residents,
+2026-07-31; contact details supplied directly by the project owner on request, 2026-08-01, since
+the original WhatsApp lead was a contact card with no phone number visible without opening it)
+
+- Original lead: Veena asked "Looking for contact for alterations," Geeta replied with a contact
+  card named "Sindhu Telugubadi."
+- Project owner supplied the business's own message directly: "I am selling Blouse pieces. I will
+  do Blouse/Dress resize and Saree Fall stitching. Custom printed T-shirts
+  (www.kswebwear.com.au). Feel free to msg me. Tallawong. +61 469 866 300. Sindhu Telugubadi."
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Business name inferred as "KS Webwear" from the website domain** (kswebwear.com.au) — the
+  message itself only signs off with the owner's name, Sindhu Telugubadi, not a business name.
+  Flagged for confirmation; easy to rename if wrong.
+- New category created (`tailoring-alterations`) since nothing existing fits blouse
+  sales/resizing/saree fall stitching/custom printed apparel together.
+- `serviceAreas` set to `["Tallawong"]` per the message; no street address given.
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "tailoring-alterations",
+  "slug": "tailoring-alterations",
+  "name": "Tailoring & Alterations",
+  "icon": "Shirt",
+  "description": "Tailoring, alterations, and custom apparel for the Akuna Vista community.",
+  "displayOrder": 25
+}
+```
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "b6a20a86-01f5-4239-a968-97d8362ee90a",
+  "slug": "ks-webwear",
+  "name": "KS Webwear",
+  "description": "KS Webwear, run by Sindhu Telugubadi, sells blouse pieces and offers blouse/dress resizing, saree fall stitching, and custom printed t-shirts. Based in Tallawong.",
+  "shortDescription": "Blouse pieces, resizing, saree fall stitching, custom printed tees.",
+  "categoryId": "tailoring-alterations",
+  "phone": "+61 469 866 300",
+  "website": "https://www.kswebwear.com.au",
+  "serviceAreas": ["Tallawong"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Alterations", "Tailoring", "Custom Printing"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] `tailoring-alterations` category added to `data/categories.json` with `displayOrder: 25`.
+- [x] KS Webwear added to `data/businesses.json` under `tailoring-alterations`, not featured, no
+      promotion.
+- [x] `npm run validate:data` passes.
+- [ ] `/category/tailoring-alterations` lists KS Webwear; `/business/ks-webwear` renders correctly.
+- [ ] Existing Playwright suite still passes.
+
+---
+
+## Story 33 (F-034)
+
+As a visitor needing fresh flower garlands or floral jewellery for a wedding, pooja, or
+celebration
+
+I want to find Uma Garlands in the directory
+
+So that I have a local florist option — this directory didn't have a category for florists until
+now.
+
+### Source data (found via `scan-whatsapp-leads` skill scan of Akuna Vista Owners & Residents,
+2026-07-30; contact details supplied directly by the project owner on request, 2026-08-01, since
+the original WhatsApp lead was a Google Maps card with no phone number visible without opening it)
+
+- Original lead: Hiral asked "Where can I find fresh Gajro or veni for hair?" Manjushri Kulkarni
+  replied with a Google Maps card — "Umagarlands/Fresh Flower Garlands Sydney · Nirimba Fields,
+  4.9★, Flower designer in Nirimba Fields NSW."
+- Project owner supplied the business's own contact card directly: "Get in Touch with Uma Garlands.
+  Fresh flower garlands and floral jewellery for Indian weddings, poojas, baby showers, and
+  traditional celebrations by Uma Garlands Australia. Phone 0470628414. Email
+  Contact@umagarlands.com. Address 20 Avenger Street, Nirimba Fields. https://umagarlands.com/"
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Business name used as "Uma Garlands"** (matching the contact card's own heading and the
+  domain umagarlands.com) rather than "Uma Garlands Australia" (used once, in the tagline) or
+  "Fresh Flower Garlands Sydney" (the Google Maps listing's display name). Flagged in case a
+  different form is preferred.
+- New category created (`florists-flower-delivery`) since nothing existing fits florists.
+- Postcode wasn't supplied for the Nirimba Fields address — left out of the `address` object
+  rather than guessed (matches the Surti House precedent of only using a structured address when
+  every field is confirmed... except here street/suburb are confirmed but postcode isn't, so
+  `serviceAreas: ["Nirimba Fields"]` is used instead of a partial `address` object, with the street
+  named in the description text).
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "florists-flower-delivery",
+  "slug": "florists-flower-delivery",
+  "name": "Florists & Flower Delivery",
+  "icon": "Flower2",
+  "description": "Florists and flower delivery for weddings, poojas, and celebrations in the Akuna Vista community.",
+  "displayOrder": 26
+}
+```
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "14714cc6-26ca-4796-b167-a0186045c7d7",
+  "slug": "uma-garlands",
+  "name": "Uma Garlands",
+  "description": "Uma Garlands Australia creates fresh flower garlands and floral jewellery for Indian weddings, poojas, baby showers, and traditional celebrations. Based at 20 Avenger Street, Nirimba Fields.",
+  "shortDescription": "Fresh flower garlands & floral jewellery for celebrations.",
+  "categoryId": "florists-flower-delivery",
+  "phone": "0470628414",
+  "email": "Contact@umagarlands.com",
+  "website": "https://umagarlands.com/",
+  "serviceAreas": ["Nirimba Fields"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Florist", "Flower Garlands", "Weddings", "Poojas"],
+  "createdAt": "2026-08-01T00:00:00Z",
+  "updatedAt": "2026-08-01T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] `florists-flower-delivery` category added to `data/categories.json` with `displayOrder: 26`.
+- [x] Uma Garlands added to `data/businesses.json` under `florists-flower-delivery`, not featured,
+      no promotion.
+- [x] `npm run validate:data` passes.
+- [ ] `/category/florists-flower-delivery` lists Uma Garlands; `/business/uma-garlands` renders
+      correctly.
+- [ ] Existing Playwright suite still passes.
