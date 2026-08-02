@@ -99,6 +99,49 @@ test.describe("Homepage", () => {
     await expect(home.categoryItems.first()).toBeInViewport();
   });
 
+  test("tapping near the edge of a carousel arrow (not just its visible circle) scrolls, not navigates", async ({
+    browser,
+  }) => {
+    // Sprint 16 F-027: the arrow's visible circle is 32px, but its real
+    // <button> hit area was widened to 44px (WCAG 2.5.5) without changing
+    // the visible size, since a tap that missed the old 32px button landed
+    // on the adjacent CategoryCard's link instead. `hasTouch` needs a fresh
+    // context — the default `chromium`/`firefox`/`webkit` projects don't
+    // enable touch.
+    const context = await browser.newContext({ hasTouch: true });
+    const page = await context.newPage();
+    const home = new HomePage(page);
+    await home.goto();
+
+    await expect(home.categoriesScrollLeftButton).toBeDisabled();
+    await expect(home.categoriesScrollRightButton).toBeEnabled();
+
+    // scrollIntoViewIfNeeded first: the carousel sits below the fold on a
+    // default viewport, and a raw page.touchscreen.tap() (unlike
+    // Locator.click()/.tap()) uses page coordinates without auto-scrolling,
+    // so it would otherwise silently tap a point that isn't in view.
+    await home.categoriesScrollRightButton.scrollIntoViewIfNeeded();
+    const box = await home.categoriesScrollRightButton.boundingBox();
+    if (!box) throw new Error("Right scroll button has no bounding box");
+    const centerX = box.x + box.width / 2;
+    const centerY = box.y + box.height / 2;
+
+    // 20px left of center: outside the old 32px visible circle (radius
+    // 16px) but inside the new 44px hit area (half-width 22px) — the exact
+    // annulus that used to belong to whatever sat beside/behind the old
+    // undersized button. The old and new buttons share the same center
+    // point (the translate-based positioning centers on the row's edge
+    // either way), so this coordinate is a direct regression check.
+    await page.touchscreen.tap(centerX - 20, centerY);
+
+    // Scrolled (left arrow now enabled), not navigated away from the
+    // homepage to a category page.
+    await expect(home.categoriesScrollLeftButton).toBeEnabled();
+    await expect(page).toHaveURL(/\/$/);
+
+    await context.close();
+  });
+
   test("a featured business card links to a real, working detail page", async ({ page }) => {
     const home = new HomePage(page);
     await home.goto();

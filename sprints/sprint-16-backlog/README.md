@@ -21,7 +21,7 @@ End Date: (ongoing)
 
 Owner: Cerosh Jacob
 
-Last Updated: 2026-07-16
+Last Updated: 2026-08-02
 
 ---
 
@@ -79,7 +79,7 @@ Per Feature, the sprint is successful when:
 | ID | Feature | Priority | Status |
 |----|----------|----------|--------|
 | F-001 | Clamp `BusinessCard`'s heading to a single line with ellipsis truncation | Medium | Completed |
-| F-002 | Gate production deploys behind CI passing (CI-gated CD) | Medium | Blocked — code/config implemented, awaiting project owner's Vercel secrets + live push verification |
+| F-002 | Gate production deploys behind CI passing (CI-gated CD) | Medium | Blocked — real deploy-path gap found 2026-08-02 and worked around manually; still awaiting project owner's Vercel secrets for the automated path |
 | F-003 | Fix root cause of `search.spec.ts` WebKit flakes: a Next.js hydration race where `.fill()` right after `goto()` can run before React's `onChange` listener attaches, so `query` state silently stays empty | Low | Completed |
 | F-004 | Fix stale sprint/top-level documentation status claims found in the 2026-07-17 doc audit | Medium | Completed |
 | F-005 | `.ai/ARCHITECTURE.md`'s "Monitoring" section lists Vercel Analytics under "Future" though it's live in production | Low | Completed |
@@ -104,6 +104,8 @@ Per Feature, the sprint is successful when:
 | F-024 | Fix `tests/e2e/search.spec.ts`'s "a suburb chip with zero real businesses does not render" test — it asserted Tallawong specifically, which stopped being true once sprint-15's F-033 added a real Tallawong business | Low | Completed |
 | F-025 | `CommunityStatistics.tsx`'s "Businesses listed" and "Categories covered" homepage stats read static, now-stale fields from `data/metadata.json` (19 / 12) instead of the real current counts — make those two compute live from the business/category repositories; leave "Community members" as the manually-set `metadata.communityMembers` value, per the project owner's explicit direction | Medium | Completed |
 | F-026 | `/code-review` on F-025: fix a test comment in `search.spec.ts` that cites a nonexistent `Suburb.displayOrder` field, and wrap `categoryRepository`'s exported singleton `getAll()` in `React.cache()` since F-025 made it the 3rd per-render call on the homepage | Low | Completed |
+| F-027 | `CategoryCarousel`'s left/right arrow buttons have only a 32×32px hit area (Button `size="icon"`), half of which overlaps the adjacent `CategoryCard` link — on touch devices a tap near an arrow often lands on the category card instead, navigating away rather than scrolling | Medium | Completed |
+| F-028 | `/code-review` on F-027: dark-mode `hover:bg-transparent` didn't cancel the ghost variant's `dark:hover:bg-muted/50` (different modifier stack, not deduped by tailwind-merge), leaking a gray fill across the full 44px hit box on hover; the keyboard focus-visible ring also moved to the oversized, off-center 44px outer button instead of staying on the visible 32px circle | Medium | Completed |
 
 Status Values
 
@@ -1591,6 +1593,22 @@ between one production deploy and the next with no corresponding repo change. Pi
 three steps — a deliberate major-version bump now requires its own commit rather than happening
 invisibly.
 
+**Real production gap found and fixed 2026-08-02, after the project owner pushed this Feature's
+commit and reported the homepage stats (F-025) were still showing stale hardcoded values (19/12)
+in production.** Root cause: the push containing this Feature's `vercel.json` was itself the push
+that disabled Vercel's auto-deploy for `main` — Vercel evaluates `deploymentEnabled` from the
+commit being pushed, so that same push disabled the only working deploy path *before* the
+replacement (this Feature's CI `deploy` job) had its required secrets. Net effect: production had
+not redeployed in 14 hours, stuck on a build from before F-025 even existed, with no path to
+redeploy until the GitHub secrets are added. **This was a real design gap in this Feature, not a
+hypothetical risk** — flagged too weakly in this Feature's own Acceptance Criteria above. Fixed by
+running one manual `vercel deploy --prod` (using the project owner's already-authenticated local
+Vercel CLI session, explicitly confirmed with them first) — verified live: homepage now shows 51
+Businesses listed / 25 Categories covered, computed live, matching F-025/F-026's expected values.
+**This manual deploy was a one-off — `git.deploymentEnabled.main: false` is still in effect, so
+every future push to `main` needs either the GitHub secrets in place (enabling the automated
+`deploy` job) or another manual `vercel deploy --prod`, until the secrets are added.**
+
 F-010 is implemented and verified (2026-08-02) — ran Google's Rich Results Test against
 `https://akuna-vista-local-directory.vercel.app/business/brar-roofing-solution` (chosen as a
 business without the optional `address`/`priceRange` fields populated, to see the worst case, not
@@ -1612,6 +1630,173 @@ real-world approximation, not a lab-precise number. Not re-optimized as part of 
 was scoped as "re-measure," not "fix"; a ~75ms overage this close to target likely doesn't warrant
 new engineering work, but is flagged here rather than silently left for a future session to
 rediscover.
+
+---
+
+## Story 17 (F-027)
+
+As a visitor browsing categories on a touchscreen device
+
+I want the carousel's left/right arrow buttons to be reliably tappable
+
+So that a tap near an arrow scrolls the row instead of accidentally opening a category — raised
+directly by the project owner 2026-08-02 with a screenshot of the "Popular categories" section.
+
+### Root cause (investigated 2026-08-02)
+
+`features/homepage/CategoryCarousel.tsx` (lines ~112–141) renders both arrows via the shared
+`Button` component (`components/ui/button.tsx`) with `size="icon"`, which resolves to `size-8` —
+a 32×32px box, well under the ~44×44px minimum touch target (WCAG 2.5.5 / Apple HIG). Each button
+is also absolutely positioned straddling the row's edge (`left-0 -translate-x-1/2` /
+`right-0 translate-x-1/2`), so only half of that already-small box sits over the carousel — the
+rest overlaps the `Container` gutter immediately next to the first/last `CategoryCard`. That card
+(`components/cards/CategoryCard.tsx`) is a single full-bleed `<Link>` spanning the whole column
+with no inset separating it from the arrow's footprint, and the row's items are separated only by a
+16px `gap-4`. A touch that lands slightly off-center from the 32px arrow — very easy on a real
+finger — misses the button and hits the adjacent card's `Link` instead, navigating to that category
+rather than scrolling.
+
+### Proposed approach
+
+Project owner confirmed (2026-08-02): expand the buttons' actual tappable area without changing how
+they currently look (matches this project's minimal design philosophy — the small circular arrows
+stay as-is visually).
+
+- Restructure each arrow so the interactive `<button>` element's own box grows to at least 44×44px
+  (via padding/min-size), while the existing visible chrome (the `bg-background`, `rounded-full`,
+  `shadow-sm` circle) moves to an inner wrapper sized at today's visual dimensions — so the click/tap
+  target is bigger than what's drawn, a standard pattern for small icon controls (e.g. `padding`
+  around a visually-smaller inner glyph, similar to iOS's minimum-hit-area convention).
+  - Note: simply adding padding/size directly to the current `<Button>` would also enlarge the
+    visible circle, since the background/border/shadow classes are on that same element — the inner-
+    wrapper split is what keeps the visual size unchanged.
+- Scoped to `CategoryCarousel.tsx`'s two arrow buttons only — no change to `components/ui/button.tsx`
+  shared variants (other consumers of `size="icon"` are out of scope and shouldn't be affected).
+- No change to the arrows' position, disabled/`aria-disabled` behavior, or `focusableWhenDisabled`
+  handling from F-018/F-019 — this Feature only changes hit-area size, not scroll logic or a11y
+  state handling.
+
+### Assumption (confirm before implementing)
+
+- "44×44px" is the target minimum hit area (WCAG 2.5.5 AAA / Apple HIG's typical guidance) — flag if
+  a different minimum is preferred.
+
+Acceptance Criteria
+
+- [x] Each arrow button's tappable/clickable area is at least 44×44px, measured from the actual
+      interactive element's rendered box (not just the visible circle).
+- [x] The arrows' visual appearance (size, circle, icon, shadow, position) is unchanged from today —
+      confirmed by comparing before/after screenshots at the same viewport.
+- [x] A tap anywhere within the expanded 44×44px hit area reliably triggers the scroll action, not
+      navigation to the adjacent `CategoryCard` — verified on a real touch-emulated viewport (e.g.
+      Chrome DevTools device toolbar or Playwright's touch emulation), not just visually inspected.
+- [x] No regression to the existing keyboard focus, `aria-disabled`, or scroll-boundary behavior
+      established in F-018/F-019.
+- [x] Existing Playwright suite still passes; if no test currently covers the carousel's touch hit
+      area, add one exercising a tap within the expanded-but-not-visible zone.
+
+### Implementation (2026-08-02)
+
+`features/homepage/CategoryCarousel.tsx`'s two arrows restructured: the interactive `<Button>` grew
+to `size-11` (44px, `variant="ghost"`, transparent), wrapping an inner `<span>` that carries the
+original visible chrome (`border-border bg-background rounded-full shadow-sm`, `size-8`/32px) and
+the `ChevronLeft`/`ChevronRight` icon. `hover:bg-muted`/dark-mode hover states moved from the old
+`variant="outline"` button onto the inner span via `group-hover`, since the outer button itself is
+now visually transparent.
+
+**Correction found during implementation, per this project's Correction protocol** (reality diverged
+from the spec's implicit assumption): centering the new 44px box on the same point as the old 32px
+box — the natural first approach, using the same `-translate-x-1/2` percentage-based transform —
+grew the hit area symmetrically outward as well as inward. On mobile (375px viewport), that pushed
+the button 6px past the `Container`'s own 16px `px-4` padding, causing real horizontal page overflow
+(`tests/e2e/responsive.spec.ts`'s "/ at mobile (375px) has no horizontal scroll" failed: 381px
+measured against a 375px viewport — caught by running the existing suite, not assumed safe).
+Fixed by growing the hit area **inward only**: the outer box uses a fixed `-translate-x-4`/
+`translate-x-4` (16px, matching the old box's own translate distance) instead of a width-proportional
+`-1/2`, so its outward edge stays exactly where the old 32px box's edge was — no new overflow. The
+inner 32px circle is anchored flush against that same outward edge (`justify-start` on the left
+button, `justify-end` on the right) rather than centered within the new box, so it renders at the
+exact same pixel position as before; the extra 12px of hit area is added entirely on the inward
+side, toward the carousel's content, which is also the side the original bug report's touch/miss
+scenario actually happens on.
+
+**Verified:**
+- Real-repro regression test added to `tests/e2e/homepage.spec.ts`: taps within the newly-expanded
+  (but not visible) zone of the right arrow using a `hasTouch` context + `Locator.tap()`/
+  `page.touchscreen.tap()`. Confirmed this test genuinely fails against the pre-fix component (ran
+  it against a `git stash`-reverted `CategoryCarousel.tsx` first — failed as expected, "left disabled"
+  never flipped) before confirming it passes against the fix — not just written and assumed correct.
+- Full Playwright suite (303 tests, chromium + firefox + webkit, against a real `next build && next
+  start` production server, not dev mode) — 287 passed, 16 skipped (pre-existing, unrelated), 0
+  failed. This run includes the responsive-overflow test the correction above fixed.
+- Visual screenshot comparison at the same 900×500 viewport as the project owner's original
+  screenshot: circle size, position, icon, and spacing all pixel-identical to before.
+- `npm run typecheck` and `npm run lint` both clean.
+
+F-027 implemented and verified (2026-08-02).
+
+---
+
+## Story 18 (F-028)
+
+As a visitor using dark mode or keyboard navigation
+
+I want the carousel arrows' hover and focus states to match their visible circle, not the invisible
+44px hit box behind it
+
+So that F-027's touch-target fix doesn't introduce a new visible regression in states its own
+screenshot-based verification (light mode, no keyboard focus) didn't cover — found by `/code-review`
+run directly against F-027's diff, 2026-08-02.
+
+### Findings (both independently reproduced before fixing, not taken on the reviewer's word)
+
+1. **Dark-mode hover leak.** `variant="ghost"`'s `dark:hover:bg-muted/50`
+   (`components/ui/button.tsx:17`) and F-027's new `hover:bg-transparent` override have different
+   Tailwind modifier stacks (`[dark,hover]` vs `[hover]`), so `tailwind-merge` doesn't dedupe them —
+   confirmed directly by feeding the real `buttonVariants` call through `tailwind-merge` and checking
+   the output string, not by inspecting source alone. Since this app's dark mode is class-based
+   (`app/globals.css:5`, `@custom-variant dark (&:is(.dark *));`), the surviving `dark:hover:bg-muted/50`
+   class fires on hover, painting the whole 44px hit box gray in dark mode instead of just the
+   32px circle.
+2. **Off-center, oversized focus ring.** The focusable `<Button>` is now the 44px hit box (grown
+   inward-only, so its own geometric center sits ~6px from the visible circle's center — see F-027's
+   own note on why), while the visible circle lives in a separate, non-focusable inner `<span>`. No
+   `focus-visible:` override was added to compensate, so `components/ui/button.tsx`'s base
+   `focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50` rendered around the
+   full 44px box — confirmed geometrically (box spans -16px to +28px relative to the row edge for
+   the left button; the base ring has no reason to know about the inner span's actual position).
+
+Note: this app has no live dark-mode toggle yet (no `ThemeProvider`/class-toggle component exists
+anywhere in `app/`/`components/` — grepped, only `app/globals.css` references `.dark`), so finding 1
+isn't currently reachable by a real visitor. Fixed anyway rather than left as dead-code-shaped risk,
+since the CSS is live and would surface the moment dark mode is wired up.
+
+### Fix
+
+- Both arrows' outer `<Button>` gained `dark:hover:bg-transparent` (alongside the existing
+  `hover:bg-transparent`) and `focus-visible:border-transparent focus-visible:ring-0`, fully
+  neutralizing the outer box's own hover/focus chrome in every mode.
+- The inner `<span>` (the visible 32px circle) gained `group-focus-visible:border-ring
+  group-focus-visible:ring-3 group-focus-visible:ring-ring/50`, mirroring `button.tsx`'s own base
+  focus-visible styling but scoped to the actual visible circle via the outer button's `group` class.
+
+Acceptance Criteria
+
+- [x] In dark mode, hovering anywhere in either arrow's 44px hit area produces no visible background
+      change outside the existing hover styling already confined to the inner 32px circle.
+- [x] Tabbing to either arrow shows a focus ring matching the 32px visible circle's size/position, not
+      the 44px hit box.
+- [x] No change to hit-area size (44px), visible circle size/position (32px, pixel-identical), scroll
+      behavior, or `aria-disabled`/`focusableWhenDisabled` handling from F-018/F-027.
+- [x] Verified: dark-mode hover screenshot (`.dark` class forced on `<html>`, since no live toggle
+      exists yet) shows no gray bleed beyond the 32px circle; keyboard-focus screenshots in both light
+      and dark mode show the ring snug against the circle, not the outer box; full Playwright suite
+      (303 tests, chromium + firefox + webkit, against a real production build) — 287 passed, 16
+      skipped (pre-existing, unrelated), 0 failed; `npm run typecheck`/`lint` clean.
+
+F-028 implemented and verified (2026-08-02).
+
+---
 
 Everything else — **F-007, F-009, F-011, F-014, F-015, and F-016 — remains captured but not
 implemented.**

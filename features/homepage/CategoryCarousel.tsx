@@ -109,9 +109,28 @@ export function CategoryCarousel({ categories }: CategoryCarouselProps) {
         ))}
       </div>
 
+      {/*
+       * F-027: the visible circle stays 32px at its original position, but
+       * the actual <button> hit area grows to 44px (WCAG 2.5.5 minimum
+       * touch target) via a transparent outer button wrapping a
+       * visually-identical inner span, rather than growing the button
+       * variant itself — a global size bump would also enlarge every other
+       * `size="icon"` consumer, and would grow the *visible* circle here
+       * too, which the project owner explicitly didn't want.
+       *
+       * The extra 12px grows inward (toward the row) only, not outward: the
+       * outer box keeps the same fixed -16px/+16px translate the old 32px
+       * button used (rather than a width-proportional -1/2 translate) so
+       * its outward edge doesn't move past the Container's own 16px mobile
+       * padding — growing outward too pushed the button 6px past the
+       * viewport edge and broke the no-horizontal-overflow test. The inner
+       * circle is flush against the box's outward edge (justify-start here,
+       * justify-end on the right button) instead of centered in it, so it
+       * lands at the exact same pixel position as before.
+       */}
       <Button
         type="button"
-        variant="outline"
+        variant="ghost"
         size="icon"
         onClick={() => scroll(-1)}
         disabled={atStart}
@@ -122,22 +141,38 @@ export function CategoryCarousel({ categories }: CategoryCarouselProps) {
         // attribute, and already no-ops the click/keydown handlers itself.
         focusableWhenDisabled
         aria-label="Scroll categories left"
-        className="bg-background absolute top-1/2 left-0 -translate-x-1/2 -translate-y-1/2 rounded-full shadow-sm aria-disabled:pointer-events-none aria-disabled:opacity-50"
+        className="group absolute top-1/2 left-0 flex size-11 -translate-x-4 -translate-y-1/2 items-center justify-start rounded-full bg-transparent hover:bg-transparent focus-visible:border-transparent focus-visible:ring-0 aria-disabled:pointer-events-none aria-disabled:opacity-50 dark:hover:bg-transparent"
       >
-        <ChevronLeft className="size-4" aria-hidden="true" />
+        <span
+          aria-hidden="true"
+          // The focus-visible ring lives here (via `group-focus-visible:`),
+          // not on the outer `Button`, since the outer box is the 44px hit
+          // area (asymmetric, grown inward-only) — a ring drawn around that
+          // would be oversized and visibly off-center from this visible
+          // circle. `border-ring`/`ring-3`/`ring-ring/50` mirror
+          // button.tsx's own base focus-visible styling.
+          className="border-border bg-background group-hover:bg-muted group-focus-visible:border-ring group-focus-visible:ring-ring/50 dark:border-input dark:bg-input/30 dark:group-hover:bg-input/50 flex size-8 items-center justify-center rounded-full border shadow-sm transition-colors group-focus-visible:ring-3 group-active:translate-y-px"
+        >
+          <ChevronLeft className="size-4" />
+        </span>
       </Button>
 
       <Button
         type="button"
-        variant="outline"
+        variant="ghost"
         size="icon"
         onClick={() => scroll(1)}
         disabled={atEnd}
         focusableWhenDisabled
         aria-label="Scroll categories right"
-        className="bg-background absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 rounded-full shadow-sm aria-disabled:pointer-events-none aria-disabled:opacity-50"
+        className="group absolute top-1/2 right-0 flex size-11 translate-x-4 -translate-y-1/2 items-center justify-end rounded-full bg-transparent hover:bg-transparent focus-visible:border-transparent focus-visible:ring-0 aria-disabled:pointer-events-none aria-disabled:opacity-50 dark:hover:bg-transparent"
       >
-        <ChevronRight className="size-4" aria-hidden="true" />
+        <span
+          aria-hidden="true"
+          className="border-border bg-background group-hover:bg-muted group-focus-visible:border-ring group-focus-visible:ring-ring/50 dark:border-input dark:bg-input/30 dark:group-hover:bg-input/50 flex size-8 items-center justify-center rounded-full border shadow-sm transition-colors group-focus-visible:ring-3 group-active:translate-y-px"
+        >
+          <ChevronRight className="size-4" />
+        </span>
       </Button>
     </div>
   );
