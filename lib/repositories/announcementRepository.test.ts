@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { JSONAnnouncementRepository } from "./announcementRepository";
 import type { Announcement } from "@/types/announcement";
 
@@ -16,6 +16,18 @@ function makeAnnouncement(overrides: Partial<Announcement>): Announcement {
 
 describe("JSONAnnouncementRepository", () => {
   const now = new Date("2026-07-06T12:00:00Z");
+
+  // See eventRepository.test.ts for why every test needs this, not just the
+  // one that filters on `isPast`: reassigning `Date.now` alone doesn't
+  // affect `new Date()`, which is what `isPast`'s default `now` uses.
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
 
   it("returns all announcements", async () => {
     const announcements = [makeAnnouncement({ id: "a" }), makeAnnouncement({ id: "b" })];
@@ -36,16 +48,10 @@ describe("JSONAnnouncementRepository", () => {
     const noExpiry = makeAnnouncement({ id: "no-expiry" });
     const repository = new JSONAnnouncementRepository([active, expired, noExpiry]);
 
-    const originalNow = Date.now;
-    Date.now = () => now.getTime();
-    try {
-      const result = await repository.getActiveAnnouncements();
-      expect(result.map((announcement) => announcement.id).sort()).toEqual(
-        ["active", "no-expiry"].sort(),
-      );
-    } finally {
-      Date.now = originalNow;
-    }
+    const result = await repository.getActiveAnnouncements();
+    expect(result.map((announcement) => announcement.id).sort()).toEqual(
+      ["active", "no-expiry"].sort(),
+    );
   });
 
   it("orders active announcements newest publishedAt first", async () => {

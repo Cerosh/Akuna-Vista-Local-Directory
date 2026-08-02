@@ -106,6 +106,7 @@ Per Feature, the sprint is successful when:
 | F-026 | `/code-review` on F-025: fix a test comment in `search.spec.ts` that cites a nonexistent `Suburb.displayOrder` field, and wrap `categoryRepository`'s exported singleton `getAll()` in `React.cache()` since F-025 made it the 3rd per-render call on the homepage | Low | Completed |
 | F-027 | `CategoryCarousel`'s left/right arrow buttons have only a 32×32px hit area (Button `size="icon"`), half of which overlaps the adjacent `CategoryCard` link — on touch devices a tap near an arrow often lands on the category card instead, navigating away rather than scrolling | Medium | Completed |
 | F-028 | `/code-review` on F-027: dark-mode `hover:bg-transparent` didn't cancel the ghost variant's `dark:hover:bg-muted/50` (different modifier stack, not deduped by tailwind-merge), leaking a gray fill across the full 44px hit box on hover; the keyboard focus-visible ring also moved to the oversized, off-center 44px outer button instead of staying on the visible 32px circle | Medium | Completed |
+| F-029 | CI broke on main (2026-08-02, GitHub Actions run 30726250394): `eventRepository.test.ts`/`announcementRepository.test.ts`/`promotionRepository.test.ts` freeze "now" via `Date.now = () => ...`, but `isPast`'s default `now: Date = new Date()` never reads the monkey-patched `Date.now` — the mock was always a no-op, only staying green because real time hadn't yet passed the hardcoded ~2026-07-31/08-01 fixture dates | High | Completed |
 
 Status Values
 
@@ -1795,6 +1796,66 @@ Acceptance Criteria
       skipped (pre-existing, unrelated), 0 failed; `npm run typecheck`/`lint` clean.
 
 F-028 implemented and verified (2026-08-02).
+
+---
+
+## Story 10 (F-029)
+
+As the project owner who just pushed F-028 to `main`
+
+I want CI green again
+
+So that the branch is deployable — raised 2026-08-02 with
+`https://github.com/Cerosh/Akuna-Vista-Local-Directory/actions/runs/30726250394` showing the
+`Unit tests` step failing.
+
+### Root cause (investigated 2026-08-02)
+
+`lib/repositories/eventRepository.test.ts`, `announcementRepository.test.ts`, and
+`promotionRepository.test.ts` each freeze "now" for their date-filtering test by doing
+`Date.now = () => now.getTime()`, then restoring it afterward. But the repositories call
+`isPast(dateIso)` (`lib/utils/dateStatus.ts`) with no explicit `now`, so it falls back to the
+default parameter `now: Date = new Date()`. Reassigning the static `Date.now` method does **not**
+change what the `new Date()` constructor (no args) returns — verified directly:
+
+```
+Date.now() mocked -> 2026-07-06T12:00:00.000Z
+new Date() (no args) -> 2026-08-02T01:11:52.317Z
+```
+
+So the mock in these three test files has always been a no-op; the "excludes X whose date has
+passed" tests, and (in `eventRepository.test.ts`) the sort test that never mocked at all, were only
+passing because real time hadn't yet passed the hardcoded ~2026-07-31/08-01 fixture dates. Today
+(2026-08-02) tipped 5 tests over into failure. `isPast` itself and its own unit tests
+(`dateStatus.test.ts`, which correctly passes `now` as an explicit argument) are unaffected and
+correct — this is a test-mocking bug only, not a business-logic bug.
+
+Acceptance Criteria
+
+- [x] Replace the `Date.now = () => ...` / manual restore pattern with vitest's
+      `vi.useFakeTimers()` + `vi.setSystemTime(now)` (`vi.useRealTimers()` to restore), which
+      correctly freezes `new Date()` as well as `Date.now()`.
+- [x] No production code changes — `isPast` and the three repositories are already correct.
+- [x] `npm run test` passes against the real current date (not a mocked date).
+- [x] `npm run typecheck` / `npm run lint` / `npm run format -- --check` clean.
+
+### Implementation (2026-08-02)
+
+Moved time-freezing to a `beforeEach`/`afterEach` pair per `describe` block in all three test files
+(`vi.useFakeTimers()` + `vi.setSystemTime(now)` / `vi.useRealTimers()`), rather than only inside the
+one test that previously tried to mock it — `eventRepository.test.ts`'s sort-order test had no time
+mocking at all and was implicitly relying on real time staying behind its fixtures' default endDate,
+which is exactly what broke. Freezing time for the whole suite in each file removes that hidden
+dependency for every test, not just the one that names it explicitly.
+
+**Verified:**
+
+- `npx vitest run` on the three affected files — 16/16 passed.
+- Full `npm run test` — 34 test files / 219 tests passed, run against the real system clock
+  (2026-08-02), not a mocked date.
+- `npm run typecheck`, `npm run lint`, `npm run format -- --check` — all clean.
+
+F-029 implemented and verified (2026-08-02).
 
 ---
 

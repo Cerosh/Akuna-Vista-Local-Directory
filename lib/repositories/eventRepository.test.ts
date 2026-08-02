@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { JSONEventRepository } from "./eventRepository";
 import type { Event } from "@/types/event";
 
@@ -19,6 +19,22 @@ function makeEvent(overrides: Partial<Event>): Event {
 describe("JSONEventRepository", () => {
   const now = new Date("2026-07-06T12:00:00Z");
 
+  // `isPast` (lib/utils/dateStatus.ts) defaults to `new Date()` when the
+  // repository calls it with no explicit `now` — reassigning `Date.now`
+  // alone does NOT affect that (`new Date()` doesn't consult the
+  // monkey-patched static method), so every test in this file needs real
+  // fake-timer support to get a deterministic "now", not just the one test
+  // that filters on it. `useFakeTimers`/`setSystemTime` correctly intercept
+  // `new Date()` too.
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("returns all events", async () => {
     const events = [makeEvent({ slug: "a" }), makeEvent({ slug: "b" })];
     const repository = new JSONEventRepository(events);
@@ -37,14 +53,8 @@ describe("JSONEventRepository", () => {
     const past = makeEvent({ slug: "past", endDate: "2026-06-01T12:00:00Z" });
     const repository = new JSONEventRepository([upcoming, past]);
 
-    const originalNow = Date.now;
-    Date.now = () => now.getTime();
-    try {
-      const result = await repository.getUpcomingEvents();
-      expect(result.map((event) => event.slug)).toEqual(["upcoming"]);
-    } finally {
-      Date.now = originalNow;
-    }
+    const result = await repository.getUpcomingEvents();
+    expect(result.map((event) => event.slug)).toEqual(["upcoming"]);
   });
 
   it("sorts upcoming events by startDate ascending", async () => {

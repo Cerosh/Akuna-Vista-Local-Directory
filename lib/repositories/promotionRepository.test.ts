@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { JSONPromotionRepository } from "./promotionRepository";
 import type { Promotion } from "@/types/promotion";
 
@@ -18,6 +18,18 @@ function makePromotion(overrides: Partial<Promotion>): Promotion {
 describe("JSONPromotionRepository", () => {
   const now = new Date("2026-07-06T12:00:00Z");
 
+  // See eventRepository.test.ts for why every test needs this, not just the
+  // ones that filter on `isPast`: reassigning `Date.now` alone doesn't
+  // affect `new Date()`, which is what `isPast`'s default `now` uses.
+  beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(now);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+
   it("returns all promotions", async () => {
     const promotions = [makePromotion({ id: "a" }), makePromotion({ id: "b" })];
     const repository = new JSONPromotionRepository(promotions);
@@ -36,14 +48,8 @@ describe("JSONPromotionRepository", () => {
     const expired = makePromotion({ id: "expired", endDate: "2026-06-30" });
     const repository = new JSONPromotionRepository([active, expired]);
 
-    const originalNow = Date.now;
-    Date.now = () => now.getTime();
-    try {
-      const result = await repository.getActivePromotions();
-      expect(result.map((promotion) => promotion.id)).toEqual(["active"]);
-    } finally {
-      Date.now = originalNow;
-    }
+    const result = await repository.getActivePromotions();
+    expect(result.map((promotion) => promotion.id)).toEqual(["active"]);
   });
 
   it("orders active promotions with featured ones first, preserving relative order otherwise", async () => {
@@ -52,14 +58,8 @@ describe("JSONPromotionRepository", () => {
     const featured = makePromotion({ id: "featured", featured: true });
     const repository = new JSONPromotionRepository([first, second, featured]);
 
-    const originalNow = Date.now;
-    Date.now = () => now.getTime();
-    try {
-      const result = await repository.getActivePromotions();
-      expect(result.map((promotion) => promotion.id)).toEqual(["featured", "first", "second"]);
-    } finally {
-      Date.now = originalNow;
-    }
+    const result = await repository.getActivePromotions();
+    expect(result.map((promotion) => promotion.id)).toEqual(["featured", "first", "second"]);
   });
 
   it("returns only featured promotions", async () => {
