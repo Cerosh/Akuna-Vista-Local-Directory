@@ -53,14 +53,20 @@ test.describe("Business Directory (/businesses)", () => {
     await expect(pageIndicator).toBeVisible();
     const totalPages = Number((await pageIndicator.textContent())?.match(/of (\d+)/)?.[1]);
     expect(totalPages).toBeGreaterThan(1);
-    await expect(page.getByText("Previous")).toHaveAttribute("aria-disabled", "true");
+    await expect(directory.pagination.getByText("Previous", { exact: true })).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
 
     for (let targetPage = 2; targetPage <= totalPages; targetPage++) {
       await directory.pagination.getByRole("link", { name: /next/i }).click();
       await expect(page).toHaveURL(new RegExp(`page=${targetPage}`));
       await expect(page.getByText(`Page ${targetPage} of ${totalPages}`)).toBeVisible();
     }
-    await expect(page.getByText("Next")).toHaveAttribute("aria-disabled", "true");
+    await expect(directory.pagination.getByText("Next", { exact: true })).toHaveAttribute(
+      "aria-disabled",
+      "true",
+    );
   });
 
   test("changing category resets pagination to page 1", async ({ page }) => {
