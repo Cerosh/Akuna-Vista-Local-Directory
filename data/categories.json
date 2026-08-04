@@ -198,5 +198,13 @@
     "icon": "Flower2",
     "description": "Florists and flower delivery for weddings, poojas, and celebrations in the Akuna Vista community.",
     "displayOrder": 26
+  },
+  {
+    "id": "travel-tourism",
+    "slug": "travel-tourism",
+    "name": "Travel & Tourism",
+    "icon": "Globe",
+    "description": "Travel agencies, tour operators and travel planning services.",
+    "displayOrder": 27
   }
 ]

@@ -938,5 +938,40 @@
     "tags": ["Florist", "Flower Garlands", "Weddings", "Poojas"],
     "createdAt": "2026-08-01T00:00:00Z",
     "updatedAt": "2026-08-01T00:00:00Z"
+  },
+  {
+    "id": "db99e186-375d-48d9-942b-f1a75b379310",
+    "slug": "king-of-tours",
+    "name": "King of Tours",
+    "description": "Whether you're arriving, departing or exploring, King of Tours provides personalised transport solutions with spacious vehicles, professional drivers and service that goes beyond getting you from A to B.",
+    "shortDescription": "Sydney's Trusted Choice for Private Tours & Premium Transfers.",
+    "categoryId": "taxi-transport",
+    "phone": "02 8320 0477",
+    "email": "contact@kingoftours.com.au",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Private Tours", "Premium Transfers", "Airport Transfers"],
+    "createdAt": "2026-08-04T00:00:00Z",
+    "updatedAt": "2026-08-04T00:00:00Z"
+  },
+  {
+    "id": "9a063d12-e998-437e-9d4e-1590c6e9197d",
+    "slug": "travel-crafters",
+    "name": "Travel Crafters",
+    "description": "Established in 2016 and built on more than two decades of travel industry experience, Travel Crafters specialises in creating unforgettable holidays, cruises and flight experiences with personalised service, exclusive offers and support every step of the way.",
+    "shortDescription": "Need help planning your next adventure? Reach out to us!",
+    "categoryId": "travel-tourism",
+    "phone": "02 8964 4221",
+    "email": "sales@travelcrafters.com.au",
+    "website": "https://www.travelcrafters.com.au",
+    "serviceAreas": ["Akuna Vista"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Cruises", "Holiday Planning", "Flight Bookings"],
+    "createdAt": "2026-08-04T00:00:00Z",
+    "updatedAt": "2026-08-04T00:00:00Z"
   }
 ]

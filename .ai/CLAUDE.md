@@ -199,6 +199,48 @@ chore:
 
 ---
 
+# Verification Handoff (cost-aware)
+
+Established 2026-08-02, after discussing Claude Code token cost with the project owner.
+
+For routine, binary checks after completing an implementation, hand verification to the project
+owner instead of running it yourself:
+
+- Report the exact commands to run: `npm run typecheck`, `npm run lint`, `npm run test` (full
+  suite). Ask the owner to run them and report back pass, or paste the failure output if any.
+- Don't ask to see raw output when the owner reports a pass — a clean self-report is sufficient
+  for these three. Only ask for raw output if the result is a failure or ambiguous.
+- Once confirmed clean, provide a suggested commit message (Conventional Commits, per Git
+  Workflow above) for the owner to commit themselves, unless they ask you to commit.
+
+This does **not** apply to CI/CD, deployment, or infrastructure verification (GitHub Actions
+runs, Vercel deploys, env vars, secrets, live-site checks) — keep running those yourself,
+directly. Self-reports have already missed real bugs there (a stale deployment snapshot, a
+silently-broken "Sensitive" env var) that direct inspection caught. Infra verification stays
+hands-on regardless of cost, unless the owner explicitly asks otherwise.
+
+## Local Quality Gates vs. CI
+
+If something is only ever caught in CI — never locally, no matter what the developer ran by
+hand — that's a gap in the local git hooks, not bad luck. Treat "CI caught it, local didn't" as a
+prompt to check whether the failing category of check (typecheck, lint, unit tests, data
+validation, doc consistency) is actually wired into `.husky/pre-commit` or `.husky/pre-push`, and
+add it if not. Finding out via CI is slow (a full pipeline run) compared to a hook (seconds);
+every category of check should run at the earliest hook that's cheap enough for it:
+
+- `.husky/pre-commit`: fast checks only (lint-staged, typecheck, the unit test suite, data/doc
+  validation scripts) — all of it should complete in a few seconds.
+- `.husky/pre-push`: slower checks (e.g. the e2e/Playwright suite) that would make every commit
+  sluggish if run pre-commit instead.
+
+Example: 2026-08-02, a unit test failure only ever showed up in CI even though the project owner
+ran local checks first — turned out `pre-commit` ran typecheck but not the unit suite, and
+`pre-push` ran only e2e, not the unit suite either. The unit suite runs in under a second, so it
+was moved into `pre-commit`. When CI catches something local didn't, ask *why* local didn't, don't
+just fix the one failure and move on.
+
+---
+
 # When Unsure
 
 Do not guess.
