@@ -104,7 +104,7 @@ Per Feature, the sprint is successful when:
 | F-032 | Re-add the "Landscaping & Gardening" category (removed in F-024) with 5 businesses recommended in the WhatsApp thread that prompted F-024's removal | Medium | Completed |
 | F-033 | Add new "Tailoring & Alterations" category and new business "KS Webwear" (Sindhu Telugubadi, blouse pieces, resizing, saree fall stitching, custom printed t-shirts, Tallawong) | Medium | Completed |
 | F-034 | Add new "Florists & Flower Delivery" category and new business "Uma Garlands" (fresh flower garlands & floral jewellery, Nirimba Fields) | Medium | Completed |
-| F-035 | Rename business `ethiquity-mortgage-services-jp` (Featured, JP Services) from "JP – Ethiquity Mortgage Services" to "Ethiquity Mortgage Services – Jan Nayak Singh", per Jan's request | Low | Completed |
+| F-035 | Rename business `ethiquity-mortgage-services-jp` (Featured, JP Services) from "JP – Ethiquity Mortgage Services" to "Jan Nayak Singh – Ethiquity Mortgage Services", per Jan's request (corrected 2026-08-05: original implementation used the reverse order, "Ethiquity Mortgage Services – Jan Nayak Singh"; swapped per follow-up request — this order also resolves the card-truncation tradeoff noted earlier, since the name now renders first) | Low | Completed |
 
 Status Values
 
