@@ -107,6 +107,7 @@ Per Feature, the sprint is successful when:
 | F-027 | `CategoryCarousel`'s left/right arrow buttons have only a 32×32px hit area (Button `size="icon"`), half of which overlaps the adjacent `CategoryCard` link — on touch devices a tap near an arrow often lands on the category card instead, navigating away rather than scrolling | Medium | Completed |
 | F-028 | `/code-review` on F-027: dark-mode `hover:bg-transparent` didn't cancel the ghost variant's `dark:hover:bg-muted/50` (different modifier stack, not deduped by tailwind-merge), leaking a gray fill across the full 44px hit box on hover; the keyboard focus-visible ring also moved to the oversized, off-center 44px outer button instead of staying on the visible 32px circle | Medium | Completed |
 | F-029 | CI broke on main (2026-08-02, GitHub Actions run 30726250394): `eventRepository.test.ts`/`announcementRepository.test.ts`/`promotionRepository.test.ts` freeze "now" via `Date.now = () => ...`, but `isPast`'s default `now: Date = new Date()` never reads the monkey-patched `Date.now` — the mock was always a no-op, only staying green because real time hadn't yet passed the hardcoded ~2026-07-31/08-01 fixture dates | High | Completed |
+| F-030 | CI broke on main (2026-08-06, GitHub Actions run 31068621306): `tests/e2e/homepage.spec.ts`'s Transit widget test combines two locators with `.first()` applied to each before `.or()`, so a static heading text and a real fetch-failure message can both independently resolve to one element and union into two — a strict-mode violation | Medium | Completed |
 
 Status Values
 
@@ -1856,6 +1857,56 @@ dependency for every test, not just the one that names it explicitly.
 - `npm run typecheck`, `npm run lint`, `npm run format -- --check` — all clean.
 
 F-029 implemented and verified (2026-08-02).
+
+---
+
+## Story 11 (F-030)
+
+As the project owner who just pushed two data-only commits to `main`
+
+I want CI green again
+
+So that the branch is deployable — raised 2026-08-06 with
+`https://github.com/Cerosh/Akuna-Vista-Local-Directory/actions/runs/31068621306` showing the
+"End-to-end tests (1/2)" job failing.
+
+### Root cause (investigated 2026-08-06)
+
+`tests/e2e/homepage.spec.ts`'s "Transit widget ... never calls NSW Transport APIs directly from
+the browser" test asserts:
+
+```js
+await expect(
+  page.getByText("Schofields").first().or(page.getByText("Unavailable right now").first()),
+).toBeVisible({ timeout: 15000 });
+```
+
+`.first()` is applied to each locator *before* `.or()` combines them. `TransitWidget.tsx`'s "Next
+trains — Schofields" heading (line 83, `<h3 id="transit-trains-heading">`) is a **static** section
+label that renders unconditionally, regardless of whether the trains fetch succeeds or fails — it
+was never actually a signal that real data loaded. So `getByText("Schofields")` always has at
+least one match. When the parking fetch *also* fails (rendering "Unavailable right now"), both
+locators independently resolve to one element each, and `.or()` unions them into two distinct
+elements — a strict-mode violation, since `toBeVisible()` requires exactly one match.
+
+This run's trigger was the real NSW Transport API returning `403` for both `/v1/carpark` and
+`/v1/tp/departure_mon` (visible in the job log) — an external API blip, not a regression from
+either of the two commits that triggered this CI run (`069e0e2`, `1523669` — F-036/F-037, which
+only touched `data/businesses.json`, `data/categories.json`, and a sprint-15 doc, confirmed via
+`git show`). The bug has been latent in the test since it was written; it just requires the live
+NSW Transport API to fail at least one of its two calls to surface.
+
+### Acceptance Criteria
+
+- [x] Fix the locator to `page.getByText("Schofields").or(page.getByText("Unavailable right
+      now")).first()` — union first, then take one, so it's robust to any combination of visible
+      indicator texts.
+- [x] No production code change — `TransitWidget.tsx` is already correct; this is a test-only bug.
+- [x] `npx playwright test tests/e2e/homepage.spec.ts` passes — 30/30 across chromium, firefox,
+      webkit (verified 2026-08-06).
+- [ ] Full Playwright suite still passes (will run as part of the pre-push hook on commit).
+
+F-030 implemented and verified (2026-08-06).
 
 ---
 

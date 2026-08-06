@@ -223,7 +223,7 @@ test.describe("Homepage", () => {
     // provisioned) — either is a pass, a hard failure/crash/blank widget
     // is not.
     await expect(
-      page.getByText("Schofields").first().or(page.getByText("Unavailable right now").first()),
+      page.getByText("Schofields").or(page.getByText("Unavailable right now")).first(),
     ).toBeVisible({ timeout: 15000 });
 
     expect(requestedUrls.some((url) => url.includes("/api/carpark"))).toBe(true);
