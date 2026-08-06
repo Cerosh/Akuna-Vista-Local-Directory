@@ -105,6 +105,7 @@ Per Feature, the sprint is successful when:
 | F-033 | Add new "Tailoring & Alterations" category and new business "KS Webwear" (Sindhu Telugubadi, blouse pieces, resizing, saree fall stitching, custom printed t-shirts, Tallawong) | Medium | Completed |
 | F-034 | Add new "Florists & Flower Delivery" category and new business "Uma Garlands" (fresh flower garlands & floral jewellery, Nirimba Fields) | Medium | Completed |
 | F-035 | Rename business `ethiquity-mortgage-services-jp` (Featured, JP Services) from "JP – Ethiquity Mortgage Services" to "Jan Nayak Singh – JP, Mortgage Broker", per Jan's request (revised twice 2026-08-05: first to "Ethiquity Mortgage Services – Jan Nayak Singh", then reordered to "Jan Nayak Singh – Ethiquity Mortgage Services", then finally dropped the "Ethiquity Mortgage Services" trading name in favour of "JP, Mortgage Broker" — 37 chars. Verified visually this still clips on the directory card's `line-clamp-1` title, cutting off "Broker" — the actual safe threshold for a *Featured* card turned out to be ~24 chars, not the ~45-char figure that held for non-Featured cards, since the Featured badge narrows the available title width. Project owner reviewed a shorter alternative ("Jan Nayak Singh (JP)", 20 chars, fits fully) and explicitly chose to keep the current text and accept the clipping instead) | Low | Completed |
+| F-036 | Add new "Handyman" category and 3 businesses sourced from phone-contact screenshots the project owner shared after residents asked for a handyman recommendation: "Craig Handyman" (+61 401 476 114), "Rajiv Dhiman Handyman" (+61 421 248 961), "Kumar Handyman Services" (+61 430 025 092) | Medium | Completed |
 
 Status Values
 
@@ -2856,3 +2857,128 @@ the original WhatsApp lead was a Google Maps card with no phone number visible w
 - [ ] `/category/florists-flower-delivery` lists Uma Garlands; `/business/uma-garlands` renders
       correctly.
 - [ ] Existing Playwright suite still passes.
+
+---
+
+## Story 34 (F-036)
+
+As a resident who needs a handyman
+
+I want to find handyman contacts in the directory
+
+So that I don't have to rely on word-of-mouth screenshots — several residents asked and the
+directory had no handyman category or listing at all.
+
+### Source data (three phone-contact screenshots supplied directly by the project owner,
+2026-08-06 — no matching public business listing found for two of the three; see Research below)
+
+- Contact 1: "Criag Handyman" (apparent typo), mobile `0401 476 114`, no photo/logo.
+- Contact 2: "Rajiv Dhiman Handyman", mobile `+61 421 248 961`, has a personal photo but no
+  business logo/branding visible.
+- Contact 3: display name "Bhavikbhai Handyman", mobile `+61 430 025 092`, contact photo is a
+  business logo reading "Kumar Handyman Services".
+
+### Research
+
+Searched the three mobile numbers directly and in combination with the visible names.
+
+- Contact 3 matched a real business: "Kumar Handyman services | Sydney NSW" on Facebook
+  (facebook.com/people/Kumar-Handyman-services/100063965923752/), consistent with the logo on the
+  contact photo. No address, website, or email found — Facebook page has minimal public detail.
+- Contacts 1 and 2 returned no matching business listing, website, or directory presence under
+  either the name or the number — these appear to be personal/word-of-mouth contacts with no
+  existing online footprint.
+
+No address, suburb, email, or website could be confirmed for any of the three, so none of those
+fields are populated — matches the project's "don't guess" rule over inventing a plausible-looking
+address.
+
+### Confirmed with project owner (2026-08-06)
+
+- Contact 1 listed as **"Craig Handyman"** (typo in the saved contact corrected).
+- Contact 3 listed as **"Kumar Handyman Services"** (matches the logo/Facebook page, not the saved
+  contact display name "Bhavikbhai Handyman").
+- All three added with just name + phone — no serviceAreas/address/email, since none is confirmed.
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "handyman",
+  "slug": "handyman",
+  "name": "Handyman",
+  "icon": "Hammer",
+  "description": "Handyman services for general repairs and small jobs around the home.",
+  "displayOrder": 28
+}
+```
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "117ad919-dc48-49f6-a819-806ff394e6e2",
+  "slug": "craig-handyman",
+  "name": "Craig Handyman",
+  "description": "Craig offers general handyman services for repairs and small jobs around the home. Contact directly to discuss your job and availability.",
+  "shortDescription": "General handyman services.",
+  "categoryId": "handyman",
+  "phone": "+61 401 476 114",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Handyman"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "e8ea020d-5d3d-4a27-90ae-7ac495bb57da",
+  "slug": "rajiv-dhiman-handyman",
+  "name": "Rajiv Dhiman Handyman",
+  "description": "Rajiv Dhiman offers general handyman services for repairs and small jobs around the home. Contact directly to discuss your job and availability.",
+  "shortDescription": "General handyman services.",
+  "categoryId": "handyman",
+  "phone": "+61 421 248 961",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Handyman"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "362ebc70-6993-4305-ad4a-bee0a5828d99",
+  "slug": "kumar-handyman-services",
+  "name": "Kumar Handyman Services",
+  "description": "Kumar Handyman Services offers general handyman and home improvement work. Contact Bhavikbhai to discuss your job and availability.",
+  "shortDescription": "General handyman & home improvement services.",
+  "categoryId": "handyman",
+  "phone": "+61 430 025 092",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Handyman"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] `handyman` category added to `data/categories.json` with `displayOrder: 28`.
+- [x] Craig Handyman, Rajiv Dhiman Handyman, and Kumar Handyman Services added to
+      `data/businesses.json` under `handyman`, not featured, no promotion.
+- [x] `npm run validate:data` passes.
+- [x] `/category/handyman` lists all three businesses; each `/business/<slug>` renders correctly.
+      Verified 2026-08-06 via dev server + browser: category page lists Craig Handyman, Kumar
+      Handyman Services, Rajiv Dhiman Handyman; each business page shows the correct name and
+      phone number. Only console issue was a hydration-mismatch warning from a browser extension
+      injecting `bis_register`/`__processed_*` attributes onto `<body>` — unrelated to this change.
+- [ ] Existing Playwright suite still passes.
+

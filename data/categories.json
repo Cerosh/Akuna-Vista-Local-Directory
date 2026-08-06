@@ -206,5 +206,13 @@
     "icon": "Globe",
     "description": "Travel agencies, tour operators and travel planning services.",
     "displayOrder": 27
+  },
+  {
+    "id": "handyman",
+    "slug": "handyman",
+    "name": "Handyman",
+    "icon": "Hammer",
+    "description": "Handyman services for general repairs and small jobs around the home.",
+    "displayOrder": 28
   }
 ]

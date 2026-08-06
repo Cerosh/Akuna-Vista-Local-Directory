@@ -973,5 +973,50 @@
     "tags": ["Cruises", "Holiday Planning", "Flight Bookings"],
     "createdAt": "2026-08-04T00:00:00Z",
     "updatedAt": "2026-08-04T00:00:00Z"
+  },
+  {
+    "id": "117ad919-dc48-49f6-a819-806ff394e6e2",
+    "slug": "craig-handyman",
+    "name": "Craig Handyman",
+    "description": "Craig offers general handyman services for repairs and small jobs around the home. Contact directly to discuss your job and availability.",
+    "shortDescription": "General handyman services.",
+    "categoryId": "handyman",
+    "phone": "+61 401 476 114",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Handyman"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "e8ea020d-5d3d-4a27-90ae-7ac495bb57da",
+    "slug": "rajiv-dhiman-handyman",
+    "name": "Rajiv Dhiman Handyman",
+    "description": "Rajiv Dhiman offers general handyman services for repairs and small jobs around the home. Contact directly to discuss your job and availability.",
+    "shortDescription": "General handyman services.",
+    "categoryId": "handyman",
+    "phone": "+61 421 248 961",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Handyman"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "362ebc70-6993-4305-ad4a-bee0a5828d99",
+    "slug": "kumar-handyman-services",
+    "name": "Kumar Handyman Services",
+    "description": "Kumar Handyman Services offers general handyman and home improvement work. Contact Bhavikbhai to discuss your job and availability.",
+    "shortDescription": "General handyman & home improvement services.",
+    "categoryId": "handyman",
+    "phone": "+61 430 025 092",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Handyman"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
   }
 ]
