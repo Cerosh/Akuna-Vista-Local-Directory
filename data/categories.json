@@ -214,5 +214,13 @@
     "icon": "Hammer",
     "description": "Handyman services for general repairs and small jobs around the home.",
     "displayOrder": 28
+  },
+  {
+    "id": "medical-health",
+    "slug": "medical-health",
+    "name": "Medical & Health",
+    "icon": "Stethoscope",
+    "description": "GPs, urgent care, and emergency medical services for the Akuna Vista community.",
+    "displayOrder": 29
   }
 ]

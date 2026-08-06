@@ -1018,5 +1018,281 @@
     "tags": ["Handyman"],
     "createdAt": "2026-08-06T00:00:00Z",
     "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "a40b9fc7-a8e6-4d8a-94fe-3376e1d19ea1",
+    "slug": "our-medical-marsden-park",
+    "name": "Our Medical Marsden Park",
+    "description": "Bulk billing GP clinic offering walk-in and telehealth consultations with no appointment required, including Dr Sasivathani. The most-recommended option in the Akuna Vista community WhatsApp group when a resident's child had a high fever.",
+    "shortDescription": "Bulk billing GP, walk-in, open till 10pm daily.",
+    "categoryId": "medical-health",
+    "phone": "02 8042 0485",
+    "email": "reception@omhmarsdenpark.com.au",
+    "address": {
+      "street": "Shop 1, 9 Hollinsworth Road",
+      "suburb": "Marsden Park",
+      "state": "NSW",
+      "postcode": "2765"
+    },
+    "openingHours": {
+      "monday": "07:00-22:00",
+      "tuesday": "07:00-22:00",
+      "wednesday": "07:00-22:00",
+      "thursday": "07:00-22:00",
+      "friday": "07:00-22:00",
+      "saturday": "08:00-22:00",
+      "sunday": "08:00-22:00"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["GP", "Bulk Billing", "Walk-in"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "6a836af0-aecd-4237-8fa7-753749d84f67",
+    "slug": "our-medical-kellyville",
+    "name": "Our Medical Kellyville",
+    "description": "Bulk billing GP clinic open every day until 10pm with no appointment required; co-located pathology, physio, dental and allied health.",
+    "shortDescription": "Bulk billing GP, walk-in, open till 10pm daily.",
+    "categoryId": "medical-health",
+    "phone": "02 9189 7000",
+    "website": "https://www.ourmedical.com.au/medical-centres/kellyville",
+    "address": {
+      "street": "1 President Road",
+      "suburb": "Kellyville",
+      "state": "NSW",
+      "postcode": "2155"
+    },
+    "openingHours": {
+      "monday": "08:00-22:00",
+      "tuesday": "08:00-22:00",
+      "wednesday": "08:00-22:00",
+      "thursday": "08:00-22:00",
+      "friday": "08:00-22:00",
+      "saturday": "08:00-22:00",
+      "sunday": "08:00-22:00"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["GP", "Bulk Billing", "Walk-in"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "28cc666d-80fc-4e01-ac05-220fa6f7785f",
+    "slug": "doonside-medical-centre",
+    "name": "Doonside Medical Centre",
+    "description": "Bulk billing GP clinic — no out-of-pocket fee with a Medicare card presented.",
+    "shortDescription": "Bulk billing GP clinic.",
+    "categoryId": "medical-health",
+    "phone": "02 8881 7939",
+    "website": "https://doonsidemc.com.au/",
+    "address": {
+      "street": "Shop 1, 185 Knox Road",
+      "suburb": "Doonside",
+      "state": "NSW",
+      "postcode": "2767"
+    },
+    "openingHours": {
+      "monday": "08:00-19:00",
+      "tuesday": "08:00-19:00",
+      "wednesday": "08:00-19:00",
+      "thursday": "08:00-19:00",
+      "friday": "08:00-19:00",
+      "saturday": "08:00-16:00",
+      "sunday": "08:00-15:00"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["GP", "Bulk Billing"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "dcfcb175-c906-41cf-b087-69c926ac15ec",
+    "slug": "rouse-hill-urgent-care-clinic",
+    "name": "Rouse Hill Urgent Care Clinic",
+    "description": "Government-funded Medicare Urgent Care Clinic — free walk-in treatment for urgent, non-life-threatening conditions, fully bulk billed with just a Medicare card, no appointment needed.",
+    "shortDescription": "Free walk-in urgent care, fully bulk billed.",
+    "categoryId": "medical-health",
+    "phone": "02 8889 8900",
+    "address": {
+      "street": "Level 1, 10-14 Market Lane",
+      "suburb": "Rouse Hill",
+      "state": "NSW",
+      "postcode": "2155"
+    },
+    "openingHours": {
+      "monday": "08:00-20:00",
+      "tuesday": "08:00-20:00",
+      "wednesday": "08:00-20:00",
+      "thursday": "08:00-20:00",
+      "friday": "08:00-20:00",
+      "saturday": "08:00-20:00",
+      "sunday": "08:00-20:00"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Urgent Care", "Bulk Billing", "Walk-in", "Medicare Urgent Care Clinic"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "68db2536-9b4d-459a-99fa-414c2792a30c",
+    "slug": "swift-emergency-care",
+    "name": "Swift Emergency Care",
+    "description": "Private walk-in emergency and urgent care clinic, no appointment required.",
+    "shortDescription": "Private walk-in emergency & urgent care.",
+    "categoryId": "medical-health",
+    "phone": "02 8859 9099",
+    "website": "https://www.swiftemergencycare.com.au/",
+    "address": {
+      "street": "T2, 32 Civic Way",
+      "suburb": "Rouse Hill",
+      "state": "NSW",
+      "postcode": "2155"
+    },
+    "openingHours": {
+      "monday": "10:00-22:00",
+      "tuesday": "10:00-22:00",
+      "wednesday": "10:00-22:00",
+      "thursday": "10:00-22:00",
+      "friday": "10:00-22:00",
+      "saturday": "10:00-22:00",
+      "sunday": "10:00-22:00"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Emergency Care", "Urgent Care", "Walk-in"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "0bd87f18-8e0c-4c4b-9761-c0bf4fd43b97",
+    "slug": "wise-specialist-emergency",
+    "name": "WiSE Specialist Emergency",
+    "description": "Walk-in specialist emergency clinic for accidents and emergencies that need more than a GP visit but aren't life-threatening. Private, around $260 out-of-pocket for specialist assessment and diagnostics. Located in Macquarie Park — further than most listings here, but specifically recommended in the community WhatsApp thread.",
+    "shortDescription": "Private walk-in specialist emergency clinic.",
+    "categoryId": "medical-health",
+    "phone": "02 9216 7676",
+    "website": "https://www.wisemedical.com.au/contact/macquarie-park/",
+    "address": {
+      "street": "11 Khartoum Road",
+      "suburb": "Macquarie Park",
+      "state": "NSW",
+      "postcode": "2113"
+    },
+    "openingHours": {
+      "monday": "10:00-22:00",
+      "tuesday": "10:00-22:00",
+      "wednesday": "10:00-22:00",
+      "thursday": "10:00-22:00",
+      "friday": "10:00-22:00",
+      "saturday": "10:00-22:00",
+      "sunday": "10:00-22:00"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Emergency Care", "Specialist", "Private"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "80714f03-be28-4be6-b2be-f2751dc92c85",
+    "slug": "mount-druitt-hospital-emergency",
+    "name": "Mount Druitt Hospital Emergency Department",
+    "description": "Public hospital emergency department, open 24 hours.",
+    "shortDescription": "Public hospital ED, open 24 hours.",
+    "categoryId": "medical-health",
+    "phone": "02 9881 8000",
+    "address": {
+      "street": "75 Railway Street",
+      "suburb": "Mount Druitt",
+      "state": "NSW",
+      "postcode": "2770"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Public Hospital", "Emergency Department", "24 Hours"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "a49aa863-e967-43be-ab9b-7340783d2f4c",
+    "slug": "westmead-hospital-emergency",
+    "name": "Westmead Hospital Emergency Department",
+    "description": "Public hospital emergency department, open 24 hours — one of the busiest in Australia.",
+    "shortDescription": "Public hospital ED, open 24 hours.",
+    "categoryId": "medical-health",
+    "phone": "02 8890 5555",
+    "address": {
+      "street": "Level 1, 176 Hawkesbury Road",
+      "suburb": "Westmead",
+      "state": "NSW",
+      "postcode": "2145"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Public Hospital", "Emergency Department", "24 Hours"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "b1c61b38-1719-4c58-a5e1-75812bb6203b",
+    "slug": "13cure-after-hours-home-doctor",
+    "name": "13cure After-Hours Home Doctor",
+    "description": "After-hours home-visit doctor service covering Schofields — bulk billed for eligible Medicare patients, doctors come to you rather than a clinic visit.",
+    "shortDescription": "After-hours bulk billed home-visit doctor.",
+    "categoryId": "medical-health",
+    "phone": "13 28 73",
+    "website": "https://www.13cure.com.au/locations/new_south_wales/schofields-16581",
+    "serviceAreas": ["Schofields"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Home Doctor", "After Hours", "Bulk Billing"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "7f762237-8d20-442a-9527-f6068de7555e",
+    "slug": "castle-medical-marsden-park",
+    "name": "Castle Medical Marsden Park",
+    "description": "General practice and urgent care clinic offering walk-ins and online bookings. Rated 4.6★ from 162 reviews (Birdeye).",
+    "shortDescription": "GP & urgent care, walk-in or online booking.",
+    "categoryId": "medical-health",
+    "phone": "02 7808 0810",
+    "email": "marsdenpark@castlemedical.com.au",
+    "website": "https://www.castlemedical.com.au/mp-contact-us/",
+    "address": {
+      "street": "101 Elara Boulevard",
+      "suburb": "Marsden Park",
+      "state": "NSW",
+      "postcode": "2765"
+    },
+    "openingHours": {
+      "monday": "09:00-20:00",
+      "tuesday": "09:00-20:00",
+      "wednesday": "09:00-20:00",
+      "thursday": "09:00-20:00",
+      "friday": "09:00-20:00",
+      "saturday": "09:00-16:00",
+      "sunday": "09:00-15:00"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["GP", "Urgent Care", "Walk-in"],
+    "createdAt": "2026-08-06T00:00:00Z",
+    "updatedAt": "2026-08-06T00:00:00Z"
   }
 ]

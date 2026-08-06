@@ -107,6 +107,7 @@ Per Feature, the sprint is successful when:
 | F-035 | Rename business `ethiquity-mortgage-services-jp` (Featured, JP Services) from "JP – Ethiquity Mortgage Services" to "Jan Nayak Singh – JP, Mortgage Broker", per Jan's request (revised twice 2026-08-05: first to "Ethiquity Mortgage Services – Jan Nayak Singh", then reordered to "Jan Nayak Singh – Ethiquity Mortgage Services", then finally dropped the "Ethiquity Mortgage Services" trading name in favour of "JP, Mortgage Broker" — 37 chars. Verified visually this still clips on the directory card's `line-clamp-1` title, cutting off "Broker" — the actual safe threshold for a *Featured* card turned out to be ~24 chars, not the ~45-char figure that held for non-Featured cards, since the Featured badge narrows the available title width. Project owner reviewed a shorter alternative ("Jan Nayak Singh (JP)", 20 chars, fits fully) and explicitly chose to keep the current text and accept the clipping instead) | Low | Completed |
 | F-036 | Add new "Handyman" category and 3 businesses sourced from phone-contact screenshots the project owner shared after residents asked for a handyman recommendation: "Craig Handyman" (+61 401 476 114), "Rajiv Dhiman Handyman" (+61 421 248 961), "Kumar Handyman Services" (+61 430 025 092) | Medium | Completed |
 | F-037 | *(Retroactively captured 2026-08-06 — see note below)* Add new "Travel & Tourism" category, "King of Tours" (Taxi & Transport), and "Travel Crafters" (Travel & Tourism) | Medium | Completed |
+| F-038 | Add new "Medical & Health" category and 10 businesses sourced from a WhatsApp group thread about an urgent child fever: Our Medical Marsden Park, Our Medical Kellyville, Doonside Medical Centre, Rouse Hill Urgent Care Clinic, Swift Emergency Care, WiSE Specialist Emergency, Mount Druitt Hospital Emergency, Westmead Hospital Emergency, 13cure After-Hours Home Doctor, and Castle Medical Marsden Park | Medium | Completed |
 
 Status Values
 
@@ -3073,3 +3074,326 @@ Crafters' description text ("Need help planning your next adventure").
 - [x] `npm run validate:data` passes (per commit message; not independently re-verified as part of
       this backfill since no data changed).
 - [x] Directory e2e tests pass across chromium, firefox, webkit (per commit message).
+
+---
+
+## Story 36 (F-038)
+
+As a resident (especially one newly moved to the area) facing a medical situation
+
+I want to find GPs, urgent care clinics, and emergency departments in the directory
+
+So that I have vetted local options — raised 2026-08-06 after a WhatsApp thread where a parent
+asked where to take a child with a high fever and several residents replied with real
+recommendations. The directory had no medical/health category at all.
+
+### Source data (WhatsApp thread pasted directly by the project owner, 2026-08-06; every
+listing below researched and verified via web search — real addresses, phone numbers, and hours,
+not guessed)
+
+Recommendations extracted from the thread: Our Medical Marsden Park (most frequently
+recommended, "Our Medical Dr Sasivathani" — confirmed by the project owner to be a doctor at this
+branch, folded into its description rather than a separate listing), Doonside Medical Centre, Our
+Medical Kellyville, Rouse Hill Urgent Care Clinic (a link was shared), Swift Emergency Care
+(Rouse Hill), WiSE Specialist Emergency (private, ~$350 mentioned in-thread), Mount Druitt
+Emergency, Westmead Emergency, and an After-Hours Doctor/Home Doctor service link for Schofields
+(resolved to 13cure). Castle Medical Marsden Park was added afterward at the project owner's
+request ("they offer urgent care include this as well"), with review data added per a follow-up
+request ("get the reviews or rating... phone number and email address").
+
+### Confirmed with project owner (2026-08-06)
+
+- Category named **"Medical & Health"** (matches this directory's existing "X & Y" naming style).
+- Public hospital Emergency Departments (Westmead, Mount Druitt) **included**, same precedent as
+  the non-commercial JP Services category.
+- WiSE Specialist Emergency (Macquarie Park, ~35-40 min away) **included** despite the distance —
+  it was specifically recommended by name in the thread.
+- "Our Medical Dr Sasivathani" confirmed as a doctor at **Our Medical Marsden Park** — folded into
+  that listing's description, not a separate business.
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "medical-health",
+  "slug": "medical-health",
+  "name": "Medical & Health",
+  "icon": "Stethoscope",
+  "description": "GPs, urgent care, and emergency medical services for the Akuna Vista community.",
+  "displayOrder": 29
+}
+```
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "a40b9fc7-a8e6-4d8a-94fe-3376e1d19ea1",
+  "slug": "our-medical-marsden-park",
+  "name": "Our Medical Marsden Park",
+  "description": "Bulk billing GP clinic offering walk-in and telehealth consultations with no appointment required, including Dr Sasivathani. The most-recommended option in the Akuna Vista community WhatsApp group when a resident's child had a high fever.",
+  "shortDescription": "Bulk billing GP, walk-in, open till 10pm daily.",
+  "categoryId": "medical-health",
+  "phone": "02 8042 0485",
+  "email": "reception@omhmarsdenpark.com.au",
+  "address": { "street": "Shop 1, 9 Hollinsworth Road", "suburb": "Marsden Park", "state": "NSW", "postcode": "2765" },
+  "openingHours": {
+    "monday": "07:00-22:00",
+    "tuesday": "07:00-22:00",
+    "wednesday": "07:00-22:00",
+    "thursday": "07:00-22:00",
+    "friday": "07:00-22:00",
+    "saturday": "08:00-22:00",
+    "sunday": "08:00-22:00"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["GP", "Bulk Billing", "Walk-in"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "6a836af0-aecd-4237-8fa7-753749d84f67",
+  "slug": "our-medical-kellyville",
+  "name": "Our Medical Kellyville",
+  "description": "Bulk billing GP clinic open every day until 10pm with no appointment required; co-located pathology, physio, dental and allied health.",
+  "shortDescription": "Bulk billing GP, walk-in, open till 10pm daily.",
+  "categoryId": "medical-health",
+  "phone": "02 9189 7000",
+  "website": "https://www.ourmedical.com.au/medical-centres/kellyville",
+  "address": { "street": "1 President Road", "suburb": "Kellyville", "state": "NSW", "postcode": "2155" },
+  "openingHours": {
+    "monday": "08:00-22:00",
+    "tuesday": "08:00-22:00",
+    "wednesday": "08:00-22:00",
+    "thursday": "08:00-22:00",
+    "friday": "08:00-22:00",
+    "saturday": "08:00-22:00",
+    "sunday": "08:00-22:00"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["GP", "Bulk Billing", "Walk-in"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "28cc666d-80fc-4e01-ac05-220fa6f7785f",
+  "slug": "doonside-medical-centre",
+  "name": "Doonside Medical Centre",
+  "description": "Bulk billing GP clinic — no out-of-pocket fee with a Medicare card presented.",
+  "shortDescription": "Bulk billing GP clinic.",
+  "categoryId": "medical-health",
+  "phone": "02 8881 7939",
+  "website": "https://doonsidemc.com.au/",
+  "address": { "street": "Shop 1, 185 Knox Road", "suburb": "Doonside", "state": "NSW", "postcode": "2767" },
+  "openingHours": {
+    "monday": "08:00-19:00",
+    "tuesday": "08:00-19:00",
+    "wednesday": "08:00-19:00",
+    "thursday": "08:00-19:00",
+    "friday": "08:00-19:00",
+    "saturday": "08:00-16:00",
+    "sunday": "08:00-15:00"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["GP", "Bulk Billing"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "dcfcb175-c906-41cf-b087-69c926ac15ec",
+  "slug": "rouse-hill-urgent-care-clinic",
+  "name": "Rouse Hill Urgent Care Clinic",
+  "description": "Government-funded Medicare Urgent Care Clinic — free walk-in treatment for urgent, non-life-threatening conditions, fully bulk billed with just a Medicare card, no appointment needed.",
+  "shortDescription": "Free walk-in urgent care, fully bulk billed.",
+  "categoryId": "medical-health",
+  "phone": "02 8889 8900",
+  "address": { "street": "Level 1, 10-14 Market Lane", "suburb": "Rouse Hill", "state": "NSW", "postcode": "2155" },
+  "openingHours": {
+    "monday": "08:00-20:00",
+    "tuesday": "08:00-20:00",
+    "wednesday": "08:00-20:00",
+    "thursday": "08:00-20:00",
+    "friday": "08:00-20:00",
+    "saturday": "08:00-20:00",
+    "sunday": "08:00-20:00"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Urgent Care", "Bulk Billing", "Walk-in", "Medicare Urgent Care Clinic"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "68db2536-9b4d-459a-99fa-414c2792a30c",
+  "slug": "swift-emergency-care",
+  "name": "Swift Emergency Care",
+  "description": "Private walk-in emergency and urgent care clinic, no appointment required.",
+  "shortDescription": "Private walk-in emergency & urgent care.",
+  "categoryId": "medical-health",
+  "phone": "02 8859 9099",
+  "website": "https://www.swiftemergencycare.com.au/",
+  "address": { "street": "T2, 32 Civic Way", "suburb": "Rouse Hill", "state": "NSW", "postcode": "2155" },
+  "openingHours": {
+    "monday": "10:00-22:00",
+    "tuesday": "10:00-22:00",
+    "wednesday": "10:00-22:00",
+    "thursday": "10:00-22:00",
+    "friday": "10:00-22:00",
+    "saturday": "10:00-22:00",
+    "sunday": "10:00-22:00"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Emergency Care", "Urgent Care", "Walk-in"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "0bd87f18-8e0c-4c4b-9761-c0bf4fd43b97",
+  "slug": "wise-specialist-emergency",
+  "name": "WiSE Specialist Emergency",
+  "description": "Walk-in specialist emergency clinic for accidents and emergencies that need more than a GP visit but aren't life-threatening. Private, around $260 out-of-pocket for specialist assessment and diagnostics. Located in Macquarie Park — further than most listings here, but specifically recommended in the community WhatsApp thread.",
+  "shortDescription": "Private walk-in specialist emergency clinic.",
+  "categoryId": "medical-health",
+  "phone": "02 9216 7676",
+  "website": "https://www.wisemedical.com.au/contact/macquarie-park/",
+  "address": { "street": "11 Khartoum Road", "suburb": "Macquarie Park", "state": "NSW", "postcode": "2113" },
+  "openingHours": {
+    "monday": "10:00-22:00",
+    "tuesday": "10:00-22:00",
+    "wednesday": "10:00-22:00",
+    "thursday": "10:00-22:00",
+    "friday": "10:00-22:00",
+    "saturday": "10:00-22:00",
+    "sunday": "10:00-22:00"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Emergency Care", "Specialist", "Private"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "80714f03-be28-4be6-b2be-f2751dc92c85",
+  "slug": "mount-druitt-hospital-emergency",
+  "name": "Mount Druitt Hospital Emergency Department",
+  "description": "Public hospital emergency department, open 24 hours.",
+  "shortDescription": "Public hospital ED, open 24 hours.",
+  "categoryId": "medical-health",
+  "phone": "02 9881 8000",
+  "address": { "street": "75 Railway Street", "suburb": "Mount Druitt", "state": "NSW", "postcode": "2770" },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Public Hospital", "Emergency Department", "24 Hours"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "a49aa863-e967-43be-ab9b-7340783d2f4c",
+  "slug": "westmead-hospital-emergency",
+  "name": "Westmead Hospital Emergency Department",
+  "description": "Public hospital emergency department, open 24 hours — one of the busiest in Australia.",
+  "shortDescription": "Public hospital ED, open 24 hours.",
+  "categoryId": "medical-health",
+  "phone": "02 8890 5555",
+  "address": { "street": "Level 1, 176 Hawkesbury Road", "suburb": "Westmead", "state": "NSW", "postcode": "2145" },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Public Hospital", "Emergency Department", "24 Hours"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "b1c61b38-1719-4c58-a5e1-75812bb6203b",
+  "slug": "13cure-after-hours-home-doctor",
+  "name": "13cure After-Hours Home Doctor",
+  "description": "After-hours home-visit doctor service covering Schofields — bulk billed for eligible Medicare patients, doctors come to you rather than a clinic visit.",
+  "shortDescription": "After-hours bulk billed home-visit doctor.",
+  "categoryId": "medical-health",
+  "phone": "13 28 73",
+  "website": "https://www.13cure.com.au/locations/new_south_wales/schofields-16581",
+  "serviceAreas": ["Schofields"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Home Doctor", "After Hours", "Bulk Billing"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "7f762237-8d20-442a-9527-f6068de7555e",
+  "slug": "castle-medical-marsden-park",
+  "name": "Castle Medical Marsden Park",
+  "description": "General practice and urgent care clinic offering walk-ins and online bookings. Rated 4.6★ from 162 reviews (Birdeye).",
+  "shortDescription": "GP & urgent care, walk-in or online booking.",
+  "categoryId": "medical-health",
+  "phone": "02 7808 0810",
+  "email": "marsdenpark@castlemedical.com.au",
+  "website": "https://www.castlemedical.com.au/mp-contact-us/",
+  "address": { "street": "101 Elara Boulevard", "suburb": "Marsden Park", "state": "NSW", "postcode": "2765" },
+  "openingHours": {
+    "monday": "09:00-20:00",
+    "tuesday": "09:00-20:00",
+    "wednesday": "09:00-20:00",
+    "thursday": "09:00-20:00",
+    "friday": "09:00-20:00",
+    "saturday": "09:00-16:00",
+    "sunday": "09:00-15:00"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["GP", "Urgent Care", "Walk-in"],
+  "createdAt": "2026-08-06T00:00:00Z",
+  "updatedAt": "2026-08-06T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] `medical-health` category added to `data/categories.json` with `displayOrder: 29`.
+- [x] All 10 businesses above added to `data/businesses.json` under `medical-health`, not featured,
+      no promotion.
+- [x] `npm run validate:data` passes.
+- [x] `/category/medical-health` lists all 10 businesses (paginated, 6 + 4); each `/business/<slug>`
+      renders correctly. Verified 2026-08-06 via dev server + browser, including Castle Medical's
+      rating/email and 13cure's service-area-only (no address) rendering.
+- [ ] Existing Playwright suite still passes.
