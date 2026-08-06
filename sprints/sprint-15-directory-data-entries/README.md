@@ -106,6 +106,7 @@ Per Feature, the sprint is successful when:
 | F-034 | Add new "Florists & Flower Delivery" category and new business "Uma Garlands" (fresh flower garlands & floral jewellery, Nirimba Fields) | Medium | Completed |
 | F-035 | Rename business `ethiquity-mortgage-services-jp` (Featured, JP Services) from "JP – Ethiquity Mortgage Services" to "Jan Nayak Singh – JP, Mortgage Broker", per Jan's request (revised twice 2026-08-05: first to "Ethiquity Mortgage Services – Jan Nayak Singh", then reordered to "Jan Nayak Singh – Ethiquity Mortgage Services", then finally dropped the "Ethiquity Mortgage Services" trading name in favour of "JP, Mortgage Broker" — 37 chars. Verified visually this still clips on the directory card's `line-clamp-1` title, cutting off "Broker" — the actual safe threshold for a *Featured* card turned out to be ~24 chars, not the ~45-char figure that held for non-Featured cards, since the Featured badge narrows the available title width. Project owner reviewed a shorter alternative ("Jan Nayak Singh (JP)", 20 chars, fits fully) and explicitly chose to keep the current text and accept the clipping instead) | Low | Completed |
 | F-036 | Add new "Handyman" category and 3 businesses sourced from phone-contact screenshots the project owner shared after residents asked for a handyman recommendation: "Craig Handyman" (+61 401 476 114), "Rajiv Dhiman Handyman" (+61 421 248 961), "Kumar Handyman Services" (+61 430 025 092) | Medium | Completed |
+| F-037 | *(Retroactively captured 2026-08-06 — see note below)* Add new "Travel & Tourism" category, "King of Tours" (Taxi & Transport), and "Travel Crafters" (Travel & Tourism) | Medium | Completed |
 
 Status Values
 
@@ -2982,3 +2983,93 @@ address.
       injecting `bis_register`/`__processed_*` attributes onto `<body>` — unrelated to this change.
 - [ ] Existing Playwright suite still passes.
 
+---
+
+## Story 35 (F-037) — retroactively captured
+
+**Process note (2026-08-06):** this Feature was implemented and committed on 2026-08-04
+(`d805b38`, `89278a2`) without a Capture step — no Feature entry existed in any sprint README
+before the code was written, which is exactly the gap the Spec-Driven Development rule in
+`.ai/CLAUDE.md` exists to prevent. Caught while working on F-036 (same shape of change — new
+category + businesses) and confirmed by grepping every sprint README for "Travel"/"King of Tours"
+and finding nothing. This entry documents what actually shipped, after the fact, so the spec and
+the shipped behaviour stop disagreeing — per the Correction Protocol. No code changes as part of
+this backfill, only this documentation.
+
+As a visitor wanting a private tour, airport transfer, or help planning a cruise/holiday
+
+I want to find travel and transport businesses in the directory
+
+So that I have local options — the directory had no dedicated travel/tourism category and King of
+Tours had no `taxi-transport` listing either.
+
+### What shipped (`d805b38`, 2026-08-04 11:42; `89278a2`, 2026-08-04 12:18)
+
+Change — `data/categories.json`
+
+```json
+{
+  "id": "travel-tourism",
+  "slug": "travel-tourism",
+  "name": "Travel & Tourism",
+  "icon": "Globe",
+  "description": "Travel agencies, tour operators and travel planning services.",
+  "displayOrder": 27
+}
+```
+
+Change — `data/businesses.json`
+
+```json
+{
+  "id": "db99e186-375d-48d9-942b-f1a75b379310",
+  "slug": "king-of-tours",
+  "name": "King of Tours",
+  "description": "Whether you're arriving, departing or exploring, King of Tours provides personalised transport solutions with spacious vehicles, professional drivers and service that goes beyond getting you from A to B.",
+  "shortDescription": "Sydney's Trusted Choice for Private Tours & Premium Transfers.",
+  "categoryId": "taxi-transport",
+  "phone": "02 8320 0477",
+  "email": "contact@kingoftours.com.au",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Private Tours", "Premium Transfers", "Airport Transfers"],
+  "createdAt": "2026-08-04T00:00:00Z",
+  "updatedAt": "2026-08-04T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "9a063d12-e998-437e-9d4e-1590c6e9197d",
+  "slug": "travel-crafters",
+  "name": "Travel Crafters",
+  "description": "Established in 2016 and built on more than two decades of travel industry experience, Travel Crafters specialises in creating unforgettable holidays, cruises and flight experiences with personalised service, exclusive offers and support every step of the way.",
+  "shortDescription": "Need help planning your next adventure? Reach out to us!",
+  "categoryId": "travel-tourism",
+  "phone": "02 8964 4221",
+  "email": "sales@travelcrafters.com.au",
+  "website": "https://www.travelcrafters.com.au",
+  "serviceAreas": ["Akuna Vista"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Cruises", "Holiday Planning", "Flight Bookings"],
+  "createdAt": "2026-08-04T00:00:00Z",
+  "updatedAt": "2026-08-04T00:00:00Z"
+}
+```
+
+The same commit (`89278a2`) also fixed `tests/e2e/directory.spec.ts` pagination selectors to scope
+"Previous"/"Next" assertions to the pagination container, avoiding a conflict with Travel
+Crafters' description text ("Need help planning your next adventure").
+
+### Acceptance Criteria
+
+- [x] `travel-tourism` category added to `data/categories.json` with `displayOrder: 27`.
+- [x] King of Tours added under `taxi-transport`; Travel Crafters added under `travel-tourism`.
+      Neither featured, no promotion.
+- [x] `npm run validate:data` passes (per commit message; not independently re-verified as part of
+      this backfill since no data changed).
+- [x] Directory e2e tests pass across chromium, firefox, webkit (per commit message).
