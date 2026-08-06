@@ -108,6 +108,7 @@ Per Feature, the sprint is successful when:
 | F-028 | `/code-review` on F-027: dark-mode `hover:bg-transparent` didn't cancel the ghost variant's `dark:hover:bg-muted/50` (different modifier stack, not deduped by tailwind-merge), leaking a gray fill across the full 44px hit box on hover; the keyboard focus-visible ring also moved to the oversized, off-center 44px outer button instead of staying on the visible 32px circle | Medium | Completed |
 | F-029 | CI broke on main (2026-08-02, GitHub Actions run 30726250394): `eventRepository.test.ts`/`announcementRepository.test.ts`/`promotionRepository.test.ts` freeze "now" via `Date.now = () => ...`, but `isPast`'s default `now: Date = new Date()` never reads the monkey-patched `Date.now` — the mock was always a no-op, only staying green because real time hadn't yet passed the hardcoded ~2026-07-31/08-01 fixture dates | High | Completed |
 | F-030 | CI broke on main (2026-08-06, GitHub Actions run 31068621306): `tests/e2e/homepage.spec.ts`'s Transit widget test combines two locators with `.first()` applied to each before `.or()`, so a static heading text and a real fetch-failure message can both independently resolve to one element and union into two — a strict-mode violation | Medium | Completed |
+| F-031 | Pre-push Playwright run broke locally (2026-08-06, before push): `tests/e2e/directory.spec.ts`'s "sorting changes the order of results" test hardcodes `"Accura Homes"` as the alphabetically-first business — F-038 (Sprint 15) added "13cure After-Hours Home Doctor", which sorts before it (digit sorts before letters), the same hardcoded-first-item failure shape as F-024 | Medium | Completed |
 
 Status Values
 
@@ -1904,9 +1905,46 @@ NSW Transport API to fail at least one of its two calls to surface.
 - [x] No production code change — `TransitWidget.tsx` is already correct; this is a test-only bug.
 - [x] `npx playwright test tests/e2e/homepage.spec.ts` passes — 30/30 across chromium, firefox,
       webkit (verified 2026-08-06).
-- [ ] Full Playwright suite still passes (will run as part of the pre-push hook on commit).
+- [x] Full Playwright suite still passes — ran via the pre-push hook 2026-08-06; surfaced one
+      unrelated real failure (F-031, directory sort test), not this fix.
 
 F-030 implemented and verified (2026-08-06).
+
+---
+
+## Story 12 (F-031)
+
+As the project owner trying to push F-038 (Sprint 15, Medical & Health category)
+
+I want the directory sort test to reflect the real, current business data
+
+So that the push isn't blocked by a fixture assumption that went stale the moment new content was
+added — the exact same failure shape as F-024.
+
+### Root cause (investigated 2026-08-06)
+
+`tests/e2e/directory.spec.ts:31`, "sorting changes the order of results", hardcodes
+`"Accura Homes"` as the alphabetically-first business under "Name A–Z" sort, with a comment
+explaining why (added Sprint 15 F-023). Sprint 15's F-038 added "13cure After-Hours Home Doctor" —
+`businessRepository.ts` sorts with `a.name.localeCompare(b.name)`, and a leading digit sorts before
+a leading letter, so "13cure..." is now genuinely first. Confirmed directly in Node with the same
+`localeCompare` call the repository uses, not assumed. Caught by the pre-push hook's full
+Playwright run before anything reached `origin/main` — deterministic across all three browsers
+(chromium, firefox, webkit), not a timing flake.
+
+### Fix
+
+- `tests/e2e/directory.spec.ts`: swap the expected first-card text from `"Accura Homes"` to
+  `"13cure After-Hours Home Doctor"`, and update the explanatory comment to name both the new
+  first-place business and why it overtook the old one.
+
+### Acceptance Criteria
+
+- [x] The sort test asserts `"13cure After-Hours Home Doctor"` as the first card under Name A–Z.
+- [x] The test's comment explains why it changed from "Accura Homes".
+- [x] `npx playwright test tests/e2e/directory.spec.ts` passes on all projects — 21/21.
+
+F-031 implemented and verified (2026-08-06).
 
 ---
 

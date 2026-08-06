@@ -36,9 +36,11 @@ test.describe("Business Directory (/businesses)", () => {
 
     await expect(page).toHaveURL(/sort=name/);
     const firstCardHeading = page.locator('[data-slot="card-title"]').first();
-    // "Accura Homes" sorts first alphabetically among the current real
-    // business dataset (added Sprint 15 F-023).
-    await expect(firstCardHeading).toHaveText("Accura Homes");
+    // "13cure After-Hours Home Doctor" sorts first alphabetically among the
+    // current real business dataset (added Sprint 15 F-038) — localeCompare
+    // orders its leading digit before letters, ahead of the previous
+    // first-place holder, "Accura Homes" (Sprint 15 F-023).
+    await expect(firstCardHeading).toHaveText("13cure After-Hours Home Doctor");
   });
 
   test("pagination moves between pages and disables at the edges", async ({ page }) => {
