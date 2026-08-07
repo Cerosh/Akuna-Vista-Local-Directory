@@ -1294,5 +1294,72 @@
     "tags": ["GP", "Urgent Care", "Walk-in"],
     "createdAt": "2026-08-06T00:00:00Z",
     "updatedAt": "2026-08-06T00:00:00Z"
+  },
+  {
+    "id": "d282c026-4be1-4fc6-9282-b7e779d3350d",
+    "slug": "allan-plumber",
+    "name": "Allan Plumber",
+    "description": "Recommended by the Akuna Vista community. Contact directly to discuss your job and availability.",
+    "shortDescription": "Local plumber, community recommended.",
+    "categoryId": "plumbing",
+    "phone": "+61 437 976 871",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Plumbing"],
+    "createdAt": "2026-08-07T00:00:00Z",
+    "updatedAt": "2026-08-07T00:00:00Z"
+  },
+  {
+    "id": "fe1d5cd9-5fb6-4f15-96ce-c8af99c0f787",
+    "slug": "campbell-plumber",
+    "name": "Campbell Plumber",
+    "description": "Recommended by the Akuna Vista community, including water filter installation. Contact directly to discuss your job and availability.",
+    "shortDescription": "Local plumber & water filters, community recommended.",
+    "categoryId": "plumbing",
+    "phone": "+61 416 018 882",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Plumbing", "Water Filter"],
+    "createdAt": "2026-08-07T00:00:00Z",
+    "updatedAt": "2026-08-07T00:00:00Z"
+  },
+  {
+    "id": "53e32e4f-990a-4595-8af0-9bfc802996a2",
+    "slug": "glenn-plumber",
+    "name": "Glenn Plumber",
+    "description": "Recommended by the Akuna Vista community. Contact directly to discuss your job and availability.",
+    "shortDescription": "Local plumber, community recommended.",
+    "categoryId": "plumbing",
+    "phone": "+61 423 498 999",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Plumbing"],
+    "createdAt": "2026-08-07T00:00:00Z",
+    "updatedAt": "2026-08-07T00:00:00Z"
+  },
+  {
+    "id": "1d58f5c6-d612-4484-b1c3-ec3442328c74",
+    "slug": "big-red-plumbing-services",
+    "name": "Big Red Plumbing Services",
+    "description": "Fully licensed and insured plumber (Licence No. 296254C) covering Greater Sydney Metro with 24/7 emergency service — blocked drains, hot water systems, burst pipes, gas fitting, and bathroom/kitchen renovations.",
+    "shortDescription": "Licensed plumber, 24/7 emergency service.",
+    "categoryId": "plumbing",
+    "phone": "0409 838 651",
+    "website": "https://bigredplumbingservices.com.au/",
+    "address": {
+      "street": "PO Box 15",
+      "suburb": "Toongabbie",
+      "state": "NSW",
+      "postcode": "2146"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Plumbing", "Emergency", "Licensed", "Gas Fitting"],
+    "createdAt": "2026-08-07T00:00:00Z",
+    "updatedAt": "2026-08-07T00:00:00Z"
   }
 ]

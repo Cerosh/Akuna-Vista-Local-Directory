@@ -222,5 +222,13 @@
     "icon": "Stethoscope",
     "description": "GPs, urgent care, and emergency medical services for the Akuna Vista community.",
     "displayOrder": 29
+  },
+  {
+    "id": "plumbing",
+    "slug": "plumbing",
+    "name": "Plumbing",
+    "icon": "Wrench",
+    "description": "Plumbers and plumbing services for the Akuna Vista community.",
+    "displayOrder": 30
   }
 ]

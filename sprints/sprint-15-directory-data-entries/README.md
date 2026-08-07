@@ -108,6 +108,7 @@ Per Feature, the sprint is successful when:
 | F-036 | Add new "Handyman" category and 3 businesses sourced from phone-contact screenshots the project owner shared after residents asked for a handyman recommendation: "Craig Handyman" (+61 401 476 114), "Rajiv Dhiman Handyman" (+61 421 248 961), "Kumar Handyman Services" (+61 430 025 092) | Medium | Completed |
 | F-037 | *(Retroactively captured 2026-08-06 — see note below)* Add new "Travel & Tourism" category, "King of Tours" (Taxi & Transport), and "Travel Crafters" (Travel & Tourism) | Medium | Completed |
 | F-038 | Add new "Medical & Health" category and 10 businesses sourced from a WhatsApp group thread about an urgent child fever: Our Medical Marsden Park, Our Medical Kellyville, Doonside Medical Centre, Rouse Hill Urgent Care Clinic, Swift Emergency Care, WiSE Specialist Emergency, Mount Druitt Hospital Emergency, Westmead Hospital Emergency, 13cure After-Hours Home Doctor, and Castle Medical Marsden Park | Medium | Completed |
+| F-039 | Add new "Plumbing" category and 4 businesses recommended by the Akuna Vista community: Allan Plumber, Campbell Plumber, Glenn Plumber (phone-contact screenshots), and Big Red Plumbing Services (bigredplumbingservices.com.au) | Medium | Completed |
 
 Status Values
 
@@ -3397,3 +3398,148 @@ request ("get the reviews or rating... phone number and email address").
       renders correctly. Verified 2026-08-06 via dev server + browser, including Castle Medical's
       rating/email and 13cure's service-area-only (no address) rendering.
 - [ ] Existing Playwright suite still passes.
+
+---
+
+## Story 37 (F-039)
+
+As a resident needing a plumber
+
+I want to find plumbers in the directory
+
+So that I have vetted local options — the directory had no plumbing category at all, despite it
+being one of the most commonly needed trades.
+
+### Source data (three phone-contact screenshots + one business URL, supplied directly by the
+project owner, 2026-08-07, all recommended by the Akuna Vista community)
+
+- Contact 1: "Allan plumber" (lowercase "p" in the saved contact), mobile `+61 437 976 871`, no
+  photo.
+- Contact 2: "Campbell Plumber", mobile `+61 416 018 882`, contact's Company field reads "Water
+  Filter" (Android contact card convention — a company/org field shown under the name).
+- Contact 3: "Glenn Plumber", mobile `+61 423 498 999`.
+- `https://bigredplumbingservices.com.au/` — a real, distinct, verifiable business (own phone
+  `0409 838 651`, different from all three contacts above), fetched directly: Big Red Plumbing
+  Services, PO Box 15, Toongabbie NSW 2146, Licence Number 296254C, fully licensed and insured,
+  24/7 emergency service, Greater Sydney Metro. Confirmed via Oneflare (8 reviews, hired 8 times)
+  and a Facebook page; testimonials name the plumber "Steve". Not one of the three contacts above
+  (no name/phone match) — added as a fourth, separate listing.
+
+### Research
+
+Web-searched each of the three phone numbers directly and combined with the visible names —
+no matching business listing, website, or directory presence found for any of the three (Allan,
+Campbell, or Glenn) under either the name or the number. Same pattern as F-036 (Craig Handyman,
+Rajiv Dhiman Handyman): personal/word-of-mouth contacts with no existing online footprint, added
+with just name + phone. No address, suburb, or email confirmed for any of the three, so none of
+those fields are populated.
+
+### Assumptions (flagged per the Correction Protocol — confirmed with the project owner before
+implementation)
+
+- "Allan plumber" listed as **"Allan Plumber"** — capitalization normalized to match the other two
+  contacts' own casing ("Campbell Plumber", "Glenn Plumber"), not a name change.
+- Campbell's "Water Filter" company-field note included as a tag (`Water Filter`) and mentioned in
+  the description, on the assumption it reflects a real secondary specialty, not just a personal
+  label the resident added.
+- Big Red Plumbing Services' PO Box address used as `address.street` — it's a real, confirmed
+  address, just not a shopfront (consistent with a licensed trade business that works on-site).
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "plumbing",
+  "slug": "plumbing",
+  "name": "Plumbing",
+  "icon": "Wrench",
+  "description": "Plumbers and plumbing services for the Akuna Vista community.",
+  "displayOrder": 30
+}
+```
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "d282c026-4be1-4fc6-9282-b7e779d3350d",
+  "slug": "allan-plumber",
+  "name": "Allan Plumber",
+  "description": "Recommended by the Akuna Vista community. Contact directly to discuss your job and availability.",
+  "shortDescription": "Local plumber, community recommended.",
+  "categoryId": "plumbing",
+  "phone": "+61 437 976 871",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Plumbing"],
+  "createdAt": "2026-08-07T00:00:00Z",
+  "updatedAt": "2026-08-07T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "fe1d5cd9-5fb6-4f15-96ce-c8af99c0f787",
+  "slug": "campbell-plumber",
+  "name": "Campbell Plumber",
+  "description": "Recommended by the Akuna Vista community, including water filter installation. Contact directly to discuss your job and availability.",
+  "shortDescription": "Local plumber & water filters, community recommended.",
+  "categoryId": "plumbing",
+  "phone": "+61 416 018 882",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Plumbing", "Water Filter"],
+  "createdAt": "2026-08-07T00:00:00Z",
+  "updatedAt": "2026-08-07T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "53e32e4f-990a-4595-8af0-9bfc802996a2",
+  "slug": "glenn-plumber",
+  "name": "Glenn Plumber",
+  "description": "Recommended by the Akuna Vista community. Contact directly to discuss your job and availability.",
+  "shortDescription": "Local plumber, community recommended.",
+  "categoryId": "plumbing",
+  "phone": "+61 423 498 999",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Plumbing"],
+  "createdAt": "2026-08-07T00:00:00Z",
+  "updatedAt": "2026-08-07T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "1d58f5c6-d612-4484-b1c3-ec3442328c74",
+  "slug": "big-red-plumbing-services",
+  "name": "Big Red Plumbing Services",
+  "description": "Fully licensed and insured plumber (Licence No. 296254C) covering Greater Sydney Metro with 24/7 emergency service — blocked drains, hot water systems, burst pipes, gas fitting, and bathroom/kitchen renovations.",
+  "shortDescription": "Licensed plumber, 24/7 emergency service.",
+  "categoryId": "plumbing",
+  "phone": "0409 838 651",
+  "website": "https://bigredplumbingservices.com.au/",
+  "address": { "street": "PO Box 15", "suburb": "Toongabbie", "state": "NSW", "postcode": "2146" },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Plumbing", "Emergency", "Licensed", "Gas Fitting"],
+  "createdAt": "2026-08-07T00:00:00Z",
+  "updatedAt": "2026-08-07T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] `plumbing` category added to `data/categories.json` with `displayOrder: 30`.
+- [x] All 4 businesses above added to `data/businesses.json` under `plumbing`, not featured, no
+      promotion.
+- [x] `npm run validate:data` passes.
+- [x] `/category/plumbing` lists all 4 businesses; each `/business/<slug>` renders correctly.
+      Verified 2026-08-07 via dev server + browser.
+- [ ] Existing Playwright suite still passes (will run as part of the pre-push hook on commit).
