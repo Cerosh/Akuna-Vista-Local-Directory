@@ -109,6 +109,7 @@ Per Feature, the sprint is successful when:
 | F-029 | CI broke on main (2026-08-02, GitHub Actions run 30726250394): `eventRepository.test.ts`/`announcementRepository.test.ts`/`promotionRepository.test.ts` freeze "now" via `Date.now = () => ...`, but `isPast`'s default `now: Date = new Date()` never reads the monkey-patched `Date.now` — the mock was always a no-op, only staying green because real time hadn't yet passed the hardcoded ~2026-07-31/08-01 fixture dates | High | Completed |
 | F-030 | CI broke on main (2026-08-06, GitHub Actions run 31068621306): `tests/e2e/homepage.spec.ts`'s Transit widget test combines two locators with `.first()` applied to each before `.or()`, so a static heading text and a real fetch-failure message can both independently resolve to one element and union into two — a strict-mode violation | Medium | Completed |
 | F-031 | Pre-push Playwright run broke locally (2026-08-06, before push): `tests/e2e/directory.spec.ts`'s "sorting changes the order of results" test hardcodes `"Accura Homes"` as the alphabetically-first business — F-038 (Sprint 15) added "13cure After-Hours Home Doctor", which sorts before it (digit sorts before letters), the same hardcoded-first-item failure shape as F-024 | Medium | Completed |
+| F-032 | Add a "Streets we cover" section to the About page listing all 47 Akuna Vista streets, grouped into four zones (North, Central, South, Future/Development Plan) with colour-coded badges, per the project owner's street list and confirmed table-order-to-zone mapping | Medium | Completed |
 
 Status Values
 
@@ -1945,6 +1946,76 @@ Playwright run before anything reached `origin/main` — deterministic across al
 - [x] `npx playwright test tests/e2e/directory.spec.ts` passes on all projects — 21/21.
 
 F-031 implemented and verified (2026-08-06).
+
+---
+
+## Story 14 (F-032)
+
+As a resident or prospective resident
+
+I want to see which streets are part of Akuna Vista, grouped by area
+
+So that I can tell whether my own street (or one I'm considering moving to) is covered, and
+whether it's already built or still part of the development plan.
+
+### Source data (street list + zone legend supplied directly by the project owner, 2026-08-09)
+
+47 streets total, in four zones. Table order in the project owner's message confirmed to match
+legend order (🟢 North, 🔵 Central, 🟠 South, 🟡 Future/Development Plan):
+
+**🟢 Current — North (16 streets):** Rosetta Street, Ward Street, Hoy Street, Overly Crescent,
+Ranary Way, Bateman Street, Bigg Street, Gillingham Street, Corsair Street, Alcorn Street, Christy
+Drive, Anson Street, Lockheed Drive, Mariner Avenue, Auster Street, Hornet Street.
+
+**🔵 Current — Central (15 streets):** Vampire Street, Winjeel Street, Avenger Street, Sabre
+Street, Baltimore Street, Seagull Street, Triton Parade, Beechcraft Street, Nabthorpe Parade,
+Scout Street, Dolphin Street, Phantom Street, Portland Street, Dorland Street, Swordfish Street.
+
+**🟠 Current — South (5 streets):** Firefly Street, Halifax Street, Valiant Street, Ventura
+Street, Kittyhawk Crescent.
+
+**🟡 Future — Development Plan (11 streets):** Dallywater Close, Talberg Crescent, Robb Street,
+Steege Street, Rayson Street, Hubble Street, Balge Street, Juger Street, Ranate Crescent, Nirimba
+Drive, Future Burdekin Road.
+
+### Proposed design (per the project owner's "any format that suits the theme" — confirm before
+implementing)
+
+- New section on `app/about/page.tsx`, below the existing intro prose, titled "Streets we cover".
+- Switches to the standard-width `Container` (not `narrow`) for this section only, since a 720px
+  reading column is too cramped for a 4-column street grid — the existing intro prose stays in its
+  current narrow container above it.
+- Four subsections (North, Central, South, Future), each with a small coloured dot + zone name +
+  street count, followed by a clean multi-column (`grid-cols-2 sm:grid-cols-3 lg:grid-cols-4`)
+  plain-text list of street names — not a literal HTML `<table>`, to match the site's existing
+  card/badge-driven design language (`DESIGN_SYSTEM.md`) rather than a dense spreadsheet-style grid.
+- Future zone visually distinguished (muted text colour) rather than identical styling to the three
+  built zones, since those streets don't exist yet.
+- Street/zone data as a colocated constant in `app/about/page.tsx` (or a small adjacent file if it
+  reads more cleanly split out) — **not** a new `data/*.json` repository file, since this is static
+  page copy (matching how the existing About page intro paragraphs are already hardcoded JSX, not
+  loaded via a repository) rather than business/directory data covered by the "never hardcode
+  business data" architecture rule.
+
+### Acceptance Criteria
+
+- [x] "Streets we cover" section added to `/about`, below the existing intro content.
+- [x] All 47 streets present, grouped into the four zones exactly as listed above.
+- [x] Each zone has a colour-coded indicator and visible street count.
+- [x] Future zone is visually distinguished from the three current zones.
+- [x] Section is responsive (no horizontal overflow at mobile/tablet/desktop widths) — verified via
+      `tests/e2e/responsive.spec.ts`'s existing `/about` coverage, 12/12 across chromium/firefox/
+      webkit.
+- [x] `npm run typecheck` / `npm run lint` clean.
+- [x] Verified live via dev server + browser (screenshot) — also `tests/e2e/accessibility.spec.ts`
+      (axe-core + keyboard nav) passes for `/about`.
+- [x] Existing Playwright suite still passes — full run 2026-08-09, 287 passed, 0 failed.
+
+Implementation: new `features/about/StreetsWeCover.tsx` (colocated zone data + component,
+following the `features/<page>/` convention already used by search/community/etc.), rendered from
+`app/about/page.tsx` in a standard-width `Container` below the existing narrow-container intro
+prose. Zone colours: North `bg-success`, Central `bg-blue-500`, South `bg-orange-500`, Future
+`bg-warning` (muted text). F-032 implemented and verified (2026-08-09).
 
 ---
 

@@ -4,6 +4,7 @@ import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
 import { PageHeader } from "@/components/common/PageHeader";
 import { settingsRepository } from "@/lib/repositories/settingsRepository";
+import { StreetsWeCover } from "@/features/about/StreetsWeCover";
 
 export const metadata: Metadata = {
   title: "About | Akuna Vista Local Directory",
@@ -49,6 +50,9 @@ export default async function AboutPage() {
             .
           </p>
         </div>
+      </Container>
+      <Container className="mt-12">
+        <StreetsWeCover />
       </Container>
     </Section>
   );
