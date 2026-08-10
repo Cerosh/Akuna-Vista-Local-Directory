@@ -230,5 +230,13 @@
     "icon": "Wrench",
     "description": "Plumbers and plumbing services for the Akuna Vista community.",
     "displayOrder": 30
+  },
+  {
+    "id": "kids-classes-activities",
+    "slug": "kids-classes-activities",
+    "name": "Kids' Classes & Activities",
+    "icon": "Baby",
+    "description": "Martial arts, sports and enrichment classes for children in the Akuna Vista community.",
+    "displayOrder": 31
   }
 ]

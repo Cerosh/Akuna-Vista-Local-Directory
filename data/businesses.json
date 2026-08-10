@@ -1361,5 +1361,55 @@
     "tags": ["Plumbing", "Emergency", "Licensed", "Gas Fitting"],
     "createdAt": "2026-08-07T00:00:00Z",
     "updatedAt": "2026-08-07T00:00:00Z"
+  },
+  {
+    "id": "7a9f5e2c-4b1d-4f8a-9e3c-2d6b1a7f4e9c",
+    "slug": "gkr-karate",
+    "name": "GKR Karate",
+    "description": "Karate classes for ages 3 and up, recommended by several Akuna Vista parents for kids under 10 attending under GKR Blacktown and GKR Rouse Hill. One GKR membership covers any GKR dojo, including Blacktown, Glendenning and Riverstone (Quakers Hill temporarily closed), plus a family membership option for parent and child to train together. This listing uses the Rouse Hill Prime dojo as the primary contact point.",
+    "shortDescription": "Karate for kids & adults — Rouse Hill, Blacktown, Glendenning, Riverstone.",
+    "categoryId": "kids-classes-activities",
+    "phone": "+61 450 011 690",
+    "email": "region22au@gkrkarate.com",
+    "website": "https://www.gkrkarate.com/locations/listing/gkr-karate-rouse-hill-prime/",
+    "address": {
+      "street": "3/322 Annangrove Road",
+      "suburb": "Rouse Hill",
+      "state": "NSW",
+      "postcode": "2155"
+    },
+    "serviceAreas": ["Rouse Hill", "Blacktown", "Glendenning", "Riverstone", "Schofields"],
+    "images": ["/images/placeholder-business.svg"],
+    "socialLinks": {},
+    "featured": false,
+    "verified": false,
+    "tags": ["Karate", "Kids Classes", "Family Membership"],
+    "createdAt": "2026-08-10T00:00:00Z",
+    "updatedAt": "2026-08-10T00:00:00Z"
+  },
+  {
+    "id": "c5b3e7f1-8d2a-4c9e-b6f2-3a7c1e9d5b4f",
+    "slug": "kangs-taekwondo-australia",
+    "name": "Kang's Taekwondo Australia",
+    "description": "Taekwondo classes for kids, teens and adults at the Rouse Hill HQ, recommended in the Akuna Vista WhatsApp group for children under 10. Programs include Little Lions (ages 4–6, Mon/Wed/Sat mornings), children's classes (ages 7–12, weekdays and Saturday afternoons/evenings), and a Teen, Adult & Family program. Rated 5.0 on Trustindex from Google reviews over the past 12 months; instructors are noted as patient with young learners, and the academy's competitive team won 73 gold, 18 silver and 23 bronze medals at state level in 2024.",
+    "shortDescription": "Taekwondo for kids, teens & adults — Rouse Hill HQ, 5.0-rated.",
+    "categoryId": "kids-classes-activities",
+    "phone": "+61 411 150 305",
+    "email": "info@kangstaekwondo.com.au",
+    "website": "https://kangstaekwondo.com.au/rouse-hill/",
+    "address": {
+      "street": "G15/5 Money Close",
+      "suburb": "Rouse Hill",
+      "state": "NSW",
+      "postcode": "2155"
+    },
+    "serviceAreas": ["Rouse Hill", "Schofields"],
+    "images": ["/images/placeholder-business.svg"],
+    "socialLinks": {},
+    "featured": false,
+    "verified": false,
+    "tags": ["Taekwondo", "Kids Classes", "Little Lions"],
+    "createdAt": "2026-08-10T00:00:00Z",
+    "updatedAt": "2026-08-10T00:00:00Z"
   }
 ]

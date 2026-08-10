@@ -109,6 +109,7 @@ Per Feature, the sprint is successful when:
 | F-037 | *(Retroactively captured 2026-08-06 — see note below)* Add new "Travel & Tourism" category, "King of Tours" (Taxi & Transport), and "Travel Crafters" (Travel & Tourism) | Medium | Completed |
 | F-038 | Add new "Medical & Health" category and 10 businesses sourced from a WhatsApp group thread about an urgent child fever: Our Medical Marsden Park, Our Medical Kellyville, Doonside Medical Centre, Rouse Hill Urgent Care Clinic, Swift Emergency Care, WiSE Specialist Emergency, Mount Druitt Hospital Emergency, Westmead Hospital Emergency, 13cure After-Hours Home Doctor, and Castle Medical Marsden Park | Medium | Completed |
 | F-039 | Add new "Plumbing" category and 4 businesses recommended by the Akuna Vista community: Allan Plumber, Campbell Plumber, Glenn Plumber (phone-contact screenshots), and Big Red Plumbing Services (bigredplumbingservices.com.au) | Medium | Completed |
+| F-040 | Add new "Kids' Classes & Activities" category and 2 businesses sourced from a WhatsApp thread asking for karate/boxing recommendations for kids under 10: GKR Karate (3 independent endorsements — Rouse Hill Prime, also servicing Blacktown, Glendenning, Riverstone) and Kang's Taekwondo Australia (1 endorsement — Rouse Hill HQ). Contact details, addresses, and reviews backfilled via web research since the thread itself only named the businesses | Medium | Completed |
 
 Status Values
 
