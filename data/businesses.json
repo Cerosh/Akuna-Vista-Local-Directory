@@ -1366,26 +1366,26 @@
     "id": "7a9f5e2c-4b1d-4f8a-9e3c-2d6b1a7f4e9c",
     "slug": "gkr-karate",
     "name": "GKR Karate",
-    "description": "Karate classes for ages 3 and up, recommended by several Akuna Vista parents for kids under 10 attending under GKR Blacktown and GKR Rouse Hill. One GKR membership covers any GKR dojo, including Blacktown, Glendenning and Riverstone (Quakers Hill temporarily closed), plus a family membership option for parent and child to train together. This listing uses the Rouse Hill Prime dojo as the primary contact point.",
-    "shortDescription": "Karate for kids & adults — Rouse Hill, Blacktown, Glendenning, Riverstone.",
+    "description": "Karate classes for ages 3 and up, recommended by several Akuna Vista parents for kids under 10 attending under GKR Blacktown and GKR Rouse Hill. Many Akuna Vista kids currently attend the Riverstone dojo, the closest GKR location to the community. One GKR membership covers any GKR dojo, including Blacktown, Glendenning and Rouse Hill (Quakers Hill temporarily closed), plus a family membership option for parent and child to train together. This listing uses the Riverstone Prime dojo as the primary contact point.",
+    "shortDescription": "Karate for kids & adults — Riverstone, Rouse Hill, Blacktown, Glendenning.",
     "categoryId": "kids-classes-activities",
     "phone": "+61 450 011 690",
     "email": "region22au@gkrkarate.com",
-    "website": "https://www.gkrkarate.com/locations/listing/gkr-karate-rouse-hill-prime/",
+    "website": "https://www.gkrkarate.com/locations/listing/gkr-karate-riverstone-prime/",
     "address": {
-      "street": "3/322 Annangrove Road",
-      "suburb": "Rouse Hill",
+      "street": "14 Melbourne Road",
+      "suburb": "Riverstone",
       "state": "NSW",
-      "postcode": "2155"
+      "postcode": "2765"
     },
-    "serviceAreas": ["Rouse Hill", "Blacktown", "Glendenning", "Riverstone", "Schofields"],
+    "serviceAreas": ["Riverstone", "Schofields", "Rouse Hill", "Blacktown", "Glendenning"],
     "images": ["/images/placeholder-business.svg"],
     "socialLinks": {},
     "featured": false,
     "verified": false,
     "tags": ["Karate", "Kids Classes", "Family Membership"],
     "createdAt": "2026-08-10T00:00:00Z",
-    "updatedAt": "2026-08-10T00:00:00Z"
+    "updatedAt": "2026-08-11T00:00:00Z"
   },
   {
     "id": "c5b3e7f1-8d2a-4c9e-b6f2-3a7c1e9d5b4f",
