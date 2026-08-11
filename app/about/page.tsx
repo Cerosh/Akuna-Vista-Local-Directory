@@ -14,8 +14,11 @@ export const metadata: Metadata = {
 
 const ABOUT_FACTS = [
   { label: "Established", value: "1941" },
-  { label: "Origin", value: "Former RAAF airfield" },
-  { label: "Streets covered", value: "47, across 4 zones" },
+  {
+    label: "Origin",
+    value:
+      "Former RAAF airfield. Several streets throughout Akuna Vista and Nirimba Fields reflect the area's aviation and naval heritage, drawing on aircraft, historic base names, naval establishments and people associated with RAAF Schofields and HMAS Nirimba.",
+  },
 ];
 
 export default async function AboutPage() {
@@ -56,9 +59,7 @@ export default async function AboutPage() {
                 <p className="text-muted-foreground text-xs font-medium tracking-widest uppercase">
                   {fact.label}
                 </p>
-                <p className="text-foreground mt-1 text-sm font-medium tabular-nums">
-                  {fact.value}
-                </p>
+                <p className="text-foreground mt-1 text-sm leading-relaxed">{fact.value}</p>
               </div>
             ))}
           </aside>
