@@ -1,17 +1,20 @@
 import { cn } from "@/lib/utils";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+
+type ZoneAccent = "primary" | "secondary" | "success" | "warning";
 
 interface StreetZone {
   name: string;
-  colorClass: string;
-  /** Future/planned streets read visually de-emphasized — they don't exist yet. */
-  muted?: boolean;
+  accent: ZoneAccent;
+  /** Streets that don't exist yet — rendered as a planned zone, not a live one. */
+  planned?: boolean;
   streets: string[];
 }
 
 const STREET_ZONES: StreetZone[] = [
   {
     name: "North",
-    colorClass: "bg-success",
+    accent: "primary",
     streets: [
       "Rosetta Street",
       "Ward Street",
@@ -33,7 +36,7 @@ const STREET_ZONES: StreetZone[] = [
   },
   {
     name: "Central",
-    colorClass: "bg-blue-500",
+    accent: "secondary",
     streets: [
       "Vampire Street",
       "Winjeel Street",
@@ -54,7 +57,7 @@ const STREET_ZONES: StreetZone[] = [
   },
   {
     name: "South",
-    colorClass: "bg-orange-500",
+    accent: "success",
     streets: [
       "Firefly Street",
       "Halifax Street",
@@ -65,8 +68,8 @@ const STREET_ZONES: StreetZone[] = [
   },
   {
     name: "Future / Development Plan",
-    colorClass: "bg-warning",
-    muted: true,
+    accent: "warning",
+    planned: true,
     streets: [
       "Dallywater Close",
       "Talberg Crescent",
@@ -83,41 +86,85 @@ const STREET_ZONES: StreetZone[] = [
   },
 ];
 
+STREET_ZONES.forEach((zone) => zone.streets.sort((a, b) => a.localeCompare(b)));
+
 const TOTAL_STREETS = STREET_ZONES.reduce((sum, zone) => sum + zone.streets.length, 0);
+
+const ACCENT_STYLES: Record<ZoneAccent, { text: string; bar: string }> = {
+  primary: { text: "text-primary", bar: "bg-primary" },
+  secondary: { text: "text-secondary", bar: "bg-secondary" },
+  success: { text: "text-success", bar: "bg-success" },
+  warning: { text: "text-warning", bar: "bg-warning" },
+};
 
 export function StreetsWeCover() {
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-6">
       <div>
-        <h2 className="text-2xl font-semibold tracking-tight">Streets we cover</h2>
+        <h2 className="text-2xl font-semibold tracking-tight sm:text-3xl">Streets we cover</h2>
         <p className="text-muted-foreground mt-1 text-sm">
           {TOTAL_STREETS} streets across Akuna Vista, grouped by area.
         </p>
       </div>
-      {STREET_ZONES.map((zone) => (
-        <div key={zone.name} className="flex flex-col gap-3">
-          <div className="flex items-center gap-2">
-            <span
-              className={cn("size-2.5 shrink-0 rounded-full", zone.colorClass)}
-              aria-hidden="true"
-            />
-            <h3 className="text-foreground text-sm font-medium tracking-wide uppercase">
-              {zone.name}
-            </h3>
-            <span className="text-muted-foreground text-xs">({zone.streets.length})</span>
-          </div>
-          <ul
-            className={cn(
-              "grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm sm:grid-cols-3 lg:grid-cols-4",
-              zone.muted ? "text-muted-foreground" : "text-foreground",
-            )}
-          >
-            {zone.streets.map((street) => (
-              <li key={street}>{street}</li>
-            ))}
-          </ul>
-        </div>
-      ))}
+
+      <div className="border-secondary/40 bg-secondary/5 rounded-lg border-l-2 py-3 pr-4 pl-4">
+        <p className="text-secondary text-xs font-medium tracking-wide uppercase">Local history</p>
+        <p className="text-foreground mt-1.5 text-sm leading-relaxed">
+          Schofields was a WWII-era RAAF air station, then home to the Royal Navy&rsquo;s HMS
+          Nabthorpe and the Royal Australian Navy&rsquo;s HMAS Nirimba. Several street names here —
+          Nabthorpe Parade, Ranary Way, Nirimba Drive, and a wing of historic aircraft types like
+          Vampire, Sabre and Kittyhawk — trace straight back to that history.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        {STREET_ZONES.map((zone) => {
+          const accent = ACCENT_STYLES[zone.accent];
+          return (
+            <Card
+              key={zone.name}
+              className={cn(
+                zone.planned && "border-warning/40 bg-warning/5 border-2 border-dashed ring-0",
+              )}
+            >
+              <CardHeader className="gap-2">
+                <div className="flex items-center justify-between">
+                  <h3
+                    className={cn(
+                      "text-sm font-medium tracking-wide uppercase",
+                      zone.planned ? "text-muted-foreground" : accent.text,
+                    )}
+                  >
+                    {zone.name}
+                  </h3>
+                  <span className="text-muted-foreground text-xs tabular-nums">
+                    {zone.streets.length}
+                  </span>
+                </div>
+                <div
+                  className={cn("h-0.5 w-8 rounded-full", zone.planned ? "bg-border" : accent.bar)}
+                  aria-hidden="true"
+                />
+                {zone.planned && (
+                  <p className="text-muted-foreground text-xs">Planned — not yet built</p>
+                )}
+              </CardHeader>
+              <CardContent>
+                <ul
+                  className={cn(
+                    "grid grid-cols-2 gap-x-4 gap-y-1.5 text-sm sm:grid-cols-3",
+                    zone.planned ? "text-muted-foreground" : "text-foreground",
+                  )}
+                >
+                  {zone.streets.map((street) => (
+                    <li key={street}>{street}</li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
     </div>
   );
 }

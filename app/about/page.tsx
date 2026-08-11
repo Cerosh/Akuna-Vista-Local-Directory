@@ -19,6 +19,9 @@ export default async function AboutPage() {
     <Section>
       <Container narrow>
         <div className="mb-8">
+          <div className="border-secondary/30 text-secondary mb-4 inline-flex w-fit items-center rounded-md border px-2.5 py-1 text-xs font-medium tracking-widest uppercase">
+            Schofields, NSW — Former RAAF Airfield, Est. 1941
+          </div>
           <PageHeader
             title="About"
             description={`Why ${settings.siteName} exists, and who it's for.`}
@@ -37,22 +40,29 @@ export default async function AboutPage() {
             {settings.communityName} already trust, recommended by neighbours rather than paid
             advertising.
           </p>
-          <p>
-            This is the first version of a platform designed to eventually support other local
-            communities the same way — starting with {settings.communityName}, and built to stay
-            simple, trustworthy and genuinely useful rather than feature-heavy.
-          </p>
-          <p>
-            Have a question, a correction, or a business to recommend?{" "}
-            <Link href="/contact" className="text-primary underline underline-offset-4">
-              Get in touch
-            </Link>
-            .
-          </p>
         </div>
       </Container>
-      <Container className="mt-12">
+
+      <Container className="mt-10">
+        <div className="border-border h-px w-full border-t border-dashed" aria-hidden="true" />
+      </Container>
+
+      <Container className="mt-10">
         <StreetsWeCover />
+      </Container>
+
+      <Container className="mt-10">
+        <div className="border-border h-px w-full border-t border-dashed" aria-hidden="true" />
+      </Container>
+
+      <Container narrow className="mt-10">
+        <p className="text-foreground text-base leading-relaxed">
+          Have a question, a correction, or a business to recommend?{" "}
+          <Link href="/contact" className="text-primary underline underline-offset-4">
+            Get in touch
+          </Link>
+          .
+        </p>
       </Container>
     </Section>
   );
