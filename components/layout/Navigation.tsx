@@ -20,6 +20,7 @@ const NAV_LINKS: NavLink[] = [
   { label: "Directory", href: "/businesses" },
   { label: "Categories", href: "/#categories" },
   { label: "About", href: "/about", prefetch: false },
+  { label: "History", href: "/history", prefetch: false },
   { label: "Contact", href: "/contact", prefetch: false },
 ];
 

@@ -110,6 +110,7 @@ Per Feature, the sprint is successful when:
 | F-030 | CI broke on main (2026-08-06, GitHub Actions run 31068621306): `tests/e2e/homepage.spec.ts`'s Transit widget test combines two locators with `.first()` applied to each before `.or()`, so a static heading text and a real fetch-failure message can both independently resolve to one element and union into two — a strict-mode violation | Medium | Completed |
 | F-031 | Pre-push Playwright run broke locally (2026-08-06, before push): `tests/e2e/directory.spec.ts`'s "sorting changes the order of results" test hardcodes `"Accura Homes"` as the alphabetically-first business — F-038 (Sprint 15) added "13cure After-Hours Home Doctor", which sorts before it (digit sorts before letters), the same hardcoded-first-item failure shape as F-024 | Medium | Completed |
 | F-032 | Add a "Streets we cover" section to the About page listing all 47 Akuna Vista streets, grouped into four zones (North, Central, South, Future/Development Plan) with colour-coded badges, per the project owner's street list and confirmed table-order-to-zone mapping | Medium | Completed |
+| F-033 | Add a new `/history` page telling the site's own founding story (1816 Pye family farmland → 1870s Schofields railway → 1941 RAAF airfield → 1945 Royal Navy Fleet Air Arm → 1946 RAAF Schofields → 1951/53 RAN/HMAS Nirimba → 1994 decommissioning → Akuna Vista today), reachable from primary nav + footer, with the About page's "Origin" fact linking through to it instead of duplicating the story | Medium | Completed |
 
 Status Values
 
@@ -2016,6 +2017,111 @@ following the `features/<page>/` convention already used by search/community/etc
 `app/about/page.tsx` in a standard-width `Container` below the existing narrow-container intro
 prose. Zone colours: North `bg-success`, Central `bg-blue-500`, South `bg-orange-500`, Future
 `bg-warning` (muted text). F-032 implemented and verified (2026-08-09).
+
+---
+
+## Story 15 (F-033) — DRAFT, awaiting Confirm
+
+As a resident (or someone considering moving to Akuna Vista)
+
+I want to read the full story of how the estate came to be
+
+So that I understand why streets are named after aircraft and RAAF bases, without that context
+being squeezed into a single "Origin" fact on the About page.
+
+### Why a separate page rather than expanding About further
+
+The About page's "Origin" fact (`app/about/page.tsx:17-21`) was already expanded once
+(`42e6dcd`, 2026-08-14) to carry a compressed version of this same story. A full ~500-word
+narrative doesn't fit that aside-card format, and About's own job (why the directory exists, who
+it's for) is different from History's job (why the place itself exists) — splitting them keeps
+each page doing one thing. About's Origin fact will instead gain a "Read the full history →" link
+into `/history`, so the story lives in exactly one place.
+
+### Information architecture
+
+- New route: `app/history/page.tsx`.
+- Primary nav (`components/layout/Navigation.tsx`): add "History" between "About" and "Contact"
+  (`prefetch: false`, matching About/Contact's own convention for less-visited routes).
+- Footer (`components/layout/Footer.tsx`): add "History" to the existing `COMMUNITY_LINKS` column,
+  between "About" and "Contact".
+- `app/about/page.tsx`'s `ABOUT_FACTS` "Origin" entry: shorten back toward its pre-`42e6dcd` length
+  and append a `Link` to `/history` ("Read the full history →").
+
+### Design plan (frontend-design skill, reusing this site's existing design tokens — this is one
+page inside an established system, not a from-scratch identity)
+
+- Reuses the About page's own opening convention exactly, for continuity: the same eyebrow chip
+  (`Schofields, NSW — Former RAAF Airfield, Est. 1941`) + `PageHeader` (`title="History"`,
+  description e.g. "How a WWII airfield became Akuna Vista"), in the same narrow `max-w-[720px]`
+  reading column as About's intro — not the wide `Container` used for Streets We Cover, since this
+  is prose, not a grid.
+- **Signature element:** a thin dashed vertical rule down the left edge of the reading column
+  (`border-l border-dashed border-border/60`) — an airstrip-centreline motif, directly referencing
+  the site's own real subject (a decommissioned RAAF airfield) rather than a decorative flourish.
+  A small "1941" marker (tabular-nums, tracked-wide, `text-secondary`) sits where the line begins,
+  and a small dot marks "Today" where it ends.
+- Deliberately **not** a multi-point dated timeline (e.g. 1941 / 1945 / 1990s / Today with a fact
+  at each): that would require milestone dates/events I don't have yet and risk inventing history
+  before the real text arrives. The line is structural only; the narrative itself carries the
+  actual chronology once supplied.
+- Closing line reuses About's own closing-CTA pattern: a dashed divider + "Have an old photo or
+  memory of the area to share? [Get in touch](/contact)."
+- Narrative text: placeholder paragraphs (clearly marked `[PLACEHOLDER]`) at Implement time, swapped
+  for the project owner's real ~500 words in a follow-up content-only pass once supplied — the page
+  structure/design is what's being confirmed now, not the copy.
+
+### Acceptance Criteria
+
+Confirmed by the project owner 2026-08-14 (chose "Yes, build it" over the no-motif and
+build-then-decide alternatives).
+
+- [x] `/history` route exists, using the eyebrow chip + `PageHeader` pattern matching About's intro
+      styling, in a 720px reading column.
+- [x] Airstrip-centreline signature element (dashed left rule + "1941" start marker + "Today" end
+      marker) renders alongside the narrative column — verified live at desktop width.
+      Mobile/tablet widths not screenshot-verified this session (the browser automation tool's
+      `resize_window` didn't visibly change the captured viewport) — flag for a manual check, though
+      the markup reuses the same `flex flex-col` / `max-w-[720px]` primitives already covered by
+      `tests/e2e/responsive.spec.ts` for `/about`, with no fixed-width children.
+- [x] "History" added to primary nav between About and Contact, and to the Footer's Community
+      column between About and Contact — verified live.
+- [x] About page's "Origin" fact shortened and links to `/history` ("Read the full history →") —
+      verified live, link navigates correctly.
+- [x] Placeholder narrative replaced with the project owner's real ~500-word text (2026-08-14),
+      dropped straight into the existing paragraph structure with no further layout changes.
+- [x] `npm run typecheck` / `npm run lint` clean (run directly, both pass with no output), re-run
+      after the real-text swap.
+- [x] Verified live via dev server + browser (screenshot) at desktop width, full narrative
+      end-to-end including the closing CTA; a pre-existing browser-extension hydration warning
+      (`bis_register` attribute) appears on both `/history` and `/about` alike — confirmed unrelated
+      to this change.
+- [ ] Existing Playwright suite — not run this session per the Verification Handoff policy
+      (`.ai/CLAUDE.md`); project owner to run `npm run test` and the e2e suite and report back.
+
+### Correction (real content vs. spec assumption)
+
+The confirmed design assumed a simple "1941 → Today" bookend motif, since no milestone dates were
+available yet. The project owner's real text turned out to open in 1816 (Pye family farmland,
+predating the 1941 airfield by well over a century), so the start marker was corrected from "1941"
+to "1816" to match the actual narrative — flagged here per the Correction Protocol rather than left
+silently stale. The subheading was also updated to the project owner's own framing ("From farm, to
+airfield, to Akuna Vista") in place of the placeholder copy. The richer, genuinely multi-era
+chronology the real text revealed (7+ distinct dated phases) could support a fuller dated-timeline
+treatment as a future enhancement, but that would be a structural change beyond this pass's
+content-only scope — not pursued without a separate Confirm.
+
+Implementation: `app/history/page.tsx` (new), `components/layout/Navigation.tsx` and
+`components/layout/Footer.tsx` (nav/footer links), `app/about/page.tsx` (`ABOUT_FACTS` Origin entry
+shortened, now `ReactNode` to carry the `/history` link). F-033 implemented and verified
+(2026-08-14), full Playwright suite pending the project owner's run.
+
+**Content revision (2026-08-14, same day):** project owner supplied a more detailed, more
+precisely-dated version of the same narrative (specific dates for the 1945/1946/1953/1994
+milestones, the 695-acre Pye grant and 1938 sale, "Schofield's Siding"/1870 railway detail, a
+1949–1951 migrant hostel, a 1950s motor racing circuit, RANATE's ~13,000 trained apprentices, and
+DHA's 136-hectare/1,100-lot/200-Defence-home figures). Swapped directly into the existing paragraph
+structure — no layout change, re-verified `typecheck`/`lint` clean and live in the browser.
 
 ---
 

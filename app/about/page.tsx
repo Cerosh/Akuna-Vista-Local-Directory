@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
@@ -12,12 +13,18 @@ export const metadata: Metadata = {
   alternates: { canonical: "/about" },
 };
 
-const ABOUT_FACTS = [
+const ABOUT_FACTS: { label: string; value: ReactNode }[] = [
   { label: "Established", value: "1941" },
   {
     label: "Origin",
-    value:
-      "Former RAAF airfield. Several streets throughout Akuna Vista and Nirimba Fields reflect the area's aviation and naval heritage, drawing on aircraft, historic base names, naval establishments and people associated with RAAF Schofields and HMAS Nirimba.",
+    value: (
+      <>
+        Former RAAF airfield — several streets reflect the area&rsquo;s aviation and naval heritage.{" "}
+        <Link href="/history" className="text-primary underline underline-offset-4">
+          Read the full history →
+        </Link>
+      </>
+    ),
   },
 ];
 

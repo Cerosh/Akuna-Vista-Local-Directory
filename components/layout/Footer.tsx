@@ -16,6 +16,7 @@ const DIRECTORY_LINKS = [
 
 const COMMUNITY_LINKS = [
   { label: "About", href: "/about" },
+  { label: "History", href: "/history" },
   { label: "Contact", href: "/contact" },
 ];
 
