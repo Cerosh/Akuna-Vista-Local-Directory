@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mail } from "lucide-react";
+import { Globe, Mail } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { Section } from "@/components/common/Section";
 import { PageHeader } from "@/components/common/PageHeader";
@@ -30,15 +30,28 @@ export default async function ContactPage() {
             spot something wrong with a listing, want to suggest a local business, or just have a
             question, email us directly:
           </p>
-          {settings.contactEmail ? (
-            <a
-              href={`mailto:${settings.contactEmail}`}
-              className={buttonVariants({ variant: "default", className: "w-fit" })}
-            >
-              <Mail className="size-4" aria-hidden="true" />
-              {settings.contactEmail}
-            </a>
-          ) : null}
+          <div className="flex flex-wrap gap-3">
+            {settings.contactEmail ? (
+              <a
+                href={`mailto:${settings.contactEmail}`}
+                className={buttonVariants({ variant: "default", className: "w-fit" })}
+              >
+                <Mail className="size-4" aria-hidden="true" />
+                {settings.contactEmail}
+              </a>
+            ) : null}
+            {settings.contactWebsite ? (
+              <a
+                href={settings.contactWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={buttonVariants({ variant: "outline", className: "w-fit" })}
+              >
+                <Globe className="size-4" aria-hidden="true" />
+                {settings.contactWebsite.replace(/^https?:\/\//, "")}
+              </a>
+            ) : null}
+          </div>
           <p>
             <strong className="text-foreground font-semibold">Own a local business?</strong> Get in
             touch at the address above to have it added to the directory — include your business

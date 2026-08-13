@@ -111,6 +111,7 @@ Per Feature, the sprint is successful when:
 | F-031 | Pre-push Playwright run broke locally (2026-08-06, before push): `tests/e2e/directory.spec.ts`'s "sorting changes the order of results" test hardcodes `"Accura Homes"` as the alphabetically-first business — F-038 (Sprint 15) added "13cure After-Hours Home Doctor", which sorts before it (digit sorts before letters), the same hardcoded-first-item failure shape as F-024 | Medium | Completed |
 | F-032 | Add a "Streets we cover" section to the About page listing all 47 Akuna Vista streets, grouped into four zones (North, Central, South, Future/Development Plan) with colour-coded badges, per the project owner's street list and confirmed table-order-to-zone mapping | Medium | Completed |
 | F-033 | Add a new `/history` page telling the site's own founding story (1816 Pye family farmland → 1870s Schofields railway → 1941 RAAF airfield → 1945 Royal Navy Fleet Air Arm → 1946 RAAF Schofields → 1951/53 RAN/HMAS Nirimba → 1994 decommissioning → Akuna Vista today), reachable from primary nav + footer, with the About page's "Origin" fact linking through to it instead of duplicating the story | Medium | Completed |
+| F-034 | Add `https://ceroshjacob.com` as a second contact channel, shown right after the contact email on both the `/contact` page and the Footer's Contact column | Low | Completed |
 
 Status Values
 
@@ -2122,6 +2123,45 @@ milestones, the 695-acre Pye grant and 1938 sale, "Schofield's Siding"/1870 rail
 1949–1951 migrant hostel, a 1950s motor racing circuit, RANATE's ~13,000 trained apprentices, and
 DHA's 136-hectare/1,100-lot/200-Defence-home figures). Swapped directly into the existing paragraph
 structure — no layout change, re-verified `typecheck`/`lint` clean and live in the browser.
+
+---
+
+## Story 16 (F-034)
+
+As a resident who wants to reach the person behind the site
+
+I want a second, non-email way to get in touch
+
+So that I can look up who runs the directory, per the project owner's explicit request to add
+`https://ceroshjacob.com` as a contact channel.
+
+### Placement (confirmed by the project owner, 2026-08-14 — chose "Both")
+
+- `app/contact/page.tsx`: a second link/button directly after the existing `mailto:` button,
+  styled as a secondary (outlined) action to keep the email as the primary CTA.
+- `components/layout/Footer.tsx`: a second line in the Contact column, directly after the email
+  address, matching that column's existing link styling.
+- Data-driven via `settingsRepository` (new `contactWebsite` field), not hardcoded — consistent
+  with how `contactEmail` is already handled, per the "never hardcode... always load from the
+  repository layer" architecture rule.
+
+### Acceptance Criteria
+
+- [x] `Settings` type (`types/settings.ts`) gains an optional `contactWebsite: string`.
+- [x] `data/settings.json` sets `contactWebsite` to `https://ceroshjacob.com`.
+- [x] `scripts/lib/validation.ts`'s `settingsSchema` (a `z.strictObject`) accepts the new field, so
+      `npm run validate:data` doesn't reject it as an unknown key.
+- [x] `.ai/JSON_SCHEMA.md`'s Settings example updated to match.
+- [x] `/contact` shows the website link right after the email button.
+- [x] Footer's Contact column shows the website link right after the email address, on every page.
+- [x] External link opens in a new tab (`target="_blank" rel="noopener noreferrer"`), since it
+      leaves the site.
+- [x] `npm run typecheck` / `npm run lint` / `npm run validate:data` clean.
+- [x] Verified live via dev server + browser on `/contact` and the footer.
+
+Implementation: `types/settings.ts`, `data/settings.json`, `scripts/lib/validation.ts`,
+`.ai/JSON_SCHEMA.md`, `app/contact/page.tsx`, `components/layout/Footer.tsx`. F-034 implemented and
+verified (2026-08-14).
 
 ---
 

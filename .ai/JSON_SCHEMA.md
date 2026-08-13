@@ -315,6 +315,7 @@ settings.json
   "logo": "/images/logo.svg",
   "heroImage": "/images/hero.jpg",
   "contactEmail": "community@example.com",
+  "contactWebsite": "https://example.com",
   "enableSearch": true,
   "enableFeaturedBusinesses": true,
   "enableEvents": false

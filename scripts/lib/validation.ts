@@ -151,6 +151,7 @@ export const settingsSchema = z.strictObject({
   logo: z.string().optional(),
   heroImage: z.string().optional(),
   contactEmail: z.string().optional(),
+  contactWebsite: z.url().optional(),
   enableSearch: z.boolean().optional(),
   enableFeaturedBusinesses: z.boolean().optional(),
   enableEvents: z.boolean().optional(),

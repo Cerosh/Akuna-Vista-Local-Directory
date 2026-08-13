@@ -7,6 +7,7 @@ export interface Settings {
   logo?: string;
   heroImage?: string;
   contactEmail?: string;
+  contactWebsite?: string;
   enableSearch?: boolean;
   enableFeaturedBusinesses?: boolean;
   enableEvents?: boolean;

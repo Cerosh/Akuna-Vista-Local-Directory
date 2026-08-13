@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Mail } from "lucide-react";
+import { Globe, Mail } from "lucide-react";
 import { Container } from "@/components/common/Container";
 import { Logo } from "@/components/common/Logo";
 import type { Settings } from "@/types/settings";
@@ -51,6 +51,17 @@ export function Footer({ settings }: FooterProps) {
               >
                 <Mail className="size-4 shrink-0" aria-hidden="true" />
                 {settings.contactEmail}
+              </a>
+            ) : null}
+            {settings.contactWebsite ? (
+              <a
+                href={settings.contactWebsite}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground duration-fast hover:text-foreground flex items-center gap-2 text-sm break-all transition-colors"
+              >
+                <Globe className="size-4 shrink-0" aria-hidden="true" />
+                {settings.contactWebsite.replace(/^https?:\/\//, "")}
               </a>
             ) : null}
           </div>

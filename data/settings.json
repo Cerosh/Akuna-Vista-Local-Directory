@@ -7,6 +7,7 @@
   "logo": "/images/logo-full.png",
   "heroImage": "/images/hero.jpg",
   "contactEmail": "ceroshjacob@gmail.com",
+  "contactWebsite": "https://ceroshjacob.com",
   "enableSearch": true,
   "enableFeaturedBusinesses": true,
   "enableEvents": false
