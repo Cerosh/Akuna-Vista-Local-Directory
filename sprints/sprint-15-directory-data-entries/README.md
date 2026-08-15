@@ -3611,7 +3611,8 @@ Stellar Home Solutions Pty Ltd, requesting inclusion in the directory)
 - [x] `npm run validate:data` passes.
 - [x] `/business/stellar-home-solutions` renders correctly. Verified 2026-08-16 via dev server +
       curl (name and shortDescription present in rendered HTML).
-- [ ] Existing Playwright suite still passes (will run as part of the pre-push hook on commit).
+- [x] Existing Playwright suite still passes. Verified 2026-08-16 via pre-push hook (287 passed, 16
+      skipped).
 
 ---
 
@@ -3664,4 +3665,5 @@ Akuna Vista residents in the thread)
 - [x] `npm run validate:data` passes.
 - [x] `/business/devang-aus` renders correctly. Verified 2026-08-16 via dev server + curl (name and
       shortDescription present in rendered HTML).
-- [ ] Existing Playwright suite still passes (will run as part of the pre-push hook on commit).
+- [x] Existing Playwright suite still passes. Verified 2026-08-16 via pre-push hook (287 passed, 16
+      skipped).
