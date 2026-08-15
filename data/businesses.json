@@ -1411,5 +1411,37 @@
     "tags": ["Taekwondo", "Kids Classes", "Little Lions"],
     "createdAt": "2026-08-10T00:00:00Z",
     "updatedAt": "2026-08-10T00:00:00Z"
+  },
+  {
+    "id": "c71e2e96-1247-4e8c-b3ae-f34dc0bb98f9",
+    "slug": "stellar-home-solutions",
+    "name": "Stellar Home Solutions",
+    "description": "Sydney-based home improvement and security specialist offering smart lock supply & installation, locksmithing, CCTV, steel mesh security doors, epoxy flooring, solar & battery storage, and general handyman services. Servicing residents across Sydney, including the Akuna Vista community.",
+    "shortDescription": "Smart locks, CCTV, security doors and home improvement across Sydney.",
+    "categoryId": "security-home-automation",
+    "phone": "+61 455 481 986",
+    "email": "info@stellarhomesols.com.au",
+    "website": "https://stellarhomesols.com.au",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Locksmith", "CCTV", "Security Doors", "Smart Locks", "Handyman"],
+    "createdAt": "2026-08-16T00:00:00Z",
+    "updatedAt": "2026-08-16T00:00:00Z"
+  },
+  {
+    "id": "43a5cb4e-83a8-4eed-b7dc-66e917c1dd2a",
+    "slug": "devang-aus",
+    "name": "Devang Aus",
+    "description": "Local electrician offering EV charger installation, recommended by residents in the Akuna Vista community.",
+    "shortDescription": "EV charger installation, recommended by Akuna Vista residents.",
+    "categoryId": "electrical",
+    "phone": "+61 481 867 890",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Electrician", "EV Charger"],
+    "createdAt": "2026-08-16T00:00:00Z",
+    "updatedAt": "2026-08-16T00:00:00Z"
   }
 ]

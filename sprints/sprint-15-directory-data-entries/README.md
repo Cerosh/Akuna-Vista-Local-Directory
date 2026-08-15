@@ -111,6 +111,8 @@ Per Feature, the sprint is successful when:
 | F-039 | Add new "Plumbing" category and 4 businesses recommended by the Akuna Vista community: Allan Plumber, Campbell Plumber, Glenn Plumber (phone-contact screenshots), and Big Red Plumbing Services (bigredplumbingservices.com.au) | Medium | Completed |
 | F-040 | Add new "Kids' Classes & Activities" category and 2 businesses sourced from a WhatsApp thread asking for karate/boxing recommendations for kids under 10: GKR Karate (3 independent endorsements — Rouse Hill Prime, also servicing Blacktown, Glendenning, Riverstone) and Kang's Taekwondo Australia (1 endorsement — Rouse Hill HQ). Contact details, addresses, and reviews backfilled via web research since the thread itself only named the businesses | Medium | Completed |
 | F-041 | Update GKR Karate's primary contact location from Rouse Hill Prime to Riverstone Prime (14 Melbourne Road, Riverstone), per a follow-up community comment that many Akuna Vista kids attend the Riverstone dojo specifically | Low | Completed |
+| F-042 | Add new business "Stellar Home Solutions" (smart locks/locksmith, CCTV, security doors, handyman) to the existing Security & Home Automation category, sourced from an unsolicited business inquiry email | Low | Completed |
+| F-043 | Add new business "Devang Aus" (EV charger installation electrician, recommended by AV residents) to the existing Electrical category | Low | Completed |
 
 Status Values
 
@@ -3544,4 +3546,122 @@ implementation)
 - [x] `npm run validate:data` passes.
 - [x] `/category/plumbing` lists all 4 businesses; each `/business/<slug>` renders correctly.
       Verified 2026-08-07 via dev server + browser.
+- [ ] Existing Playwright suite still passes (will run as part of the pre-push hook on commit).
+
+---
+
+## Story 38 (F-042)
+
+As a resident needing a locksmith, CCTV install, or general home-security work
+
+I want to find Stellar Home Solutions in the directory
+
+So that I have a local option in Security & Home Automation alongside Danish.
+
+### Source data (unsolicited business inquiry email, 2026-08-14, from Dilsher Singh on behalf of
+Stellar Home Solutions Pty Ltd, requesting inclusion in the directory)
+
+- Email lists services: smart lock supply & installation, locksmithing, CCTV/home security, garage
+  and commercial epoxy flooring, solar/battery/EV chargers, steel mesh security doors, TV wall
+  mounting, licensed electrical trades, decking/pergolas/landscaping, artificial grass, and general
+  handyman work. Claims existing Akuna Vista clients, offered references on request.
+- Business details backfilled from the business's own website (stellarhomesols.com.au), fetched
+  2026-08-16: ABN 23675215022, physical address Unit 28, 11-13 Veron Street, Wentworthville NSW
+  2145 (outside Schofields/Akuna Vista), phone +61 455 481 986, email
+  info@stellarhomesols.com.au, hours Mon–Sat 8am–6pm.
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- Business spans multiple existing categories (locksmith, CCTV, solar/electrical, handyman,
+  landscaping) but the schema allows only one `categoryId`. Project owner chose Security & Home
+  Automation as the primary category, matching their most differentiated services (smart
+  locks/CCTV); other services are covered in the description/tags instead.
+- No physical address in `data/businesses.json` — business is based in Wentworthville, outside the
+  Schofields/Akuna Vista area — same treatment as Sydpro Electrical (F-027), which also omits
+  `address`/`serviceAreas` for a non-local trade.
+- Not marked `featured` or `verified` — self-submitted via email, not independently confirmed
+  beyond the website details above.
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "c71e2e96-1247-4e8c-b3ae-f34dc0bb98f9",
+  "slug": "stellar-home-solutions",
+  "name": "Stellar Home Solutions",
+  "description": "Sydney-based home improvement and security specialist offering smart lock supply & installation, locksmithing, CCTV, steel mesh security doors, epoxy flooring, solar & battery storage, and general handyman services. Servicing residents across Sydney, including the Akuna Vista community.",
+  "shortDescription": "Smart locks, CCTV, security doors and home improvement across Sydney.",
+  "categoryId": "security-home-automation",
+  "phone": "+61 455 481 986",
+  "email": "info@stellarhomesols.com.au",
+  "website": "https://stellarhomesols.com.au",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Locksmith", "CCTV", "Security Doors", "Smart Locks", "Handyman"],
+  "createdAt": "2026-08-16T00:00:00Z",
+  "updatedAt": "2026-08-16T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] Stellar Home Solutions added to `data/businesses.json` under `security-home-automation`,
+      matching the JSON above (no `address`/`serviceAreas` field).
+- [x] `npm run validate:data` passes.
+- [x] `/business/stellar-home-solutions` renders correctly. Verified 2026-08-16 via dev server +
+      curl (name and shortDescription present in rendered HTML).
+- [ ] Existing Playwright suite still passes (will run as part of the pre-push hook on commit).
+
+---
+
+## Story 39 (F-043)
+
+As a resident needing an EV charger installed
+
+I want to find Devang Aus in the directory
+
+So that I have another local electrician option alongside Smart Brain Electrical Service and Sydpro
+Electrical.
+
+### Source data (WhatsApp-style message forwarded by the project owner, 2026-08-16: Devang Aus,
++61 481 867 890, originally asking for an EV charger installer recommendation — clarified by the
+project owner that this was a misread and Devang is himself the electrician, recommended by other
+Akuna Vista residents in the thread)
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **Thin spec, same pattern as Best and Less Arvil (F-028).** Only name and phone number are
+  confirmed — no website, email, address, or licensing details supplied. `description`/
+  `shortDescription` below are written directly from what's known (EV charger installation,
+  community-recommended) and carry no unverified claims.
+- Not marked `featured` or `verified`.
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "43a5cb4e-83a8-4eed-b7dc-66e917c1dd2a",
+  "slug": "devang-aus",
+  "name": "Devang Aus",
+  "description": "Local electrician offering EV charger installation, recommended by residents in the Akuna Vista community.",
+  "shortDescription": "EV charger installation, recommended by Akuna Vista residents.",
+  "categoryId": "electrical",
+  "phone": "+61 481 867 890",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Electrician", "EV Charger"],
+  "createdAt": "2026-08-16T00:00:00Z",
+  "updatedAt": "2026-08-16T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] Devang Aus added to `data/businesses.json` under `electrical`, matching the JSON above (no
+      `address`/`serviceAreas`/`email`/`website` field).
+- [x] `npm run validate:data` passes.
+- [x] `/business/devang-aus` renders correctly. Verified 2026-08-16 via dev server + curl (name and
+      shortDescription present in rendered HTML).
 - [ ] Existing Playwright suite still passes (will run as part of the pre-push hook on commit).
