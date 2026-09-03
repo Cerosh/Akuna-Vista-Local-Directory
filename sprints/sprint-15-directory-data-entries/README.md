@@ -115,6 +115,8 @@ Per Feature, the sprint is successful when:
 | F-043 | Add new business "Devang Aus" (EV charger installation electrician, recommended by AV residents) to the existing Electrical category | Low | Completed |
 | F-044 | Add new "Home Help & Domestic Services" category and 2 new businesses sourced from a WhatsApp flyer and a saved contact: "Kour" (house cleaning, Indian & other cuisine cooking, general household chores, elderly care assistance, babysitting; flyer, phone 0416 299 974) and "Dawn Cleaner" (house cleaning; WhatsApp contact, phone +61 401 534 399) — project owner confirmed these are two separate/independent cleaners, not the same business | Low | Completed |
 | F-045 | Add new "Air Conditioning & Heating" category and 2 new businesses sourced from saved WhatsApp contacts: "Tom" (generic aircon service, phone +61 478 921 286, thin spec) and "Mountain Fresh Air" (Anthony Iaria, phone +61 402 819 420 — full business details backfilled via web research from mountainfreshair.com.au since the contact card only gave name/phone/email) | Low | Completed |
+| F-046 | Add community announcement to `data/announcements.json`: the permanent Nirimba Fields Public School opened 27 May 2026 (ahead of schedule), sourced from the NSW School Infrastructure project page | Low | Completed |
+| F-047 | Add community event to `data/events.json`: "Akuna Vista Garba Night" (17 Oct 2026, Akuna Vista Pocket Park), sourced from a flyer supplied by the project owner (Akuna Vista Cultural Association), including sponsorship-enquiry contacts and the supplied flyer image | Low | Completed |
 
 Status Values
 
@@ -3937,3 +3939,101 @@ So that I can call someone directly instead of relying on ad-hoc WhatsApp recomm
 - [x] Existing Playwright suite still passes (or fails only with the same pre-existing Firefox CSP
       issue as F-044). Verified 2026-09-03: 277 passed, 16 skipped, same 10 pre-existing
       Firefox-only CSP/`eval` failures as F-044 — no new failures introduced.
+
+---
+
+## Story 46 (F-046)
+
+As an Akuna Vista / Nirimba Fields resident
+
+I want to see local school infrastructure news on the Community Noticeboard
+
+So that I know the new permanent primary school has opened, without having to check the NSW
+government site myself.
+
+### Source data
+
+[NSW School Infrastructure — Nirimba Fields Public School project page](https://www.schoolinfrastructure.nsw.gov.au/projects/n/nirimba_fields_new_primary_school.html),
+fetched 2026-09-04. Key facts extracted: permanent school (corner of Triton & Nabthorpe Parade)
+opened 27 May 2026, two months ahead of schedule, replacing the temporary demountable campus;
+capacity up to 1,000 K–6 students; facilities include modern classrooms, library, canteen,
+multipurpose hall, covered outdoor learning area; an adjoining public preschool is under
+construction, targeting Day 1 Term 1 2027.
+
+### Change — `data/announcements.json`
+
+```json
+{
+  "id": "1eae5d0f-8284-467d-88b6-e61e473b23e1",
+  "title": "New Nirimba Fields Public School opened, ahead of schedule",
+  "message": "The permanent Nirimba Fields Public School (corner of Triton & Nabthorpe Parade) opened on 27 May 2026, two months ahead of schedule — replacing the temporary demountable campus. It caters for up to 1,000 K–6 students, with modern classrooms, a library, canteen, multipurpose hall and covered outdoor learning area. A new public preschool on the same site is on track to open for Day 1, Term 1 2027.",
+  "publishedAt": "2026-09-04T00:00:00Z",
+  "priority": "normal",
+  "featured": false,
+  "sourceUrl": "https://www.schoolinfrastructure.nsw.gov.au/projects/n/nirimba_fields_new_primary_school.html"
+}
+```
+
+### Acceptance Criteria
+
+- [x] New entry added to `data/announcements.json`, matching the JSON above.
+- [x] `npm run validate:data` passes.
+- [x] Homepage Community Noticeboard renders the new announcement. Verified 2026-09-04 via dev
+      server + curl (title and message text present in rendered HTML).
+- [x] `npm run typecheck` and `npm run test` pass. Verified 2026-09-04: typecheck clean, 219/219
+      unit tests passed.
+
+---
+
+## Story 47 (F-047)
+
+As an Akuna Vista resident interested in local cultural events
+
+I want to see the upcoming Garba Night on the Community Events list
+
+So that I can save the date, and so local businesses can find the sponsorship contact details.
+
+### Source data
+
+A flyer supplied directly by the project owner (Akuna Vista Cultural Association), plus the
+project owner's own message: "Akuna Vista Garba Night is happening on Saturday, 17th October
+2026... We'd also love to hear from any local businesses interested in sponsoring the event."
+Flyer details: venue Akuna Vista Pocket Park, 7:00pm onwards, live DJ / garba dance / food,
+sponsorship contacts Sandeep (0449 946 341), Bhavesh (0405 376 606), Praful (0420 591 406).
+
+### Assumptions (confirmed with project owner before implementation)
+
+- Logged under Sprint 15 (the ongoing "content from chat" sprint) despite its stated scope being
+  business/service listings — project owner confirmed this over opening a new sprint.
+- Event image uses the actual supplied flyer graphic (`public/images/events/akuna-vista-garba-night.png`)
+  rather than the generic placeholder every other event currently uses — project owner confirmed
+  this over the placeholder.
+- The `Event` schema has no dedicated contact/sponsorship field, so the three sponsorship contacts
+  are folded into `description` text, matching how the flyer presents them.
+
+### Change — `data/events.json`
+
+```json
+{
+  "id": "d83f25ed-40f9-4210-b515-6cfdc3fb1b4b",
+  "title": "Akuna Vista Garba Night",
+  "slug": "akuna-vista-garba-night",
+  "description": "Save the date! Akuna Vista Cultural Association presents Garba Night at Akuna Vista Pocket Park — live DJ, garba dance and delicious food from 7:00pm. Registration details to be announced soon. Local businesses interested in sponsoring the event can contact Sandeep (0449 946 341), Bhavesh (0405 376 606) or Praful (0420 591 406).",
+  "startDate": "2026-10-17T08:00:00Z",
+  "endDate": "2026-10-17T13:00:00Z",
+  "location": "Akuna Vista Pocket Park",
+  "image": "/images/events/akuna-vista-garba-night.png",
+  "featured": false
+}
+```
+
+### Acceptance Criteria
+
+- [x] New entry added to `data/events.json`, matching the JSON above.
+- [x] Flyer image saved to `public/images/events/akuna-vista-garba-night.png`.
+- [x] `npm run validate:data` passes.
+- [x] Homepage Community Events section renders the new event with its image. Verified 2026-09-04
+      via dev server + curl (title present in rendered HTML; image asset returns HTTP 200 at
+      `/images/events/akuna-vista-garba-night.png`).
+- [x] `npm run typecheck` and `npm run test` pass. Verified 2026-09-04: typecheck clean, 219/219
+      unit tests passed.

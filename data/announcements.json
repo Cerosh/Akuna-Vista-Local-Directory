@@ -40,5 +40,14 @@
     "publishedAt": "2026-07-16T09:00:00Z",
     "priority": "normal",
     "featured": false
+  },
+  {
+    "id": "1eae5d0f-8284-467d-88b6-e61e473b23e1",
+    "title": "New Nirimba Fields Public School opened, ahead of schedule",
+    "message": "The permanent Nirimba Fields Public School (corner of Triton & Nabthorpe Parade) opened on 27 May 2026, two months ahead of schedule — replacing the temporary demountable campus. It caters for up to 1,000 K–6 students, with modern classrooms, a library, canteen, multipurpose hall and covered outdoor learning area. A new public preschool on the same site is on track to open for Day 1, Term 1 2027.",
+    "publishedAt": "2026-09-04T00:00:00Z",
+    "priority": "normal",
+    "featured": false,
+    "sourceUrl": "https://www.schoolinfrastructure.nsw.gov.au/projects/n/nirimba_fields_new_primary_school.html"
   }
 ]

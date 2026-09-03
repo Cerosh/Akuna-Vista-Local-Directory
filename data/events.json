@@ -9,5 +9,16 @@
     "location": "Nirimba Fields Public School",
     "image": "/images/placeholder-business.svg",
     "featured": false
+  },
+  {
+    "id": "d83f25ed-40f9-4210-b515-6cfdc3fb1b4b",
+    "title": "Akuna Vista Garba Night",
+    "slug": "akuna-vista-garba-night",
+    "description": "Save the date! Akuna Vista Cultural Association presents Garba Night at Akuna Vista Pocket Park — live DJ, garba dance and delicious food from 7:00pm. Registration details to be announced soon. Local businesses interested in sponsoring the event can contact Sandeep (0449 946 341), Bhavesh (0405 376 606) or Praful (0420 591 406).",
+    "startDate": "2026-10-17T08:00:00Z",
+    "endDate": "2026-10-17T13:00:00Z",
+    "location": "Akuna Vista Pocket Park",
+    "image": "/images/events/akuna-vista-garba-night.png",
+    "featured": false
   }
 ]
