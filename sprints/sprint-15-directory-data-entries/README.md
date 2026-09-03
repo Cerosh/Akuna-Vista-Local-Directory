@@ -113,6 +113,8 @@ Per Feature, the sprint is successful when:
 | F-041 | Update GKR Karate's primary contact location from Rouse Hill Prime to Riverstone Prime (14 Melbourne Road, Riverstone), per a follow-up community comment that many Akuna Vista kids attend the Riverstone dojo specifically | Low | Completed |
 | F-042 | Add new business "Stellar Home Solutions" (smart locks/locksmith, CCTV, security doors, handyman) to the existing Security & Home Automation category, sourced from an unsolicited business inquiry email | Low | Completed |
 | F-043 | Add new business "Devang Aus" (EV charger installation electrician, recommended by AV residents) to the existing Electrical category | Low | Completed |
+| F-044 | Add new "Home Help & Domestic Services" category and 2 new businesses sourced from a WhatsApp flyer and a saved contact: "Kour" (house cleaning, Indian & other cuisine cooking, general household chores, elderly care assistance, babysitting; flyer, phone 0416 299 974) and "Dawn Cleaner" (house cleaning; WhatsApp contact, phone +61 401 534 399) — project owner confirmed these are two separate/independent cleaners, not the same business | Low | Completed |
+| F-045 | Add new "Air Conditioning & Heating" category and 2 new businesses sourced from saved WhatsApp contacts: "Tom" (generic aircon service, phone +61 478 921 286, thin spec) and "Mountain Fresh Air" (Anthony Iaria, phone +61 402 819 420 — full business details backfilled via web research from mountainfreshair.com.au since the contact card only gave name/phone/email) | Low | Completed |
 
 Status Values
 
@@ -3667,3 +3669,271 @@ Akuna Vista residents in the thread)
       shortDescription present in rendered HTML).
 - [x] Existing Playwright suite still passes. Verified 2026-08-16 via pre-push hook (287 passed, 16
       skipped).
+
+---
+
+## Story 44 (F-044)
+
+As a resident of Akuna Vista / Nirimba Fields looking for house cleaning, cooking, elderly care, or
+babysitting help
+
+I want to see local home-help providers in the directory
+
+So that I can contact someone directly rather than relying on ad-hoc WhatsApp group recommendations.
+
+### Source data (as supplied by the project owner, verbatim/paraphrased)
+
+1. A printed flyer, business name "KOUR", phone 0416 299 974, headline "Home Help Services
+   Available!". Services listed: House Cleaning; Cooking (Indian & other cuisines); General
+   Household Chores; Elderly Care Assistance; Babysitting. Footer: "Affordable Rates", "Friendly &
+   Hardworking", "Part-Time / Fully" (available).
+2. A WhatsApp "View contact" screenshot, contact saved as "Dawn Cleaner", phone
+   +61 401 534 399, label "Home".
+3. Project owner asked for a websearch for more details. Web search for the business name, both
+   phone numbers, and the flyer name/number combination returned no matches — no independent
+   website, listing, or review presence found for either contact.
+4. Project owner confirmed (via clarifying question) that the flyer ("Kour") and the WhatsApp
+   contact ("Dawn Cleaner") are **two separate, independent cleaners** — not the same business
+   under two numbers.
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **New category required.** No existing category (`data/categories.json`) covers house
+  cleaning/cooking/elderly care/babysitting — closest is unrelated (`food-catering`,
+  `medical-health`). Project owner chose the name "Home Help & Domestic Services" (from the
+  option set offered) over a narrower "Cleaning Services" name, since it also covers cooking,
+  elderly care assistance, and babysitting. `id`/`slug`: `home-help-domestic-services`. Icon:
+  `HeartHandshake` (valid `lucide-react` export, dynamically resolved — no fixed whitelist).
+  `displayOrder: 32` (after `kids-classes-activities` at 31). `featured: false` (matches the
+  default for every other brand-new single/double-business category in this sprint).
+- **"Kour" entry.** Full detail available from the flyer — description/tags cover all 5 listed
+  services plus "affordable rates" and "part-time/full-time" availability, following the flyer
+  content directly. No address, email, or website supplied — omitted (same precedent as
+  `craig-handyman` etc., F-036). Phone reformatted from `0416 299 974` to `+61 416 299 974` to
+  match the project's spaced `+61 4XX XXX XXX` convention.
+- **"Dawn Cleaner" entry.** Only a name and phone number are known — same thin-spec pattern as
+  `devang-aus` (F-043) and `best-and-less-arvil` (F-028). `description`/`shortDescription` state
+  only "house cleaning services" (the one service implied by the saved contact name "Cleaner") and
+  carry no unverified claims about cooking, elderly care, or other services not confirmed for this
+  specific contact.
+- Neither entry marked `featured` or `verified`.
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "home-help-domestic-services",
+  "slug": "home-help-domestic-services",
+  "name": "Home Help & Domestic Services",
+  "icon": "HeartHandshake",
+  "description": "House cleaning, cooking, elderly care assistance, and babysitting services for the Akuna Vista community.",
+  "displayOrder": 32
+}
+```
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "a51d9e5d-b4c8-4afc-95a2-bfbf68bad863",
+  "slug": "kour-home-help-services",
+  "name": "Kour",
+  "description": "Kour offers home help services including house cleaning, cooking (Indian and other cuisines), general household chores, elderly care assistance, and babysitting. Affordable rates, friendly and hardworking, available part-time or full-time.",
+  "shortDescription": "House cleaning, cooking, elderly care, and babysitting.",
+  "categoryId": "home-help-domestic-services",
+  "phone": "+61 416 299 974",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["House Cleaning", "Cooking", "Elderly Care", "Babysitting"],
+  "createdAt": "2026-09-03T00:00:00Z",
+  "updatedAt": "2026-09-03T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "ec105524-8399-4cfe-8f66-11b0942f53a0",
+  "slug": "dawn-cleaner",
+  "name": "Dawn Cleaner",
+  "description": "Dawn offers house cleaning services in the Akuna Vista area. Contact directly to discuss your requirements and availability.",
+  "shortDescription": "House cleaning services.",
+  "categoryId": "home-help-domestic-services",
+  "phone": "+61 401 534 399",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["House Cleaning"],
+  "createdAt": "2026-09-03T00:00:00Z",
+  "updatedAt": "2026-09-03T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] New category `home-help-domestic-services` added to `data/categories.json`, matching the
+      JSON above.
+- [x] "Kour" added to `data/businesses.json` under `home-help-domestic-services`, matching the
+      JSON above.
+- [x] "Dawn Cleaner" added to `data/businesses.json` under `home-help-domestic-services`, matching
+      the JSON above.
+- [x] `npm run validate:data` passes.
+- [x] `/business/kour-home-help-services` and `/business/dawn-cleaner` render correctly. Verified
+      2026-09-03 via dev server + curl (title, service tags, and description text present in
+      rendered HTML for both).
+- [x] Existing Playwright suite still passes. Verified 2026-09-03: 277 passed, 16 skipped, 10
+      failed — all 10 failures are a pre-existing Firefox-only dev-mode CSP/`eval` console error
+      (`script-src 'self' 'unsafe-inline'` blocking Next.js dev chunks), unrelated to this data
+      change. Confirmed by re-running the same test against `main` with these changes stashed —
+      identical failure.
+
+---
+
+## Story 45 (F-045)
+
+As a resident of Akuna Vista / Nirimba Fields needing an air conditioner installed, serviced, or
+repaired
+
+I want to see local/community-recommended air conditioning contacts in the directory
+
+So that I can call someone directly instead of relying on ad-hoc WhatsApp recommendations.
+
+### Source data (as supplied by the project owner, verbatim/paraphrased)
+
+1. A WhatsApp "View contact" screenshot: name "Tom", subtitle "Aircon Sevice" (sic — treated as
+   "Aircon Service"), phone +61 478 921 286, label "Mobile". No other detail supplied.
+2. A WhatsApp "View contact" screenshot: name "Anthony Actron Air", subtitle "Montain Fresh Air"
+   (sic — treated as "Mountain Fresh Air"), phone +61 402 819 420, label "Home", email
+   `Anthony@mountainfreshair.com.au`.
+3. Project owner asked for a websearch for more detail before adding.
+
+### Web research findings
+
+- **Tom / "Aircon Sevice"**: web search on the phone number and name returned no independent
+  business listing, website, or social presence. Treated as thin-spec, same pattern as
+  `dawn-cleaner` (F-044) and `devang-aus` (F-043).
+- **Mountain Fresh Air**: confirmed via `mountainfreshair.com.au` (About Us and Get in Contact
+  pages) and matches the contact screenshot's phone/email exactly:
+  - Legal/trading name: Mountain Fresh Air (Mountain Fresh Air Pty Ltd per LinkedIn)
+  - Director: Anthony Iaria
+  - Address: 5/84-90 Old Bathurst Rd, Emu Heights NSW 2750
+  - Phone: 0402 819 420 · Email: anthony@mountainfreshair.com.au
+  - Hours: Monday–Friday, 7:30 am–4:30 pm
+  - Licence: AU37025
+  - Services: air conditioning installation, repair and maintenance — residential (new builds and
+    existing homes) and commercial (schools, factories, offices)
+  - Preferred/authorised Actron Air installer for the Nepean/Blue Mountains region (matches the
+    contact card's "Actron Air" subtitle)
+  - Stated service area (per site): Penrith, Emu Plains, Springwood, Katoomba, Blaxland, Werrington
+    directly, with the About page separately claiming broader reach across "Sydney metropolitan
+    area, South Coast, Lithgow, and Central Coast"
+  - Facebook: facebook.com/mountainfreshair
+
+### Assumptions (flagged per the Correction Protocol — confirm or correct before implementation)
+
+- **New category required.** No existing category covers air conditioning/HVAC. New category
+  `air-conditioning-heating` / "Air Conditioning & Heating", icon `AirVent` (valid `lucide-react`
+  export, verified present in `node_modules/lucide-react/dist/esm/icons/air-vent.mjs`).
+  `displayOrder: 33` (after `home-help-domestic-services` at 32). `featured: false` (default
+  pattern for new single/double-business categories this sprint).
+- **Two separate businesses**, not one — different names, different phone numbers, no indication
+  of a shared owner (matches the "Kour"/"Dawn Cleaner" precedent from F-044).
+- **Mountain Fresh Air is based in Emu Heights (Penrith/Blue Mountains foothills)**, well outside
+  Akuna Vista/Schofields — its own site does not list Schofields/Blacktown among the suburbs it
+  names, though it separately claims "Sydney metropolitan area" coverage. Included anyway since
+  the project owner had this contact saved (implying personal/community use), but `serviceAreas`
+  is deliberately **not** populated with the site's own (non-local) suburb list, to avoid implying
+  routine local coverage the source doesn't actually claim for this specific neighbourhood; the
+  `address` is the real registered business address, and the broader-coverage claim is folded into
+  `description` text instead. Flagged for correction if the project owner has direct experience
+  showing they do service Schofields.
+- Not marked `featured`. Not marked `verified` (sourced from the business's own public website, not
+  independently confirmed beyond that).
+
+### Change — `data/categories.json`
+
+```json
+{
+  "id": "air-conditioning-heating",
+  "slug": "air-conditioning-heating",
+  "name": "Air Conditioning & Heating",
+  "icon": "AirVent",
+  "description": "Air conditioning installation, repair, and maintenance services for the Akuna Vista community.",
+  "displayOrder": 33
+}
+```
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "31f880c6-325e-438d-b1ac-81d4a0e88c5a",
+  "slug": "tom-aircon-service",
+  "name": "Tom",
+  "description": "Tom offers air conditioning service and repairs. Contact directly to discuss your job and availability.",
+  "shortDescription": "Air conditioning service and repairs.",
+  "categoryId": "air-conditioning-heating",
+  "phone": "+61 478 921 286",
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Air Conditioning"],
+  "createdAt": "2026-09-03T00:00:00Z",
+  "updatedAt": "2026-09-03T00:00:00Z"
+}
+```
+
+```json
+{
+  "id": "e495e31e-a4a9-4f8b-ace3-ecf969969120",
+  "slug": "mountain-fresh-air",
+  "name": "Mountain Fresh Air",
+  "description": "Mountain Fresh Air, run by director Anthony Iaria, installs, repairs and maintains air conditioning systems for residential and commercial properties — new builds, existing homes, schools, factories and offices. A preferred Actron Air installer for the Nepean/Blue Mountains region, also servicing the wider Sydney metropolitan area. Licensed (AU37025).",
+  "shortDescription": "Air conditioning installation, repairs and maintenance.",
+  "categoryId": "air-conditioning-heating",
+  "phone": "+61 402 819 420",
+  "email": "anthony@mountainfreshair.com.au",
+  "website": "https://mountainfreshair.com.au",
+  "address": {
+    "street": "5/84-90 Old Bathurst Rd",
+    "suburb": "Emu Heights",
+    "state": "NSW",
+    "postcode": "2750"
+  },
+  "openingHours": {
+    "monday": "07:30-16:30",
+    "tuesday": "07:30-16:30",
+    "wednesday": "07:30-16:30",
+    "thursday": "07:30-16:30",
+    "friday": "07:30-16:30",
+    "saturday": "Closed",
+    "sunday": "Closed"
+  },
+  "socialLinks": {
+    "facebook": "https://www.facebook.com/mountainfreshair/"
+  },
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["Air Conditioning", "Installation", "Repairs", "Licensed"],
+  "createdAt": "2026-09-03T00:00:00Z",
+  "updatedAt": "2026-09-03T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] New category `air-conditioning-heating` added to `data/categories.json`, matching the JSON
+      above.
+- [x] "Tom" added to `data/businesses.json` under `air-conditioning-heating`, matching the JSON
+      above.
+- [x] "Mountain Fresh Air" added to `data/businesses.json` under `air-conditioning-heating`,
+      matching the JSON above.
+- [x] `npm run validate:data` passes.
+- [x] `/business/tom-aircon-service` and `/business/mountain-fresh-air` render correctly. Verified
+      2026-09-03 via dev server + curl (title present for both; Anthony Iaria, Emu Heights,
+      mountainfreshair.com.au, and licence AU37025 all present in Mountain Fresh Air's rendered
+      HTML).
+- [x] Existing Playwright suite still passes (or fails only with the same pre-existing Firefox CSP
+      issue as F-044). Verified 2026-09-03: 277 passed, 16 skipped, same 10 pre-existing
+      Firefox-only CSP/`eval` failures as F-044 — no new failures introduced.

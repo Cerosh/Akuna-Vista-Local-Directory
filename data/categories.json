@@ -238,5 +238,21 @@
     "icon": "Baby",
     "description": "Martial arts, sports and enrichment classes for children in the Akuna Vista community.",
     "displayOrder": 31
+  },
+  {
+    "id": "home-help-domestic-services",
+    "slug": "home-help-domestic-services",
+    "name": "Home Help & Domestic Services",
+    "icon": "HeartHandshake",
+    "description": "House cleaning, cooking, elderly care assistance, and babysitting services for the Akuna Vista community.",
+    "displayOrder": 32
+  },
+  {
+    "id": "air-conditioning-heating",
+    "slug": "air-conditioning-heating",
+    "name": "Air Conditioning & Heating",
+    "icon": "AirVent",
+    "description": "Air conditioning installation, repair, and maintenance services for the Akuna Vista community.",
+    "displayOrder": 33
   }
 ]

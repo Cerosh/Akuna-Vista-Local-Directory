@@ -1443,5 +1443,85 @@
     "tags": ["Electrician", "EV Charger"],
     "createdAt": "2026-08-16T00:00:00Z",
     "updatedAt": "2026-08-16T00:00:00Z"
+  },
+  {
+    "id": "a51d9e5d-b4c8-4afc-95a2-bfbf68bad863",
+    "slug": "kour-home-help-services",
+    "name": "Kour",
+    "description": "Kour offers home help services including house cleaning, cooking (Indian and other cuisines), general household chores, elderly care assistance, and babysitting. Affordable rates, friendly and hardworking, available part-time or full-time.",
+    "shortDescription": "House cleaning, cooking, elderly care, and babysitting.",
+    "categoryId": "home-help-domestic-services",
+    "phone": "+61 416 299 974",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["House Cleaning", "Cooking", "Elderly Care", "Babysitting"],
+    "createdAt": "2026-09-03T00:00:00Z",
+    "updatedAt": "2026-09-03T00:00:00Z"
+  },
+  {
+    "id": "ec105524-8399-4cfe-8f66-11b0942f53a0",
+    "slug": "dawn-cleaner",
+    "name": "Dawn Cleaner",
+    "description": "Dawn offers house cleaning services in the Akuna Vista area. Contact directly to discuss your requirements and availability.",
+    "shortDescription": "House cleaning services.",
+    "categoryId": "home-help-domestic-services",
+    "phone": "+61 401 534 399",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["House Cleaning"],
+    "createdAt": "2026-09-03T00:00:00Z",
+    "updatedAt": "2026-09-03T00:00:00Z"
+  },
+  {
+    "id": "31f880c6-325e-438d-b1ac-81d4a0e88c5a",
+    "slug": "tom-aircon-service",
+    "name": "Tom",
+    "description": "Tom offers air conditioning service and repairs. Contact directly to discuss your job and availability.",
+    "shortDescription": "Air conditioning service and repairs.",
+    "categoryId": "air-conditioning-heating",
+    "phone": "+61 478 921 286",
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Air Conditioning"],
+    "createdAt": "2026-09-03T00:00:00Z",
+    "updatedAt": "2026-09-03T00:00:00Z"
+  },
+  {
+    "id": "e495e31e-a4a9-4f8b-ace3-ecf969969120",
+    "slug": "mountain-fresh-air",
+    "name": "Mountain Fresh Air",
+    "description": "Mountain Fresh Air, run by director Anthony Iaria, installs, repairs and maintains air conditioning systems for residential and commercial properties — new builds, existing homes, schools, factories and offices. A preferred Actron Air installer for the Nepean/Blue Mountains region, also servicing the wider Sydney metropolitan area. Licensed (AU37025).",
+    "shortDescription": "Air conditioning installation, repairs and maintenance.",
+    "categoryId": "air-conditioning-heating",
+    "phone": "+61 402 819 420",
+    "email": "anthony@mountainfreshair.com.au",
+    "website": "https://mountainfreshair.com.au",
+    "address": {
+      "street": "5/84-90 Old Bathurst Rd",
+      "suburb": "Emu Heights",
+      "state": "NSW",
+      "postcode": "2750"
+    },
+    "openingHours": {
+      "monday": "07:30-16:30",
+      "tuesday": "07:30-16:30",
+      "wednesday": "07:30-16:30",
+      "thursday": "07:30-16:30",
+      "friday": "07:30-16:30",
+      "saturday": "Closed",
+      "sunday": "Closed"
+    },
+    "socialLinks": {
+      "facebook": "https://www.facebook.com/mountainfreshair/"
+    },
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["Air Conditioning", "Installation", "Repairs", "Licensed"],
+    "createdAt": "2026-09-03T00:00:00Z",
+    "updatedAt": "2026-09-03T00:00:00Z"
   }
 ]
