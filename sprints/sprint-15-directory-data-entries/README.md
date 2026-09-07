@@ -117,6 +117,7 @@ Per Feature, the sprint is successful when:
 | F-045 | Add new "Air Conditioning & Heating" category and 2 new businesses sourced from saved WhatsApp contacts: "Tom" (generic aircon service, phone +61 478 921 286, thin spec) and "Mountain Fresh Air" (Anthony Iaria, phone +61 402 819 420 — full business details backfilled via web research from mountainfreshair.com.au since the contact card only gave name/phone/email) | Low | Completed |
 | F-046 | Add community announcement to `data/announcements.json`: the permanent Nirimba Fields Public School opened 27 May 2026 (ahead of schedule), sourced from the NSW School Infrastructure project page | Low | Completed |
 | F-047 | Add community event to `data/events.json`: "Akuna Vista Garba Night" (17 Oct 2026, Akuna Vista Pocket Park), sourced from a flyer supplied by the project owner (Akuna Vista Cultural Association), including sponsorship-enquiry contacts and the supplied flyer image | Low | Completed |
+| F-048 | Add new business "MJ eTech Solutions" (CCTV, security alarms, video intercom, smart locks, access control installer based in Marsden Park) to the existing Security & Home Automation category, sourced from an unsolicited business inquiry email | Low | Completed |
 
 Status Values
 
@@ -4036,4 +4037,73 @@ sponsorship contacts Sandeep (0449 946 341), Bhavesh (0405 376 606), Praful (042
       via dev server + curl (title present in rendered HTML; image asset returns HTTP 200 at
       `/images/events/akuna-vista-garba-night.png`).
 - [x] `npm run typecheck` and `npm run test` pass. Verified 2026-09-04: typecheck clean, 219/219
+      unit tests passed.
+
+---
+
+## Story 48 (F-048)
+
+As a resident needing CCTV, alarm, or smart-home installation
+
+I want to find MJ eTech Solutions in the directory
+
+So that I have another local option in Security & Home Automation alongside Danish and Stellar
+Home Solutions.
+
+### Source data (unsolicited business inquiry email, 2026-09-07, from Mandip Singh on behalf of
+MJ eTech Solutions, requesting inclusion in the directory)
+
+- Email lists services: CCTV and security alarm systems, video IP intercom systems, smart door
+  locks, data and structured cabling, smart home and garage door automation, wifi/network
+  cabling, and access control. Claims completed security installations in Nirimba Fields. States
+  Master Licence 000107284, Security Licence 000253311, Open Cabling Registration, and ASIAL
+  membership. Based in Marsden Park, NSW 2765; phone 0450 646 798; emails mjetechs@gmail.com /
+  Info@mjetechs.com.au; website www.mjetechs.com.au.
+
+### Assumptions (flagged per the Correction Protocol — confirmed with project owner before
+implementation)
+
+- No street address given (only "Marsden Park, NSW 2765") — `address`/`coordinates` omitted
+  entirely, same treatment as Stellar Home Solutions (F-042), rather than guess a street.
+- Not marked `featured` or `verified` — self-submitted via email; licence numbers and ASIAL
+  membership are unverified claims, same treatment as every other inbound-email business so far.
+- `serviceAreas` kept narrow to `["Marsden Park"]` only — project owner confirmed this over
+  widening it to Akuna Vista/Schofields/Nirimba Fields, since the email itself only explicitly
+  claims work in Nirimba Fields and a Marsden Park base; Marsden Park is a neighbouring but
+  distinct suburb, not one of the directory's core suburbs.
+- Used the more official-looking `Info@mjetechs.com.au` address over the personal
+  `mjetechs@gmail.com` one, matching how Stellar Home Solutions (F-042) preferred a business
+  domain email over any personal one supplied.
+
+### Change — `data/businesses.json`
+
+```json
+{
+  "id": "88cda428-8f8f-4c90-b4b9-62410af7ba67",
+  "slug": "mj-etech-solutions",
+  "name": "MJ eTech Solutions",
+  "description": "Fully accredited and insured security and technology installer based in Marsden Park, NSW, offering CCTV and alarm systems, video IP intercoms, smart door locks, access control, data and structured cabling, and smart home and garage door automation for residential, commercial and industrial clients. ASIAL member holding a Master Licence and Security Licence, with completed security installations in Nirimba Fields.",
+  "shortDescription": "CCTV, alarms, smart locks and home automation installer serving Nirimba Fields.",
+  "categoryId": "security-home-automation",
+  "phone": "+61 450 646 798",
+  "email": "info@mjetechs.com.au",
+  "website": "https://www.mjetechs.com.au",
+  "serviceAreas": ["Marsden Park"],
+  "images": ["/images/placeholder-business.svg"],
+  "featured": false,
+  "verified": false,
+  "tags": ["CCTV", "Security Alarms", "Video Intercom", "Smart Locks", "Access Control"],
+  "createdAt": "2026-09-07T00:00:00Z",
+  "updatedAt": "2026-09-07T00:00:00Z"
+}
+```
+
+### Acceptance Criteria
+
+- [x] MJ eTech Solutions added to `data/businesses.json` under `security-home-automation`,
+      matching the JSON above (no `address`/`coordinates` field).
+- [x] `npm run validate:data` passes.
+- [x] `/business/mj-etech-solutions` renders correctly. Verified 2026-09-07 via dev server + curl
+      (name and shortDescription present in rendered HTML).
+- [x] `npm run typecheck` and `npm run test` pass. Verified 2026-09-07: typecheck clean, 219/219
       unit tests passed.

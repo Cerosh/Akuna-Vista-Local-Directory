@@ -1523,5 +1523,23 @@
     "tags": ["Air Conditioning", "Installation", "Repairs", "Licensed"],
     "createdAt": "2026-09-03T00:00:00Z",
     "updatedAt": "2026-09-03T00:00:00Z"
+  },
+  {
+    "id": "88cda428-8f8f-4c90-b4b9-62410af7ba67",
+    "slug": "mj-etech-solutions",
+    "name": "MJ eTech Solutions",
+    "description": "Fully accredited and insured security and technology installer based in Marsden Park, NSW, offering CCTV and alarm systems, video IP intercoms, smart door locks, access control, data and structured cabling, and smart home and garage door automation for residential, commercial and industrial clients. ASIAL member holding a Master Licence and Security Licence, with completed security installations in Nirimba Fields.",
+    "shortDescription": "CCTV, alarms, smart locks and home automation installer serving Nirimba Fields.",
+    "categoryId": "security-home-automation",
+    "phone": "+61 450 646 798",
+    "email": "info@mjetechs.com.au",
+    "website": "https://www.mjetechs.com.au",
+    "serviceAreas": ["Marsden Park"],
+    "images": ["/images/placeholder-business.svg"],
+    "featured": false,
+    "verified": false,
+    "tags": ["CCTV", "Security Alarms", "Video Intercom", "Smart Locks", "Access Control"],
+    "createdAt": "2026-09-07T00:00:00Z",
+    "updatedAt": "2026-09-07T00:00:00Z"
   }
 ]
