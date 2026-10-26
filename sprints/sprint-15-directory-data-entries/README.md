@@ -118,6 +118,7 @@ Per Feature, the sprint is successful when:
 | F-046 | Add community announcement to `data/announcements.json`: the permanent Nirimba Fields Public School opened 27 May 2026 (ahead of schedule), sourced from the NSW School Infrastructure project page | Low | Completed |
 | F-047 | Add community event to `data/events.json`: "Akuna Vista Garba Night" (17 Oct 2026, Akuna Vista Pocket Park), sourced from a flyer supplied by the project owner (Akuna Vista Cultural Association), including sponsorship-enquiry contacts and the supplied flyer image | Low | Completed |
 | F-048 | Add new business "MJ eTech Solutions" (CCTV, security alarms, video intercom, smart locks, access control installer based in Marsden Park) to the existing Security & Home Automation category, sourced from an unsolicited business inquiry email | Low | Completed |
+| F-049 | Add new category "Snake Catchers" (`snake-catchers`, displayOrder 34) with a short "Found a snake?" safety note in its description, and two unverified snake catcher businesses (Snake Catchers NSW, Harley Snake Catcher), supplied by the project owner | Low | Completed |
 
 Status Values
 
@@ -4107,3 +4108,55 @@ implementation)
       (name and shortDescription present in rendered HTML).
 - [x] `npm run typecheck` and `npm run test` pass. Verified 2026-09-07: typecheck clean, 219/219
       unit tests passed.
+
+## Story 49 (F-049)
+
+As a resident who finds a snake at home
+
+I want a Snake Catchers category with local contacts and basic safety guidance
+
+So that I know who to call and what not to do.
+
+### Source data (project owner, 2026-10-26)
+
+- Snake Catchers NSW: https://snakecatchersnsw.com.au/snake-catcher-blacktown, 0428 458 856. Owner
+  has not used them ("just googled"). The page failed to load during research; only its title
+  ("Snake Catcher Blacktown | 24/7 Snake Removal") was seen.
+- Harley Snake Catcher: +61 411 103 488. No web listing found; owner has not used them.
+- Safety guidance from NSW council pages (Northern Beaches, Campbelltown) and WIRES.
+
+### Assumptions (to confirm)
+
+- 0428 458 856 belongs to Snake Catchers NSW (it follows that URL in the request).
+- "24/7" is NOT stated in the listing (only an unconfirmed page title). Licensing unverified.
+- Both `verified: false`, `featured: false`; no address/coordinates; `serviceAreas` `["Akuna Vista"]`
+  (confirmed by project owner 2026-10-26). 0428 458 856 -> Snake Catchers NSW confirmed by go-ahead.
+- Icon `Worm` (lucide has no snake icon).
+
+### Change - `data/categories.json`
+
+```json
+{
+  "id": "snake-catchers",
+  "slug": "snake-catchers",
+  "name": "Snake Catchers",
+  "icon": "Worm",
+  "description": "Licensed snake catchers for the Akuna Vista community. Found a snake? Keep your distance, keep people and pets away, and don't try to catch or harm it (all snakes are protected in NSW). Call a licensed catcher. If someone is bitten, call 000. WIRES: 1300 094 737.",
+  "displayOrder": 34
+}
+```
+
+### Change - `data/businesses.json` (two records, ids pre-generated)
+
+- `7b527a06-d75b-44e7-b64f-440e91508a2c` / `snake-catchers-nsw` / phone `+61 428 458 856` /
+  website `https://snakecatchersnsw.com.au/snake-catcher-blacktown`
+- `a476dfd6-c836-4137-8f16-957d6cdecbb3` / `harley-snake-catcher` / phone `+61 411 103 488`
+
+### Acceptance Criteria
+
+- [x] Category added to `data/categories.json` matching the JSON above.
+- [x] Both businesses added under `snake-catchers` with `verified: false`, `featured: false`, no
+      claims beyond the source data (no "24/7", no licence claims).
+- [x] `npm run validate:data` passes (verified 2026-10-26).
+- [x] `/category/snake-catchers` renders with both businesses and the safety note (verified 2026-10-26 via dev server + curl).
+- [x] `npm run typecheck`, `lint`, `test` pass (owner-run per Verification Handoff, confirmed 2026-10-26).

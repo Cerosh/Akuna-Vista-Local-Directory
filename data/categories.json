@@ -254,5 +254,13 @@
     "icon": "AirVent",
     "description": "Air conditioning installation, repair, and maintenance services for the Akuna Vista community.",
     "displayOrder": 33
+  },
+  {
+    "id": "snake-catchers",
+    "slug": "snake-catchers",
+    "name": "Snake Catchers",
+    "icon": "Worm",
+    "description": "Licensed snake catchers for the Akuna Vista community. Found a snake? Keep your distance, keep people and pets away, and don't try to catch or harm it (all snakes are protected in NSW). Call a licensed catcher. If someone is bitten, call 000. WIRES: 1300 094 737.",
+    "displayOrder": 34
   }
 ]
